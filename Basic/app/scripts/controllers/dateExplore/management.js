@@ -4,11 +4,9 @@
 
 'use strict';
 angular.module('basicApp', ['ngRoute'])
-  .controller('DateExploreManagementCtrl',
-   ['$scope',
-     function ($scope) {
-       $scope.msg = 'This is shujutansuo page';
-     }
-   ]);
+  .controller('DateExploreManagementCtrl', function () {
+
+    }
+  );
 
 

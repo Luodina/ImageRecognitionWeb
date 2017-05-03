@@ -17,14 +17,15 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'DateExploreApp'
   ])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl',
-        controllerAs: 'main'
+        controller: 'MainCtrl'
+        // controllerAs: 'main'
       })
       .when('/dateExplore_management', {
         templateUrl: 'views/dateExplore/management.html',
