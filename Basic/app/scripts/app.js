@@ -26,7 +26,14 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
+      .when('/dateExplore_management', {
+        templateUrl: 'views/dateExplore/management.html',
+        controller: 'DateExploreManagementCtrl'
+      })
       .otherwise({
-        redirectTo: '/'
+        controller : function(){
+          window.location.replace('/404');
+        },
+        template : "<div></div>"
       });
   });
