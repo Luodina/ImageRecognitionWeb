@@ -31,6 +31,10 @@ angular
         templateUrl: 'views/dateExplore/management.html',
         controller: 'DateExploreManagementCtrl'
       })
+      .when('/a', {
+        templateUrl: 'views/a/a.html',
+        controller: 'aManagementCtrl'
+      })
       .otherwise({
         controller : function(){
           window.location.replace('/404');
