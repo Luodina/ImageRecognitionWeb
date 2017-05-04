@@ -70,7 +70,7 @@ gulp.task('clean:tmp', function (cb) {
 });
 
 gulp.task('start:client', ['start:server', 'styles'], function () {
-  openURL('http://localhost:9000','firefox');
+  openURL('http://localhost:9000','chrome');
 });
 
 gulp.task('start:server', ['bower'], function() {
