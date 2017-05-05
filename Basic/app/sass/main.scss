@@ -1,3 +1,6 @@
+// bower:scss
+// endbower
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
@@ -7,29 +10,28 @@
 
 body {
   padding: 0;
-  margin: 0;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,
 .footer {
-
   padding-left: 15px;
   padding-right: 15px;
 }
 
 /* Custom page header */
 .header {
+  //border-bottom: 1px solid #e5e5e5;
   margin-bottom: 10px;
-  /* Make the masthead heading the same height as the navigation */
-}
 
-.header h3 {
-  margin-top: 0;
-  margin-bottom: 0;
-  line-height: 40px;
-  padding-bottom: 19px;
+  /* Make the masthead heading the same height as the navigation */
+  h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 40px;
+    padding-bottom: 19px;
+  }
 }
 
 /* Custom page footer */
@@ -43,23 +45,22 @@ body {
   margin: 30px 0;
 }
 
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
-}
-
 /* Supporting marketing content */
 .marketing {
   margin: 40px 0;
-}
 
-.marketing p + h4 {
-  margin-top: 28px;
+  p + h4 {
+    margin-top: 28px;
+  }
 }
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
+  // For desktop
+  //.container {
+  //  max-width: 730px;
+  //}
+
   /* Remove the padding we set earlier */
   .header,
   .marketing,
@@ -79,62 +80,41 @@ body {
 
 /* Custom css*/
 .sidebar {
-  background-color: #fff;
-  /*border-top: 1px solid #e5e5e5;*/
+  background-color: #f5f5f5;
+  border-top: 1px solid #e5e5e5;
   border-right: 1px solid #e5e5e5;
-  /*padding: 20px;*/
-  /*line-height: 700px;*/
+  padding: 20px;
 }
 
 .panel {
   margin-top: 10px;
 }
 
-.panel-oc {
-  border-color: #FFFFFF;
-}
-
-.panel-oc > .panel-heading {
-  color: #fff;
-  background-image: -webkit-linear-gradient(top, #f68b3e, #F68b3e);
-  background-image: linear-gradient(to bottom, #f68b3e, #F68b3e);
-}
-
-.navbar-oc {
-  background-image: -webkit-linear-gradient(top, #555555, #333333);
-  background-image: linear-gradient(to bottom, #555555, #333333);
+.navbar-default{
   height: 40px;
   margin-bottom: 0px;
-}
-.navbar-au {
-  background-image: -webkit-linear-gradient(top, #344e81, #344e81);
-  background-image: linear-gradient(to bottom, #344e81, #344e81);
-  height: 40px;
-  margin-bottom: 0px;
-  border:none;
-}
-.navbar-oc .navbar-nav > li > a {
-  color: #aaaaaa;
-  font-size: 14px;
-  font-weight: normal;
-  text-shadow: 0 1px 0 #555555;
+  border-top-width: 0px;
 }
 
-.navbar-oc .navbar-nav > li > a:hover {
-  color: #344e81;
-  background-color: transparent;
-}
-.navbar-oc .navbar-nav > li > a:focus,
-.navbar-oc .navbar-nav > li > a.active {
-  background-color: #FFFFFF;
-  color: #555555;
-}
-
-.navbar-header .brand {
-  color: #ffffff;
-  font-weight: bolder;
+.navbar-default .navbar-header .brand{
   font-size: 16px;
   text-shadow: 0 1px 0 #555555;
+}
+
+.navbar-default .navbar-nav > li > a{
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.navbar-default .navbar-nav > li > a:hover{
+  background-color: #eeeeee;
+}
+
+.navbar-default .navbar-nav > li > a:focus,
+.navbar-default .navbar-nav > li > a.active:hover,
+.navbar-default .navbar-nav > li > a.active{
+  color: #FFFFFF;
+  background-color: #999999;
 }
 
 /* 3rd party css*/
@@ -222,31 +202,31 @@ a.choose,
 a.choose:hover,
 a.list-group-item:focus,
 ul#actions > li > a:hover,
-ul#quick > li > a:hover {
+ul#quick > li > a:hover{
   background-color: #999999;
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
 
-i.danger {
-  color: red;
+i.danger{
+  color:red;
 }
 
-i.success {
-  color: green;
+i.success{
+  color:green;
 }
 
-i.warning {
-  color: orange;
+i.warning{
+  color:orange;
 }
 
-ul#actions > li.disabled > a:hover {
+ul#actions > li.disabled > a:hover{
   background-color: #999999;
   color: #777777;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
 
-g div {
+g div{
   color: black;
   font-size: 14px;
 }
@@ -261,17 +241,17 @@ a:hover, a:focus {
 
 input.ng-invalid.ng-touched,
 div.ng-invalid.ng-touched div.tokenfield,
-div.ng-invalid.ng-touched.ui-select-container span.ui-select-toggle {
+div.ng-invalid.ng-touched.ui-select-container span.ui-select-toggle{
   border: 1px solid red;
 }
 
-#mainFrame input.ng-invalid.ng-touched + span.input-group-btn button {
+#mainFrame input.ng-invalid.ng-touched + span.input-group-btn button{
   border: 1px solid red;
   color: red;
 }
 
 span.redtip,
-div.ng-invalid.ng-touched.ui-select-container i.caret.pull-right {
+div.ng-invalid.ng-touched.ui-select-container i.caret.pull-right{
   color: red;
 }
 
@@ -279,44 +259,19 @@ div.ng-invalid.ng-touched.ui-select-container i.caret.pull-right {
   width: 200px;
 }
 
-.btn-circle {
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  padding: 6px 0;
-  font-size: 12px;
-  line-height: 1.428571429;
-  border-radius: 15px;
+.navbar-brand.logo {
+  padding: 10px 15px;
 }
 
-ul.ui-autocomplete {
+ul.ui-autocomplete{
   width: 112px !important;
   z-index: 1100 !important;
 }
 
-table a {
+table a{
   cursor: pointer;
 }
-.header {
-  padding:0;
-  margin: 0;
-  border-bottom: none;
-  /* Make the masthead heading the same height as the navigation */
-}
-.container-section{
-  background: #c3c3c3;
-}
-.list-group-item{
-  text-align: center;
-}
-.navbar-right{
-  color: #ffffff;
-}
-.navbar-a-color >span{
-  text-decoration: none;
-  display: inline-block;
-  color: #ffffff;
-}
-.bgcolor{
-  background: #fff;
+
+.panel.panel-default{
+  box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
 }

@@ -1,5 +1,13 @@
 'use strict';
-angular.module('basicApp')
-  .controller('MainCtrl', function ($scope) {
-    $scope.msg = 'main123456';
+
+/**
+ * Main Controller
+ */
+angular.module('basic')
+  .controller('MainCtrl', function () {
+    this.awesomeThings = [
+      'HTML5 Boilerplate',
+      'AngularJS',
+      'Karma'
+    ];
   });
