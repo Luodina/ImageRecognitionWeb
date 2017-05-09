@@ -21,7 +21,7 @@ angular.module('basic').directive('tokenfield',[function() {
         autocomplete: {
           delay: 100
         },
-        sortable: true,
+        sortable: true
       });
       //Disable duplicated keys
       $e.on('tokenfield:createtoken', function (event) {

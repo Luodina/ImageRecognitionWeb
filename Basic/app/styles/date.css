@@ -1,0 +1,29 @@
+.main .date_main{
+  width:1072px;
+  background: #f2f2f2;
+}
+.main_header{
+  margin-top: 40px;
+}
+.main_btn{
+  display: inline-block;
+  width: 90px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 2px;
+  background: #55c45f;
+}
+.main_btn > a:hover{
+  background: #77d07f;
+}
+.main_btn > a:active{
+  background: #27aa60;
+}
+.main_right{
+  display: inline-block;
+  float: right;
+  width: 120px;
+  height: 30px;
+  border:solid 1px #ffffff;
+}
+

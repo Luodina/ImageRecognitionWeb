@@ -40,24 +40,20 @@ angular
       //   controller: 'MainCtrl'
       // })
       .when('/', {
+        templateUrl: 'views/dateExpore/dateExpore.html',
+        controller: 'DateExporeCtrl'
+      })
+      .when('/date', {
+        templateUrl: 'views/dateExpore/date.html',
+        controller: 'DateCtrl'
+      })
+      .when('/dashboard', {
         templateUrl: 'views/dashboard.html',
         controller: 'DashboardCtrl'
       })
       .when('/dataModel', {
         templateUrl: 'views/dataModel.html',
         controller: 'DataModelCtrl'
-      })
-      .when('/operation', {
-        templateUrl: 'views/operation.html',
-        controller: 'OperationCtrl'
-      })
-      .when('/library', {
-        templateUrl: 'views/library.html',
-        controller: 'LibraryCtrl'
-      })
-      .when('/setting', {
-        templateUrl: 'views/main.html',
-        controller: 'SettingCtrl'
       })
       .otherwise({
         redirectTo: '/'
