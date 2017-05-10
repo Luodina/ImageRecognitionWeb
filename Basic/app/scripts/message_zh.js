@@ -5,9 +5,14 @@
 angular.module('basic').config(['$translateProvider', function($translateProvider) {
   $translateProvider.translations('zh', {
     'web_common_000': 'zhOCAI',
-    'web_common_001': 'zhDashboard',
-    'web_common_002': 'Data Source',
-    'web_common_003': 'Data Report',
-    'web_common_004': 'Data Processing'
+    'web_common_001': '数据应用',
+    'web_common_002': '数据探索',
+    'web_common_003': '任务计划',
+    'web_common_004': '知识图谱',
+    'web_common_005': '系统设置',
+    'web_common_006': '添加应用',
+    'web_common_data_explore_001': '数据选择',
+    'web_common_data_explore_002': '数据探索',
+    'web_common_data_explore_003': '数据预处理建议'
   });
 }]);

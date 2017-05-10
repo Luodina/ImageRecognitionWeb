@@ -40,14 +40,14 @@ angular
       //   controller: 'MainCtrl'
       // })
       .when('/', {
-        templateUrl: 'views/dateExpore/dateExpore.html',
-        controller: 'DateExporeCtrl'
+        templateUrl: 'views/dashboard.html',
+        controller: 'DashboardCtrl'
       })
-      .when('/date', {
-        templateUrl: 'views/dateExpore/date.html',
-        controller: 'DateCtrl'
+      .when('/dataExplore', {
+        templateUrl: 'views/dataExplore/dataExplore.html',
+        controller: 'DataExploreCtrl'
       })
-      .when('/dashboard', {
+      .when('/taskSchedule', {
         templateUrl: 'views/dashboard.html',
         controller: 'DashboardCtrl'
       })
