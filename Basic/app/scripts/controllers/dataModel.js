@@ -4,11 +4,12 @@
  * Controller of the dataModel
  */
 angular.module('basic')
-  .controller('DataModelCtrl',['$rootScope', '$scope', function ($rootScope, $scope) {
+  .controller('DataModelCtrl',['$rootScope', '$scope','$http', function ($rootScope, $scope, $http) {
     $rootScope.tab = "dataModel";
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+    $scope.msg = "Hello";
+    $http.get('/api/jupyter').success(function(data){
+      $scope.msg = data;
+      console.log("DataModelCtrl data:", data);
+    });
+
   }]);

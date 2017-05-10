@@ -43,23 +43,45 @@ angular
         templateUrl: 'views/dashboard.html',
         controller: 'DashboardCtrl'
       })
-      .when('/dataModel', {
-        templateUrl: 'views/dataModel.html',
-        controller: 'DataModelCtrl'
+      .when('/source', {
+        templateUrl: 'views/dataSource.html',
+        controller: 'DataSourceCtrl'
       })
-      .when('/operation', {
-        templateUrl: 'views/operation.html',
-        controller: 'OperationCtrl'
+      .when('/report', {
+        templateUrl: 'views/dataReport.html',
+        controller: 'DataReportCtrl'
       })
-      .when('/library', {
-        templateUrl: 'views/library.html',
-        controller: 'LibraryCtrl'
-      })
-      .when('/setting', {
-        templateUrl: 'views/main.html',
-        controller: 'SettingCtrl'
+      .when('/processing', {
+        templateUrl: 'views/dataProcessing.html',
+        controller: 'DataProcessingCtrl'
       })
       .otherwise({
         redirectTo: '/'
       });
-  });
+  })
+  .config(['$translateProvider', '$windowProvider', function($translateProvider, $windowProvider){
+    let window = $windowProvider.$get();
+    let lang = window.navigator.userLanguage || window.navigator.language;
+    console.log("lang",lang);
+    if(lang){
+      lang = lang.substr(0,2);
+      $translateProvider.preferredLanguage(lang);
+    }
+  }])
+  // .config(['NotificationProvider','usSpinnerConfigProvider', '$httpProvider', 'ChartJsProvider', function (NotificationProvider, usSpinnerConfigProvider, $httpProvider, ChartJsProvider) {
+  //   NotificationProvider.setOptions({
+  //     delay: 10000,
+  //     startTop: 20,
+  //     startRight: 10,
+  //     verticalSpacing: 20,
+  //     horizontalSpacing: 20,
+  //     positionX: 'right',
+  //     positionY: 'bottom'
+  //   });
+  //   // usSpinnerConfigProvider.setDefaults({color: 'orange', radius: 20});
+  //   // $httpProvider.interceptors.push('AuthInterceptor', 'UsInterceptor');
+  //   // ChartJsProvider.setOptions({
+  //   //   chartColors: ['#4da9ff','#79d2a6','#ff9900','#ff704d','#669999','#4d0000']
+  //   // });
+  // }])
+  ;
