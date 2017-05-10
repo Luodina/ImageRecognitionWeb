@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Data Profile</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.js"></script>
+  <style type="text/css">
+    #cell {
+    font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+
+
+
+<script id='jupyter-config-data' type="application/json">{ "baseUrl": "http://localhost:8888/","token":"55709399c7d593462c63dc1cfb6318789127f15a5eeefce0"}</script>
+
+
+<!--<h1>Run code!</h1>
+<p>
+  Type code in the text area and click run to execute it.
+  You will see a log of the messages produced by the kernel below.
+</p>
+<div>
+  Kernel:
+  <pre id="kernel-info">Starting...</pre>
+</div>-->
+
+<div>
+  <input type="text" id="filePath"><br>
+  <button id="profile">导入数据并探索</button>
+  <button id="getProcessSuggestions">查看数据预处理建议</button>
+</div>
+<!--<div id="output"></div>
+<textarea id="cell1" cols="100" rows="2"></textarea>
+<div id="output1"></div>-->
+<script type="text/javascript">
+    require.config({
+        paths: {
+          'jquery': 'https://code.jquery.com/jquery-2.2.4.min',
+          '@jupyterlab/services': 'https://unpkg.com/@jupyterlab/services@^0.34/dist/index',
+        }
+    });
+</script>
+<script src="./index.js"></script>
+</body>
+</html>

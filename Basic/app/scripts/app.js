@@ -40,6 +40,14 @@ angular
       //   controller: 'MainCtrl'
       // })
       .when('/', {
+        templateUrl: 'views/dateExpore/dateExpore.html',
+        controller: 'DateExporeCtrl'
+      })
+      .when('/date', {
+        templateUrl: 'views/dateExpore/date.html',
+        controller: 'DateCtrl'
+      })
+      .when('/dashboard', {
         templateUrl: 'views/dashboard.html',
         controller: 'DashboardCtrl'
       })
