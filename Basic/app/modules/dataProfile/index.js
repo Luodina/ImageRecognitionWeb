@@ -19,7 +19,8 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
     $('#profile').click(function () {
       var filePath = $('#filePath').val();
       filePath=filePath.replace(/\\/g,"\\\\\\\\");
-      var code = 'f = open("E:\step1.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("filePath=","filePath=\\\"'+filePath+'\\\"")\nexec(content)';
+      var htmlFilePath = "D:\ideaProjects\OCAI\Basic\app\modules\dataProfile\dataProfile.html"
+      var code = 'f = open("E:\step1.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("filePath=","filePath=\\\"'+filePath+'\\\"")\ncontent=content.replace("htmlFilePath=","htmlFilePath=\\\"'+htmlFilePath+'\\\"")\nexec(content)';
       //console.log('Executing:', code);
       // Execute and handle replies on the kernel.
 
