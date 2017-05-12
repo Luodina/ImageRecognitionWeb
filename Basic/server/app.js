@@ -21,8 +21,10 @@ app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
+
 //rest api
-app.use('/api/jupyter', require('./api/dataProcessing'));
+app.use('/api/jupyter', require('./api/dataSource'));
+app.use('/api/getsmth', require('./api/settings'));
 //
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, '../',config[env].dist,'/404.html'));// load the single view file (angular will handle the page changes on the front-end)

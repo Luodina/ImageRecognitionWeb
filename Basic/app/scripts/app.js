@@ -63,6 +63,10 @@ angular
         templateUrl: 'views/dataProcessing.html',
         controller: 'DataProcessingCtrl'
       })
+      .when('/settings', {
+        templateUrl: 'views/settings.html',
+        controller: 'SettingsCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
