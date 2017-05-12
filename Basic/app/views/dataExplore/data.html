@@ -1,13 +1,17 @@
 <div class="row" ng-controller="DataCtrl">
   <div class="col-md-2" style="background: #c3c3c3;padding: 10px 0;">
     <ul style="list-style: none;min-height: 600px">
-      <li class="choose">数据选择</li>
-      <li class="explore">数据探索</li>
-      <li class="suggest">数据预处理建议</li>
+      <li class="source" ng-click="goReport(source)">{{ source | translate}}</li>
+      <li class="report" ng-click="goReport(report)">{{ report | translate}}</li>
+      <li class="processing">{{ processing | translate}}</li>
+      <!--<li><a href="#/source" style="color: #ffffff"></a></li>-->
+      <!--<li><a href="#/report" style="color: #ffffff">{{ report | translate}}</a></li>-->
+      <!--<li><a href="#/processing" style="color: #ffffff">{{ processing | translate}}</a></li>-->
+
     </ul>
   </div>
   <div class="col-md-10">
-      <div class="row chooseData" style="display: block">
+      <div class="row chooseData" ng-if="tab = source ">
         <p>结构化数据探索/Demo</p>
         <div>
           <input type="radio">&nbsp;&nbsp;默认数据源&nbsp;通过参数设置配置的数据源（CDM接口)
@@ -21,14 +25,15 @@
           <!--<input type="text" id="Tbtn"><input type="file" id="Fbtn" style="display: none"><input class='button' id="Ebtn" type="text" value="导入">-->
           <!--<span class="btn" id="Mbtn" style="padding: 5px 50px">数据预览</span>-->
         </div>
+        <div ng-click=""></div>
         <textarea class="content" style="display: none;"></textarea>
       </div>
-      <div class="row exploreData" style="display: none">
+      <div class="row exploreData" ng-if="tab = report ">
         <p>结构化数据探索/Demo</p>
         <div>ccccc</div>
         <span class="btnNext">下一步</span>
       </div>
-      <div class="row suggestData" style="display: none">
+      <div class="row suggestData" ng-hide="true">
         <p>结构化数据探索/Demo</p>
         <div class="step stepOne">
           <p><span class="glyphicon glyphicon-triangle-bottom"></span>步骤一 高关联性变量去重(请勾选保留的变量)</p>

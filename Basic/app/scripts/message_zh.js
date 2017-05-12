@@ -15,6 +15,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_008': '结构化数据探索',
     'web_common_data_explore_001': '数据选择',
     'web_common_data_explore_002': '数据探索',
-    'web_common_data_explore_003': '数据预处理建议'
+    'web_common_data_explore_003': '数据预处理建议',
+
   });
 }]);
