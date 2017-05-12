@@ -11,8 +11,10 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_004': 'Knowledge Map',
     'web_common_005': 'Settings',
     'web_common_006': 'Add',
+    'web_common_007': 'My data explore',
+    'web_common_008': 'Structural data',
     'web_common_data_explore_001': 'Data File',
     'web_common_data_explore_002': 'Data Report',
-    'web_common_data_explore_002': 'Data Processing',
+    'web_common_data_explore_003': 'Data Processing',
   });
 }]);

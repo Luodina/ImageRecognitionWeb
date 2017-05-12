@@ -44,6 +44,7 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
+    "@jupyterlab/services": "^0.43.0",
     "websocket": "^1.0.24",
     "ws": "^2.3.1",
     "xmlhttprequest": "^1.8.0"

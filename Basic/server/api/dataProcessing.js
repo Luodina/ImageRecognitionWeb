@@ -29,15 +29,15 @@ Kernel.startNew(options).then(kernel => {
     var content = reply.content;
     // $('#kernel-info').text(content.banner);
     console.log('Kernel info:', content);
-    res.send({msg:"Hello", kernelInfo : content.banner});;
+    res.send({msg:"Hello", kernelInfo : content.banner});
   })
 });
 }).catch((err)=>{console.log('error', err);});
 
 
-  
+
 });
 
 
 
-module.exports = router; 
+module.exports = router;
