@@ -11,24 +11,24 @@
     </ul>
   </div>
   <div class="col-md-10">
-      <div class="row chooseData" ng-if="tab = source ">
-        <p>结构化数据探索/Demo</p>
+      <div class="row chooseData" ng-show="true">
+        <p>{{ datamation | translate}}</p>
         <div>
-          <input type="radio">&nbsp;&nbsp;默认数据源&nbsp;通过参数设置配置的数据源（CDM接口)
+          <input type="radio">&nbsp;&nbsp;{{defaultData | translate}}
         </div>
         <br />
         <div>
-          <input type="radio">&nbsp;&nbsp;数据文件导入
-          <input type="text" id="filePath"><br>
-          <button id="profile">导入数据并探索</button>
-          <!--<input type="file" id="profile">-->
-          <!--<input type="text" id="Tbtn"><input type="file" id="Fbtn" style="display: none"><input class='button' id="Ebtn" type="text" value="导入">-->
-          <!--<span class="btn" id="Mbtn" style="padding: 5px 50px">数据预览</span>-->
+          <input type="radio">&nbsp;&nbsp;{{datafileimport | translate}}
+          <!--<input type="text" id="filePath"><br>-->
+          <!--<button id="profile">导入数据并探索</button>-->
+          <input type="text" id="profile">
+          <span class="btn">{{fileimport | translate}}</span>
+          <span class="btn">{{datapreview | translate}}</span>
         </div>
         <div ng-click=""></div>
         <textarea class="content" style="display: none;"></textarea>
       </div>
-      <div class="row exploreData" ng-if="tab = report ">
+      <div class="row exploreData" ng-show="false">
         <p>结构化数据探索/Demo</p>
         <div>ccccc</div>
         <span class="btnNext">下一步</span>
