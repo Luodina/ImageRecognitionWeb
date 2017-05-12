@@ -57,7 +57,9 @@
             <li><a href="#/taskSchedule" style="color: #ffffff">{{'web_common_003' | translate}}</a></li>
             <li><a href="#/knowledgeMap" style="color: #ffffff">{{'web_common_004' | translate}}</a></li>
             <li><a href="#/settings" style="color: #ffffff">{{'web_common_005' | translate}}</a></li>
-            <!--<li><a href="./modules/dataProfile/index.html" style="color: #ffffff">dataProfile</a></li>-->
+            <li><a href="./modules/dataProfile/index.html" style="color: #ffffff">dataProfile</a></li>
+            <!--<li><a href="./modules/test/index.html" style="color: #ffffff">test</a></li>-->
+
           </ul>
         </div>
       </div>
@@ -86,10 +88,14 @@
     </div>
   </div>
 </div>
-<div class="col-md-10">
- 
-  <div ng-view=""></div>
+<div class="container-fluid">
+  <div class="col-md-offset-1">
+    <div class="col-md-11">
+      <div ng-view=""></div>
+    </div>
+  </div>
 </div>
+
 <!-- build:js(.) scripts/vendor.js -->
 <!-- bower:js -->
 <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -122,10 +128,20 @@
 <script src="bower_components/bootstrap-application-wizard/dist/bootstrap-wizard.js"></script>
 <script src="bower_components/chart.js/dist/Chart.js"></script>
 <script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.js"></script>
+<!--<script id='jupyter-config-data' type="application/json">{ "baseUrl": "http://localhost:8888/","token":"07d0f7388904cfb47c2113bf60142446e2133de86eb63500"}</script>-->
+<!--<script src="/Users/JiYi/Desktop/jupyterlab.js"></script>-->
 <!-- endbower -->
 <!-- endbuild -->
-
-<!-- build:js(app) scripts/scripts.js -->
+<!--<script type="text/javascript">-->
+  <!--require.config({-->
+    <!--paths: {-->
+      <!--'jquery': 'bower_components/jquery/dist/jquery.js',-->
+      <!--'@jupyterlab/services': '/Users/JiYi/Desktop/jupyterlab.js',-->
+    <!--}-->
+  <!--});-->
+<!--</script>-->
+ <!--build:js(app) scripts/scripts.js -->
 <!-- 3rd party packages should lay before scripts in projects-->
 <script src="bower_components/angular-drag-and-drop-lists/angular-drag-and-drop-lists.js"></script>
 <script src="bower_components/mermaid/dist/mermaid.js"></script>

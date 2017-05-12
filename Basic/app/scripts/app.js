@@ -47,6 +47,10 @@ angular
         templateUrl: 'views/dataExplore/dataExplore.html',
         controller: 'DataExploreCtrl'
       })
+      .when('/data', {
+        templateUrl: 'views/dataExplore/data.html',
+        controller: 'DataCtrl'
+      })
       .when('/taskSchedule', {
         templateUrl: 'views/dashboard.html',
         controller: 'DashboardCtrl'

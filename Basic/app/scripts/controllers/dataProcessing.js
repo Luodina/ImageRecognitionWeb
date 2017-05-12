@@ -1,10 +1,12 @@
 /**
  * Controller
  */
+
 "use strict";
+
 angular.module('basic')
   .controller('DataProcessingCtrl',['$rootScope', '$scope','$http', function ($rootScope, $scope, $http) {
-    
+
     $scope.msg = "DataProcessingCtrl";
 
     
