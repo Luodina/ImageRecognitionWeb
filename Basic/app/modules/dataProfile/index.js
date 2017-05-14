@@ -15,20 +15,51 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
       var content = reply.content;
     })
 
+    var pyFilePath = "E:/";
+
     $('#dataPreview').click(function () {
       var filePath = $('#filePath').val();
-      alert(filePath)
       filePath=filePath.replace(/\\/g,"\\\\\\\\");
-      alert(filePath)
 
-      var code = 'f = open("E:/pycharm/OCAI/CodeIpnb/py/dataPreview.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("filePath=","filePath=\\\"'+filePath+'\\\"")\nexec(content)';
+      var code = 'f = open("'+pyFilePath+'dataPreview.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("filePath=","filePath=\\\"'+filePath+'\\\"")\nexec(content)';
 
       var future = kernel.requestExecute({ code: code });
 
       future.onIOPub = function (msg) {
         if(msg.header.msg_type=='stream'){
-          var result=JSON.parse(JSON.stringify(msg.content)).text;
-          alert(result);
+          var a = JSON.parse(JSON.stringify(msg.content)).text;
+          var b = JSON.parse(a);
+          var c = b[0];
+          var $th = "<tr>";
+
+          for(var k in c) {
+            $th = $th + "<th>"+k+"</th>"
+          }
+
+          $th = $th + "</tr>";
+
+          for(var i=0;i<b.length;i++){
+            var item = b[i];
+            $th = $th + "<tr>"
+            for(var k in item) {
+                $th = $th + "<td>"+item[k]+"</td>"
+            }
+            $th = $th +"</tr>";
+          }
+
+          alert($th);
+
+          var $table = $("#previewDatas");
+          $table.append($th);
+          //alert(c["petal length (cm)"]);
+          //alert(typeof(a));
+          //alert(a.columns[0]);
+          //var jsonData = JSON.parse(JSON.stringify(msg.content));
+          //alert(typeof(jsonData));
+          //var result=JSON.parse(JSON.stringify(msg.content)).text;
+          //alert(jsonData.columns);
+          //alert(jsonData.data);
+
           //result为返回的预览数据
         }
       };
@@ -41,8 +72,8 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
     });
 
     $('#displayReport').click(function () {
-        var htmlFilePath = "E:/pycharm/OCAI/OCAI/Basic/app/modules/dataProfile/dataProfile.html"
-        var code = 'f = open("E:/pycharm/OCAI/CodeIpnb/py/displayReport.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("htmlFilePath=","htmlFilePath=\\\"'+htmlFilePath+'\\\"")\nexec(content)';
+        var htmlFilePath = "D:/ideaProjects/OCAI/Basic/app/modules/dataProfile/dataProfile.html"
+        var code = 'f = open("'+pyFilePath+'displayReport.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("htmlFilePath=","htmlFilePath=\\\"'+htmlFilePath+'\\\"")\nexec(content)';
 
         var future = kernel.requestExecute({ code: code });
 
@@ -74,7 +105,7 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
 
 
     $('#getProcessSuggestions').click(function () {
-          var code = 'execfile("E:/pycharm/OCAI/CodeIpnb/py/getProcessSuggestions.py")';
+          var code = 'execfile("'+pyFilePath+'getProcessSuggestions.py")';
           var future = kernel.requestExecute({ code: code });
 
           future.onIOPub = function (msg) {

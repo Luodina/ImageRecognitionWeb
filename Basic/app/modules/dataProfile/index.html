@@ -13,7 +13,7 @@
 
 
 
-<script id='jupyter-config-data' type="application/json">{ "baseUrl": "http://localhost:8888/","token":"9a60ab696171eac491a687c0458692934c31f45df74b9874"}</script>
+<script id='jupyter-config-data' type="application/json">{ "baseUrl": "http://localhost:8888/","token":"3e8b9f335a07dee38264c6209002f0594da942cf6368ba7f"}</script>
 
 
 <!--<h1>Run code!</h1>
@@ -30,21 +30,22 @@
 
 <div>
   <div>
-    <input type="text" id="filePath"><br>
+    <input type="text" id="filePath">
     <button id="dataPreview">预览</button>
+    <button id="displayReport">查看报告</button>
   </div>
 
   <div>
-    <table id="previewDatas">
+    <table id="previewDatas" border="1">
     </table>
   </div>
 
   <div>
-    <button id="displayReport">查看报告</button>
+
     <div id="reportDiv" style="display: none">
 
-      <iframe  name="reportFrame" id="reportFrame" src='./dataProfile.html' frameborder='0' width='100%' height='500px'></iframe>
-      <button style="display: none;" onclick="reportFrame.window.location.reload()" id="refreshIframeB">刷新iframe</button>
+      <!--<iframe  name="reportFrame" id="reportFrame" src='./dataProfile.html' frameborder='0' width='100%' height='500px'></iframe>
+      <button style="display: none;" onclick="reportFrame.window.location.reload()" id="refreshIframeB">刷新iframe</button>-->
     </div>
   </div>
 </div>
