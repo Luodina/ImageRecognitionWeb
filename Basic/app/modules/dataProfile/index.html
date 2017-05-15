@@ -5,47 +5,66 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.js"></script>
   <style type="text/css">
     #cell {
-    font-family: monospace;
+      font-family: monospace;
     }
   </style>
 </head>
 <body>
 
+<script id='jupyter-config-data' type="application/json">{ "baseUrl": "http://localhost:8888/","token":"6eaaf0b9c10081b8580f4fc83f5fee39e59ace7ec2018ccd"}</script>
 
+<div id="firstPage">
+  <div>
+    <input type="text" id="filePath">
+    <button id="dataPreview">预览</button>
+  </div>
 
-<script id='jupyter-config-data' type="application/json">{ "baseUrl": "http://localhost:8888/","token":"07d0f7388904cfb47c2113bf60142446e2133de86eb63500"}</script>
-
-
-<!--<h1>Run code!</h1>
-<p>
-  Type code in the text area and click run to execute it.
-  You will see a log of the messages produced by the kernel below.
-</p>
-<div>
-  Kernel:
-  <pre id="kernel-info">Starting...</pre>
-</div>-->
-
-<div>
-  <input type="text" id="filePath"><br>
-  <button id="dataPreview">预览</button>
-  <button id="displayReport">查看报告</button>
-  <button id="getProcessSuggestions">查看数据预处理建议</button>
-  <button id="highCorrProcess">相关性处理</button>
-  <button id="imputerProcess">空值处理</button>
-  <button id="standardProcess">标准化处理</button>
-  <button id="saveData">保存数据</button>
+  <div>
+    <table id="previewDatas" border="1">
+    </table>
+    <button id="displayReport">查看报告</button>
+  </div>
 </div>
-<!--<div id="output"></div>
-<textarea id="cell1" cols="100" rows="2"></textarea>
-<div id="output1"></div>-->
+
+
+<div id="reportDiv" style="display: none">
+      <iframe  name="reportFrame" id="reportFrame" src='./dataProfile.html' frameborder='0' width='100%' height='500px'></iframe>
+      <button style="display: none;" onclick="reportFrame.window.location.reload()" id="refreshIframeB">刷新iframe</button>
+      <button  id="getProcessSuggestions">查看数据预处理建议</button>
+</div>
+
+
+<div class="row suggestData" style="display: none" id="thirdPage">
+  <div class="step stepOne">
+    <p><span class="glyphicon glyphicon-triangle-bottom"></span>步骤一 高关联性变量去重(请勾选保留的变量)</p>
+    <table id="t1" border="1">
+    </table>
+    <button id="highCorrProcess">应用</button>
+  </div>
+  <div class="step stepTwo">
+    <p><span class="glyphicon glyphicon-triangle-bottom"></span>步骤二 变量空值处理</p>
+    <table id="t2" border="1">
+    </table>
+    <button id="imputerProcess">应用</button>
+  </div>
+  <div class="step stepThree">
+    <p><span class="glyphicon glyphicon-triangle-bottom"></span>步骤三 变量正则化</p>
+    <table id="t3" border="1">
+    </table>
+    <button id="standardProcess">应用</button>
+  </div>
+  </br></br>
+  <button  id="saveData">保存</button>
+</div>
+
+
 <script type="text/javascript">
-    require.config({
-        paths: {
-          'jquery': 'https://code.jquery.com/jquery-2.2.4.min',
-          '@jupyterlab/services': 'https://unpkg.com/@jupyterlab/services@^0.34/dist/index',
-        }
-    });
+  require.config({
+    paths: {
+      'jquery': 'https://code.jquery.com/jquery-2.2.4.min',
+      '@jupyterlab/services': 'https://unpkg.com/@jupyterlab/services@^0.34/dist/index',
+    }
+  });
 </script>
 <script src="./index.js"></script>
 </body>
