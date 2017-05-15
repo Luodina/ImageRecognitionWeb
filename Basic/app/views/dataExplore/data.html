@@ -7,31 +7,33 @@
       <!--<li><a href="#/source" style="color: #ffffff"></a></li>-->
       <!--<li><a href="#/report" style="color: #ffffff">{{ report | translate}}</a></li>-->
       <!--<li><a href="#/processing" style="color: #ffffff">{{ processing | translate}}</a></li>-->
-
     </ul>
   </div>
-  <div class="col-md-10">
-      <div class="row chooseData" ng-show="true">
+  <div class="col-md-10" style="margin-top: 30px">
+      <div class="row chooseData" ng-show="isShow">
         <p>{{ datamation | translate}}</p>
         <div>
-          <input type="radio">&nbsp;&nbsp;{{defaultData | translate}}
+          <input type="radio" ng-model="bigData" value="iptOne">&nbsp;&nbsp;{{defaultData | translate}}
         </div>
         <br />
         <div>
-          <input type="radio">&nbsp;&nbsp;{{datafileimport | translate}}
+          <input type="radio" ng-model="bigData" value="iptTwo">&nbsp;&nbsp;{{datafileimport | translate}}
           <!--<input type="text" id="filePath"><br>-->
           <!--<button id="profile">导入数据并探索</button>-->
-          <input type="text" id="profile">
-          <span class="btn">{{fileimport | translate}}</span>
-          <span class="btn">{{datapreview | translate}}</span>
+          <input type="text" id="profile" ng-value="testFilePath">
+          <input type="file" id="profile_file" ng-model="testFile" style="display: none;" onchange="angular.element(this).scope().fileChange(this)">
+          <span class="btn" ng-click="importFlie()">{{fileimport | translate}}</span>
+          <span class="btn" ng-click="preview()">{{datapreview | translate}}</span>
         </div>
-        <div ng-click=""></div>
-        <textarea class="content" style="display: none;"></textarea>
+        <div style="margin:30px 0;">
+          <textarea class="content" style="width: 400px;height: 300px" rows="5"></textarea>
+        </div>
+        <div class="btnNext" ng-click="nextPage()">{{next | translate}}</div>
       </div>
-      <div class="row exploreData" ng-show="false">
-        <p>结构化数据探索/Demo</p>
+      <div class="row exploreData" ng-show="!isShow">
+        <p>{{ datamation | translate}}</p>
         <div>ccccc</div>
-        <span class="btnNext">下一步</span>
+        <span class="btnNext">{{next | translate}}</span>
       </div>
       <div class="row suggestData" ng-hide="true">
         <p>结构化数据探索/Demo</p>
