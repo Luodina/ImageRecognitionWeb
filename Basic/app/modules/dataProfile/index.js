@@ -19,7 +19,6 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
 
     $('#dataPreview').click(function () {
       var filePath = $('#filePath').val();
-      alert(filePath);
       filePath=filePath.replace(/\\/g,"\\\\\\\\");
 
       var code = 'f = open("'+pyFilePath+'dataPreview.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("filePath=","filePath=\\\"'+filePath+'\\\"")\nexec(content)';
