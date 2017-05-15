@@ -76,17 +76,11 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
         filePath=filePath.replace(/\\/g,"\\\\\\\\");
         var htmlFilePath = "D:/ideaProjects/OCAI/Basic/app/modules/dataProfile/dataProfile.html"
         var code = 'f = open("'+pyFilePath+'displayReport.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("filePath=","filePath=\\\"'+filePath+'\\\"")\ncontent=content.replace("htmlFilePath=","htmlFilePath=\\\"'+htmlFilePath+'\\\"")\nexec(content)';
-        //alert(code);
         var future = kernel.requestExecute({ code: code });
 
         future.onIOPub = function (msg) {
-          /*if(msg.header.msg_type=='stream'){
-            var result=JSON.parse(JSON.stringify(msg.content)).text;
-            alert(result);
-          }*/
           /*console.log('Got IOPub:', msg);
           console.log(msg.header.msg_type)
-
           console.log(JSON.stringify(msg.content))*/
         };
 
@@ -94,16 +88,10 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
         };
 
         future.onDone = function () {
-          //alert(1);
-          //跳转到html页面
-          //window.location.href="dataProfile.html";
-          //$("#reportDiv").html("&lt iframe  src='./dataProfile.html' frameborder='0' width='100%' height='500px' &gt &lt/iframe &gt")
-          //$("#reportFrame").reload()
           $("#firstPage").css({display:"none"})
           $("#reportDiv").css({display:"block"})
-          //$("#getProcessSuggestions").css({display:"block"})
-          //$("#refreshIframeB").click()
-          //$("#refreshIframeB").css({display:"none"})
+          $("#refreshIframeB").click()
+          $("#refreshIframeB").css({display:"none"})
 
         };
      });
@@ -171,7 +159,7 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
                   $t3 = $t3 + "<td>标准差:"+item["stdValue"]+"</td>";
                   //TODO 图片处理
                   /*$t3 = $t3 + "<td>图片"+item["miniHistogram"]+"</td>";*/
-                  $t3 = $t3 + "<td><select name='scalarOpers' id='"+item["varName"]+"'><option value='none'>不处理</option><option value='StandardScaler' >StandardScaler</option><option value='MaxAbsScaler' >MaxAbsScaler</option><option value='RobustScaler' >RobustScaler</option><option value='MinMaxScaler' >MinMaxScaler</option></select></td>";
+                  $t3 = $t3 + "<td><select name='scalarOpers' id='"+item["varName"]+"'><option value='none'>不处理</option><option value='Standarded' >Standarded</option><option value='MaxAbs' >MaxAbs</option><option value='Robust' >Robust</option><option value='MinMax' >MinMax</option></select></td>";
                   $t3 = $t3 +"</tr>";
                 }
 
@@ -232,7 +220,8 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
           }
           imputerCols = imputerCols + "}";
           alert(imputerCols);
-          var code = 'f = open("'+pyFilePath+'imputerProcess.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("imputerCols=","imputerCols=\\\"'+imputerCols+'\\\"")\nexec(content)';
+          var code = 'f = open("'+pyFilePath+'imputerProcess.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("imputerCols=","imputerCols='+imputerCols+'")\nexec(content)';
+          console.log(code);
           var future = kernel.requestExecute({ code: code });
 
           future.onIOPub = function (msg) {
@@ -265,7 +254,7 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
         }
         standardCols = standardCols + "}";
         alert(standardCols);
-        var code = 'f = open("'+pyFilePath+'standardProcess.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("standardCols=","standardCols=\\\"'+standardCols+'\\\"")\nexec(content)';
+        var code = 'f = open("'+pyFilePath+'standardProcess.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("standardCols=","standardCols='+standardCols+'")\nexec(content)';
         var future = kernel.requestExecute({ code: code });
 
         future.onIOPub = function (msg) {
