@@ -21,7 +21,7 @@ angular.module('basic')
     //   console.log("here!!!!", item);
     //   $scope.tab =item;
     // }
-    $scope.isShow = true;
+
     $scope.bigData = '';
     $scope.testFile = '';
     $scope.importFlie = function () {
@@ -40,7 +40,7 @@ angular.module('basic')
     };
 
     $scope.nextPage = function () {
-      $scope.isShow = !$scope.isShow;
+
     }
 
 }]);
