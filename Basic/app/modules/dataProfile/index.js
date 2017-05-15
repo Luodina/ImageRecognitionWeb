@@ -47,20 +47,8 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
             $th = $th +"</tr>";
           }
 
-          //alert($th);
-
           var $table = $("#previewDatas");
           $table.append($th);
-          //alert(c["petal length (cm)"]);
-          //alert(typeof(a));
-          //alert(a.columns[0]);
-          //var jsonData = JSON.parse(JSON.stringify(msg.content));
-          //alert(typeof(jsonData));
-          //var result=JSON.parse(JSON.stringify(msg.content)).text;
-          //alert(jsonData.columns);
-          //alert(jsonData.data);
-
-          //result为返回的预览数据
         }
       };
 
