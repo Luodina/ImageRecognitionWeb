@@ -19,6 +19,7 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
 
     $('#dataPreview').click(function () {
       var filePath = $('#filePath').val();
+      alert(filePath);
       filePath=filePath.replace(/\\/g,"\\\\\\\\");
 
       var code = 'f = open("'+pyFilePath+'dataPreview.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("filePath=","filePath=\\\"'+filePath+'\\\"")\nexec(content)';
@@ -207,7 +208,7 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
               }
           }
           imputerCols = imputerCols + "}";
-          alert(imputerCols);
+          //alert(imputerCols);
           var code = 'f = open("'+pyFilePath+'imputerProcess.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("imputerCols=","imputerCols='+imputerCols+'")\nexec(content)';
           console.log(code);
           var future = kernel.requestExecute({ code: code });
@@ -241,7 +242,7 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
             }
         }
         standardCols = standardCols + "}";
-        alert(standardCols);
+        //alert(standardCols);
         var code = 'f = open("'+pyFilePath+'standardProcess.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("standardCols=","standardCols='+standardCols+'")\nexec(content)';
         var future = kernel.requestExecute({ code: code });
 
