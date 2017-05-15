@@ -53,11 +53,15 @@
   border: solid 1px #c3c3c3;
 }
 .btnNext{
+  margin-top: 20px;
   float: right;
   border: solid #c3c3c3 1px ;
   padding: 5px 10px;
+  border-radius: 2px;
+
 }
 .row{
+  margin-top: 0;
   margin-left: 20px;
 }
 table, td  {
@@ -65,3 +69,4 @@ table, td  {
   border-collapse: collapse;
   padding: 5px;
 }
+
