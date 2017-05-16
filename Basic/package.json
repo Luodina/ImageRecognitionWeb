@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "@jupyterlab/services": "^0.43.0",
+    "karma": "^0.12.37",
     "websocket": "^1.0.24",
     "ws": "^2.3.1",
     "xmlhttprequest": "^1.8.0"

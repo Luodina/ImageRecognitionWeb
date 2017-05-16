@@ -45,23 +45,17 @@
         <div class="navbar-header">
           <a href="#/" class="navbar-brand logo">
             <img src="/images/yeoman.png" style="height: 32px;" alt="basic" title="basic">
-            <!--<span class="brand">OCAI机器学习</span>-->
             <span class="brand">{{'web_common_000' | translate}}</span>
           </a>
         </div>
-
         <div class="collapse navbar-collapse" id="js-navbar-collapse">
-          <ul class="nav navbar-nav navbar-left" >
-            <li><a href="#/dashboard" style="color: #ffffff">{{'web_common_001' | translate}}</a></li>
-            <li><a href="#/dataExplore" style="color: #ffffff">{{'web_common_002' | translate}}</a></li>
-            <li><a href="#/taskSchedule" style="color: #ffffff">{{'web_common_003' | translate}}</a></li>
-            <li><a href="#/knowledgeMap" style="color: #ffffff">{{'web_common_004' | translate}}</a></li>
-            <li><a href="#/settings" style="color: #ffffff">{{'web_common_005' | translate}}</a></li>
-            <li><a href="./modules/dataProfile/index.html" style="color: #ffffff">dataProfile</a></li>
-
-            <!--<li><a href="./modules/test/index.html" style="color: #ffffff">test</a></li>-->
-
-          </ul>
+          <div class="nav navbar-nav navbar-left nav-top" style="padding-top: 16px;">
+            <a ui-sref="home" >{{'web_common_001' | translate}}</a>
+            <a ui-sref="dataExplore" >{{'web_common_002' | translate}}</a>
+            <a ui-sref="taskSchedule" ui-sref-active="active">{{'web_common_003' | translate}}</a>
+            <a ui-sref="knowledgeMap" ui-sref-active="active">{{'web_common_004' | translate}}</a>
+            <a ui-sref="settings" ui-sref-active="active">{{'web_common_005' | translate}}</a>
+          </div>
         </div>
       </div>
     </div>
@@ -71,7 +65,7 @@
 <div class="container-fluid">
   <div class="col-md-offset-1">
     <div class="col-md-11">
-      <div ng-view=""></div>
+      <ui-view></ui-view>
     </div>
   </div>
 </div>
@@ -99,6 +93,7 @@
 <script src="bower_components/spin.js/spin.js"></script>
 <script src="bower_components/angular-spinner/angular-spinner.js"></script>
 <script src="bower_components/angular-ui-select/dist/select.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 <script src="bower_components/angular-toggle-switch/angular-toggle-switch.js"></script>
 <script src="bower_components/angular-hotkeys/build/hotkeys.js"></script>
 <script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js"></script>
@@ -108,7 +103,6 @@
 <script src="bower_components/bootstrap-application-wizard/dist/bootstrap-wizard.js"></script>
 <script src="bower_components/chart.js/dist/Chart.js"></script>
 <script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
-
 <!-- endbower -->
 <!-- endbuild -->
 
@@ -124,12 +118,15 @@
 
 <script src="build-scripts/controllers/dataExplore/dataExplore.js"></script>
 <script src="build-scripts/controllers/dataExplore/data.js"></script>
+<script src="build-scripts/controllers/dataExplore/dataSource.js"></script>
+<script src="build-scripts/controllers/dataExplore/dataReport.js"></script>
+<script src="build-scripts/controllers/dataExplore/dataProcessing.js"></script>
+
 <script src="build-scripts/controllers/dashboard.js"></script>
 <script src="build-scripts/controllers/dataSource.js"></script>
 <script src="build-scripts/controllers/dataReport.js"></script>
 <script src="build-scripts/controllers/dataProcessing.js"></script>
 <script src="build-scripts/controllers/settings.js"></script>
-<!--<script src="modules/test/index.js"></script>-->
 
 <!-- endbuild -->
 </body>

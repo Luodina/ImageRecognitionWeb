@@ -1,0 +1,40 @@
+<div class="row suggestData">
+  <p>{{ datamation | translate}}</p>
+  <div class="step stepOne">
+    <p><span class="glyphicon glyphicon-triangle-bottom"></span>步骤一 高关联性变量去重(请勾选保留的变量)</p>
+    <table>
+      <tr ng-repeat="x in names">
+        <td>{{x.Nameo}}</td>
+        <td>{{x.Namet}}</td>
+        <td>{{x.Nameth}}</td>
+      </tr>
+    </table>
+    <button>应用</button>
+  </div>
+  <div class="step stepTwo">
+    <p><span class="glyphicon glyphicon-triangle-bottom"></span>步骤二 变量空值处理</p>
+    <table>
+      <tr ng-repeat="x in names">
+        <td>{{x.Namea}}</td>
+        <td>{{x.Nameb}}</td>
+        <td>{{x.Namec}}</td>
+        <td>{{x.Named}}</td>
+
+      </tr>
+    </table>
+    <button>应用</button>
+  </div>
+  <div class="step stepThree">
+    <p><span class="glyphicon glyphicon-triangle-bottom"></span>步骤三 变量正则化</p>
+    <table>
+      <tr ng-repeat="x in names">
+        <td>{{x.Namea}}</td>
+        <td>{{x.Nameb}}</td>
+        <td>{{x.Namec}}</td>
+        <td>{{x.Named}}</td>
+        <td>{{x.Namee}}</td>
+      </tr>
+    </table>
+    <button>应用</button>
+  </div>
+</div>
