@@ -69,4 +69,18 @@ table, td  {
   border-collapse: collapse;
   padding: 5px;
 }
+.step{
+  width: 600px;
+  height: 200px;
+  border: solid 1px #666;
+}
+.stepBtn{
+  display: inline-block;
+  margin: 10px 0;
+  padding: 5px 10px;
+  border: solid 1px #666666;
+  border-radius:3px;
+  background: #c3c3c3;
+  cursor: pointer;
+}
 
