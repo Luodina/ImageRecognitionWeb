@@ -243,6 +243,7 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
             }
         }
         standardCols = standardCols + "}";
+
         var code = 'f = open("'+pyFilePath+'standardProcess.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("standardCols=","standardCols='+standardCols+'")\nexec(content)';
         var future = kernel.requestExecute({ code: code });
 
