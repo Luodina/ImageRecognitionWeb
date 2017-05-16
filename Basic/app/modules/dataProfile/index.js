@@ -150,6 +150,7 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
                   scalarHtmlStr = scalarHtmlStr + "<tr>"
                   scalarHtmlStr = scalarHtmlStr + "<td>变量名:"+item["varName"]+"</td>";
                   scalarHtmlStr = scalarHtmlStr + "<td>标准差:"+item["stdValue"]+"</td>";
+
                   //TODO 图片处理
                   /*scalarHtmlStr = scalarHtmlStr + "<td>图片"+item["miniHistogram"]+"</td>";*/
                   scalarHtmlStr = scalarHtmlStr + "<td><select name='scalarOpers' id='"+item["varName"]+"'><option value='none'>不处理</option><option value='Standarded' >Standarded</option><option value='MaxAbs' >MaxAbs</option><option value='Robust' >Robust</option><option value='MinMax' >MinMax</option></select></td>";
