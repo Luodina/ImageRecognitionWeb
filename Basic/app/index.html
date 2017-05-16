@@ -10,6 +10,7 @@
   <!-- build:css(.) styles/vendor.css -->
   <!-- bower:css -->
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="bower_components/bootstrap-sidebar/dist/css/sidebar.css" />
   <link rel="stylesheet" href="bower_components/isteven-angular-multiselect/isteven-multi-select.css" />
   <link rel="stylesheet" href="bower_components/angular-ui-notification/dist/angular-ui-notification.css" />
@@ -49,13 +50,13 @@
           </a>
         </div>
         <div class="collapse navbar-collapse" id="js-navbar-collapse">
-          <div class="nav navbar-nav navbar-left">
+          <div class="nav navbar-nav navbar-left nav-top" style="padding-top: 16px;">
             <a ui-sref="home" >{{'web_common_001' | translate}}</a>
             <a ui-sref="dataExplore" >{{'web_common_002' | translate}}</a>
             <a ui-sref="taskSchedule" ui-sref-active="active">{{'web_common_003' | translate}}</a>
             <a ui-sref="knowledgeMap" ui-sref-active="active">{{'web_common_004' | translate}}</a>
-            <a ui-sref="settings" ui-sref-active="active">{{'web_common_005' | translate}}</a>               
-          </div>            
+            <a ui-sref="settings" ui-sref-active="active">{{'web_common_005' | translate}}</a>
+          </div>
         </div>
       </div>
     </div>
@@ -117,6 +118,9 @@
 <script src="build-scripts/controllers/main.js"></script>
 <script src="build-scripts/controllers/dataExplore/dataExplore.js"></script>
 <script src="build-scripts/controllers/dataExplore/data.js"></script>
+<script src="build-scripts/controllers/dataExplore/dataSource.js"></script>
+<script src="build-scripts/controllers/dataExplore/dataReport.js"></script>
+<script src="build-scripts/controllers/dataExplore/dataProcessing.js"></script>
 <script src="build-scripts/controllers/dashboard.js"></script>
 <script src="build-scripts/controllers/dataSource.js"></script>
 <script src="build-scripts/controllers/dataReport.js"></script>

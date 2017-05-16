@@ -18,7 +18,9 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
     var pyFilePath = "E:/";
 
     $('#dataPreview').click(function () {
-      var filePath = $('#filePath').val();
+      var filePath = $('#dataFilePath').val();
+
+      //TODO maxm ??
       filePath=filePath.replace(/\\/g,"\\\\\\\\");
 
       var code = 'f = open("'+pyFilePath+'dataPreview.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("filePath=","filePath=\\\"'+filePath+'\\\"")\nexec(content)';
@@ -27,28 +29,31 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
 
       future.onIOPub = function (msg) {
         if(msg.header.msg_type=='stream'){
-          var a = JSON.parse(JSON.stringify(msg.content)).text;
-          var b = JSON.parse(a);
-          var c = b[0];
-          var $th = "<tr>";
+          var previewDatas = JSON.parse(JSON.parse(JSON.stringify(msg.content)).text);
 
-          for(var k in c) {
-            $th = $th + "<th>"+k+"</th>"
+          //添加标题
+          var firstLineData = previewDatas[0];
+          var htmlStr = "<tr>";
+
+          for(var k in firstLineData) {
+            htmlStr = htmlStr + "<th>"+k+"</th>"
           }
 
-          $th = $th + "</tr>";
+          htmlStr = htmlStr + "</tr>";
 
-          for(var i=0;i<b.length;i++){
-            var item = b[i];
-            $th = $th + "<tr>"
+          //添加数据
+          for(var i=0;i<previewDatas.length;i++){
+            var item = previewDatas[i];
+            htmlStr = htmlStr + "<tr>"
             for(var k in item) {
-                $th = $th + "<td>"+item[k]+"</td>"
+                htmlStr = htmlStr + "<td>"+item[k]+"</td>"
             }
-            $th = $th +"</tr>";
+            htmlStr = htmlStr +"</tr>";
           }
 
+          //添加到table中
           var $table = $("#previewDatas");
-          $table.append($th);
+          $table.append(htmlStr);
         }
       };
 
@@ -60,9 +65,12 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
     });
 
     $('#displayReport').click(function () {
-        var filePath = $('#filePath').val();
+        var filePath = $('#dataFilePath').val();
+        //TODO maxm ??
         filePath=filePath.replace(/\\/g,"\\\\\\\\");
+        //TODO maxm
         var htmlFilePath = "D:/ideaProjects/OCAI/Basic/app/modules/dataProfile/dataProfile.html"
+
         var code = 'f = open("'+pyFilePath+'displayReport.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("filePath=","filePath=\\\"'+filePath+'\\\"")\ncontent=content.replace("htmlFilePath=","htmlFilePath=\\\"'+htmlFilePath+'\\\"")\nexec(content)';
         var future = kernel.requestExecute({ code: code });
 
@@ -80,79 +88,75 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
           $("#reportDiv").css({display:"block"})
           $("#refreshIframeB").click()
           $("#refreshIframeB").css({display:"none"})
-
         };
      });
 
-
+    //查看预处理建议
     $('#getProcessSuggestions').click(function () {
+          //TODO maxm var code = 'execfile("'+pyFilePath+'getProcessSuggestions.py")';
           var code = 'f = open("'+pyFilePath+'getProcessSuggestions.py", "r")\ncontent = f.read()\nf.close()\nexec(content)';
-          //var code = 'execfile("'+pyFilePath+'getProcessSuggestions.py")';
+
           var future = kernel.requestExecute({ code: code });
 
           future.onIOPub = function (msg) {
-              console.log('Got IOPub:', msg);
+              /*console.log('Got IOPub:', msg);
               console.log(msg.header.msg_type)
-              console.log(JSON.stringify(msg.content))
-              //alert(123);
+              console.log(JSON.stringify(msg.content))*/
+
               if(msg.header.msg_type=='stream'){
+                var suggestions = JSON.parse(JSON.parse(JSON.stringify(msg.content)).text);
 
-                var a = JSON.parse(JSON.stringify(msg.content)).text;
-                var dd = JSON.parse(a);
                 //相关性
-                var b = dd.highCorr;
-                var $t1 = "";
+                var varCorrSuggestions = suggestions.highCorr;
+                var varCorrHtmlStr = "";
 
-                for(var i=0;i<b.length;i++){
-                  var item = b[i];
-                  $t1 = $t1 + "<tr>"
-                  $t1 = $t1 + "<td>相关性"+item["corrValu"]+"</td>";
-                  $t1 = $t1 + "<td><input name='corrValues' type='checkbox' value='"+item["varName"]+"' />"+item["varName"]+"</td>";
-                  $t1 = $t1 + "<td><input name='corrValues' type='checkbox' value='"+item["corrVarName"]+"' />"+item["corrVarName"]+"</td>";
-                  $t1 = $t1 +"</tr>";
+                for(var i=0;i<varCorrSuggestions.length;i++){
+                  var item = varCorrSuggestions[i];
+                  varCorrHtmlStr = varCorrHtmlStr + "<tr>"
+                  varCorrHtmlStr = varCorrHtmlStr + "<td>相关性"+item["corrValu"]+"</td>";
+                  varCorrHtmlStr = varCorrHtmlStr + "<td><input name='corrValues' type='checkbox' value='"+item["varName"]+"' />"+item["varName"]+"</td>";
+                  varCorrHtmlStr = varCorrHtmlStr + "<td><input name='corrValues' type='checkbox' value='"+item["corrVarName"]+"' />"+item["corrVarName"]+"</td>";
+                  varCorrHtmlStr = varCorrHtmlStr +"</tr>";
                 }
 
-                //alert($t1);
-
-                var $table = $("#t1");
-                $table.append($t1);
+                var varCorrTable = $("#varCorrTable");
+                varCorrTable.append(varCorrHtmlStr);
 
                 //空值处理
-                var c = JSON.parse(a).imputer;
+                var imputerSuggestions = suggestions.imputer;
 
-                var $t2 = "";
+                var imputerHtmlStr = "";
 
-                for(var i=0;i<c.length;i++){
-                  var item = c[i];
-                  $t2 = $t2 + "<tr>"
+                for(var i=0;i<imputerSuggestions.length;i++){
+                  var item = imputerSuggestions[i];
+                  imputerHtmlStr = imputerHtmlStr + "<tr>"
 
-                  $t2 = $t2 + "<td>变量名:"+item["varName"]+"</td>";
-                  $t2 = $t2 + "<td>空值比例:"+item["imputerRatio"]+"</td>";
-                  $t2 = $t2 + "<td><select name='imputerOpers' id='"+item["varName"]+"'><option value='none'>不处理</option><option value='mean' >mean</option><option value='median' >median</option><option value='most_frequent' >most_frequent</option></select></td>";
-                  $t2 = $t2 +"</tr>";
+                  imputerHtmlStr = imputerHtmlStr + "<td>变量名:"+item["varName"]+"</td>";
+                  imputerHtmlStr = imputerHtmlStr + "<td>空值比例:"+item["imputerRatio"]+"</td>";
+                  imputerHtmlStr = imputerHtmlStr + "<td><select name='imputerOpers' id='"+item["varName"]+"'><option value='none'>不处理</option><option value='mean' >mean</option><option value='median' >median</option><option value='most_frequent' >most_frequent</option></select></td>";
+                  imputerHtmlStr = imputerHtmlStr +"</tr>";
                 }
 
-                var $table2 = $("#t2");
-                $table2.append($t2);
+                var imputerTable = $("#imputerTable");
+                imputerTable.append(imputerHtmlStr);
 
                 //标准化处理
-                var d = JSON.parse(a).scalar;
+                var scalarSuggestions = suggestions.scalar;
 
-                var $t3 = "";
+                var scalarHtmlStr = "";
 
-                for(var i=0;i<d.length;i++){
-                  var item = d[i];
-                  $t3 = $t3 + "<tr>"
-                  $t3 = $t3 + "<td>变量名:"+item["varName"]+"</td>";
-                  $t3 = $t3 + "<td>标准差:"+item["stdValue"]+"</td>";
-                  //TODO 图片处理
-                  /*$t3 = $t3 + "<td>图片"+item["miniHistogram"]+"</td>";*/
-                  $t3 = $t3 + "<td><select name='scalarOpers' id='"+item["varName"]+"'><option value='none'>不处理</option><option value='Standarded' >Standarded</option><option value='MaxAbs' >MaxAbs</option><option value='Robust' >Robust</option><option value='MinMax' >MinMax</option></select></td>";
-                  $t3 = $t3 +"</tr>";
+                for(var i=0;i<scalarSuggestions.length;i++){
+                  var item = scalarSuggestions[i];
+                  scalarHtmlStr = scalarHtmlStr + "<tr>"
+                  scalarHtmlStr = scalarHtmlStr + "<td>变量名:"+item["varName"]+"</td>";
+                  scalarHtmlStr = scalarHtmlStr + "<td>标准差:"+item["stdValue"]+"</td>";
+                  scalarHtmlStr = scalarHtmlStr + "<td><img src='"+item["miniHistogram"]+"'></td>";
+                  scalarHtmlStr = scalarHtmlStr + "<td><select name='scalarOpers' id='"+item["varName"]+"'><option value='none'>不处理</option><option value='Standarded' >Standarded</option><option value='MaxAbs' >MaxAbs</option><option value='Robust' >Robust</option><option value='MinMax' >MinMax</option></select></td>";
+                  scalarHtmlStr = scalarHtmlStr +"</tr>";
                 }
 
-                var $table3 = $("#t3");
-                $table3.append($t3);
+                var scalarTable = $("#scalarTable");
+                scalarTable.append(scalarHtmlStr);
               }
           };
 
@@ -161,7 +165,7 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
 
           future.onDone = function () {
             $("#reportDiv").css({display:"none"})
-            $("#thirdPage").css({display:"block"})
+            $("#processSuggestions").css({display:"block"})
           };
     });
 
@@ -169,19 +173,18 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
         var deleteCols = "";
         var unCheckedBoxs = $("input[name='corrValues']").not("input:checked");
         for(var i=0;i<unCheckedBoxs.length;i++){
-          if(i==0){
-            deleteCols = deleteCols + unCheckedBoxs[i].value;
-          }else{
-            deleteCols = deleteCols + ","+ unCheckedBoxs[i].value;
+          if(i!=0){
+            deleteCols = deleteCols + ",";
           }
+          deleteCols = deleteCols + unCheckedBoxs[i].value;
         }
         var code = 'f = open("'+pyFilePath+'highCorrProcess.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("deleteCols=","deleteCols=\\\"'+deleteCols+'\\\"")\nexec(content)';
         var future = kernel.requestExecute({ code: code });
 
         future.onIOPub = function (msg) {
-          console.log('Got IOPub:', msg);
+          /*console.log('Got IOPub:', msg);
           console.log(msg.header.msg_type)
-          console.log(JSON.stringify(msg.content))
+          console.log(JSON.stringify(msg.content))*/
         };
 
         future.onReply = function (reply) {
@@ -207,15 +210,13 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
               }
           }
           imputerCols = imputerCols + "}";
-          //alert(imputerCols);
           var code = 'f = open("'+pyFilePath+'imputerProcess.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("imputerCols=","imputerCols='+imputerCols+'")\nexec(content)';
-          console.log(code);
           var future = kernel.requestExecute({ code: code });
 
           future.onIOPub = function (msg) {
-            console.log('Got IOPub:', msg);
+            /*console.log('Got IOPub:', msg);
             console.log(msg.header.msg_type)
-            console.log(JSON.stringify(msg.content))
+            console.log(JSON.stringify(msg.content))*/
           };
 
           future.onReply = function (reply) {
@@ -241,14 +242,14 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
             }
         }
         standardCols = standardCols + "}";
-        //alert(standardCols);
+
         var code = 'f = open("'+pyFilePath+'standardProcess.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("standardCols=","standardCols='+standardCols+'")\nexec(content)';
         var future = kernel.requestExecute({ code: code });
 
         future.onIOPub = function (msg) {
-          console.log('Got IOPub:', msg);
+          /*console.log('Got IOPub:', msg);
           console.log(msg.header.msg_type);
-          console.log(JSON.stringify(msg.content));
+          console.log(JSON.stringify(msg.content));*/
         };
 
         future.onReply = function (reply) {
@@ -265,14 +266,12 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
         var future = kernel.requestExecute({ code: code });
 
         future.onIOPub = function (msg) {
-          console.log('Got IOPub:', msg);
+          /*console.log('Got IOPub:', msg);
           console.log(msg.header.msg_type)
-
-          console.log(JSON.stringify(msg.content))
+          console.log(JSON.stringify(msg.content))*/
         };
 
         future.onReply = function (reply) {
-
         };
 
         future.onDone = function () {

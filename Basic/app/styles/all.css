@@ -311,16 +311,13 @@ table a {
 .list-group-item{
   text-align: center;
 }
-.navbar-a-color >span{
-  text-decoration: none;
-  display: inline-block;
+
+.nav-top >a{
   color: #ffffff;
+  padding: 0 5px;
 }
-.bgcolor{
-  background: #fff;
-}
-.navbar-nav > li >a:hover {
-  /*color: #344e81;*/
-  background-color: #3d63d9;
+.nav-top >a:hover {
+  color: #000;
+  /*background-color: #3d63d9;*/
 }
 
