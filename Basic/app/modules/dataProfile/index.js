@@ -1,54 +1,23 @@
-
 require(['jquery', '@jupyterlab/services'], function ($, services) {
   'use strict';
 
-  //如果已经存在该ipynb对应的session,则直接使用;如果没有，则创建一个session
-
   // The base url of the Jupyter server.
   var BASE_URL = 'http://localhost:8888';
-  var token = 'eb024f6800e7a0300ef0e130b0c3f1afdaf0a97c9337285e';
+  var token = '6fa85c1652f199e6ed9199809d62d2ebff31da656088a518';
   var ipynbPath = '/dataProfile.ipynb';
 
-  /*var options = {
-      baseUrl: BASE_URL,
-      token:token
-  };
-
-  var contents = new services.ContentsManager(options);
-
-  contents.copy(ipynbPath, '/dataProfileFolder').then((model) => {
-      var filePath = model.path;
-      var newFilePath = filePath.replace(".ipynb","1.ipynb");
-      contents.rename(filePath,newFilePath);
-
-     contents.get(newFilePath).then(
-          (model) => {
-            console.log('ipynb files----------------:', model.content);
-            console.log('ipynb files----------------:', model.content.cells[2].source);
-            model.content.cells[2].source = 'print(45678)';
-            var myArray=new Array();
-            myArray[0]="45678910";
-            model.content.cells[2].outputs = myArray;
-            contents.save(newFilePath,model);
-          }
-     );
-
-
-  });*/
-
-  //连接到session
+  //连接到session(如果已经存在该ipynb对应的session,则直接使用;如果没有，则创建一个session)
   var options = {
     baseUrl: BASE_URL,
     token:token,
     kernelName: 'python',
     path:ipynbPath
   };
+  var kernel;
 
   services.Session.listRunning(options).then(sessionModels => {
     var sessionNums = sessionModels.length;
-    console.log(sessionNums);
     var existSession = false;
-    var kernel;
     for(var i=0;i<sessionNums;i++){
       var path=sessionModels[i].notebook.path;
       if(path==ipynbPath){//存在session，直接连接
@@ -70,23 +39,44 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
     if(!existSession){//没有现有的session，新创建session
       services.Session.startNew(options).then(session => {
         kernel=session.kernel;
-        // Execute and handle replies on the kernel.
-        /*var future = session.kernel.requestExecute({ code: 'a = 1' });
-        future.onDone = () => {
-          console.log('Future is fulfilled');
-        };*/
       });
     }
   });
 
-  'use strict';
-  var startNewKernel = services.Kernel.startNew;
-
-  var kernelOptions = {
-    name: 'python'
+  //获取ipynb文件中的source代码
+  var options = {
+      baseUrl: BASE_URL,
+      token:token
   };
 
-  var pyFilePath = "E:/";
+  var sourceCodes=new Array();
+
+  var contents = new services.ContentsManager(options);
+
+  contents.copy(ipynbPath, '/dataProfileFolder').then((model) => {
+      var filePath = model.path;
+      //var newFilePath = filePath.replace(".ipynb","1.ipynb");
+      //contents.rename(filePath,newFilePath);
+
+     //contents.get(newFilePath).then(
+     contents.get(filePath).then(
+          (model) => {
+            var cellsLength = model.content.cells.length;
+            for(i=0;i<cellsLength;i++){
+              sourceCodes[i] =  model.content.cells[i].source;
+            }
+            /*console.log('ipynb files----------------:', model.content);
+            console.log('ipynb files----------------:', newFilePath);
+            model.content.cells[0].source = 'print(45678)';
+            var myArray=new Array();
+            myArray[0]="45678";
+            model.content.cells[0].outputs = myArray;
+            contents.save(newFilePath,model);*/
+          }
+     );
+
+
+  });
 
   $('#dataPreview').click(function () {
     var filePath = $('#dataFilePath').val();
@@ -94,7 +84,8 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
     //TODO maxm ??
     filePath=filePath.replace(/\\/g,"\\\\\\\\");
 
-    var code = 'f = open("'+pyFilePath+'dataPreview.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("filePath=","filePath=\\\"'+filePath+'\\\"")\nexec(content)';
+    var code = sourceCodes[0];
+    code = code.replace("filePath=",filePath);
 
     var future = kernel.requestExecute({ code: code });
 
@@ -142,13 +133,15 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
       //TODO maxm
       var htmlFilePath = "D:/ideaProjects/OCAI/Basic/app/modules/dataProfile/dataProfile.html"
 
-      var code = 'f = open("'+pyFilePath+'displayReport.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("filePath=","filePath=\\\"'+filePath+'\\\"")\ncontent=content.replace("htmlFilePath=","htmlFilePath=\\\"'+htmlFilePath+'\\\"")\nexec(content)';
+      var code = sourceCodes[1];
+      code = code.replace("filePath=",filePath);
+      code = code.replace("htmlFilePath==",htmlFilePath);
       var future = kernel.requestExecute({ code: code });
 
       future.onIOPub = function (msg) {
-        *//*console.log('Got IOPub:', msg);
+        /*console.log('Got IOPub:', msg);
         console.log(msg.header.msg_type)
-        console.log(JSON.stringify(msg.content))*//*
+        console.log(JSON.stringify(msg.content))*/
       };
 
       future.onReply = function (reply) {
@@ -165,7 +158,7 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
   //查看预处理建议
   $('#getProcessSuggestions').click(function () {
         //TODO maxm var code = 'execfile("'+pyFilePath+'getProcessSuggestions.py")';
-        var code = 'f = open("'+pyFilePath+'getProcessSuggestions.py", "r")\ncontent = f.read()\nf.close()\nexec(content)';
+        var code = sourceCodes[2];
 
         var future = kernel.requestExecute({ code: code });
 
@@ -249,13 +242,15 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
         }
         deleteCols = deleteCols + unCheckedBoxs[i].value;
       }
-      var code = 'f = open("'+pyFilePath+'highCorrProcess.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("deleteCols=","deleteCols=\\\"'+deleteCols+'\\\"")\nexec(content)';
+
+      var code = sourceCodes[3];
+      code = code.replace("deleteCols=",deleteCols);
       var future = kernel.requestExecute({ code: code });
 
       future.onIOPub = function (msg) {
-        *//*console.log('Got IOPub:', msg);
+        /*console.log('Got IOPub:', msg);
         console.log(msg.header.msg_type)
-        console.log(JSON.stringify(msg.content))*//*
+        console.log(JSON.stringify(msg.content))*/
       };
 
       future.onReply = function (reply) {
@@ -281,13 +276,15 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
             }
         }
         imputerCols = imputerCols + "}";
-        var code = 'f = open("'+pyFilePath+'imputerProcess.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("imputerCols=","imputerCols='+imputerCols+'")\nexec(content)';
+
+        var code = sourceCodes[4];
+        code = code.replace("imputerCols=",imputerCols);
         var future = kernel.requestExecute({ code: code });
 
         future.onIOPub = function (msg) {
-          *//*console.log('Got IOPub:', msg);
+          /*console.log('Got IOPub:', msg);
           console.log(msg.header.msg_type)
-          console.log(JSON.stringify(msg.content))*//*
+          console.log(JSON.stringify(msg.content))*/
         };
 
         future.onReply = function (reply) {
@@ -314,13 +311,14 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
       }
       standardCols = standardCols + "}";
 
-      var code = 'f = open("'+pyFilePath+'standardProcess.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("standardCols=","standardCols='+standardCols+'")\nexec(content)';
+      var code = sourceCodes[5];
+      code = code.replace("standardCols=",standardCols);
       var future = kernel.requestExecute({ code: code });
 
       future.onIOPub = function (msg) {
-        *//*console.log('Got IOPub:', msg);
+        /*console.log('Got IOPub:', msg);
         console.log(msg.header.msg_type);
-        console.log(JSON.stringify(msg.content));*//*
+        console.log(JSON.stringify(msg.content));*/
       };
 
       future.onReply = function (reply) {
@@ -333,13 +331,14 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
 
   $('#saveData').click(function () {
       var outputFilePath = "E:/newDataFile.csv";
-      var code = 'f = open("'+pyFilePath+'saveData.py", "r")\ncontent = f.read()\nf.close()\ncontent=content.replace("outputFilePath=","outputFilePath=\\\"'+outputFilePath+'\\\"")\nexec(content)';
+      var code = sourceCodes[6];
+      code = code.replace("outputFilePath=",outputFilePath);
       var future = kernel.requestExecute({ code: code });
 
       future.onIOPub = function (msg) {
-        *//*console.log('Got IOPub:', msg);
+        /*console.log('Got IOPub:', msg);
         console.log(msg.header.msg_type)
-        console.log(JSON.stringify(msg.content))*//*
+        console.log(JSON.stringify(msg.content))*/
       };
 
       future.onReply = function (reply) {
