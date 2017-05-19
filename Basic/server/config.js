@@ -4,7 +4,7 @@ module.exports = {
     dist: 'app',
     port: 9000,
     notebook: 'http://127.0.0.1:8888/',
-    token:"b61d93a4869b8852c0a8633ba40c07ff603944f7c400188c"
+    token:"e2f072a9b286682f73a90f729333409ac4b42b09044b81e3"
   },
   prod: {
     dist: 'dist',
