@@ -14,6 +14,12 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_007': '我的数据探索',
     'web_common_008': '结构化数据探索',
     'web_common_009': '下一步',
+    'web_common_010': '用户名',
+    'web_common_011': '密码',
+    'web_common_012': '登录',
+    'web_common_013': '退出',
+    'web_common_014': '用户名或密码错误,请重新输入',
+
 
     'web_common_data_explore_001': '数据选择',
     'web_common_data_explore_002': '数据探索',

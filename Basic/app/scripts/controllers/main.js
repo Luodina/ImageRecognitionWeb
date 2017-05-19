@@ -5,27 +5,14 @@
  */
 
 angular.module('basic')
-  .controller('MainCtrl',['$scope', '$location', '$rootScope', 'hotkeys', function ($scope, $location, $rootScope, hotkeys) {
-    if($rootScope.getUsername()){
-      if($rootScope.isAdmin()) {
-        $location.path("/dateExpore");
-      }else{
-        $location.path("/dashboard");
-      }
+  .controller('MainCtrl',['$scope', '$state','$filter','$location', '$rootScope', 'hotkeys', function ($scope,$state,$filter, $location, $rootScope, hotkeys) {
+    
+    $scope.username = $filter('translate')('web_common_010');
+    $scope.password = $filter('translate')('web_common_011');
+    $scope.signin = $filter('translate')('web_common_012');
+
+    $scope.login = function () {
+      $state.go('dataExplore');
     }
-
-    $scope.login = function(){
-      if($scope.user.pass !== undefined) {
-        $rootScope.login($scope.user.name, $scope.user.pass);
-      }
-    };
-
-    hotkeys.bindTo($scope).add({
-      combo: 'enter',
-      allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
-      callback: function() {
-        $scope.login();
-      }
-    });
 
   }]);

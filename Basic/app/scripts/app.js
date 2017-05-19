@@ -33,18 +33,42 @@ angular
     'angularMoment',
     'chart.js',
     'ui.router'
+    // 'basic.jupyter'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
-    // $urlRouterProvider.when('/explore', '/explore/data');
+    $urlRouterProvider.otherwise('/');
     var states = [
-      { name: 'home',           url: '/',  templateUrl: "views/dashboard.html"                        },
-      { name: 'dataExplore',    url: '/explore',     templateUrl: 'views/dataExplore/dataExplore.html',  controller: 'DataExploreCtrl'},
-      { name: 'data',           url: '/data',        templateUrl: 'views/dataExplore/data.html',         abstract: true },
-      { name: 'data.report',    url: '/report',      templateUrl: 'views/dataReport.html',               controller: 'DataReportCtrl'},
-      { name: 'data.source',    url: '/source',      templateUrl: 'views/dataSource.html',               controller: 'DataSourceCtrl' },
-      { name: 'data.processing',url: '/processing',  templateUrl: 'views/dataProcessing.html',           controller: 'DataProcessingCtrl' },  
-      { name: 'taskSchedule',   url: '/schedule',    templateUrl: 'views/dashboard.html',                controller: 'DashboardCtrl'},
-      { name: 'settings',       url: '/settings',    templateUrl: 'views/settings.html',                 controller: 'SettingsCtrl'}
+      {name: 'main', url: '/', templateUrl: "views/main.html", controller: 'MainCtrl'},
+      // {name: 'console', url: '/eee', templateUrl: "views/console.html", controller: 'consoleCtrl',abstract:true},
+
+      {name: 'home', url: '/home', templateUrl: "views/dashboard.html"},
+      {
+        name: 'dataExplore',
+        url: '/explore',
+        templateUrl: 'views/dataExplore/dataExplore.html',
+        controller: 'DataExploreCtrl'
+      },
+      {name: 'data', url: '/data', templateUrl: 'views/dataExplore/data.html', controller: 'DataCtrl', abstract: true},
+      {
+        name: 'data.report',
+        url: '/report',
+        templateUrl: 'views/dataExplore/dataReport.html',
+        controller: 'DataReportCtrl'
+      },
+      {
+        name: 'data.source',
+        url: '/source',
+        templateUrl: 'views/dataExplore/dataSource.html',
+        controller: 'DataSourceCtrl'
+      },
+      {
+        name: 'data.processing',
+        url: '/processing',
+        templateUrl: 'views/dataExplore/dataProcessing.html',
+        controller: 'DataProcessingCtrl'
+      },
+      {name: 'console.taskSchedule', url: '/schedule', templateUrl: 'views/dashboard.html', controller: 'DashboardCtrl'},
+      {name: 'console.settings', url: '/settings', templateUrl: 'views/settings.html', controller: 'SettingsCtrl'}
     ];
     // Loop over the state definitions and register them
     states.forEach(function (state) {
@@ -52,6 +76,7 @@ angular
     });
   })
   .config(['$translateProvider', '$windowProvider', function ($translateProvider, $windowProvider) {
+
     let window = $windowProvider.$get();
     let lang = window.navigator.userLanguage || window.navigator.language;
     console.log("lang", lang);
@@ -59,5 +84,11 @@ angular
       lang = lang.substr(0, 2);
       $translateProvider.preferredLanguage(lang);
     }
-  }]);
+  }])
+
+
+
+
+
+
 
