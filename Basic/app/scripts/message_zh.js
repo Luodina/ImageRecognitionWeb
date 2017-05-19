@@ -27,6 +27,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_explore_010': '步骤二  变量空值处理',
     'web_common_data_explore_011': '步骤三  变量正则化',
     'web_common_data_explore_012': '应用',
+    'web_common_explore_013':' File uploaded'
 
 
   });

@@ -23,7 +23,9 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 
 //rest api
-app.use('/api', require('./api/dataSource'));
+app.use('/api/jupyter', require('./api/dataSource'));
+app.use('/api/file', require('./api/file'));
+app.use('/api/report', require('./api/dataReport'));
 
 //
 app.get('*', function(req, res) {

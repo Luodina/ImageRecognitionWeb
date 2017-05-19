@@ -27,6 +27,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_explore_010': 'Step two  Variable null processing',
     'web_common_data_explore_011': 'Step three Variable regularization',
     'web_common_data_explore_012': 'Application',
+    'web_common_explore_013':'File uploaded'
 
 
 
