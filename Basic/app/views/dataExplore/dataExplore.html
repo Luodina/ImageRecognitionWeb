@@ -1,10 +1,67 @@
-<div class="main">
-  <div class="main_header">
-    <div class="main_header_data">{{msg}}</div>
-    <div class="main_btn">
-      <a ui-sref="data.source" style="color: #00b3ee;">{{nameone}}+</a>
+<!--<div class="main">-->
+  <!--<div class="main_header">-->
+    <!--<div class="main_header_data">{{msg}}</div>-->
+    <!--<div class="main_btn">-->
+      <!--<a ui-sref="data.source" style="color: #00b3ee;">{{nameone}}+</a>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+
+<div class="container-fluid">
+  <div class="row">
+    <div>
+      <div style="margin-top: 40px">{{msg}}</div>
+      <div style="float: right;">
+        <input type="text" placeholder="数据搜索">
+      </div>
+    </div>
+    <div style="margin-top: 40px">
+      <uib-tabset class="tab-default" active="grid.active">
+        <uib-tab index="1">
+          <uib-tab-heading>
+            <i class="faa faa-edit"></i>&nbsp;&nbsp;我的数据探索
+          </uib-tab-heading>
+          <!--<div  ng-include="'views/backing_service_detail/applied_instance.html'"></div>-->
+          <div>all of the part ---> all</div>
+        </uib-tab>
+
+        <uib-tab index="2">
+          <uib-tab-heading>
+            <i class="faa faa-edit"></i>&nbsp;&nbsp;{{'web_common_008' | translate}}<a ui-sref="createFile"> + </a>
+          </uib-tab-heading>
+          <div>all.one</div>
+        </uib-tab>
+        <uib-tab index="3">
+          <uib-tab-heading>
+            <i class="faa faa-edit"></i>&nbsp;&nbsp;文本预处理
+          </uib-tab-heading>
+          <div>all.two</div>
+        </uib-tab>
+        <uib-tab index="4">
+          <uib-tab-heading>
+            <i class="faa faa-edit"></i>&nbsp;&nbsp;分类预测
+          </uib-tab-heading>
+          <div>all.three</div>
+        </uib-tab>
+        <uib-tab index="5">
+          <uib-tab-heading>
+            <i class="faa faa-edit"></i>&nbsp;&nbsp;数据智能分组
+          </uib-tab-heading>
+          <div>all.four</div>
+        </uib-tab>
+        <uib-tab index="6">
+          <uib-tab-heading>
+            <i class="faa faa-edit"></i>&nbsp;&nbsp;目标检测
+          </uib-tab-heading>
+          <div>all.five</div>
+        </uib-tab>
+        <uib-tab index="7">
+          <uib-tab-heading>
+            <i class="faa faa-edit"></i>&nbsp;&nbsp;专家模式
+          </uib-tab-heading>
+          <div>all.six</div>
+        </uib-tab>
+      </uib-tabset>
     </div>
   </div>
 </div>
-
-<!--{{test}}-->

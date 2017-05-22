@@ -1,13 +1,4 @@
 'use strict';
-
-/**
- * @ngdoc overview
- * @name basicApp
- * @description
- * # basicApp
- *
- * Main module of the application.
- */
 angular
   .module('basic', [
     'ngAnimate',
@@ -38,7 +29,6 @@ angular
     $urlRouterProvider.otherwise('/');
     var states = [
       {name: 'main', url: '/', templateUrl: "views/main.html", controller: 'MainCtrl'},
-      // {name: 'console', url: '/eee', templateUrl: "views/console.html", controller: 'consoleCtrl',abstract:true},
 
       {name: 'home', url: '/home', templateUrl: "views/dashboard.html"},
       {
@@ -94,7 +84,7 @@ angular
       positionY: 'bottom'
     });
     usSpinnerConfigProvider.setDefaults({color: 'orange', radius: 20});
-    
+
     ChartJsProvider.setOptions({
       chartColors: ['#4da9ff','#79d2a6','#ff9900','#ff704d','#669999','#4d0000']
     });
