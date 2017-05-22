@@ -1,5 +1,5 @@
 
-<div class="row chooseData" >
+<div  ng-controller="DataSourceCtrl" class="row chooseData" >
   <p>{{ datamation | translate}}</p>
   <div>
     <input type="radio" ng-model="bigData" value="iptOne">&nbsp;&nbsp;{{defaultData | translate}}
@@ -7,16 +7,17 @@
   <br/>
   <div>
     <input type="radio" ng-model="bigData" value="iptTwo">&nbsp;&nbsp;{{datafileimport | translate}}
-    <!--<input type="text" id="filePath"><br>-->
-    <!--<button id="profile">导入数据并探索</button>-->
-    <input type="text" id="profile" ng-value="testFilePath">
-    <input type="file" id="profile_file" ng-model="testFile" style="display: none;"
-           onchange="angular.element(this).scope().fileChange(this)">
-    <span class="btn" ng-click="importFlie()">{{fileimport | translate}}</span>
-    <span class="btn" ng-click="preview()">{{datapreview | translate}}</span>
+  </div>
+  <div>
+    <input ngf-select type="file" ng-model="file">
+  </div>
+  <br/>
+  <div>
+    <button type="button" ng-click="upload()">UPLOAD</button>
+    <button type="button" ng-click="run()">PREVIEW</button>
   </div>
   <div style="margin:30px 0;">
-    <textarea class="content" style="width: 600px;height: 300px" rows="5"></textarea>
+    <textarea class="content" style="width: 600px;height: 300px" rows="5">{{result}}</textarea>
   </div>
-  <div class="btnNext" ng-click="nextPage()">{{next | translate}}</div>
+  <div class="btnNext"><a ui-sref="data.report">{{next | translate}}</a></div>
 </div>

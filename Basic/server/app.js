@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 
 //rest api
-app.use('/api', require('./api/dataSource'));
+app.use('/api/jupyter', require('./api/dataSource'));
 
 //
 app.get('*', function(req, res) {

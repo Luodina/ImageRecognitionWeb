@@ -14,6 +14,12 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_007': 'My data explore',
     'web_common_008': 'Structural data',
     'web_common_009': 'Next',
+    'web_common_010': 'User name',
+    'web_common_011': 'Password',
+    'web_common_012': 'Sign in',
+    'web_common_013': 'Sign out',
+    'web_common_014': 'Username or password is wrong, please re-enter',
+
 
     'web_common_data_explore_001': 'Data Source',
     'web_common_data_explore_002': 'Data Report',
@@ -27,6 +33,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_explore_010': 'Step two  Variable null processing',
     'web_common_data_explore_011': 'Step three Variable regularization',
     'web_common_data_explore_012': 'Application',
+    'web_common_explore_013':'File uploaded'
 
 
 
