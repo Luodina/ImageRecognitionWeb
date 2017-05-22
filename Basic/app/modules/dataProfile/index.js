@@ -381,8 +381,6 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
       }
       standardCols = standardCols + "}";
 
-
-
       var outputFilePath = "E:/newDataFile.csv";
       var code = sourceCodes[3];
       code = code.replace("deleteCols=",deleteCols);
