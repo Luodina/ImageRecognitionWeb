@@ -33,7 +33,6 @@ angular
     'angularMoment',
     'chart.js',
     'ui.router'
-    // 'basic.jupyter'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
@@ -76,7 +75,6 @@ angular
     });
   })
   .config(['$translateProvider', '$windowProvider', function ($translateProvider, $windowProvider) {
-
     let window = $windowProvider.$get();
     let lang = window.navigator.userLanguage || window.navigator.language;
     console.log("lang", lang);
@@ -85,10 +83,20 @@ angular
       $translateProvider.preferredLanguage(lang);
     }
   }])
-
-
-
-
-
-
+  .config(['NotificationProvider','usSpinnerConfigProvider', '$httpProvider', 'ChartJsProvider', function (NotificationProvider, usSpinnerConfigProvider, $httpProvider, ChartJsProvider) {
+    NotificationProvider.setOptions({
+      delay: 10000,
+      startTop: 20,
+      startRight: 10,
+      verticalSpacing: 20,
+      horizontalSpacing: 20,
+      positionX: 'right',
+      positionY: 'bottom'
+    });
+    usSpinnerConfigProvider.setDefaults({color: 'orange', radius: 20});
+    
+    ChartJsProvider.setOptions({
+      chartColors: ['#4da9ff','#79d2a6','#ff9900','#ff704d','#669999','#4d0000']
+    });
+  }]);
 

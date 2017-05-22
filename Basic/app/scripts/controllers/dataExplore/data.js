@@ -4,7 +4,8 @@
  */
 'use strict';
 angular.module('basic')
-  .controller('DataCtrl',['$rootScope', '$scope','$http', '$filter',function ($rootScope, $scope, $http, $filter) {
+  .controller('DataCtrl',['$rootScope', '$scope','$http', '$filter','Upload', 'Notification', '$timeout',
+    function ($rootScope, $scope, $http, $filter, Upload, Notification, $timeout) {
     $scope.processing = $filter('translate')('web_common_data_explore_003');
     $scope.source = $filter('translate')('web_common_data_explore_001');
     $scope.report = $filter('translate')('web_common_data_explore_002');
@@ -50,8 +51,6 @@ angular.module('basic')
     $scope.nextPage = function () {
 
     };
-
-
     $scope.pulldownlistone = function () {
       $scope.isShowOne = !$scope.isShowOne;
     };
@@ -61,5 +60,5 @@ angular.module('basic')
     $scope.pulldownlistthree = function () {
       $scope.isShowThree = !$scope.isShowThree;
     }
-
+    $scope.result ="DataCtrl";
 }]);
