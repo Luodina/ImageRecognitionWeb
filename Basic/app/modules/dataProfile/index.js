@@ -3,11 +3,11 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
 
   // The base url of the Jupyter server.
   var BASE_URL = 'http://localhost:8888';
-  var token = '6fa85c1652f199e6ed9199809d62d2ebff31da656088a518';
+  var token = '51d4aa80432f980c4cea818f5a60cc4b8f1d3cdbb4d7510d';
   var ipynbPath = '/dataProfile.ipynb';
 
   //连接到session(如果已经存在该ipynb对应的session,则直接使用;如果没有，则创建一个session)
-  var options = {
+  var options1 = {
     baseUrl: BASE_URL,
     token:token,
     kernelName: 'python',
@@ -15,7 +15,7 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
   };
   var kernel;
 
-  services.Session.listRunning(options).then(sessionModels => {
+  services.Session.listRunning(options1).then(sessionModels => {
     var sessionNums = sessionModels.length;
     var existSession = false;
     for(var i=0;i<sessionNums;i++){
@@ -37,32 +37,38 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
       }
     }
     if(!existSession){//没有现有的session，新创建session
-      services.Session.startNew(options).then(session => {
+      services.Session.startNew(options1).then(session => {
         kernel=session.kernel;
       });
     }
   });
 
   //获取ipynb文件中的source代码
-  var options = {
+  var options2 = {
       baseUrl: BASE_URL,
       token:token
   };
 
   var sourceCodes=new Array();
 
-  var contents = new services.ContentsManager(options);
+  var contents = new services.ContentsManager(options2);
+
+  var newModel;
+  var newFilePath;
 
   contents.copy(ipynbPath, '/dataProfileFolder').then((model) => {
+      newModel = model;
       var filePath = model.path;
-      //var newFilePath = filePath.replace(".ipynb","1.ipynb");
+      newFilePath = filePath;
+      //var newFilePath = filePath.replace(".ipynb","new.ipynb");
+      //contents.delete(newFilePath);
       //contents.rename(filePath,newFilePath);
 
      //contents.get(newFilePath).then(
      contents.get(filePath).then(
           (model) => {
             var cellsLength = model.content.cells.length;
-            for(i=0;i<cellsLength;i++){
+            for(var i=0;i<cellsLength;i++){
               sourceCodes[i] =  model.content.cells[i].source;
             }
             /*console.log('ipynb files----------------:', model.content);
@@ -86,6 +92,7 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
 
     var code = sourceCodes[0];
     code = code.replace("filePath=",filePath);
+    newmodel.content.cells[0].source=code;
 
     var future = kernel.requestExecute({ code: code });
 
@@ -136,12 +143,14 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
       var code = sourceCodes[1];
       code = code.replace("filePath=",filePath);
       code = code.replace("htmlFilePath==",htmlFilePath);
+      newmodel.content.cells[1].source=code;
       var future = kernel.requestExecute({ code: code });
 
       future.onIOPub = function (msg) {
         /*console.log('Got IOPub:', msg);
         console.log(msg.header.msg_type)
         console.log(JSON.stringify(msg.content))*/
+
       };
 
       future.onReply = function (reply) {
@@ -163,9 +172,9 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
         var future = kernel.requestExecute({ code: code });
 
         future.onIOPub = function (msg) {
-            *//*console.log('Got IOPub:', msg);
-            console.log(msg.header.msg_type)
-            console.log(JSON.stringify(msg.content))*//*
+            console.log('Got IOPub:', msg);
+            console.log(msg.header.msg_type);
+            console.log(JSON.stringify(msg.content));
 
             if(msg.header.msg_type=='stream'){
               var suggestions = JSON.parse(JSON.parse(JSON.stringify(msg.content)).text);
@@ -245,6 +254,8 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
 
       var code = sourceCodes[3];
       code = code.replace("deleteCols=",deleteCols);
+      newmodel.content.cells[3].source=code;
+
       var future = kernel.requestExecute({ code: code });
 
       future.onIOPub = function (msg) {
@@ -279,6 +290,7 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
 
         var code = sourceCodes[4];
         code = code.replace("imputerCols=",imputerCols);
+        newmodel.content.cells[4].source=code;
         var future = kernel.requestExecute({ code: code });
 
         future.onIOPub = function (msg) {
@@ -313,6 +325,7 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
 
       var code = sourceCodes[5];
       code = code.replace("standardCols=",standardCols);
+      newmodel.content.cells[5].source=code;
       var future = kernel.requestExecute({ code: code });
 
       future.onIOPub = function (msg) {
@@ -330,9 +343,52 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
   });
 
   $('#saveData').click(function () {
+      var deleteCols = "";
+      var unCheckedBoxs = $("input[name='corrValues']").not("input:checked");
+      for(var i=0;i<unCheckedBoxs.length;i++){
+        if(i!=0){
+          deleteCols = deleteCols + ",";
+        }
+        deleteCols = deleteCols + unCheckedBoxs[i].value;
+      }
+
+      //imputerCols需要做空值处理的列，json格式，例如：{'petal width (cm)':'median','petal length (cm)':'mean','sepal width (cm)':'most_frequent','sepal length (cm)':'most_frequent'}
+      var imputerCols = "{";
+      var imputerSelectItems = $("select[name='imputerOpers']");
+      for(var i=0;i<imputerSelectItems.length;i++){
+          var varName = imputerSelectItems[i].id;
+          var option = imputerSelectItems[i].value;
+          if(option!='none'){
+            if(imputerCols!='{'){
+              imputerCols = imputerCols + ",";
+            }
+            imputerCols = imputerCols + "'" +varName+ "'" + ":" + "'" +option+ "'";
+          }
+      }
+      imputerCols = imputerCols + "}";
+
+      //standardCols需要做正则化处理的列，json格式，例如：{'petal width (cm)':'Standarded','petal length (cm)':'MinMax','sepal width (cm)':'MaxAbs','sepal length (cm)':'Robust'}
+      var standardCols = "{";
+      var standardSelectItems = $("select[name='scalarOpers']");
+      for(var i=0;i<standardSelectItems.length;i++){
+          var varName = standardSelectItems[i].id;
+          var option = standardSelectItems[i].value;
+          if(option!='none'){
+            if(standardCols!='{'){
+              standardCols = standardCols + ",";
+            }
+            standardCols = standardCols + "'" +varName+ "'" + ":" + "'" +option+ "'";
+          }
+      }
+      standardCols = standardCols + "}";
+
       var outputFilePath = "E:/newDataFile.csv";
-      var code = sourceCodes[6];
+      var code = sourceCodes[3];
+      code = code.replace("deleteCols=",deleteCols);
+      code = code.replace("imputerCols=",imputerCols);
+      code = code.replace("standardCols=",standardCols);
       code = code.replace("outputFilePath=",outputFilePath);
+      newmodel.content.cells[3].source=code;
       var future = kernel.requestExecute({ code: code });
 
       future.onIOPub = function (msg) {
@@ -345,6 +401,7 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
       };
 
       future.onDone = function () {
+        contents.save(newFilePath,newModel);
         alert("保存成功");
       };
   });
