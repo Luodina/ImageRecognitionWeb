@@ -150,6 +150,7 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
         /*console.log('Got IOPub:', msg);
         console.log(msg.header.msg_type)
         console.log(JSON.stringify(msg.content))*/
+
       };
 
       future.onReply = function (reply) {
