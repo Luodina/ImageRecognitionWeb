@@ -7,4 +7,8 @@ angular.module('basic')
     $scope.msg = $filter('translate')('web_common_006');
     $scope.nameall =  $filter('translate')('web_common_007');
     $scope.nameone =  $filter('translate')('web_common_008');
+    $scope.listofProject = [
+      {header:"Project1", content:"Hey", footer:'End'},
+      {header:"Project2", content:"Hey", footer:'End'}
+    ]
   }]);

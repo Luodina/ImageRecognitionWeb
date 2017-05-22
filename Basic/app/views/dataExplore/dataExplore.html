@@ -1,30 +1,25 @@
-<!--<div class="main">-->
-  <!--<div class="main_header">-->
-    <!--<div class="main_header_data">{{msg}}</div>-->
-    <!--<div class="main_btn">-->
-      <!--<a ui-sref="data.source" style="color: #00b3ee;">{{nameone}}+</a>-->
-    <!--</div>-->
-  <!--</div>-->
-<!--</div>-->
-
 <div class="container-fluid">
   <div class="row">
-    <div>
-      <div style="margin-top: 40px">{{msg}}</div>
-      <div style="float: right;">
-        <input type="text" placeholder="数据搜索">
+    <div class="dataExplore-header">
+      <div class="dataExplore-header-left">{{msg}}</div>
+      <div class="dataExplore-header-right">
+        <img src="./images/search.png" alt="搜索">
+        <input type="text" placeholder="数据应用搜索">
       </div>
     </div>
-    <div style="margin-top: 40px">
+    <div class="dataExplore-container">
       <uib-tabset class="tab-default" active="grid.active">
         <uib-tab index="1">
           <uib-tab-heading>
             <i class="faa faa-edit"></i>&nbsp;&nbsp;我的数据探索
           </uib-tab-heading>
           <!--<div  ng-include="'views/backing_service_detail/applied_instance.html'"></div>-->
-          <div>all of the part ---> all</div>
+            <div class="dataExplore-container-main" ng-repeat="item in listofProject">
+              <div class="main_header_data">{{item.header}}</div>
+              <div class="main_container_data">{{item.content}}</div>
+              <div class="main_footer_data">{{item.footer}}</div>
+            </div>
         </uib-tab>
-
         <uib-tab index="2">
           <uib-tab-heading>
             <i class="faa faa-edit"></i>&nbsp;&nbsp;{{'web_common_008' | translate}}<a ui-sref="createFile"> + </a>
