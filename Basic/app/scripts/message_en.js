@@ -33,6 +33,14 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_explore_010': 'Step two  Variable null processing',
     'web_common_data_explore_011': 'Step three Variable regularization',
     'web_common_data_explore_012': 'Application',
+
+    'web_common_data_explore_013': 'Data application search',
+    'web_common_data_explore_014': 'Text preprocessing',
+    'web_common_data_explore_015': 'Classification prediction',
+    'web_common_data_explore_016': 'Data intelligence grouping',
+    'web_common_data_explore_017': 'Target Detection',
+    'web_common_data_explore_018': 'Expert model',
+
     'web_common_explore_013':'File uploaded'
 
 
