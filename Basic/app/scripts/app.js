@@ -23,7 +23,8 @@ angular
     'ui.bootstrap.datetimepicker',
     'angularMoment',
     'chart.js',
-    'ui.router'
+    'ui.router',
+    'ui.router.state.events',
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
@@ -87,6 +88,21 @@ angular
 
     ChartJsProvider.setOptions({
       chartColors: ['#4da9ff','#79d2a6','#ff9900','#ff704d','#669999','#4d0000']
-    });
-  }]);
+    })
+
+  }])
+  .run(['$rootScope', '$location', '$state', function ($rootScope, $location, $state) {
+//监听路由事件
+
+  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+
+    console.log(toState.name);
+    if(toState && toState.name === 'main'){
+      $('#navbar-nav').css('visibility','hidden');
+    }else{
+      $('#navbar-nav').css('visibility','visible');
+    }
+  })
+
+}])
 
