@@ -24,7 +24,7 @@ angular
     'angularMoment',
     'chart.js',
     'ui.router',
-  'ui.router.state.events'
+    'ui.router.state.events'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
