@@ -1,0 +1,108 @@
+.dataExplore-header {
+  margin-top: 40px;
+}
+
+.dataExplore-header .dataExplore-header-left {
+  font-size: 20px;
+  color: #333;
+  width: 200px;
+}
+
+.dataExplore-header .dataExplore-header-right {
+  float: right;
+  font-size: 14px;
+  height: 28px;
+  width: 220px;
+  border: solid 1px #666666;
+  border-radius: 10px;
+}
+
+.dataExplore-header .dataExplore-header-right img {
+  display: inline-block;
+  border: none;
+  margin-left: 2px;
+  width: 15px;
+  height: 15px;
+}
+
+.dataExplore-header .dataExplore-header-right input {
+  display: inline-block;
+  font-size: 12px;
+  outline: none;
+  border-style: none;
+  width: 150px;
+}
+
+.dataExplore-container {
+  margin-top: 40px;
+}
+
+.dataExplore-container .text {
+  border: none;
+}
+
+.dataExplore-container .text:active {
+  border-bottom: solid 2px #4874ff;
+}
+
+.dataExplore-container .icon {
+  margin: 0 10px;
+  display: inline-block;
+  font-size: 12px;
+  color: #999;
+  border-radius: 10px;
+  width: 20px;
+  height: 16px;
+  line-height: 16px;
+  text-align: center;
+  background: #f0f0f0;
+}
+
+.dataExplore-container .icon:hover {
+  background: #dae3ff;
+  color: #4874ff;
+}
+
+.dataExplore-container .dataExplore-container-main {
+  float: left;
+  margin-right: 30px;
+  margin-top: 24px;
+  width: 335px;
+  height: 300px;
+  border: solid 1px #eaeaea;
+  border-radius: 2px;
+}
+
+.dataExplore-container .dataExplore-container-main .main_header_data {
+  font-size: 16px;
+  color: #666;
+  height: 70px;
+  line-height: 70px;
+  padding-left: 20px;
+  background: #f7f7f7;
+}
+
+.dataExplore-container .dataExplore-container-main .main_container_data {
+  height: 169px;
+  padding-left: 20px;
+  padding-top: 10px;
+  font-size: 14px;
+  color: #999;
+}
+
+.dataExplore-container .dataExplore-container-main .main_footer_data {
+  height: 60px;
+  line-height: 60px;
+  padding-left: 20px;
+  font-size: 12px;
+  color: #4874ff;
+  border-top: solid 1px #eaeaea;
+}
+
+.dataExplore-container .dataExplore-container-main .main_footer_data:hover {
+  color: #666;
+}
+
+.dataExplore-container .dataExplore-container-main:hover {
+  border-color: #4874ff;
+}

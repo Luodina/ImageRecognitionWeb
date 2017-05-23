@@ -21,6 +21,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_014': '用户名或密码错误,请重新输入',
 
 
+
     'web_common_data_explore_001': '数据选择',
     'web_common_data_explore_002': '数据探索',
     'web_common_data_explore_003': '数据预处理建议',
@@ -33,7 +34,19 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_explore_010': '步骤二  变量空值处理',
     'web_common_data_explore_011': '步骤三  变量正则化',
     'web_common_data_explore_012': '应用',
+
+    'web_common_data_explore_013': '数据应用搜索',
+    'web_common_data_explore_014': '文本预处理',
+    'web_common_data_explore_015': '分类预测',
+    'web_common_data_explore_016': '数据智能分组',
+    'web_common_data_explore_017': '目标检测',
+    'web_common_data_explore_018': '专家模式',
+
+
+
     'web_common_explore_013':' File uploaded'
+
+
 
 
   });

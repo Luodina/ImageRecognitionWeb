@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="bower_components/mermaid/dist/mermaid.dark.css"/>
   <link rel="stylesheet" href="bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css"/>
+  <link rel="stylesheet" href="styles/dataExplore/dataExplore.css"/>
   <!--<link rel="stylesheet" href="styles/all.css">-->
   <!--<link rel="stylesheet" href="styles/date.css">-->
 
@@ -38,20 +39,20 @@
 
 <!-- Add your site or application content here -->
 <div class="header">
-  <span us-spinner spinner-key="spinner"></span>
+  <!--<span us-spinner spinner-key="spinner"></span>-->
   <div class="navbar navbar-default navbar-au">
     <div class="container-fluid">
       <div class="col-md-offset-1 col-md-10">
         <div class="navbar-header">
           <a href="#/" class="navbar-brand logo">
-            <img src="/images/yeoman.png" style="height: 32px;" alt="basic" title="basic">
+            <!--<img src="/images/yeoman.png" style="height: 32px;" alt="basic" title="basic">-->
             <span class="brand">{{'web_common_000' | translate}}</span>
           </a>
         </div>
-        <div class="collapse navbar-collapse" id="js-navbar-collapse">
-          <div class="nav navbar-nav navbar-left nav-top" style="padding-top: 16px;">
-            <a ui-sref="home" >{{'web_common_001' | translate}}</a>
-            <a ui-sref="dataExplore" >{{'web_common_002' | translate}}</a>
+        <div class="collapse navbar-collapse navbar-head" id="js-navbar-collapse">
+          <div class="nav navbar-nav navbar-left nav-top" id="navbar-nav">
+            <a ui-sref="home">{{'web_common_001' | translate}}</a>
+            <a ui-sref="dataExplore">{{'web_common_002' | translate}}</a>
             <a ui-sref="taskSchedule" ui-sref-active="active">{{'web_common_003' | translate}}</a>
             <a ui-sref="knowledgeMap" ui-sref-active="active">{{'web_common_004' | translate}}</a>
             <a ui-sref="settings" ui-sref-active="active">{{'web_common_005' | translate}}</a>
@@ -94,6 +95,7 @@
 <script src="bower_components/angular-spinner/angular-spinner.js"></script>
 <script src="bower_components/angular-ui-select/dist/select.js"></script>
 <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="bower_components/angular-ui-router/release/stateEvents.js"></script>
 <script src="bower_components/angular-toggle-switch/angular-toggle-switch.js"></script>
 <script src="bower_components/angular-hotkeys/build/hotkeys.js"></script>
 <script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js"></script>
@@ -106,7 +108,7 @@
 <!-- endbower -->
 <!-- endbuild -->
 
- <!--build:js(app) scripts/scripts.js -->
+<!--build:js(app) scripts/scripts.js -->
 <!-- 3rd party packages should lay before scripts in projects-->
 <script src="bower_components/angular-drag-and-drop-lists/angular-drag-and-drop-lists.js"></script>
 <script src="bower_components/mermaid/dist/mermaid.js"></script>
