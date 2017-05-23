@@ -16,7 +16,9 @@
           <!--<div  ng-include="'views/backing_service_detail/applied_instance.html'"></div>-->
             <div class="dataExplore-container-main" ng-repeat="item in listofProject">
               <div class="main_header_data">{{item.header}}</div>
-              <div class="main_container_data">{{item.content}}</div>
+              <div class="main_container_data">
+                <div class="contentone" ng-repeat="(key, contentitem) in item.content">{{key}} : {{contentitem}}</div>
+              </div>
               <div class="main_footer_data">{{item.footer}}</div>
             </div>
         </uib-tab>
@@ -24,7 +26,11 @@
           <uib-tab-heading>
             <i class="faa faa-edit"></i>&nbsp;&nbsp;{{'web_common_008' | translate}}<a ui-sref="data.source"> + </a>
           </uib-tab-heading>
-          <div>all.one</div>
+          <div class="dataExplore-container-main" ng-repeat="item in listofProjectTwo">
+            <div class="main_header_data">{{item.header}}</div>
+            <div class="main_container_data">{{item.content}}</div>
+            <div class="main_footer_data">{{item.footer}}</div>
+          </div>
         </uib-tab>
         <uib-tab index="3">
           <uib-tab-heading>
