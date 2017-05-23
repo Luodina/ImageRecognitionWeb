@@ -57,9 +57,10 @@
     float: left;
     margin-right: 30px;
     margin-top: 24px;
-    width:300px;
-    height: 330px;
-    border:solid 1px #c6c6c6;
+    width:335px;
+    height: 300px;
+    border:solid 1px #eaeaea;
+    border-radius: 2px;
     .main_header_data{
       font-size: 16px;
       color: #666;
@@ -69,7 +70,7 @@
       background: #f7f7f7;
     }
     .main_container_data{
-      height: 190px;
+      height: 169px;
       padding-left: 20px;
       padding-top: 10px;
       font-size: 14px;
@@ -81,10 +82,13 @@
       padding-left: 20px;
       font-size: 12px;
       color: #4874ff;
-      border-top: solid 1px #c6c6c6;
+      border-top: solid 1px #eaeaea;
     }
     .main_footer_data:hover{
       color: #666;
     }
+  }
+  .dataExplore-container-main:hover{
+    border-color: #4874ff;
   }
 }
