@@ -5,6 +5,7 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
   var BASE_URL = 'http://localhost:8888';
   var token = '51d4aa80432f980c4cea818f5a60cc4b8f1d3cdbb4d7510d';
   var ipynbPath = '/dataProfile.ipynb';
+  //var ipynbPath = '/dataProfile-Copy1.ipynb';
 
   //连接到session(如果已经存在该ipynb对应的session,则直接使用;如果没有，则创建一个session)
   var options1 = {
@@ -53,35 +54,21 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
 
   var contents = new services.ContentsManager(options2);
 
-  var newModel;
-  var newFilePath;
+  var notebookModel;
+  var notebookFilePath;
 
   contents.copy(ipynbPath, '/dataProfileFolder').then((model) => {
-      newModel = model;
-      var filePath = model.path;
-      newFilePath = filePath;
-      //var newFilePath = filePath.replace(".ipynb","new.ipynb");
-      //contents.delete(newFilePath);
-      //contents.rename(filePath,newFilePath);
-
-     //contents.get(newFilePath).then(
-     contents.get(filePath).then(
-          (model) => {
-            var cellsLength = model.content.cells.length;
-            for(var i=0;i<cellsLength;i++){
-              sourceCodes[i] =  model.content.cells[i].source;
+       notebookModel = model;
+       var filePath = model.path;
+       notebookFilePath = filePath;
+       contents.get(filePath).then(
+            (model1) => {
+              var cellsLength = model1.content.cells.length;
+              for(var i=0;i<cellsLength;i++){
+                sourceCodes[i] =  model1.content.cells[i].source;
+              }
             }
-            /*console.log('ipynb files----------------:', model.content);
-            console.log('ipynb files----------------:', newFilePath);
-            model.content.cells[0].source = 'print(45678)';
-            var myArray=new Array();
-            myArray[0]="45678";
-            model.content.cells[0].outputs = myArray;
-            contents.save(newFilePath,model);*/
-          }
-     );
-
-
+       );
   });
 
   $('#dataPreview').click(function () {
@@ -92,13 +79,16 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
 
     var code = sourceCodes[0];
     code = code.replace("filePath=",filePath);
-    newmodel.content.cells[0].source=code;
+    notebookModel.content.cells[0].source=code;
 
     var future = kernel.requestExecute({ code: code });
 
     future.onIOPub = function (msg) {
       if(msg.header.msg_type=='stream'){
         var previewDatas = JSON.parse(JSON.parse(JSON.stringify(msg.content)).text);
+
+        notebookModel.content.cells[0].metadata.collapsed="false";
+        notebookModel.content.cells[0].outputs=[{"name": "stdout","output_type": "stream","text":previewDatas}];
 
         //添加标题
         var firstLineData = previewDatas[0];
@@ -143,7 +133,7 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
       var code = sourceCodes[1];
       code = code.replace("filePath=",filePath);
       code = code.replace("htmlFilePath==",htmlFilePath);
-      newmodel.content.cells[1].source=code;
+      notebookModel.content.cells[1].source=code;
       var future = kernel.requestExecute({ code: code });
 
       future.onIOPub = function (msg) {
@@ -178,6 +168,9 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
 
             if(msg.header.msg_type=='stream'){
               var suggestions = JSON.parse(JSON.parse(JSON.stringify(msg.content)).text);
+
+              notebookModel.content.cells[2].metadata.collapsed="false";
+              notebookModel.content.cells[2].outputs=[{"name": "stdout","output_type": "stream","text":suggestions}];
 
               //相关性
               var varCorrSuggestions = suggestions.highCorr;
@@ -242,107 +235,8 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
         };
   });
 
-  $('#highCorrProcess').click(function () {
-      var deleteCols = "";
-      var unCheckedBoxs = $("input[name='corrValues']").not("input:checked");
-      for(var i=0;i<unCheckedBoxs.length;i++){
-        if(i!=0){
-          deleteCols = deleteCols + ",";
-        }
-        deleteCols = deleteCols + unCheckedBoxs[i].value;
-      }
-
-      var code = sourceCodes[3];
-      code = code.replace("deleteCols=",deleteCols);
-      newmodel.content.cells[3].source=code;
-
-      var future = kernel.requestExecute({ code: code });
-
-      future.onIOPub = function (msg) {
-        /*console.log('Got IOPub:', msg);
-        console.log(msg.header.msg_type)
-        console.log(JSON.stringify(msg.content))*/
-      };
-
-      future.onReply = function (reply) {
-      };
-
-      future.onDone = function () {
-         alert("成功");
-      };
-  });
-
-  $('#imputerProcess').click(function () {
-        //imputerCols需要做空值处理的列，json格式，例如：{'petal width (cm)':'median','petal length (cm)':'mean','sepal width (cm)':'most_frequent','sepal length (cm)':'most_frequent'}
-        var imputerCols = "{";
-        var selectItems = $("select[name='imputerOpers']");
-        for(var i=0;i<selectItems.length;i++){
-            var varName = selectItems[i].id;
-            var option = selectItems[i].value;
-            if(option!='none'){
-              if(imputerCols!='{'){
-                imputerCols = imputerCols + ",";
-              }
-              imputerCols = imputerCols + "'" +varName+ "'" + ":" + "'" +option+ "'";
-            }
-        }
-        imputerCols = imputerCols + "}";
-
-        var code = sourceCodes[4];
-        code = code.replace("imputerCols=",imputerCols);
-        newmodel.content.cells[4].source=code;
-        var future = kernel.requestExecute({ code: code });
-
-        future.onIOPub = function (msg) {
-          /*console.log('Got IOPub:', msg);
-          console.log(msg.header.msg_type)
-          console.log(JSON.stringify(msg.content))*/
-        };
-
-        future.onReply = function (reply) {
-        };
-
-        future.onDone = function () {
-            alert("成功");
-        };
-  });
-
-  $('#standardProcess').click(function () {
-      //standardCols需要做正则化处理的列，json格式，例如：{'petal width (cm)':'Standarded','petal length (cm)':'MinMax','sepal width (cm)':'MaxAbs','sepal length (cm)':'Robust'}
-      var standardCols = "{";
-      var selectItems = $("select[name='scalarOpers']");
-      for(var i=0;i<selectItems.length;i++){
-          var varName = selectItems[i].id;
-          var option = selectItems[i].value;
-          if(option!='none'){
-            if(standardCols!='{'){
-              standardCols = standardCols + ",";
-            }
-            standardCols = standardCols + "'" +varName+ "'" + ":" + "'" +option+ "'";
-          }
-      }
-      standardCols = standardCols + "}";
-
-      var code = sourceCodes[5];
-      code = code.replace("standardCols=",standardCols);
-      newmodel.content.cells[5].source=code;
-      var future = kernel.requestExecute({ code: code });
-
-      future.onIOPub = function (msg) {
-        /*console.log('Got IOPub:', msg);
-        console.log(msg.header.msg_type);
-        console.log(JSON.stringify(msg.content));*/
-      };
-
-      future.onReply = function (reply) {
-      };
-
-      future.onDone = function () {
-        alert("成功");
-      };
-  });
-
-  $('#saveData').click(function () {
+  $('#apply').click(function () {
+      //deleteCols 要删除的列，如果是多个列，以逗号分割
       var deleteCols = "";
       var unCheckedBoxs = $("input[name='corrValues']").not("input:checked");
       for(var i=0;i<unCheckedBoxs.length;i++){
@@ -382,13 +276,11 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
       }
       standardCols = standardCols + "}";
 
-      var outputFilePath = "E:/newDataFile.csv";
       var code = sourceCodes[3];
       code = code.replace("deleteCols=",deleteCols);
       code = code.replace("imputerCols=",imputerCols);
       code = code.replace("standardCols=",standardCols);
-      code = code.replace("outputFilePath=",outputFilePath);
-      newmodel.content.cells[3].source=code;
+      notebookModel.content.cells[3].source=code;
       var future = kernel.requestExecute({ code: code });
 
       future.onIOPub = function (msg) {
@@ -401,7 +293,27 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
       };
 
       future.onDone = function () {
-        contents.save(newFilePath,newModel);
+      };
+  });
+
+  $('#saveData').click(function () {
+      var outputFilePath = "E:/newDataFile.csv";
+      var code = sourceCodes[4];
+      code = code.replace("outputFilePath=",outputFilePath);
+      notebookModel.content.cells[4].source=code;
+      var future = kernel.requestExecute({ code: code });
+
+      future.onIOPub = function (msg) {
+        /*console.log('Got IOPub:', msg);
+        console.log(msg.header.msg_type)
+        console.log(JSON.stringify(msg.content))*/
+      };
+
+      future.onReply = function (reply) {
+      };
+
+      future.onDone = function () {
+        contents.save(notebookFilePath,notebookModel);
         alert("保存成功");
       };
   });
