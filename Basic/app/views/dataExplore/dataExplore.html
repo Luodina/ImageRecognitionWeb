@@ -1,22 +1,7 @@
-<script type="text/ng-template" id="stackedModal.html">
-  <div class="modal-header">
-    <h3 class="modal-title">I'm modal!</h3>
-  </div>
-  <div class="modal-body">
-    <div class="form-group">
-      <label>Project name:</label>
-    </div>
-    <div class="form-group">
-      <!--<button type="button" class="btn btn-primary" ng-click="inputSpark()">Continue</button>-->
-      <a ui-sref="data"> Continue </a>
-    </div>
-  </div>
-</script>
 
-<!--<div class="container-fluid">-->
+<div class="container-fluid">
   <div class="row">
     <div class="dataExplore-header">
-      <button ng-click="aaa()">Continue</button>
       <span class="dataExplore-header-left">{{msg}}</sapn>
       <span class="dataExplore-header-right">
         <img src="./images/search.png" alt="搜索">
@@ -27,7 +12,7 @@
       <uib-tabset class="tab-default" active="grid.active">
         <uib-tab index="1">
           <uib-tab-heading>
-            <i class="text"></i>&nbsp;&nbsp;{{'web_common_007' | translate}}<span class="icon">2</span>
+            <i class="text"></i>&nbsp;&nbsp;{{'web_common_007' | translate}}<span class="icon">{{listofProjectTwoCount}}</span>
           </uib-tab-heading>
           <!--<div  ng-include="'views/backing_service_detail/applied_instance.html'"></div>-->
             <div class="dataExplore-container-main" ng-repeat="item in listofProject">
@@ -40,8 +25,7 @@
         </uib-tab>
         <uib-tab index="2">
           <uib-tab-heading>
-            <!--<i class="faa faa-edit"></i>&nbsp;&nbsp;{{'web_common_008' | translate}}<span class="icon">2</span><a ui-sref="data"> + </a>-->
-            <i class="faa faa-edit"></i>&nbsp;&nbsp;{{'web_common_008' | translate}}<span class="icon" ng-click="aaa()">2</span>
+            <i class="faa faa-edit"></i>&nbsp;&nbsp;{{'web_common_008' | translate}}<span class="icon">2</span><span ng-click="newProject()"> + </>
           </uib-tab-heading>
           <div class="dataExplore-container-main" ng-repeat="item in listofProjectTwo">
             <div class="main_header_data">{{item.header}}</div>
@@ -82,4 +66,4 @@
       </uib-tabset>
     </div>
   </div>
-<!--</div>-->
+</div>
