@@ -19,6 +19,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_012': '登录',
     'web_common_013': '退出',
     'web_common_014': '用户名或密码错误,请重新输入',
+    'web_common_015': '创建',
 
 
 
@@ -41,6 +42,8 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_explore_016': '数据智能分组',
     'web_common_data_explore_017': '目标检测',
     'web_common_data_explore_018': '专家模式',
+    'web_common_data_explore_019': '创建我的数据探索',
+    'web_common_data_explore_020': '开启新的数据探索',
 
 
 

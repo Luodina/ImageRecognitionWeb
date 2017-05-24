@@ -25,7 +25,6 @@ angular
     'chart.js',
     'ui.router',
     'ui.router.state.events'
-    // 'basic.service'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
@@ -113,10 +112,13 @@ angular
         // size: 'size',
         controller: ['$scope','$filter','$uibModalInstance',
           function ($scope,$filter,$uibModalInstance) {
-            $scope.tit = $filter('translate')('web_common_data_explore_002');
+            $scope.tit = $filter('translate')('web_common_data_explore_019');
+            $scope.cont = $filter('translate')('web_common_data_explore_020');
+            $scope.create = $filter('translate')('web_common_015');
 
-            // $scope.tit = '新建名称';
-            $scope.cont = '内容';
+            $scope.cancel = function () {
+              $uibModalInstance.dismiss();
+            };
 
           }]
       }).result;

@@ -19,6 +19,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_012': 'Sign in',
     'web_common_013': 'Sign out',
     'web_common_014': 'Username or password is wrong, please re-enter',
+    'web_common_015': 'Create new',
 
 
     'web_common_data_explore_001': 'Data Source',
@@ -40,6 +41,8 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_explore_016': 'Data intelligence grouping',
     'web_common_data_explore_017': 'Target Detection',
     'web_common_data_explore_018': 'Expert model',
+    'web_common_data_explore_019': 'Create my data to explore',
+    'web_common_data_explore_020': 'Open new data to explore',
 
     'web_common_explore_013':'File uploaded'
 
