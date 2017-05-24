@@ -314,6 +314,18 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
 
       future.onDone = function () {
         contents.save(notebookFilePath,notebookModel);
+
+        //save a record to table 'MODEL_INFO'
+        //MODEL_ID  32 UUID
+        //USER_ID
+        //VIEW_OR_CODE VIEW
+        //VIEW_MENU_ID 01_01_01
+        //MODEL_NAME
+        //NOTEBOOK_PATH notebookFilePath
+        //USER_INPUT_ITEMS json csvFilePath  deleteCols  imputerCols  standardCols
+        //UPDATE_TIME  now
+        //COMMENT
+
         alert("保存成功");
       };
   });
