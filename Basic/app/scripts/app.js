@@ -38,25 +38,25 @@ angular
         templateUrl: 'views/dataExplore/dataExplore.html',
         controller: 'DataExploreCtrl'
       },
-      {name: 'data', url: '/data', templateUrl: 'views/dataExplore/data.html', controller: 'DataCtrl', abstract: true},
-      {
-        name: 'data.report',
-        url: '/report',
-        templateUrl: 'views/dataExplore/dataReport.html',
-        controller: 'DataReportCtrl'
-      },
-      {
-        name: 'data.source',
-        url: '/source',
-        templateUrl: 'views/dataExplore/dataSource.html',
-        controller: 'DataSourceCtrl'
-      },
-      {
-        name: 'data.processing',
-        url: '/processing',
-        templateUrl: 'views/dataExplore/dataProcessing.html',
-        controller: 'DataProcessingCtrl'
-      },
+      {name: 'data', url: '/data', templateUrl: 'views/dataExplore/data.html', controller: 'DataCtrl'},
+      // {
+      //   name: 'data.report',
+      //   url: '/report',
+      //   templateUrl: 'views/dataExplore/dataReport.html',
+      //   controller: 'DataReportCtrl'
+      // },
+      // {
+      //   name: 'data.source',
+      //   url: '/source',
+      //   templateUrl: 'views/dataExplore/dataSource.html',
+      //   controller: 'DataSourceCtrl'
+      // },
+      // {
+      //   name: 'data.processing',
+      //   url: '/processing',
+      //   templateUrl: 'views/dataExplore/dataProcessing.html',
+      //   controller: 'DataProcessingCtrl'
+      // },
       {name: 'console.taskSchedule', url: '/schedule', templateUrl: 'views/dashboard.html', controller: 'DashboardCtrl'},
       {name: 'console.settings', url: '/settings', templateUrl: 'views/settings.html', controller: 'SettingsCtrl'}
     ];

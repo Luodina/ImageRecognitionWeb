@@ -36,5 +36,10 @@ angular.module('basic')
           $scope.result = data.result.content.text;
         });
     };
-  }]);
+  }])
+.directive('source', function() {
+  return {
+    templateUrl: 'views/directive/dataSource.html'
+  };
+});
 
