@@ -1,3 +1,4 @@
+@import "color";
 body{
   padding: 0;
   margin: 0;
@@ -42,4 +43,47 @@ body{
         margin-left: 43%;
       }
     }
+}
+//window modal
+.openTotal{
+  width:600px;
+  //height: 360px;
+  .title{
+    height: 50px;
+    line-height: 50px;
+    padding:0 20px;
+    font-size: 14px;
+    background: #f2f2f2;
+  }
+  .content{
+    //margin-top: 50px;
+    .content-title{
+      height: 120px;
+      line-height: 120px;
+      font-size: 16px;
+      color: #3d63d9;
+    }
+    .content-name{
+      width:217px;
+      height: 30px;
+      border:solid 1px #eaeaea;
+      font-size: 14px;
+      color: #333;
+    }
+    .content-name:hover{
+      border:solid 1px #4847ff;
+    }
+  }
+  .footer{
+    margin-top: 80px;
+    height: 70px;
+    background: #f2f2f2;
+    font-size: 14px;
+    .confirm{
+      padding: 5px 10px;
+    }
+    .cancle{
+      padding: 5px 10px;
+    }
+  }
 }

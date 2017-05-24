@@ -25,6 +25,7 @@ angular
     'chart.js',
     'ui.router',
     'ui.router.state.events'
+    // 'basic.service'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
@@ -104,4 +105,21 @@ angular
     })
 
   }])
+  .service('buildLog', ['$uibModal', function ($uibModal) {
+    this.open = function (tit,cont) {
+      return $uibModal.open({
+        backdrop: 'static',
+        templateUrl: 'views/layer/dataExplore.html',
+        // size: 'size',
+        controller: ['$scope','$filter','$uibModalInstance',
+          function ($scope,$filter,$uibModalInstance) {
+            $scope.tit = $filter('translate')('web_common_data_explore_002');
 
+            // $scope.tit = '新建名称';
+            $scope.cont = '内容';
+
+          }]
+      }).result;
+    };
+
+  }])

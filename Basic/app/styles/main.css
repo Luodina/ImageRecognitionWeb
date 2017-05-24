@@ -52,3 +52,49 @@ body .login h1 {
 body .login p {
   margin-left: 43%;
 }
+
+.openTotal {
+  width: 600px;
+}
+
+.openTotal .title {
+  height: 50px;
+  line-height: 50px;
+  padding: 0 20px;
+  font-size: 14px;
+  background: #f2f2f2;
+}
+
+.openTotal .content .content-title {
+  height: 120px;
+  line-height: 120px;
+  font-size: 16px;
+  color: #3d63d9;
+}
+
+.openTotal .content .content-name {
+  width: 217px;
+  height: 30px;
+  border: solid 1px #eaeaea;
+  font-size: 14px;
+  color: #333;
+}
+
+.openTotal .content .content-name:hover {
+  border: solid 1px #4847ff;
+}
+
+.openTotal .footer {
+  margin-top: 80px;
+  height: 70px;
+  background: #f2f2f2;
+  font-size: 14px;
+}
+
+.openTotal .footer .confirm {
+  padding: 5px 10px;
+}
+
+.openTotal .footer .cancle {
+  padding: 5px 10px;
+}
