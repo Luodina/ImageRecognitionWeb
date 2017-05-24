@@ -2,11 +2,10 @@
   <div class="title">{{tit}}</div>
   <div class="content">
     <div class="content-title">{{cont}}</div>
-    <div class="content-name"></div>
+    <input class="content-name" ng-model='createName'>
   </div>
   <div class="footer">
-    <span class="confirm"  ui-sref="data({name: new})"  ng-click="ok()">确认</span>
-    <span class="cancle" ng-click="cancle()">取消</span>
+    <span class="btn" ui-sref="data({name: createName})"  ng-click="cancel()">{{create}}</span>
   </div>
 </div>
 

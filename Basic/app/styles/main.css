@@ -66,15 +66,20 @@ body .login p {
 }
 
 .openTotal .content .content-title {
+  width: 600px;
   height: 120px;
   line-height: 120px;
+  text-align: center;
   font-size: 16px;
   color: #3d63d9;
 }
 
 .openTotal .content .content-name {
+  display: inline-block;
   width: 217px;
   height: 30px;
+  margin-left: 32%;
+  text-align: center;
   border: solid 1px #eaeaea;
   font-size: 14px;
   color: #333;
@@ -89,12 +94,20 @@ body .login p {
   height: 70px;
   background: #f2f2f2;
   font-size: 14px;
+  color: #ffffff;
 }
 
-.openTotal .footer .confirm {
-  padding: 5px 10px;
+.openTotal .footer .btn {
+  display: inline-block;
+  margin-top: 20px;
+  margin-left: 20px;
+  width: 90px;
+  height: 30px;
+  text-align: center;
+  background: #4847ff;
 }
 
-.openTotal .footer .cancle {
-  padding: 5px 10px;
+.openTotal .footer .btn:hover {
+  background: #3d63d9;
+  color: #ffffff;
 }

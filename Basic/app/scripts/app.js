@@ -25,7 +25,6 @@ angular
     'chart.js',
     'ui.router',
     'ui.router.state.events'
-    // 'basic.service'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
@@ -40,24 +39,6 @@ angular
         controller: 'DataExploreCtrl'
       },
       {name: 'data', url: '/data/{name}', templateUrl: 'views/dataExplore/data.html', controller: 'DataCtrl'},
-      // {
-      //   name: 'data.report',
-      //   url: '/report',
-      //   templateUrl: 'views/dataExplore/dataReport.html',
-      //   controller: 'DataReportCtrl'
-      // },
-      // {
-      //   name: 'data.source',
-      //   url: '/source',
-      //   templateUrl: 'views/dataExplore/dataSource.html',
-      //   controller: 'DataSourceCtrl'
-      // },
-      // {
-      //   name: 'data.processing',
-      //   url: '/processing',
-      //   templateUrl: 'views/dataExplore/dataProcessing.html',
-      //   controller: 'DataProcessingCtrl'
-      // },
       {name: 'console.taskSchedule', url: '/schedule', templateUrl: 'views/dashboard.html', controller: 'DashboardCtrl'},
       {name: 'console.settings', url: '/settings', templateUrl: 'views/settings.html', controller: 'SettingsCtrl'}
     ];
@@ -113,11 +94,13 @@ angular
         // size: 'size',
         controller: ['$scope','$filter','$uibModalInstance',
           function ($scope,$filter,$uibModalInstance) {
-            $scope.tit = $filter('translate')('web_common_data_explore_002');
-
-            // $scope.tit = '新建名称';
-            $scope.cont = '内容';
-            $scope.new = 'new';
+            $scope.tit = $filter('translate')('web_common_data_explore_019');
+            $scope.cont = $filter('translate')('web_common_data_explore_020');
+            $scope.create = $filter('translate')('web_common_015');
+            $scope.createName ='';
+            $scope.cancel = function () {
+              $uibModalInstance.dismiss();
+            };
           }]
       }).result;
     };
