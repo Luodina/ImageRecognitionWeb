@@ -39,7 +39,7 @@ angular
         templateUrl: 'views/dataExplore/dataExplore.html',
         controller: 'DataExploreCtrl'
       },
-      {name: 'data', url: '/data', templateUrl: 'views/dataExplore/data.html', controller: 'DataCtrl'},
+      {name: 'data', url: '/data/{name}', templateUrl: 'views/dataExplore/data.html', controller: 'DataCtrl'},
       // {
       //   name: 'data.report',
       //   url: '/report',
@@ -117,7 +117,7 @@ angular
 
             // $scope.tit = '新建名称';
             $scope.cont = '内容';
-
+            $scope.new = 'new';
           }]
       }).result;
     };
