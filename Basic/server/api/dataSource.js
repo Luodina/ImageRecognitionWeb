@@ -20,9 +20,25 @@ let storage = multer.diskStorage({
   }
 });
 let upload = multer({ storage: storage });
+//
+
+
+router.get('/user', function(req, res){
+  let usertype = req.query.usertype;
+  if(usertype === "admin") {
+    User.findAll({attributes: ['USER_NAME']}).then(function (users) {
+      res.send(users);
+    }, function () {
+      res.status(500).send(trans.databaseError);
+    });
+  }else{
+    res.status(500).send(trans.authError);
+  }
+});
+
 // The base url of the Jupyter server.
 var BASE_URL = 'http://localhost:8888';
-var token = 'e2f072a9b286682f73a90f729333409ac4b42b09044b81e3';
+var token = '250db827661a13d4851e07f133b14ebd6a833ddf97d318fc';
 var ipynbPath = '/dataProfile.ipynb';
 
 //连接到session(如果已经存在该ipynb对应的session,则直接使用;如果没有，则创建一个session)
@@ -88,17 +104,17 @@ var dataFile;
     });
     router.get('/step1', function(req, res){  
         
-        let newpath = "filePath=\""+path.join(__dirname,"../../uploads/dataFile.csv\"");
-        console.log('newpath:', newpath);
-        let fileCode = sourceCodes[0].replace(/filePath=/g, newpath);     
-        console.log('fileCode:', fileCode);
-        let future = kernel.requestExecute({ code: fileCode } );
-            future.onIOPub = (msg) => {
-            if (msg.header.msg_type === "stream"){
-            console.log('msg:', msg);
-            return res.send({result:msg});}
-        }; 
-        // return res.send({result:"Hey!step1"});
+        // let newpath = "filePath=\""+path.join(__dirname,"../../uploads/dataFile.csv\"");
+        // console.log('newpath:', newpath);
+        // let fileCode = sourceCodes[0].replace(/filePath=/g, newpath);     
+        // console.log('fileCode:', fileCode);
+        // let future = kernel.requestExecute({ code: fileCode } );
+        //     future.onIOPub = (msg) => {
+        //     if (msg.header.msg_type === "stream"){
+        //     console.log('msg:', msg);
+        //     return res.send({result:msg});}
+        // }; 
+        return res.send({result:"Hey!step1"});
     });
     router.get('/step2', function(req, res){  
         console.log('sourceCodes[1]', sourceCodes[1]);
