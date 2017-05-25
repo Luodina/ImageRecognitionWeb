@@ -4,8 +4,8 @@
  */
 'use strict';
 angular.module('basic')
-  .controller('DataCtrl',['$rootScope', '$scope','$http', '$filter','Upload', 'Notification', '$timeout',
-    function ($rootScope, $scope, $http, $filter, Upload, Notification, $timeout) {
+  .controller('DataCtrl',['$rootScope', '$scope','$http', '$filter','Upload', 'Notification', '$timeout','$window',
+    function ($rootScope, $scope, $http, $filter, Upload, Notification, $timeout,$window) {
     $scope.processing = $filter('translate')('web_common_data_explore_003');
     $scope.source = $filter('translate')('web_common_data_explore_001');
     $scope.report = $filter('translate')('web_common_data_explore_002');
@@ -19,6 +19,7 @@ angular.module('basic')
     $scope.steptwo = $filter('translate')('web_common_data_explore_010');
     $scope.stepthree = $filter('translate')('web_common_data_explore_011');
     $scope.application = $filter('translate')('web_common_data_explore_012');
+    $scope.headline = $filter('translate')('web_common_data_explore_021');
 
     // $scope.names = {name1:"111"};
     // $scope.tab = "source";
@@ -49,7 +50,7 @@ angular.module('basic')
     };
 
     $scope.nextPage = function () {
-
+      
     };
     $scope.pulldownlistone = function () {
       $scope.isShowOne = !$scope.isShowOne;
@@ -61,4 +62,10 @@ angular.module('basic')
       $scope.isShowThree = !$scope.isShowThree;
     }
     $scope.result ="DataCtrl";
+
+      // $scope.tabs = [
+      //   { title:'Dynamic Title 1', content:'Dynamic content 1' },
+      //   { title:'Dynamic Title 2', content:'Dynamic content 2', disabled: true }
+      // ];
+
 }]);

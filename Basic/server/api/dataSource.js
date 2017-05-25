@@ -21,8 +21,9 @@ let storage = multer.diskStorage({
 });
 let upload = multer({ storage: storage });
 // The base url of the Jupyter server.
+//http://localhost:8888/?token=91de8f757552677d4c91f0fbc4a8d820d20ea40e13960b00
 var BASE_URL = 'http://localhost:8888';
-var token = 'e2f072a9b286682f73a90f729333409ac4b42b09044b81e3';
+var token = '91de8f757552677d4c91f0fbc4a8d820d20ea40e13960b00';
 var ipynbPath = '/dataProfile.ipynb';
 
 //连接到session(如果已经存在该ipynb对应的session,则直接使用;如果没有，则创建一个session)
@@ -80,49 +81,49 @@ var dataFile;
                 sourceCodes[i] =  model.content.cells[i].source;
                 // console.log('sourceCodes[i]', sourceCodes[i]);
             }
-            
-        });   
+
+        });
     });
     router.post('/upload', upload.single('file'), function(req, res){
-        res.status(200).send({fileName: req.file.originalname}); 
+        res.status(200).send({fileName: req.file.originalname});
     });
-    router.get('/step1', function(req, res){  
-        
+    router.get('/step1', function(req, res){
+
         let newpath = "filePath=\""+path.join(__dirname,"../../uploads/dataFile.csv\"");
         console.log('newpath:', newpath);
-        let fileCode = sourceCodes[0].replace(/filePath=/g, newpath);     
+        let fileCode = sourceCodes[0].replace(/filePath=/g, newpath);
         console.log('fileCode:', fileCode);
         let future = kernel.requestExecute({ code: fileCode } );
             future.onIOPub = (msg) => {
             if (msg.header.msg_type === "stream"){
             console.log('msg:', msg);
             return res.send({result:msg});}
-        }; 
+        };
         // return res.send({result:"Hey!step1"});
     });
-    router.get('/step2', function(req, res){  
+    router.get('/step2', function(req, res){
         console.log('sourceCodes[1]', sourceCodes[1]);
         let newpath = "filePath=\""+path.join(__dirname,"../../uploads/dataFile.csv\"");
         let fileCode =sourceCodes[1].replace(/htmlFilePath=/g, "htmlFilePath=\""+path.join(__dirname,"../../uploads/report.html\""));
-        fileCode = fileCode.replace(/filePath=/g, newpath); 
-        
+        fileCode = fileCode.replace(/filePath=/g, newpath);
+
         let future = kernel.requestExecute({ code: fileCode } );
 
         fs.readFile('./uploads/report.html', function (err, html) {
             if (err) {
-                throw err; 
+                throw err;
             }
-            res.writeHeader(200, {"Content-Type": "text/html"});  
-            res.write(html);  
-            res.end(); 
-        }); 
+            res.writeHeader(200, {"Content-Type": "text/html"});
+            res.write(html);
+            res.end();
+        });
     });
-    router.get('/step3', function(req, res){  
+    router.get('/step3', function(req, res){
         console.log('sourceCodes[3]', sourceCodes[2]);
-        return res.send({result:"Hey!step3"});  
+        return res.send({result:"Hey!step3"});
     });
-    router.get('/step4', function(req, res){  
+    router.get('/step4', function(req, res){
         console.log('sourceCodes[4]', sourceCodes[3]);
-        return res.send({result:"Hey!step4"});  
+        return res.send({result:"Hey!step4"});
     });
-module.exports = router; 
+module.exports = router;

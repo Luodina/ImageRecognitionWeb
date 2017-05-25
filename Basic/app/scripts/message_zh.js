@@ -29,7 +29,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_explore_004': '结构化数据探索',
     'web_common_data_explore_005': '默认数据源 通过参数设置配置的数据源(CDM接口)',
     'web_common_data_explore_006': '数据文件导入',
-    'web_common_data_explore_007': '导入',
+    'web_common_data_explore_007': '上传',
     'web_common_data_explore_008': '数据预览',
     'web_common_data_explore_009': '步骤一  高关联性变量去重(请勾选保留的变量)',
     'web_common_data_explore_010': '步骤二  变量空值处理',
@@ -44,6 +44,8 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_explore_018': '专家模式',
     'web_common_data_explore_019': '创建我的数据探索',
     'web_common_data_explore_020': '开启新的数据探索',
+    'web_common_data_explore_021': '标题',
+
 
 
 
