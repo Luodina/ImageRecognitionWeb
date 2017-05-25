@@ -43,6 +43,8 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_explore_018': 'Expert model',
     'web_common_data_explore_019': 'Create my data to explore',
     'web_common_data_explore_020': 'Open new data to explore',
+    'web_common_data_explore_021': 'Headline',
+
 
     'web_common_explore_013':'File uploaded'
 

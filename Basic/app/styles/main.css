@@ -111,3 +111,91 @@ body .login p {
   background: #3d63d9;
   color: #ffffff;
 }
+
+.data-tab .nav-tabs {
+  float: left;
+  background: #ecf1ff;
+  height: 600px;
+  font-size: 14px;
+}
+
+.data-tab .contect-tabs {
+  width: 85%;
+  float: left;
+  margin-left: 30px;
+  margin-top: 40px;
+}
+
+.data-tab .contect-tabs .dataSource-title {
+  font-size: 20px;
+  color: #333;
+}
+
+.data-tab .contect-tabs .dataSource-chooseOne {
+  margin-top: 30px;
+  font-size: 14px;
+  color: #333333;
+}
+
+.data-tab .contect-tabs .dataSource-chooseOne input {
+  margin-right: 10px;
+}
+
+.data-tab .contect-tabs .dataSource-chooseTwo {
+  margin-top: 30px;
+  font-size: 14px;
+  color: #333333;
+}
+
+.data-tab .contect-tabs .dataSource-chooseTwo input {
+  margin-right: 10px;
+}
+
+.data-tab .contect-tabs .dataSource-chooseTwo .dataSource-file {
+  display: inline-block;
+}
+
+.data-tab .contect-tabs .dataSource-chooseTwo .dataSource-upload {
+  display: inline-block;
+  font-size: 14px;
+  padding: 2px 10px;
+  background: #f4f4f4;
+  border: solid 1px #999999;
+}
+
+.data-tab .contect-tabs .dataSource-btn {
+  margin-top: 30px;
+}
+
+.data-tab .contect-tabs .dataSource-btn .dataSource-preview {
+  font-size: 14px;
+  padding: 5px 12px;
+  background: #f4f4f4;
+}
+
+.data-tab .contect-tabs .dataSource-btn .dataSource-preview:active {
+  background: #fff;
+  color: #4847ff;
+  border: solid 1px #4847ff;
+}
+
+.data-tab .contect-tabs .dataSource-table {
+  margin-top: 15px;
+}
+
+.data-tab .contect-tabs .btnNext {
+  margin-top: 40px;
+}
+
+.data-tab .contect-tabs .btnNext a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 14px;
+  background: #f4f4f4;
+}
+
+.data-tab .contect-tabs .btnNext a:active {
+  background: #4847ff;
+  color: #ffffff;
+}

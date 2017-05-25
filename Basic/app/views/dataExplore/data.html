@@ -1,41 +1,20 @@
- <div class="row">
-   <!--<div class="col-md-2" style="background: #c3c3c3;padding: 10px 0;">
-     <ul style="list-style: none;min-height: 600px">
-       <li ui-sref-active="text-uppercase"><a ui-sref="data.source" >{{ source | translate}}</a></li>
-       <li ui-sref-active="text-uppercase"><a ui-sref="data.report">{{ report | translate}}</a></li>
-       <li ui-sref-active="text-uppercase" ><a ui-sref="data.processing">{{ processing | translate}}</a></li>
-     </ul>
-   </div>-->
-  <div class="col-md-2" style="background: #c3c3c3;padding: 10px 0;">
-    <uib-tabset  vertical="true" type="pills">
-        <uib-tab index="1">
-          <uib-tab-heading>
-            <!--<a ui-sref="data.source">{{ source | translate}}</a>  -->
-            {{ source | translate}}
-          </uib-tab-heading>  
-        </uib-tab>
-        <uib-tab index="2" >
-          <uib-tab-heading>
-            <!--<a ui-sref="data.report">{{ report | translate}}</a>  -->
-            {{ report | translate}}
-          </uib-tab-heading>
-        </uib-tab>
-        <uib-tab index="3">
-          <uib-tab-heading>
-            <!--<a ui-sref="data.processing">{{ processing | translate}}</a>  -->
-            {{ processing | translate}}
-          </uib-tab-heading>
-        </uib-tab>
+  <div class="row data-tab">
+    <uib-tabset vertical="true" type="tabs">
+      <uib-tab heading="{{ source | translate}}" >
+        <div ng-controller="DataSourceCtrl" >
+          <div source></div>
+        </div>
+      </uib-tab>
+      <uib-tab heading="{{ report | translate}}">
+        <div ng-controller="DataReportCtrl">
+          <div report></div>
+        </div>
+      </uib-tab>
+      <uib-tab heading="{{ processing | translate}}">
+        <div class="contect-tabs">
+          Vertical content 3 Vertical content 3 Vertical content 3 Vertical content 3
+        </div>
+      </uib-tab>
     </uib-tabset>
   </div>
-   <div class="col-md-10" style="margin-top: 30px;float: right;">
-        <div>
-          <div ng-controller="DataSourceCtrl">
-            <div source></div>
-          </div>
-        </div>
-   </div>
- </div>
-
-
 

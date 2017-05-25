@@ -1,22 +1,22 @@
+  <div class="contect-tabs ">
+    <p class="dataSource-title">{{ datamation | translate}}</p>
+    <div class="dataSource-chooseOne">
+      <input type="radio" ng-model="bigData" value="iptOne">&nbsp;&nbsp;{{defaultData | translate}}
+    </div>
+    <div class="dataSource-chooseTwo">
+      <input type="radio" ng-model="bigData" value="iptTwo">&nbsp;&nbsp;{{datafileimport | translate}}
+      <input ngf-select type="file" ng-model="file" class="dataSource-file">
+      <span class="dataSource-upload" ng-click="upload()">{{fileimport | translate}}</span>
+    </div>
+    <div class="dataSource-btn">
+      <span class="dataSource-preview" ng-click="run()">{{datapreview | translate}}</span>
+    </div>
+    <!--<div>-->
+      <!--<button type="button" ng-click="upload()">UPLOAD</button>-->
+      <!--<button type="button" ng-click="run()">PREVIEW</button>-->
+    <!--</div>-->
 
-  <p>{{ datamation | translate}}</p>
-  <div>
-    <input type="radio" ng-model="bigData" value="iptOne">&nbsp;&nbsp;{{defaultData | translate}}
-  </div>
-  <br/>
-  <div>
-    <input type="radio" ng-model="bigData" value="iptTwo">&nbsp;&nbsp;{{datafileimport | translate}}
-  </div>
-  <div>
-    <input ngf-select type="file" ng-model="file">
-  </div>
-  <br/>
-  <div>
-    <button type="button" ng-click="upload()">UPLOAD</button>
-    <button type="button" ng-click="run()">PREVIEW</button>
-  </div>
-  <div style="margin:30px 0;">
-    <textarea class="content" style="width: 600px;height: 300px" rows="5">{{result}}</textarea>
-  </div>
-  <div class="btnNext"><a ui-sref="data.report">{{next | translate}}</a></div>
+    <textarea class="content" style="margin-top:15px;width: 600px;height: 300px" rows="5">{{result}}</textarea>
 
+    <div class="btnNext"><a ui-sref="data">{{next | translate}}</a></div>
+  </div>
