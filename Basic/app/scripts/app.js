@@ -23,7 +23,7 @@ angular
     'ui.bootstrap.datetimepicker',
     'angularMoment',
     'chart.js',
-    'ui.router'
+    'ui.router',
     // 'ui.router.state.events'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
@@ -76,8 +76,7 @@ angular
 //监听路由事件
 
     $rootScope.$on('$stateChangeStart', function (toState) {
-
-      // console.log(toState.name);
+      console.log(toState.name);
       if(toState && toState.name === 'main'){
         $('#navbar-nav').css('visibility','hidden');
       }else{
