@@ -6,7 +6,7 @@ let env = config.env || 'dev';
 console.log("config[env].mariadb", config[env].mariadb);
 let sequelize = new Sequelize(config[env].mariadb);
 
-  sequelize.authenticate()
+sequelize.authenticate()
   .then(() => {
     console.log('Connection has been established successfully.');
   })

@@ -20,7 +20,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_013': '退出',
     'web_common_014': '用户名或密码错误,请重新输入',
     'web_common_015': '创建',
-
+    'web_common_016': 'Back',
 
 
     'web_common_data_explore_001': '数据选择',

@@ -20,6 +20,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_013': 'Sign out',
     'web_common_014': 'Username or password is wrong, please re-enter',
     'web_common_015': 'Create new',
+    'web_common_016': 'Back',
 
 
     'web_common_data_explore_001': 'Data Source',

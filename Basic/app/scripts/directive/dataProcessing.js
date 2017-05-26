@@ -13,4 +13,9 @@ angular.module('basic')
     //   console.log("DataModelCtrl data:", data);
     // });
     
-  }]);
+  }])
+  .directive('processing', function() {
+    return {
+      templateUrl: 'views/directive/dataProcessing.html'
+    }
+  });
