@@ -12,5 +12,10 @@ angular.module('basic')
     //   $scope.msg = data;
     //   console.log("DataModelCtrl data:", data);
     // });
-    
-  }]);
+
+  }])
+  .directive('processing', function() {
+    return {
+      templateUrl: 'views/directive/dataProcessing.html'
+    };
+  });

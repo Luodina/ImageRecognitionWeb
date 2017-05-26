@@ -23,7 +23,7 @@ let upload = multer({ storage: storage });
 // The base url of the Jupyter server.
 //http://localhost:8888/?token=91de8f757552677d4c91f0fbc4a8d820d20ea40e13960b00
 var BASE_URL = 'http://localhost:8888';
-var token = '91de8f757552677d4c91f0fbc4a8d820d20ea40e13960b00';
+var token = 'f3c61d3f9402a6ba0f7ce767f863d84cb80807c82b4dce5a';
 var ipynbPath = '/dataProfile.ipynb';
 
 //连接到session(如果已经存在该ipynb对应的session,则直接使用;如果没有，则创建一个session)
@@ -95,7 +95,7 @@ var dataFile;
         console.log('fileCode:', fileCode);
         let future = kernel.requestExecute({ code: fileCode } );
             future.onIOPub = (msg) => {
-            if (msg.header.msg_type === "stream"){
+            if (msg.header.msg_type === "execute_result"){
             console.log('msg:', msg);
             return res.send({result:msg});}
         };

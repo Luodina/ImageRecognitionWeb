@@ -15,18 +15,14 @@ angular.module('basic')
     $scope.fileimport = $filter('translate')('web_common_data_explore_007');
     $scope.datapreview = $filter('translate')('web_common_data_explore_008');
     $scope.next = $filter('translate')('web_common_009');
+    $scope.back = $filter('translate')('web_common_016');
+    $scope.previewPage = $filter('translate')('web_common_017');
     $scope.stepone = $filter('translate')('web_common_data_explore_009');
     $scope.steptwo = $filter('translate')('web_common_data_explore_010');
     $scope.stepthree = $filter('translate')('web_common_data_explore_011');
     $scope.application = $filter('translate')('web_common_data_explore_012');
     $scope.headline = $filter('translate')('web_common_data_explore_021');
 
-    // $scope.names = {name1:"111"};
-    // $scope.tab = "source";
-    // $scope.goReport = function(item){
-    //   console.log("here!!!!", item);
-    //   $scope.tab =item;
-    // }
 
     $scope.bigData = '';
     $scope.testFile = '';
@@ -35,7 +31,6 @@ angular.module('basic')
     $scope.isShowThree = false;
 
     $scope.importFlie = function () {
-      // alert('1111');
       angular.element('#profile_file').click()
     };
 
@@ -50,7 +45,7 @@ angular.module('basic')
     };
 
     $scope.nextPage = function () {
-      
+
     };
     $scope.pulldownlistone = function () {
       $scope.isShowOne = !$scope.isShowOne;
@@ -60,12 +55,7 @@ angular.module('basic')
     };
     $scope.pulldownlistthree = function () {
       $scope.isShowThree = !$scope.isShowThree;
-    }
+    };
     $scope.result ="DataCtrl";
-
-      // $scope.tabs = [
-      //   { title:'Dynamic Title 1', content:'Dynamic content 1' },
-      //   { title:'Dynamic Title 2', content:'Dynamic content 2', disabled: true }
-      // ];
 
 }]);

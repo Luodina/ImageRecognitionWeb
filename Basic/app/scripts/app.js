@@ -77,7 +77,7 @@ angular
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
 
-      console.log(toState.name);
+      // console.log(toState.name);
       if(toState && toState.name === 'main'){
         $('#navbar-nav').css('visibility','hidden');
       }else{
