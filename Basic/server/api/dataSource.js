@@ -84,7 +84,25 @@ contents.get(filePath).then((model) => {
 });
 });
 router.post('/upload', upload.single('file'), function(req, res){
-res.status(200).send({fileName: req.file.originalname});
+    res.status(200).send({fileName: req.file.originalname});
+});
+
+router.get('/report', function(req, res){
+    console.log("RESULT fs.existsSync('./uploads/report.html')", fs.existsSync('./uploads/report.html'))
+    if (fs.existsSync('./uploads/report.html')){
+        fs.readFile('./uploads/report.html', function (err, html) {
+            if (err) {
+                throw err;
+            }
+            res.writeHeader(200, {"Content-Type": "text/html"});
+            res.write(html);
+            res.end();
+        });
+    } else {
+        res.writeHeader(200, {"Content-Type": "text/html"});
+        res.write('<div>!!!!!!!</div>');
+        res.end();
+    }
 });
 
 router.get('/step1', function(req, res){
@@ -100,22 +118,7 @@ router.get('/step1', function(req, res){
         return res.send({result:msg});}
     };
 });
-router.get('/report', function(req, res){
-    if (fs.existsSync('./uploads/report.html')){
-        fs.readFile('./uploads/report.html', function (err, html) {
-            if (err) {
-                throw err;
-            }
-            res.writeHeader(200, {"Content-Type": "text/html"});
-            res.write(html);
-            res.end();
-        });
-    } else {
-            res.writeHeader(200, {"Content-Type": "text/html"});
-            res.write('<div>!!!!!!!</div>');
-            res.end();
-    }
-});
+
 router.get('/step2', function(req, res){
     console.log('!!!!!!!!STEP2___________CODE:', sourceCodes[1]);
     let future = kernel.requestExecute({ code: sourceCodes[1]});
@@ -126,24 +129,85 @@ router.get('/step2', function(req, res){
         }
     }
 });
+
+///////apply
 router.get('/step3', function(req, res){
-    console.log('!!!!!!!!STEP3___________CODE:', sourceCodes[2]);
+     //deleteCols 要删除的列，如果是多个列，以逗号分割
+      let deleteCols = "deleteCols='petal length (cm)'";
+    //   var unCheckedBoxs = $("input[name='corrValues']").not("input:checked");
+    //   for(var i=0;i<unCheckedBoxs.length;i++){
+    //     if(i!=0){
+    //       deleteCols = deleteCols + ",";
+    //     }
+    //     deleteCols = deleteCols + unCheckedBoxs[i].value;
+    //   }
+
+      //imputerCols需要做空值处理的列，json格式，例如：{'petal width (cm)':'median','petal length (cm)':'mean','sepal width (cm)':'most_frequent','sepal length (cm)':'most_frequent'}
+      let imputerCols = "imputerCols={'sepal width (cm)':'mean'}";
+    //   var imputerSelectItems = $("select[name='imputerOpers']");
+    //   for(var i=0;i<imputerSelectItems.length;i++){
+    //       var varName = imputerSelectItems[i].id;
+    //       var option = imputerSelectItems[i].value;
+    //       if(option!='none'){
+    //         if(imputerCols!='{'){
+    //           imputerCols = imputerCols + ",";
+    //         }
+    //         imputerCols = imputerCols + "'" +varName+ "'" + ":" + "'" +option+ "'";
+    //       }
+    //   }
+    //   imputerCols = imputerCols + "}";
+
+      //standardCols需要做正则化处理的列，json格式，例如：{'petal width (cm)':'Standarded','petal length (cm)':'MinMax','sepal width (cm)':'MaxAbs','sepal length (cm)':'Robust'}
+      let standardCols = "standardCols={'sepal length (cm)':'Standarded'}";
+    //   var standardSelectItems = $("select[name='scalarOpers']");
+    //   for(var i=0;i<standardSelectItems.length;i++){
+    //       var varName = standardSelectItems[i].id;
+    //       var option = standardSelectItems[i].value;
+    //       if(option!='none'){
+    //         if(standardCols!='{'){
+    //           standardCols = standardCols + ",";
+    //         }
+    //         standardCols = standardCols + "'" +varName+ "'" + ":" + "'" +option+ "'";
+    //       }
+    //   }
+    //   standardCols = standardCols + "}";
+
+      var code = sourceCodes[2];
+      
+      code = code.replace("deleteCols=",deleteCols);
+      code = code.replace("imputerCols=",imputerCols);
+      code = code.replace("standardCols=",standardCols);
+      console.log('!!!!!!!!STEP3___________CODE:', code);
+      let future = kernel.requestExecute({ code: code });
+      
+    future.onIOPub = (msg) => {
+        
+        console.log('!!!!!!!!STEP3___________RESULT:', msg);        
+    }
+    return res.send({result:"Hey"});
+});
+
+//////
+
+
+router.get('/step4', function(req, res){
+    console.log('!!!!!!!!STEP4___________CODE:', sourceCodes[2]);
     let future = kernel.requestExecute({code: sourceCodes[2]});
     future.onIOPub = (msg) => {
         if (msg.header.msg_type === "execute_result"){
-        console.log('!!!!!!!!STEP3___________RESULT:', msg);
+        console.log('!!!!!!!!STEP4___________RESULT:', msg);
         return res.send({result:msg});}
     };
 });
 
-router.get('/step4', function(req, res){
+router.get('/step5', function(req, res){
     let newpath = "outputFilePath=\""+path.join(__dirname,"../../uploads/dataFileNew.csv\"");
     let fileCode = sourceCodes[3].replace(/outputFilePath=/g, newpath);
-    console.log('!!!!!!!!STEP4___________CODE:', fileCode);
+    console.log('!!!!!!!!STEP5___________CODE:', fileCode);
     let future = kernel.requestExecute({code: fileCode});
     future.onIOPub = (msg) => {
         if (msg.header.msg_type === "execute_result"){
-        console.log('!!!!!!!!STEP1___________RESULT:', msg);
+        console.log('!!!!!!!!STEP5___________RESULT:', msg);
         return res.send({result:msg});}
     };
 });
