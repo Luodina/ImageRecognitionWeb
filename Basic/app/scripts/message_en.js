@@ -19,6 +19,9 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_012': 'Sign in',
     'web_common_013': 'Sign out',
     'web_common_014': 'Username or password is wrong, please re-enter',
+    'web_common_015': 'Create new',
+    'web_common_016': 'Back',
+    'web_common_017': 'Preview',
 
 
     'web_common_data_explore_001': 'Data Source',
@@ -29,9 +32,9 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_explore_006': 'Data file import',
     'web_common_data_explore_007': 'Import',
     'web_common_data_explore_008': 'Data preview',
-    'web_common_data_explore_009': 'Step one  High relevance variable to weight (check the reserved variables)',
-    'web_common_data_explore_010': 'Step two  Variable null processing',
-    'web_common_data_explore_011': 'Step three Variable regularization',
+    'web_common_data_explore_009': 'High relevance variable to weight (check the reserved variables)',
+    'web_common_data_explore_010': 'Variable null processing',
+    'web_common_data_explore_011': 'Variable regularization',
     'web_common_data_explore_012': 'Application',
 
     'web_common_data_explore_013': 'Data application search',
@@ -40,6 +43,10 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_explore_016': 'Data intelligence grouping',
     'web_common_data_explore_017': 'Target Detection',
     'web_common_data_explore_018': 'Expert model',
+    'web_common_data_explore_019': 'Create my data to explore',
+    'web_common_data_explore_020': 'Open new data to explore',
+    'web_common_data_explore_021': 'Headline',
+
 
     'web_common_explore_013':'File uploaded'
 

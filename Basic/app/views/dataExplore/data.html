@@ -1,35 +1,25 @@
- <div class="row">
-   <div class="col-md-2" style="background: #c3c3c3;padding: 10px 0;">
-     <ul style="list-style: none;min-height: 600px">
-       <li ui-sref-active="text-uppercase"><a ui-sref="data.source" >{{ source | translate}}</a></li>
-       <li ui-sref-active="text-uppercase"><a ui-sref="data.report">{{ report | translate}}</a></li>
-       <li ui-sref-active="text-uppercase" ><a ui-sref="data.processing">{{ processing | translate}}</a></li>
-     </ul>
-   </div>
-
-   <!--<uib-tabset>
-      <uib-tab index="1">
-        <uib-tab-heading>
-          <a ui-sref="data.source">Click me</a>  
-        </uib-tab-heading>
+  <div class="data-tab">
+    <!--<div active="model.active"></div>-->
+    <uib-tabset vertical="true" type="tabs" active="tabs">
+      <uib-tab index="0" heading="{{ source | translate}}"  >
+        <div ng-controller="DataSourceCtrl" >
+          <div source></div>
+        </div>
+        <button type="button" class="btn btn-default btn-sm" ng-click="clicked(1)" >{{next | translate}}</button>
       </uib-tab>
-       <uib-tab index="2" >
-        <uib-tab-heading>
-          <a ui-sref="data.report">Click me</a>  
-        </uib-tab-heading>
+      <uib-tab index="1" disable="model.active == 0"  heading="{{ report | translate}}" >
+        <div ng-controller="DataReportCtrl">
+          <div report></div>
+        </div>
+        <button type="button" class="btn btn-default btn-sm" ng-click="clicked(0)" >{{back | translate}}</button>
+        <button type="button" class="btn btn-default btn-sm" ng-click="clicked(2)" >{{next | translate}}</button>
       </uib-tab>
-      <uib-tab index="3">
-        <uib-tab-heading>
-          <a ui-sref="data.processing">Click me</a>  
-        </uib-tab-heading>
+      <uib-tab index="2" disable="model.active == 0" heading="{{ processing | translate}}">
+        <div ng-controller="DataProcessingCtrl">
+          <div processing></div>
+        </div>
+        <button type="button" class="btn btn-default btn-sm" ng-click=clicked(1) >{{back | translate}}</button>
       </uib-tab>
-  </uib-tabset>-->
-
-   <div class="col-md-10" style="margin-top: 30px;float: right;">
-     <ui-view></ui-view>
-
-   </div>
- </div>
-
-
+    </uib-tabset>
+  </div>
 

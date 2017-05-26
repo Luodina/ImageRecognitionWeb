@@ -24,7 +24,7 @@ angular
     'angularMoment',
     'chart.js',
     'ui.router',
-    'ui.router.state.events'
+    // 'ui.router.state.events'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
@@ -38,25 +38,7 @@ angular
         templateUrl: 'views/dataExplore/dataExplore.html',
         controller: 'DataExploreCtrl'
       },
-      {name: 'data', url: '/data', templateUrl: 'views/dataExplore/data.html', controller: 'DataCtrl', abstract: true},
-      {
-        name: 'data.report',
-        url: '/report',
-        templateUrl: 'views/dataExplore/dataReport.html',
-        controller: 'DataReportCtrl'
-      },
-      {
-        name: 'data.source',
-        url: '/source',
-        templateUrl: 'views/dataExplore/dataSource.html',
-        controller: 'DataSourceCtrl'
-      },
-      {
-        name: 'data.processing',
-        url: '/processing',
-        templateUrl: 'views/dataExplore/dataProcessing.html',
-        controller: 'DataProcessingCtrl'
-      },
+      {name: 'data', url: '/data/{name}', templateUrl: 'views/dataExplore/data.html', controller: 'DataCtrl'},
       {name: 'console.taskSchedule', url: '/schedule', templateUrl: 'views/dashboard.html', controller: 'DashboardCtrl'},
       {name: 'console.settings', url: '/settings', templateUrl: 'views/settings.html', controller: 'SettingsCtrl'}
     ];
@@ -93,8 +75,7 @@ angular
   .run(['$rootScope', '$location', '$state', function ($rootScope, $location, $state) {
 //监听路由事件
 
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-
+    $rootScope.$on('$stateChangeStart', function (toState) {
       console.log(toState.name);
       if(toState && toState.name === 'main'){
         $('#navbar-nav').css('visibility','hidden');
@@ -104,4 +85,23 @@ angular
     })
 
   }])
+  .service('buildLog', ['$uibModal', function ($uibModal) {
+    this.open = function (tit,cont) {
+      return $uibModal.open({
+        backdrop: 'static',
+        templateUrl: 'views/layer/dataExplore.html',
+        // size: 'size',
+        controller: ['$scope','$filter','$uibModalInstance',
+          function ($scope,$filter,$uibModalInstance) {
+            $scope.tit = $filter('translate')('web_common_data_explore_019');
+            $scope.cont = $filter('translate')('web_common_data_explore_020');
+            $scope.create = $filter('translate')('web_common_015');
+            $scope.createName ='';
+            $scope.cancel = function () {
+              $uibModalInstance.dismiss();
+            };
+          }]
+      }).result;
+    };
 
+  }])

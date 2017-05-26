@@ -52,3 +52,237 @@ body .login h1 {
 body .login p {
   margin-left: 43%;
 }
+
+.openTotal {
+  width: 600px;
+}
+
+.openTotal .title {
+  height: 50px;
+  line-height: 50px;
+  padding: 0 20px;
+  font-size: 14px;
+  background: #f2f2f2;
+}
+
+.openTotal .content .content-title {
+  width: 600px;
+  height: 120px;
+  line-height: 120px;
+  text-align: center;
+  font-size: 16px;
+  color: #3d63d9;
+}
+
+.openTotal .content .content-name {
+  display: inline-block;
+  width: 217px;
+  height: 30px;
+  margin-left: 32%;
+  text-align: center;
+  border: solid 1px #eaeaea;
+  font-size: 14px;
+  color: #333;
+}
+
+.openTotal .content .content-name:hover {
+  border: solid 1px #4847ff;
+}
+
+.openTotal .footer {
+  margin-top: 80px;
+  height: 70px;
+  background: #f2f2f2;
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.openTotal .footer .btn {
+  display: inline-block;
+  margin-top: 20px;
+  margin-left: 20px;
+  width: 90px;
+  height: 30px;
+  text-align: center;
+  background: #4847ff;
+}
+
+.openTotal .footer .btn:hover {
+  background: #3d63d9;
+  color: #ffffff;
+}
+
+.data-tab button {
+  margin-top: 30px;
+  margin-left: 20px;
+}
+
+.data-tab .nav-tabs {
+  float: left;
+  background: #ecf1ff;
+  min-height: 600px;
+  font-size: 14px;
+}
+
+.data-tab .contect-tabs {
+  width: 85%;
+  float: left;
+  margin-left: 30px;
+  margin-top: 40px;
+}
+
+.data-tab .contect-tabs .dataSource-title {
+  font-size: 20px;
+  color: #333;
+}
+
+.data-tab .contect-tabs .dataSource-chooseOne {
+  margin-top: 30px;
+  font-size: 14px;
+  color: #333333;
+}
+
+.data-tab .contect-tabs .dataSource-chooseOne input {
+  margin-right: 10px;
+}
+
+.data-tab .contect-tabs .dataSource-chooseTwo {
+  margin-top: 30px;
+  font-size: 14px;
+  color: #333333;
+}
+
+.data-tab .contect-tabs .dataSource-chooseTwo input {
+  margin-right: 10px;
+}
+
+.data-tab .contect-tabs .dataSource-chooseTwo .dataSource-file {
+  display: inline-block;
+}
+
+.data-tab .contect-tabs .dataSource-chooseTwo .dataSource-upload {
+  display: inline-block;
+  font-size: 14px;
+  padding: 2px 10px;
+  background: #f4f4f4;
+}
+
+.data-tab .contect-tabs .dataSource-btn {
+  margin-top: 30px;
+}
+
+.data-tab .contect-tabs .dataSource-btn .dataSource-preview {
+  font-size: 14px;
+  padding: 5px 12px;
+  background: #f4f4f4;
+}
+
+.data-tab .contect-tabs .dataSource-btn .dataSource-preview:hover {
+  background: #4847ff;
+  color: #ffffff;
+}
+
+.data-tab .contect-tabs .dataSource-btn .dataSource-preview:active {
+  background: #4847ff;
+  color: #ffffff;
+}
+
+.data-tab .contect-tabs .content {
+  margin-top: 15px;
+  width: 800px;
+  height: 300px;
+  border: 1px solid #f4f4f4;
+}
+
+.data-tab .contect-tabs .btn {
+  margin-top: 40px;
+  overflow: hidden;
+}
+
+.data-tab .contect-tabs .btn .btnStep {
+  text-decoration: none;
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 14px;
+  background: #f4f4f4;
+}
+
+.data-tab .contect-tabs .btn .btnStep:hover {
+  background: #4847ff;
+  color: #ffffff;
+}
+
+.data-tab .contect-tabs .btn .btnStep:active {
+  background: #4847ff;
+  color: #ffffff;
+}
+
+.data-tab .contect-tabs .dataProcess-title {
+  font-size: 20px;
+  color: #333;
+  margin-top: 0;
+  margin-left: 0;
+}
+
+.data-tab .contect-tabs .dataProcess-stepOne .dataProcess-one {
+  padding: 0 20px;
+  height: 52px;
+  line-height: 52px;
+  background: #f4f4f4;
+  font-size: 14px;
+  color: #333;
+}
+
+.data-tab .contect-tabs .dataProcess-stepOne .dataProcess-one .oneImg {
+  display: inline-block;
+  width: 14px;
+  height: 16px;
+  padding-top: 20px;
+}
+
+.data-tab .contect-tabs .dataProcess-stepOne .step {
+  width: 100%;
+  height: 100px;
+  border: solid 1px #f4f4f4;
+  margin: 20px 0;
+}
+
+.data-tab .contect-tabs .btn {
+  margin-top: 30px;
+}
+
+.data-tab .contect-tabs .btn .btnStep {
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 14px;
+  background: #f4f4f4;
+  margin-right: 20px;
+}
+
+.data-tab .contect-tabs .btn .btnStep-two {
+  display: inline-block;
+  padding: 5px 16px;
+  font-size: 14px;
+  background: #f4f4f4;
+  margin-right: 20px;
+}
+
+.data-tab .contect-tabs .btn .btnStep:hover {
+  background: #4847ff;
+  color: #ffffff;
+}
+
+.data-tab .contect-tabs .btn .btnStep:active {
+  background: #4847ff;
+  color: #ffffff;
+}
+
+.data-tab .contect-tabs .btn .btnStep-two:hover {
+  background: #4847ff;
+  color: #ffffff;
+}
+
+.data-tab .contect-tabs .btn .btnStep-two:active {
+  background: #4847ff;
+  color: #ffffff;
+}

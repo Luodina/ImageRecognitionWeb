@@ -1,0 +1,19 @@
+<div class="contect-tabs">
+  <p class="dataSource-title">{{ datamation | translate}}</p>
+  <div class="dataSource-chooseOne">
+    <input type="radio" ng-model="bigData" value="iptOne">&nbsp;&nbsp;{{defaultData | translate}}
+  </div>
+  <div class="dataSource-chooseTwo">
+    <input type="radio" ng-model="bigData" value="iptTwo">&nbsp;&nbsp;{{datafileimport | translate}}
+    <input ngf-select type="file" ng-model="file" class="dataSource-file">
+    <span class="dataSource-upload" ng-click="upload()">{{fileimport | translate}}</span>
+  </div>
+  <div class="dataSource-btn">
+    <span class="dataSource-preview" ng-click="run()">{{datapreview | translate}}</span>
+  </div>
+  <!--<div class="content" ng-bind-html="result"></div>-->
+  <!--<div class="content" >{{result}}</div>-->
+  <!--<textarea class="content" style="margin-top:15px;width: 600px;height: 300px" rows="5">{{result}}</textarea>-->
+  <!--<div class="btn"><a class="btnStep" ui-sref="data">{{next | translate}}</a></div>-->
+  <div ng-bind-html="result"></div>
+</div>

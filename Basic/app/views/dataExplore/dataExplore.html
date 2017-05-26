@@ -1,68 +1,67 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="dataExplore-header">
-      <sapn class="dataExplore-header-left">{{msg}}</sapn>
+<div class="dataExplore-header">
+  <span class="dataExplore-header-left">{{msg}}</span>
       <span class="dataExplore-header-right">
         <img src="./images/search.png" alt="搜索">
         <input type="text" placeholder="{{'web_common_data_explore_013'| translate}}">
       </span>
-    </div>
-    <div class="dataExplore-container">
-      <uib-tabset class="tab-default" active="grid.active">
-        <uib-tab index="1">
-          <uib-tab-heading>
-            <i class="text"></i>&nbsp;&nbsp;{{'web_common_007' | translate}}<span class="icon">2</span>
-          </uib-tab-heading>
-          <!--<div  ng-include="'views/backing_service_detail/applied_instance.html'"></div>-->
-            <div class="dataExplore-container-main" ng-repeat="item in listofProject">
-              <div class="main_header_data">{{item.header}}</div>
-              <div class="main_container_data">
-                <div class="contentone" ng-repeat="(key, contentitem) in item.content">{{key}} : {{contentitem}}</div>
-              </div>
-              <div class="main_footer_data">{{item.footer}}</div>
-            </div>
-        </uib-tab>
-        <uib-tab index="2">
-          <uib-tab-heading>
-            <i class="faa faa-edit"></i>&nbsp;&nbsp;{{'web_common_008' | translate}}<span class="icon">2</span><a ui-sref="data.source"> + </a>
-          </uib-tab-heading>
-          <div class="dataExplore-container-main" ng-repeat="item in listofProjectTwo">
-            <div class="main_header_data">{{item.header}}</div>
-            <div class="main_container_data">{{item.content}}</div>
-            <div class="main_footer_data">{{item.footer}}</div>
-          </div>
-        </uib-tab>
-        <uib-tab index="3">
-          <uib-tab-heading>
-            <i class="faa faa-edit"></i>&nbsp;&nbsp;{{'web_common_data_explore_014' | translate}}
-          </uib-tab-heading>
-          <div>all.two</div>
-        </uib-tab>
-        <uib-tab index="4">
-          <uib-tab-heading>
-            <i class="faa faa-edit"></i>&nbsp;&nbsp;{{'web_common_data_explore_015' | translate}}
-          </uib-tab-heading>
-          <div>all.three</div>
-        </uib-tab>
-        <uib-tab index="5">
-          <uib-tab-heading>
-            <i class="faa faa-edit"></i>&nbsp;&nbsp;{{'web_common_data_explore_016' | translate}}
-          </uib-tab-heading>
-          <div>all.four</div>
-        </uib-tab>
-        <uib-tab index="6">
-          <uib-tab-heading>
-            <i class="faa faa-edit"></i>&nbsp;&nbsp;{{'web_common_data_explore_017' | translate}}
-          </uib-tab-heading>
-          <div>all.five</div>
-        </uib-tab>
-        <uib-tab index="7">
-          <uib-tab-heading>
-            <i class="faa faa-edit"></i>&nbsp;&nbsp;{{'web_common_data_explore_018' | translate}}
-          </uib-tab-heading>
-          <div>all.six</div>
-        </uib-tab>
-      </uib-tabset>
-    </div>
-  </div>
 </div>
+<div class="dataExplore-container">
+  <uib-tabset class="tab-default" active="grid.active">
+    <uib-tab index="1">
+      <uib-tab-heading>
+        <i class="text"></i>&nbsp;&nbsp;{{'web_common_007' | translate}}<span
+        class="icon">{{listofProjectTwoCount}}</span>
+      </uib-tab-heading>
+      <!--<div  ng-include="'views/backing_service_detail/applied_instance.html'"></div>-->
+      <div class="dataExplore-container-main" ng-repeat="item in listofProject">
+        <div class="main_header_data">{{item.header}}</div>
+        <div class="main_container_data">
+          <div class="contentone" ng-repeat="(key, contentitem) in item.content">{{key}} : {{contentitem}}</div>
+        </div>
+        <div class="main_footer_data">{{item.footer}}</div>
+      </div>
+    </uib-tab>
+    <uib-tab index="2">
+      <uib-tab-heading>
+        <i class="faa faa-edit"></i>&nbsp;&nbsp;{{'web_common_008' | translate}}<span class="icon">2</span><i
+        ng-click="newProject()"> + </i>
+      </uib-tab-heading>
+      <div class="dataExplore-container-main" ng-repeat="item in listofProjectTwo">
+        <div class="main_header_data">{{item.header}}</div>
+        <div class="main_container_data">{{item.content}}</div>
+        <div class="main_footer_data">{{item.footer}}</div>
+      </div>
+    </uib-tab>
+    <uib-tab index="3">
+      <uib-tab-heading>
+        <i class="faa faa-edit"></i>&nbsp;&nbsp;{{'web_common_data_explore_014' | translate}}
+      </uib-tab-heading>
+      <div>all.two</div>
+    </uib-tab>
+    <uib-tab index="4">
+      <uib-tab-heading>
+        <i class="faa faa-edit"></i>&nbsp;&nbsp;{{'web_common_data_explore_015' | translate}}
+      </uib-tab-heading>
+      <div>all.three</div>
+    </uib-tab>
+    <uib-tab index="5">
+      <uib-tab-heading>
+        <i class="faa faa-edit"></i>&nbsp;&nbsp;{{'web_common_data_explore_016' | translate}}
+      </uib-tab-heading>
+      <div>all.four</div>
+    </uib-tab>
+    <uib-tab index="6">
+      <uib-tab-heading>
+        <i class="faa faa-edit"></i>&nbsp;&nbsp;{{'web_common_data_explore_017' | translate}}
+      </uib-tab-heading>
+      <div>all.five</div>
+    </uib-tab>
+    <uib-tab index="7">
+      <uib-tab-heading>
+        <i class="faa faa-edit"></i>&nbsp;&nbsp;{{'web_common_data_explore_018' | translate}}
+      </uib-tab-heading>
+      <div>all.six</div>
+    </uib-tab>
+  </uib-tabset>
+</div>
+
