@@ -3,92 +3,103 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
 
   // The base url of the Jupyter server.
   var BASE_URL = 'http://localhost:8888';
-  var token = '51d4aa80432f980c4cea818f5a60cc4b8f1d3cdbb4d7510d';
-  var ipynbPath = '/dataProfile.ipynb';
-  //var ipynbPath = '/dataProfile-Copy1.ipynb';
+  var token = 'ad475024c8c1ba03573a0359ce27cbaa395cc78d6dbc224b';
+  var templatIpynbPath = '/dataProfile.ipynb';
 
-  //连接到session(如果已经存在该ipynb对应的session,则直接使用;如果没有，则创建一个session)
-  var options1 = {
+  var options = {
     baseUrl: BASE_URL,
-    token:token,
-    kernelName: 'python',
-    path:ipynbPath
+    token:token
   };
-  var kernel;
-
-  services.Session.listRunning(options1).then(sessionModels => {
-    var sessionNums = sessionModels.length;
-    var existSession = false;
-    for(var i=0;i<sessionNums;i++){
-      var path=sessionModels[i].notebook.path;
-      if(path==ipynbPath){//存在session，直接连接
-        var sessionOptions = {
-           baseUrl: BASE_URL,
-           token:token,
-           kernelName: sessionModels[i].kernel.name,
-           path: sessionModels[i].notebook.path
-         };
-         services.Session.connectTo(sessionModels[i].id, sessionOptions).then((session) => {
-           console.log('connected to existing session');
-           console.log(session.kernel.name);
-           kernel=session.kernel;
-         });
-         existSession = true;
-         break;
-      }
-    }
-    if(!existSession){//没有现有的session，新创建session
-      services.Session.startNew(options1).then(session => {
-        kernel=session.kernel;
-      });
-    }
-  });
 
   //获取ipynb文件中的source代码
-  var options2 = {
-      baseUrl: BASE_URL,
-      token:token
-  };
-
   var sourceCodes=new Array();
-
-  var contents = new services.ContentsManager(options2);
-
+  var contents = new services.ContentsManager(options);
   var notebookModel;
   var notebookFilePath;
+  var kernel;
 
-  contents.copy(ipynbPath, '/dataProfileFolder').then((model) => {
-       notebookModel = model;
-       var filePath = model.path;
-       notebookFilePath = filePath;
-       contents.get(filePath).then(
+  contents.copy(templatIpynbPath, '/dataProfileFolder').then((model) => {
+       notebookFilePath = model.path;
+       contents.get(notebookFilePath).then(
             (model1) => {
+              //console.log(model1);
+              notebookModel = model1;
               var cellsLength = model1.content.cells.length;
               for(var i=0;i<cellsLength;i++){
                 sourceCodes[i] =  model1.content.cells[i].source;
               }
+
+              //连接到session(如果已经存在该ipynb对应的session,则直接使用;如果没有，则创建一个session
+              options = {
+                baseUrl: BASE_URL,
+                token:token,
+                kernelName: 'python',
+                path:notebookFilePath
+              };
+
+              services.Session.listRunning(options).then(sessionModels => {
+                var sessionNums = sessionModels.length;
+                var existSession = false;
+                for(var i=0;i<sessionNums;i++){
+                  var path=sessionModels[i].notebook.path;
+                  if(path==notebookFilePath){//存在session，直接连接
+                    var sessionOptions = {
+                       baseUrl: BASE_URL,
+                       token:token,
+                       kernelName: sessionModels[i].kernel.name,
+                       path: sessionModels[i].notebook.path
+                     };
+                     services.Session.connectTo(sessionModels[i].id, sessionOptions).then((session) => {
+                       console.log('connected to existing session');
+                       console.log(session.kernel.name);
+                       kernel=session.kernel;
+                     });
+                     existSession = true;
+                     break;
+                  }
+                }
+                if(!existSession){//没有现有的session，新创建session
+                  services.Session.startNew(options).then(session => {
+                    console.log('started a new session');
+                    kernel=session.kernel;
+                  });
+                }
+              });
             }
        );
   });
 
   $('#dataPreview').click(function () {
+    alert(notebookFilePath);
     var filePath = $('#dataFilePath').val();
 
     //TODO maxm ??
     filePath=filePath.replace(/\\/g,"\\\\\\\\");
 
+    var htmlFilePath = "D:/ideaProjects/OCAI/Basic/app/modules/dataProfile/dataProfile.html"
+
     var code = sourceCodes[0];
-    code = code.replace("filePath=",filePath);
+    code = code.replace('filePath=','filePath=\"'+filePath+'\"');
+    code = code.replace('htmlFilePath=','htmlFilePath=\"'+htmlFilePath+'\"');
+
+    //console.log(notebookModel);
     notebookModel.content.cells[0].source=code;
+    contents.save(notebookFilePath,notebookModel);
+
+    //alert('after save source');
+
+
 
     var future = kernel.requestExecute({ code: code });
 
     future.onIOPub = function (msg) {
-      if(msg.header.msg_type=='stream'){
-        var previewDatas = JSON.parse(JSON.parse(JSON.stringify(msg.content)).text);
+      if(msg.header.msg_type=='execute_result'){
+        var previewDatas = msg.content.data["text/html"];
 
-        notebookModel.content.cells[0].metadata.collapsed="false";
-        notebookModel.content.cells[0].outputs=[{"name": "stdout","output_type": "stream","text":previewDatas}];
+        notebookModel.content.cells[0].metadata.collapsed=false;
+        notebookModel.content.cells[0].outputs=[{"output_type": "execute_result","data":msg.content.data,"metadata":{},"execution_count": 1}];
+        contents.save(notebookFilePath,notebookModel);
+
 
         //添加标题
         var firstLineData = previewDatas[0];
@@ -124,40 +135,16 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
   });
 
   $('#displayReport').click(function () {
-      var filePath = $('#dataFilePath').val();
-      //TODO maxm ??
-      filePath=filePath.replace(/\\/g,"\\\\\\\\");
-      //TODO maxm
-      var htmlFilePath = "D:/ideaProjects/OCAI/Basic/app/modules/dataProfile/dataProfile.html"
-
-      var code = sourceCodes[1];
-      code = code.replace("filePath=",filePath);
-      code = code.replace("htmlFilePath==",htmlFilePath);
-      notebookModel.content.cells[1].source=code;
-      var future = kernel.requestExecute({ code: code });
-
-      future.onIOPub = function (msg) {
-        /*console.log('Got IOPub:', msg);
-        console.log(msg.header.msg_type)
-        console.log(JSON.stringify(msg.content))*/
-
-      };
-
-      future.onReply = function (reply) {
-      };
-
-      future.onDone = function () {
-        $("#firstPage").css({display:"none"})
-        $("#reportDiv").css({display:"block"})
-        $("#refreshIframeB").click()
-        $("#refreshIframeB").css({display:"none"})
-      };
+      $("#firstPage").css({display:"none"})
+      $("#reportDiv").css({display:"block"})
+      $("#refreshIframeB").click()
+      $("#refreshIframeB").css({display:"none"})
    });
 
   //查看预处理建议
   $('#getProcessSuggestions').click(function () {
         //TODO maxm var code = 'execfile("'+pyFilePath+'getProcessSuggestions.py")';
-        var code = sourceCodes[2];
+        var code = sourceCodes[1];
 
         var future = kernel.requestExecute({ code: code });
 
@@ -169,8 +156,9 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
             if(msg.header.msg_type=='stream'){
               var suggestions = JSON.parse(JSON.parse(JSON.stringify(msg.content)).text);
 
-              notebookModel.content.cells[2].metadata.collapsed="false";
-              notebookModel.content.cells[2].outputs=[{"name": "stdout","output_type": "stream","text":suggestions}];
+              notebookModel.content.cells[1].metadata.collapsed=false;
+              notebookModel.content.cells[1].outputs=[{"name": "stdout","output_type": "stream","text":suggestions}];
+              contents.save(notebookFilePath,notebookModel);
 
               //相关性
               var varCorrSuggestions = suggestions.highCorr;
@@ -276,14 +264,17 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
       }
       standardCols = standardCols + "}";
 
-      var code = sourceCodes[3];
+      var code = sourceCodes[2];
       code = code.replace("deleteCols=",deleteCols);
       code = code.replace("imputerCols=",imputerCols);
       code = code.replace("standardCols=",standardCols);
-      notebookModel.content.cells[3].source=code;
+      notebookModel.content.cells[2].source=code;
+      contents.save(notebookFilePath,notebookModel);
+
       var future = kernel.requestExecute({ code: code });
 
       future.onIOPub = function (msg) {
+
         /*console.log('Got IOPub:', msg);
         console.log(msg.header.msg_type)
         console.log(JSON.stringify(msg.content))*/
@@ -296,11 +287,46 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
       };
   });
 
+  $('#previewProcessedData').click(function () {
+        var code = sourceCodes[3];
+        var future = kernel.requestExecute({ code: code });
+
+        future.onIOPub = function (msg) {
+          if(msg.header.msg_type=='execute_result'){
+              var previewDatas = msg.content.data["text/html"];
+              notebookModel.content.cells[3].metadata.collapsed=false;
+              notebookModel.content.cells[3].outputs=[{"output_type": "execute_result","data":msg.content.data,"metadata":{},"execution_count": 1}];
+              contents.save(notebookFilePath,notebookModel);
+          }
+        };
+
+        future.onReply = function (reply) {
+        };
+
+        future.onDone = function () {
+          contents.save(notebookFilePath,notebookModel);
+
+          //save a record to table 'MODEL_INFO'
+          //MODEL_ID  32 UUID
+          //USER_ID
+          //VIEW_OR_CODE VIEW
+          //VIEW_MENU_ID 01_01_01
+          //MODEL_NAME
+          //NOTEBOOK_PATH notebookFilePath
+          //USER_INPUT_ITEMS json csvFilePath  deleteCols  imputerCols  standardCols
+          //UPDATE_TIME  now
+          //COMMENT
+
+          alert("保存成功");
+        };
+    })
+
   $('#saveData').click(function () {
       var outputFilePath = "E:/newDataFile.csv";
       var code = sourceCodes[4];
       code = code.replace("outputFilePath=",outputFilePath);
       notebookModel.content.cells[4].source=code;
+      contents.save(notebookFilePath,notebookModel);
       var future = kernel.requestExecute({ code: code });
 
       future.onIOPub = function (msg) {
