@@ -7,15 +7,18 @@
 angular.module('basic')
   .controller('DataProcessingCtrl',['$rootScope', '$scope','$http', function ($rootScope, $scope, $http) {
 
-    // $scope.msg = "DataProcessingCtrl";
-    // $http.get('/api/jupyter').success(function(data){
-    //   $scope.msg = data;
-    //   console.log("DataModelCtrl data:", data);
-    // });
-    
+  $scope.data = "DataProcessingCtrl";
+
+  $scope.$on('tabs',function(){
+    $http.get('/api/jupyter/step2').success(function(data){
+        $scope.data = data.result;
+        console.log("DataProcessingCtrl data:", data.result);
+    });
+  });
+
   }])
   .directive('processing', function() {
     return {
       templateUrl: 'views/directive/dataProcessing.html'
-    }
+    };
   });

@@ -6,7 +6,7 @@
 angular.module('basic')
   .controller('DataReportCtrl',['$rootScope', '$scope','$http', '$sce', function ($rootScope, $scope, $http, $sce) {
     $scope.msg = "DataReportCtrl";
-    $http.get('/api/jupyter/step2')
+    $http.get('/api/jupyter/report')
     .then(function successCallback(response) {
         $scope.rawHtml = $sce.trustAsHtml(response.data);
     },function errorCallback(response) {

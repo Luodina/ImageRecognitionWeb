@@ -21,5 +21,13 @@ angular.module('basic')
     $scope.stepthree = $filter('translate')('web_common_data_explore_011');
     $scope.application = $filter('translate')('web_common_data_explore_012');
     $scope.headline = $filter('translate')('web_common_data_explore_021');
-    
+    $scope.tab=0;
+
+    $scope.clicked=function(num){
+      $scope.tabs=num;
+      if(num===2){
+        $scope.$broadcast('tabs',num);
+      }
+    }
+
 }]);
