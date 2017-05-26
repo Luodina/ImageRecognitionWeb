@@ -323,9 +323,9 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
 
   $('#saveData').click(function () {
       var outputFilePath = "E:/newDataFile.csv";
-      var code = sourceCodes[3];
+      var code = sourceCodes[4];
       code = code.replace("outputFilePath=",outputFilePath);
-      notebookModel.content.cells[3].source=code;
+      notebookModel.content.cells[4].source=code;
       contents.save(notebookFilePath,notebookModel);
       var future = kernel.requestExecute({ code: code });
 
