@@ -1,19 +1,23 @@
   <div class="row data-tab">
-    <uib-tabset vertical="true" type="tabs">
-      <uib-tab heading="{{ source | translate}}" >
+    <uib-tabset vertical="true" type="tabs" active="model.active">
+      <uib-tab index="0" heading="{{ source | translate}}"  >
         <div ng-controller="DataSourceCtrl" >
-          <div source></div>
+          <div source class="col-md-10"></div>
         </div>
+        <button type="button" class="btn btn-default btn-sm" ng-click="model.active = 1" >{{next | translate}}</button>
       </uib-tab>
-      <uib-tab heading="{{ report | translate}}">
+      <uib-tab index="1" disable="model.active == 0"  heading="{{ report | translate}}" >
         <div ng-controller="DataReportCtrl">
           <div report></div>
         </div>
+        <button type="button" class="btn btn-default btn-sm" ng-click="model.active = 0" >{{back | translate}}</button>
+        <button type="button" class="btn btn-default btn-sm" ng-click="model.active = 2" >{{next | translate}}</button>
       </uib-tab>
-      <uib-tab heading="{{ processing | translate}}">
-        <div class="contect-tabs">
+      <uib-tab index="2" disable="model.active == 0" heading="{{ processing | translate}}">
+        <div ng-controller="DataProcessingCtrl">
           <div processing></div>
         </div>
+        <button type="button" class="btn btn-default btn-sm" ng-click="model.active = 1" >{{back | translate}}</button>
       </uib-tab>
     </uib-tabset>
   </div>

@@ -3,7 +3,7 @@ import { Kernel, Session, ContentsManager } from '@jupyterlab/services';
 import { XMLHttpRequest } from "xmlhttprequest";
 import { default as WebSocket } from 'ws';
 import config from './../config';
-
+let env = config.env || 'dev';
 global.XMLHttpRequest = XMLHttpRequest;
 global.WebSocket = WebSocket;
 
@@ -20,18 +20,21 @@ let storage = multer.diskStorage({
   }
 });
 let upload = multer({ storage: storage });
+
+
 // The base url of the Jupyter server.
-//http://localhost:8888/?token=91de8f757552677d4c91f0fbc4a8d820d20ea40e13960b00
-var BASE_URL = 'http://localhost:8888';
-var token = 'f3c61d3f9402a6ba0f7ce767f863d84cb80807c82b4dce5a';
+console.log("config[env].notebook", config[env].notebook);
+console.log("config[env].token", config[env].token);
+var BASE_URL = 'http://localhost:8888'; //config[env].notebook;
+var token = "2dcfb272ea12e2156528a2193e20c56f1fb3214090e3c163";//config[env].token;
 var ipynbPath = '/dataProfile.ipynb';
 
 //连接到session(如果已经存在该ipynb对应的session,则直接使用;如果没有，则创建一个session)
 var options = {
-    baseUrl: BASE_URL,
-    token:token,
+    baseUrl: 'http://localhost:8888',//BASE_URL,
+    token: "2dcfb272ea12e2156528a2193e20c56f1fb3214090e3c163",//token,
     kernelName: 'python',
-    path:ipynbPath
+    path: ipynbPath
 };
 
 var kernel;
@@ -39,6 +42,7 @@ var dataFile;
     Session.listRunning(options).then(sessionModels => {
         var sessionNums = sessionModels.length;
         var existSession = false;
+        // console.log('sessionModels.length',sessionModels.length);
         for(var i=0;i<sessionNums;i++){
         var path=sessionModels[i].notebook.path;
         if(path===ipynbPath){//存在session，直接连接
@@ -68,7 +72,7 @@ var dataFile;
     });
     console.log('options', options);
     let contents = new ContentsManager(options);
-     var sourceCodes=new Array();
+    var sourceCodes=new Array();
     console.log('contents', contents, 'ipynbPath', ipynbPath);
     contents.copy(ipynbPath, '/dataProfileFolder').then((model) => {
         console.log('contents.copy');
@@ -87,8 +91,8 @@ var dataFile;
     router.post('/upload', upload.single('file'), function(req, res){
         res.status(200).send({fileName: req.file.originalname});
     });
-    router.get('/step1', function(req, res){
 
+    router.get('/step1', function(req, res){
         let newpath = "filePath=\""+path.join(__dirname,"../../uploads/dataFile.csv\"");
         console.log('newpath:', newpath);
         let fileCode = sourceCodes[0].replace(/filePath=/g, newpath);
@@ -99,24 +103,29 @@ var dataFile;
             console.log('msg:', msg);
             return res.send({result:msg});}
         };
-        // return res.send({result:"Hey!step1"});
+        console.log('sourceCodes[1]', sourceCodes[1]);
+        fileCode = sourceCodes[1].replace(/filePath=/g, newpath);
+        console.log('fileCode !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', fileCode);
+        fileCode =fileCode.replace(/htmlFilePath=/g, "htmlFilePath=\""+path.join(__dirname,"../../uploads/report.html\""));
+
+        console.log('fileCode 2222222222222222222222', fileCode);
+        future = kernel.requestExecute({ code: fileCode } );
     });
     router.get('/step2', function(req, res){
-        console.log('sourceCodes[1]', sourceCodes[1]);
-        let newpath = "filePath=\""+path.join(__dirname,"../../uploads/dataFile.csv\"");
-        let fileCode =sourceCodes[1].replace(/htmlFilePath=/g, "htmlFilePath=\""+path.join(__dirname,"../../uploads/report.html\""));
-        fileCode = fileCode.replace(/filePath=/g, newpath);
-
-        let future = kernel.requestExecute({ code: fileCode } );
-
-        fs.readFile('./uploads/report.html', function (err, html) {
-            if (err) {
-                throw err;
-            }
-            res.writeHeader(200, {"Content-Type": "text/html"});
-            res.write(html);
-            res.end();
-        });
+        if (fs.existsSync('./uploads/report.html')){
+            fs.readFile('./uploads/report.html', function (err, html) {
+                if (err) {
+                    throw err;
+                }
+                res.writeHeader(200, {"Content-Type": "text/html"});
+                res.write(html);
+                res.end();
+            });
+        } else {
+                res.writeHeader(200, {"Content-Type": "text/html"});
+                res.write('<div>!!!!!!!</div>');
+                res.end();
+        }
     });
     router.get('/step3', function(req, res){
         console.log('sourceCodes[3]', sourceCodes[2]);

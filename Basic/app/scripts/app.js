@@ -23,8 +23,8 @@ angular
     'ui.bootstrap.datetimepicker',
     'angularMoment',
     'chart.js',
-    'ui.router',
-    'ui.router.state.events'
+    'ui.router'
+    // 'ui.router.state.events'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
@@ -75,7 +75,7 @@ angular
   .run(['$rootScope', '$location', '$state', function ($rootScope, $location, $state) {
 //监听路由事件
 
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+    $rootScope.$on('$stateChangeStart', function (toState) {
 
       // console.log(toState.name);
       if(toState && toState.name === 'main'){

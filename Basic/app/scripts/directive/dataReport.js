@@ -12,7 +12,12 @@ angular.module('basic')
     },function errorCallback(response) {
         $scope.rawHtml = $sce.trustAsHtml('<div>There is no html file with report! Please, run your code one more time!</div>');
     });
-  }]);
+  }])
+  .directive('report', function() {
+  return {
+    templateUrl: 'views/directive/dataReport.html'
+  };
+});
 
 
 

@@ -23,39 +23,4 @@ angular.module('basic')
     $scope.application = $filter('translate')('web_common_data_explore_012');
     $scope.headline = $filter('translate')('web_common_data_explore_021');
 
-
-    $scope.bigData = '';
-    $scope.testFile = '';
-    $scope.isShowOne = false;
-    $scope.isShowTwo = false;
-    $scope.isShowThree = false;
-
-    $scope.importFlie = function () {
-      angular.element('#profile_file').click()
-    };
-
-    $scope.fileChange = function (ele) {
-      $scope.testFilePath = ele.value;
-      $scope.$apply();
-    };
-
-    $scope.preview = function () {
-      alert("222");
-
-    };
-
-    $scope.nextPage = function () {
-
-    };
-    $scope.pulldownlistone = function () {
-      $scope.isShowOne = !$scope.isShowOne;
-    };
-    $scope.pulldownlisttwo = function () {
-      $scope.isShowTwo = !$scope.isShowTwo;
-    };
-    $scope.pulldownlistthree = function () {
-      $scope.isShowThree = !$scope.isShowThree;
-    };
-    $scope.result ="DataCtrl";
-
 }]);

@@ -112,6 +112,11 @@ body .login p {
   color: #ffffff;
 }
 
+.data-tab button {
+  margin-top: 30px;
+  margin-left: 20px;
+}
+
 .data-tab .nav-tabs {
   float: left;
   background: #ecf1ff;
