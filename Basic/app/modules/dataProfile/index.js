@@ -100,7 +100,6 @@ require(['jquery', '@jupyterlab/services'], function ($, services) {
         notebookModel.content.cells[0].outputs=[{"output_type": "execute_result","data":msg.content.data,"metadata":{},"execution_count": 1}];
         contents.save(notebookFilePath,notebookModel);
 
-        //alert('after save output');
 
         //添加标题
         var firstLineData = previewDatas[0];
