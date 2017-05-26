@@ -1,7 +1,7 @@
-<div class="contect-tabs suggestData" >
-  <p>{{ datamation | translate}}</p>
-  <div class="stepOne">
-    <p><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true" ng-click="pulldownlistone()"> ^ </span> {{ stepone | translate}}</p>
+  <p class="dataProcess-title">{{ datamation | translate}}</p>
+  <div class="dataProcess-stepOne">
+    <!--<p class="dataProcess-one">{{ stepone | translate}}<i class="pull-right glyphicon glyphicon-chevron-up oneImg" ng-click="pulldownlistone()"></i></p>-->
+    <p class="dataProcess-one">{{ stepone | translate}}<span class="pull-right glyphicon glyphicon-chevron-up oneImg" ng-click="pulldownlistone()"></span></p>
     <div class="step" ng-show="isShowOne">
       <table>
         <tr ng-repeat="x in names">
@@ -11,10 +11,10 @@
         </tr>
       </table>
     </div>
-    <span class="stepBtn">{{ application | translate}}</span>
+    <!--<span class="stepBtn">{{ application | translate}}</span>-->
   </div>
-  <div class="stepTwo">
-    <p><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true" ng-click="pulldownlisttwo()"> ^ </span> {{ steptwo | translate}}</p>
+  <div class="dataProcess-stepOne">
+    <p class="dataProcess-one">{{ steptwo | translate}}<i class="pull-right glyphicon glyphicon-chevron-up oneImg" ng-click="pulldownlisttwo()"></i></p>
     <div class="step" ng-show="isShowTwo">
       <table>
         <tr ng-repeat="x in names">
@@ -25,10 +25,10 @@
         </tr>
       </table>
     </div>
-    <span class="stepBtn">{{ application | translate}}</span>
+    <!--<span class="stepBtn">{{ application | translate}}</span>-->
   </div>
-  <div class="stepThree">
-    <p><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true" ng-click="pulldownlistthree()"> ^ </span> {{ stepthree | translate}}</p>
+  <div class="dataProcess-stepOne">
+    <p class="dataProcess-one">{{ stepthree | translate}}<i class="pull-right glyphicon glyphicon-chevron-up oneImg" ng-click="pulldownlistthree()"></i></p>
     <div class="step" ng-show="isShowThree">
       <table>
         <tr ng-repeat="x in names">
@@ -40,6 +40,8 @@
         </tr>
       </table>
     </div>
-    <span class="stepBtn">{{ application | translate}}</span>
+    <!--<span class="stepBtn">{{ application | translate}}</span>-->
   </div>
-</div>
+  <div class="btn">
+    <span class="btnStep">{{ back | translate}}</span><span class="btnStep">{{ application | translate}}</span><span class="btnStep">{{ previewPage | translate}}</span>
+  </div>

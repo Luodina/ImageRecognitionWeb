@@ -3,7 +3,7 @@
     <uib-tabset vertical="true" type="tabs" active="tabs">
       <uib-tab index="0" heading="{{ source | translate}}"  >
         <div ng-controller="DataSourceCtrl" >
-          <div source></div>     
+          <div source class="col-md-10"></div>
         </div>
         <button type="button" class="btn btn-default btn-sm" ng-click="clicked(1)" >{{next | translate}}</button>
       </uib-tab>
