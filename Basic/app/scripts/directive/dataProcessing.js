@@ -6,7 +6,7 @@
 
 angular.module('basic')
   .controller('DataProcessingCtrl',['$rootScope', '$scope','$http', function ($rootScope, $scope, $http) {
-
+    
   }])
   .directive('processing', function() {
     return {

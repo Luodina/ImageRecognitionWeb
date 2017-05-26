@@ -111,11 +111,11 @@ body{
   .nav-tabs {
     float: left;
     background: #ecf1ff;
-    height: 600px;
+    min-height: 600px;
     font-size: 14px;
   }
   .contect-tabs {
-    width:80%;
+    width:85%;
     float: left;
     margin-left: 30px;
     margin-top: 40px;
@@ -146,7 +146,7 @@ body{
         font-size: 14px;
         padding: 2px 10px;
         background: #f4f4f4;
-        border:solid 1px #999999;
+        //border:solid 1px #999999;
       }
     }
     .dataSource-btn{
@@ -156,15 +156,14 @@ body{
         padding: 5px 12px;
         background: #f4f4f4;
       }
-      .dataSource-preview:active{
-        background: #fff;
-        color: #4847ff;
-        border:solid 1px #4847ff;
+      .dataSource-preview:hover{
+        background: #4847ff;
+        color: #ffffff;
       }
-    }
-    .dataSource-table{
-      margin-top: 15px;
-
+      .dataSource-preview:active{
+        background: #4847ff;
+        color: #ffffff;
+      }
     }
     .content{
       margin-top: 15px;
