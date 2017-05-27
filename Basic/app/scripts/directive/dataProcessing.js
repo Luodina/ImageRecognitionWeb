@@ -22,29 +22,32 @@ angular.module('basic')
   $scope.apply = function(){
     console.log("Apply!!!");
     $http.get('/api/jupyter/step3').success(function(data){
-        // $scope.data = data.result;
-        console.log("DataProcessingCtrl apply:", data.result);
+      $timeout(function(){
+        Notification.success('Success!!!');
+      }, 1000);   
     });
   };
-  $scope.preview = function(){
-    console.log("Preview!!!");
-    $http.get('/api/jupyter/step4').success(function(data){
+  // $scope.preview1 = function(){
+  //   console.log("Preview!!!");
+  //   $http.get('/api/jupyter/step4').success(function(data){
+  //     console.log("DataProcessingCtrl preview:", data.result.content.data["text/html"]);
+  //     $timeout(function(){
+  //       $scope.resultPreview = $sce.trustAsHtml(data.result.content.data["text/html"])
+  //       Notification.success($filter('translate')('web_common_explore_013'));
+  //     }, 1000);     
+  //   });
+  // };
+  $scope.preview = function () {
+     $http.get('/api/jupyter/step4').success(function(data){
       console.log("DataProcessingCtrl preview:", data.result.content.data["text/html"]);
       $timeout(function(){
         $scope.resultPreview = $sce.trustAsHtml(data.result.content.data["text/html"])
-        Notification.success($filter('translate')('web_common_explore_013'));
+        openPreview.open($scope.resultPreview);
+        Notification.success('Success!!!');
       }, 1000);     
     });
+    
   };
-  $scope.save = function(){
-    console.log("Save!!!");
-    $http.get('/api/jupyter/step5').success(function(data){
-        console.log("DataProcessingCtrl save:", data.result);
-    });
-  };
-    $scope.preview = function () {
-      openPreview.open();
-    } 
   }])
   .directive('processing', function() {
     return {

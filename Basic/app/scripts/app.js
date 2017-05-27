@@ -24,7 +24,7 @@ angular
     'angularMoment',
     'chart.js',
     'ui.router',
-    // 'ui.router.state.events'
+    //'ui.router.state.events'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
@@ -72,10 +72,10 @@ angular
       chartColors: ['#4da9ff','#79d2a6','#ff9900','#ff704d','#669999','#4d0000']
     });
   }])
-  .run(['$rootScope', '$location', '$state', function ($rootScope, $location, $state) {
+.run(['$rootScope', '$location', '$state', function ($rootScope, $location, $state) {
 //监听路由事件
 
-    $rootScope.$on('$stateChangeStart', function (toState) {
+    $rootScope.$on('$stateChangeStart', function (event,toState) {
       console.log(toState.name);
       if(toState && toState.name === 'main'){
         $('#navbar-nav').css('visibility','hidden');
@@ -105,17 +105,22 @@ angular
     };
 
   }])
-  .service('openPreview', ['$uibModal', function ($uibModal) {
-  this.open = function () {
+  .service('openPreview', ['$uibModal','$http', function ($uibModal, $http) {
+  this.open = function (resultPreview) {
     return $uibModal.open({
       backdrop: 'static',
       templateUrl: 'views/layer/savePreview.html',
       // size: 'size',
+      //controllerUrl: 'scripts/layer/savePreview.js',
       controller: ['$scope','$filter','$uibModalInstance',
         function ($scope,$filter,$uibModalInstance) {
           $scope.preTil = $filter('translate')('web_common_017');
           $scope.savebtn = $filter('translate')('web_common_018');
+          $scope.resultPreview = resultPreview;
           $scope.save = function () {
+            $http.get('/api/jupyter/step5').success(function(data){
+                console.log("DataProcessingCtrl save:", data.result);
+            });
             $uibModalInstance.dismiss();
           };
         }]
