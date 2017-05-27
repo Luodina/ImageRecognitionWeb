@@ -29,22 +29,25 @@ angular.module('basic')
       if(num===2){
         $scope.$broadcast('tabs',num);
       }
+      if(num===1){
+        $scope.$broadcast('tabs',num);
+      }
     }
 
-      $scope.isShowOne = false;
-      $scope.isShowTwo = false;
-      $scope.isShowThree = false;
+    $scope.isShowOne = false;
+    $scope.isShowTwo = false;
+    $scope.isShowThree = false;
 
-      $scope.pulldownlistone = function () {
-        $scope.isShowOne = !$scope.isShowOne;
-      };
+    $scope.pulldownlistone = function () {
+      $scope.isShowOne = !$scope.isShowOne;
+    };
 
-      $scope.pulldownlisttwo = function () {
-        $scope.isShowTwo = !$scope.isShowTwo;
-      };
+    $scope.pulldownlisttwo = function () {
+      $scope.isShowTwo = !$scope.isShowTwo;
+    };
 
-      $scope.pulldownlistthree = function () {
-        $scope.isShowThree = !$scope.isShowThree;
-      };
+    $scope.pulldownlistthree = function () {
+      $scope.isShowThree = !$scope.isShowThree;
+    };
 
     }]);

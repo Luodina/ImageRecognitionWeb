@@ -90,14 +90,10 @@ router.post('/upload', upload.single('file'), function(req, res){
 router.get('/report', function(req, res){
     console.log("RESULT fs.existsSync('./uploads/report.html')", fs.existsSync('./uploads/report.html'))
     if (fs.existsSync('./uploads/report.html')){
-        fs.readFile('./uploads/report.html', function (err, html) {
-            if (err) {
-                throw err;
-            }
-            res.writeHeader(200, {"Content-Type": "text/html"});
-            res.write(html);
-            res.end();
-        });
+        let html = fs.readFileSync('./uploads/report.html', 'utf8');
+        res.writeHeader(200, {"Content-Type": "text/html"});
+        res.write(html);
+        res.end();
     } else {
         res.writeHeader(200, {"Content-Type": "text/html"});
         res.write('<div>!!!!!!!</div>');
@@ -191,8 +187,8 @@ router.get('/step3', function(req, res){
 
 
 router.get('/step4', function(req, res){
-    console.log('!!!!!!!!STEP4___________CODE:', sourceCodes[2]);
-    let future = kernel.requestExecute({code: sourceCodes[2]});
+    console.log('!!!!!!!!STEP4___________CODE:', sourceCodes[3]);
+    let future = kernel.requestExecute({code: sourceCodes[3]});
     future.onIOPub = (msg) => {
         if (msg.header.msg_type === "execute_result"){
         console.log('!!!!!!!!STEP4___________RESULT:', msg);
@@ -202,13 +198,13 @@ router.get('/step4', function(req, res){
 
 router.get('/step5', function(req, res){
     let newpath = "outputFilePath=\""+path.join(__dirname,"../../uploads/dataFileNew.csv\"");
-    let fileCode = sourceCodes[3].replace(/outputFilePath=/g, newpath);
+    let fileCode = sourceCodes[4].replace(/outputFilePath=/g, newpath);
     console.log('!!!!!!!!STEP5___________CODE:', fileCode);
     let future = kernel.requestExecute({code: fileCode});
     future.onIOPub = (msg) => {
         if (msg.header.msg_type === "execute_result"){
         console.log('!!!!!!!!STEP5___________RESULT:', msg);
-        return res.send({result:msg});}
+        return res.send({result:"Hey"});}
     };
 });
 module.exports = router;
