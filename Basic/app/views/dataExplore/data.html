@@ -5,20 +5,28 @@
         <div ng-controller="DataSourceCtrl" >
           <div source></div>
         </div>
-        <button type="button" class="btn btn-default btn-sm" ng-click="clicked(1)" >{{next | translate}}</button>
+        <div class="button">
+          <button type="button" class="btn btn-default btn-sm" ng-click="clicked(1)" >{{next | translate}}</button>
+        </div>
       </uib-tab>
       <uib-tab index="1" disable="model.active == 0"  heading="{{ report | translate}}" >
         <div ng-controller="DataReportCtrl">
           <div report></div>
         </div>
-        <button type="button" class="btn btn-default btn-sm" ng-click="clicked(0)" >{{back | translate}}</button>
-        <button type="button" class="btn btn-default btn-sm" ng-click="clicked(2)" >{{next | translate}}</button>
+        <div class="button">
+          <button type="button" class="btn btn-default btn-sm" ng-click="clicked(0)" >{{back | translate}}</button>
+          <button type="button" class="btn btn-default btn-sm" ng-click="clicked(2)" >{{next | translate}}</button>
+        </div>
       </uib-tab>
       <uib-tab index="2" disable="model.active == 0" heading="{{ processing | translate}}">
         <div ng-controller="DataProcessingCtrl">
           <div processing></div>
         </div>
-        <button type="button" class="btn btn-default btn-sm" ng-click=clicked(1) >{{back | translate}}</button>
+        <div class="button">
+          <button type="button" class="btn btn-default btn-sm" ng-click=clicked(1) >{{back | translate}}</button>
+          <button type="button" class="btn btn-default btn-sm" >{{application | translate}}</button>
+          <!--<button type="button" class="btn btn-default btn-sm" ng-click="preview()">{{previewPage | translate}}</button>-->
+        </div>
       </uib-tab>
     </uib-tabset>
   </div>

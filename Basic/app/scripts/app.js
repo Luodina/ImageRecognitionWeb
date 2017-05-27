@@ -105,3 +105,21 @@ angular
     };
 
   }])
+  .service('openPreview', ['$uibModal', function ($uibModal) {
+  this.open = function () {
+    return $uibModal.open({
+      backdrop: 'static',
+      templateUrl: 'views/layer/savePreview.html',
+      // size: 'size',
+      controller: ['$scope','$filter','$uibModalInstance',
+        function ($scope,$filter,$uibModalInstance) {
+          $scope.preTil = $filter('translate')('web_common_017');
+          $scope.savebtn = $filter('translate')('web_common_018');
+          $scope.save = function () {
+            $uibModalInstance.dismiss();
+          };
+        }]
+    }).result;
+  };
+
+}])

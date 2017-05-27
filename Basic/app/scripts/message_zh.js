@@ -22,6 +22,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_015': '创建',
     'web_common_016': '上一步',
     'web_common_017': '预览',
+    'web_common_018': '保存',
 
 
 

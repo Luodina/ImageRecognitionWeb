@@ -31,9 +31,9 @@ angular.module('basic')
       }
     }
 
-      $scope.isShowOne = false;
-      $scope.isShowTwo = false;
-      $scope.isShowThree = false;
+      $scope.isShowOne = true;
+      $scope.isShowTwo = true;
+      $scope.isShowThree = true;
 
       $scope.pulldownlistone = function () {
         $scope.isShowOne = !$scope.isShowOne;
@@ -46,5 +46,7 @@ angular.module('basic')
       $scope.pulldownlistthree = function () {
         $scope.isShowThree = !$scope.isShowThree;
       };
+
+      
 
     }]);

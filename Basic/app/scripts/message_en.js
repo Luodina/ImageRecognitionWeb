@@ -22,6 +22,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_015': 'Create new',
     'web_common_016': 'Back',
     'web_common_017': 'Preview',
+    'web_common_018': 'Save',
 
 
     'web_common_data_explore_001': 'Data Source',

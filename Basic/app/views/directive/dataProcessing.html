@@ -6,49 +6,58 @@
                                                              ng-click="pulldownlistone()"></span></p>
     <div class="step" ng-show="isShowOne">
       <table>
-        <tr ng-repeat="x in names">
-          <td>{{x.Nameo}}</td>
-          <td>{{x.Namet}}</td>
-          <td>{{x.Nameth}}</td>
+        <tr ng-repeat="item in dataItem">
+          <td >相关性: {{item.corrValue}}</td>
+          <td >{{item.varName}}</td>
+          <td >{{item.corrVarName}}</td>
         </tr>
       </table>
     </div>
-    <!--<span class="stepBtn">{{ application | translate}}</span>-->
   </div>
   <div class="dataProcess-stepOne">
     <p class="dataProcess-one">{{ steptwo | translate}}<i class="pull-right glyphicon glyphicon-chevron-up oneImg"
                                                           ng-click="pulldownlisttwo()"></i></p>
     <div class="step" ng-show="isShowTwo">
       <table>
-        <tr ng-repeat="x in names">
-          <td>{{x.Namea}}</td>
-          <td>{{x.Nameb}}</td>
-          <td>{{x.Namec}}</td>
-          <td>{{x.Named}}</td>
+        <tr ng-repeat="item in dataItemTwo">
+          <td >变量名: {{item.varName}}</td>
+          <td >空值比例: {{item.imputerRatio}}</td>
+          <td>
+            <select name='imputerOpers'>
+              <option value='none'>不处理</option>
+              <option value='mean' >mean</option>
+              <option value='median' >median</option>
+              <option value='most_frequent' >most_frequent</option>
+            </select>
+          </td>
         </tr>
       </table>
     </div>
-    <!--<span class="stepBtn">{{ application | translate}}</span>-->
   </div>
   <div class="dataProcess-stepOne">
     <p class="dataProcess-one">{{ stepthree | translate}}<i class="pull-right glyphicon glyphicon-chevron-up oneImg"
                                                             ng-click="pulldownlistthree()"></i></p>
     <div class="step" ng-show="isShowThree">
       <table>
-        <tr ng-repeat="x in names">
-          <td>{{x.Namea}}</td>
-          <td>{{x.Nameb}}</td>
-          <td>{{x.Namec}}</td>
-          <td>{{x.Named}}</td>
-          <td>{{x.Namee}}</td>
+        <tr ng-repeat="item in dataItemThree">
+          <td >变量名: {{item.varName}}</td>
+          <td >空值比例: {{item.stdValue}}</td>
+          <td ><img src="{{item.miniHistogram}}"></td>
+          <td>
+            <select name='imputerOpers'>
+              <option value='none'>不处理</option>
+              <option value='mean' >mean</option>
+              <option value='median' >median</option>
+              <option value='most_frequent' >most_frequent</option>
+            </select>
+          </td>
         </tr>
       </table>
     </div>
-    <!--<span class="stepBtn">{{ application | translate}}</span>-->
   </div>
   <div class="btn">
-    <span class="btnStep">{{ application | translate}}</span><span
-    class="btnStep">{{ previewPage | translate}}</span>
+    <!--<span class="btnStep">{{ application | translate}}</span>-->
+    <span class="btnStep" ng-click="preview()">{{ previewPage | translate}}</span>
   </div>
 
 </div>
