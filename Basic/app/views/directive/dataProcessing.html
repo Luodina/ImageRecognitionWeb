@@ -33,6 +33,7 @@
         </tr>
       </table>
     </div>
+    <!--<span class="stepBtn">{{ application | translate}}</span>-->
   </div>
   <div class="dataProcess-stepOne">
     <p class="dataProcess-one">{{ stepthree | translate}}<i class="pull-right glyphicon glyphicon-chevron-up oneImg"
@@ -59,5 +60,6 @@
     <!--<span class="btnStep">{{ application | translate}}</span>-->
     <span class="btnStep" ng-click="preview()">{{ previewPage | translate}}</span>
   </div>
+   <div ng-bind-html="resultPreview"></div>
 
 </div>

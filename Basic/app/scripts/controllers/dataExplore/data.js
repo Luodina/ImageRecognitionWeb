@@ -29,6 +29,9 @@ angular.module('basic')
       if(num===2){
         $scope.$broadcast('tabs',num);
       }
+      if(num===1){
+        $scope.$broadcast('tabs',num);
+      }
     }
 
       $scope.isShowOne = true;
@@ -46,7 +49,5 @@ angular.module('basic')
       $scope.pulldownlistthree = function () {
         $scope.isShowThree = !$scope.isShowThree;
       };
-
-      
 
     }]);
