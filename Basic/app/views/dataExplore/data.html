@@ -50,6 +50,7 @@
             </div>
 
         </div>
+
         <div ng-show='tab == 1'>
             <div ng-controller="DataReportCtrl">
               <div report></div>
@@ -58,7 +59,6 @@
               <button type="button" class="btn btn-default btn-sm" ng-click="clicked(0)" >{{back | translate}}</button>
               <button type="button" class="btn btn-default btn-sm" ng-click="clicked(2)" >{{next | translate}}</button>
             </div>
-
         </div>
         <div ng-show='tab == 2'>
           <div ng-controller="DataProcessingCtrl">
@@ -74,4 +74,3 @@
       </td>
     </tr>
   </table>
-
