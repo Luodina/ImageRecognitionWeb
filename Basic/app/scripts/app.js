@@ -24,7 +24,7 @@ angular
     'angularMoment',
     'chart.js',
     'ui.router',
-    // 'ui.router.state.events'
+    'ui.router.state.events'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
@@ -75,7 +75,7 @@ angular
   .run(['$rootScope', '$location', '$state', function ($rootScope, $location, $state) {
 //监听路由事件
 
-    $rootScope.$on('$stateChangeStart', function (toState) {
+    $rootScope.$on('$stateChangeStart', function (event,toState) {
       console.log(toState.name);
       if(toState && toState.name === 'main'){
         $('#navbar-nav').css('visibility','hidden');

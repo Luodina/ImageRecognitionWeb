@@ -275,3 +275,174 @@ body{
 
 }
 
+///newdatacss
+.dataLeft{
+  min-height: 600px;
+  ul{
+    list-style: none;
+    li{
+      font-size: 14px;
+      color: #333;
+    }
+    li.active{
+      color: #4847ff;
+    }
+  }
+}
+.dataRight{
+  .dataSource-title{
+    font-size: 20px;
+    color: #333;
+  }
+  .dataSource-chooseOne{
+    margin-top: 30px;
+    font-size: 14px;
+    color: #333333;
+    input{
+      margin-right: 10px;
+    }
+  }
+  .dataSource-chooseTwo{
+    margin-top: 30px;
+    font-size: 14px;
+    color: #333333;
+    input{
+      margin-right: 10px;
+    }
+    .dataSource-file{
+      display: inline-block;
+    }
+    .dataSource-upload{
+      display: inline-block;
+      font-size: 14px;
+      padding: 2px 10px;
+      background: #f4f4f4;
+      //border:solid 1px #999999;
+    }
+  }
+  .button{
+    width: 100%;
+  }
+  .dataSource-btn{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    .dataSource-preview{
+      font-size: 14px;
+      padding: 5px 12px;
+      background: #f4f4f4;
+    }
+    .dataSource-preview:hover{
+      background: #4847ff;
+      color: #ffffff;
+    }
+    .dataSource-preview:active{
+      background: #4847ff;
+      color: #ffffff;
+    }
+  }
+  .content{
+    margin-top: 15px;
+    width: 800px;
+    height: 300px;
+    border:1px solid #f4f4f4;
+  }
+  .btn{
+    margin-top: 40px;
+    overflow: hidden;
+    .btnStep{
+      text-decoration: none;
+      display: inline-block;
+      padding: 5px 10px;
+      font-size: 14px;
+      background: #f4f4f4;
+    }
+    .btnStep:hover{
+      background: #4847ff;
+      color: #ffffff;
+    }
+    .btnStep:active{
+      background: #4847ff;
+      color: #ffffff;
+    }
+
+  }
+
+  //dataProcess
+  .dataProcess-title{
+    font-size: 20px;
+    color: #333;
+    margin-top: 0;
+    margin-left: 0;
+  }
+  .dataProcess-stepOne{
+
+    .dataProcess-one{
+      padding: 0 20px;
+      height: 52px;
+      line-height: 52px;
+      background: #f4f4f4;
+      font-size: 14px;
+      color: #333;
+      .oneImg{
+        display: inline-block;
+        width:14px;
+        height: 16px;
+        padding-top: 20px;
+      }
+    }
+    .step{
+      width: 100%;
+      //height: 100px;
+      border: solid 1px #f4f4f4;
+      margin: 20px 0;
+    }
+  }
+  table, th , td {
+    //border: 1px solid grey;
+    border-collapse: collapse;
+    padding: 5px;
+    margin-left: 12px;
+  }
+  table tr:nth-child(odd) {
+    //background-color: #f1f1f1;
+  }
+  table tr:nth-child(even) {
+    //background-color: #ffffff;
+  }
+  .btn{
+    margin-top: 30px;
+    .btnStep{
+      display: inline-block;
+      padding: 5px 10px;
+      font-size: 14px;
+      background: #f4f4f4;
+      margin-right: 20px;
+    }
+    .btnStep-two{
+      display: inline-block;
+      padding: 5px 16px;
+      font-size: 14px;
+      background: #f4f4f4;
+      margin-right: 20px;
+    }
+    .btnStep:hover{
+      background: #4847ff;
+      color: #ffffff;
+    }
+    .btnStep:active{
+      background: #4847ff;
+      color: #ffffff;
+    }
+    .btnStep-two:hover{
+      background: #4847ff;
+      color: #ffffff;
+    }
+    .btnStep-two:active{
+      background: #4847ff;
+      color: #ffffff;
+    }
+  }
+}
+
+
+

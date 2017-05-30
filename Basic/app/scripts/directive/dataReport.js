@@ -15,7 +15,7 @@ angular.module('basic')
             $scope.rawHtml = $sce.trustAsHtml('<div>There is no html file with report! Please, run your code one more time!</div>');
         });
       }
-    }); 
+    });
   }])
   .directive('report', function() {
   return {
