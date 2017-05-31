@@ -36,12 +36,11 @@
             </select>
           </td>
           <td>
-            {{item.varName}} = {{selectedSite[$index]}}
+            {{item.varName}} = {{selectedSite[1]}}
           </td>
         </tr>
       </table>
-    </div>
-    
+    </div></form>
     <!--<span class="stepBtn">{{ application | translate}}</span>-->
   </div>
   <div class="dataProcess-stepOne">
@@ -66,20 +65,13 @@
       </table>
     </div>
   </div>
-  <button  class="btn btn-default" ng-click="submit(selectedSite)">Submit</button>
-  </form>
+  <button type="submit" class="btn btn-default" ng-click="submit()">Submit</button>
+  
  
   <div class="btn">
-<<<<<<< HEAD
     <!--<span class="form-group" class="btnStep" ng-click="submit()">Submit</span>-->
     <span class="btnStep" ng-click="apply()">{{ application | translate}}</span>
     <span class="btnStep" ng-click="preview()">{{ previewPage | translate}}</span>
-=======
-    <!--<span class="btnStep">{{ application | translate}}</span>-->
-    <!--<span class="btnStep" ng-click="preview()">{{ previewPage | translate}}</span>-->
->>>>>>> bcef402dc6971a632cdd76545cb3dc0585d6f3d4
   </div>
-   <div ng-bind-html="resultPreview"></div>
-
 </div>
 
