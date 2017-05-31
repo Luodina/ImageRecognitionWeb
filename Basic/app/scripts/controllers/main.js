@@ -12,7 +12,11 @@ angular.module('basic')
     $scope.signin = $filter('translate')('web_common_012');
 
     $scope.login = function () {
-      $state.go('dataExplore');
+      //$state.go('dataExplore');
+      if($scope.user.pass !== undefined) {
+        console.log("LOGIN!");
+        $rootScope.login($scope.user.name, $scope.user.pass);
+      }
     }
 
   }]);

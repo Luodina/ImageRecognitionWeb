@@ -53,7 +53,6 @@ var dataFile;
 //console.log('contents', contents, 'ipynbPath', ipynbPath);
 contents.copy(templatIpynbPath, '/dataProfileFolder').then(function (model) {
     //console.log('contents.copy');
-    //have a test
     notebookFilePath = model.path;
     contents.get(notebookFilePath).then(function (model1) {
         notebookModel = model1;

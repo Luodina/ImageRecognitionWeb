@@ -12,10 +12,13 @@ angular.module('basic')
     if (num ===2) {
       $http.get('/api/jupyter/step2').success(function(data){
           $scope.data = data.result;
-          console.log("DataProcessingCtrl data:", data.result);
+          // console.log("DataProcessingCtrl data:", data.result);
         $scope.dataItem = JSON.parse(data.result).highCorr;
+        console.log("$scope.dataItem:", $scope.dataItem);
         $scope.dataItemTwo = JSON.parse(data.result).imputer;
+        console.log(" $scope.dataItemTwo:", $scope.dataItemTwo);
         $scope.dataItemThree = JSON.parse(data.result).scalar;
+        console.log("$scope.dataItemThree :", $scope.dataItemThree);
       });
     }
   });
@@ -27,16 +30,6 @@ angular.module('basic')
       }, 1000);   
     });
   };
-  // $scope.preview1 = function(){
-  //   console.log("Preview!!!");
-  //   $http.get('/api/jupyter/step4').success(function(data){
-  //     console.log("DataProcessingCtrl preview:", data.result.content.data["text/html"]);
-  //     $timeout(function(){
-  //       $scope.resultPreview = $sce.trustAsHtml(data.result.content.data["text/html"])
-  //       Notification.success($filter('translate')('web_common_explore_013'));
-  //     }, 1000);     
-  //   });
-  // };
   $scope.preview = function () {
      $http.get('/api/jupyter/step4').success(function(data){
       console.log("DataProcessingCtrl preview:", data.result.content.data["text/html"]);
@@ -45,8 +38,13 @@ angular.module('basic')
         openPreview.open($scope.resultPreview);
         Notification.success('Success!!!');
       }, 1000);     
-    });
-    
+    });   
+  };
+
+  $scope.selectedSite = [];
+  // console.log("$scope.dataItemThree :", $scope.selectedSite);
+  $scope.submit =function(){
+     console.log("submit :", $scope.selectedSite);
   };
   }])
   .directive('processing', function() {
