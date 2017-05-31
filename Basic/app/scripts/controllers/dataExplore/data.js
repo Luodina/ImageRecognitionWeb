@@ -27,17 +27,17 @@ angular.module('basic')
     $scope.clicked=function(num){
       $scope.tab=num;
       if(num===2){
-        // $scope.$broadcast('tabs',num);
+        $scope.$broadcast('tab',num);
         $scope.tab = 2
       }
       if(num===1){
         $scope.tab = 1;
-        $scope.$broadcast('tabs',num);
+        $scope.$broadcast('tab',num);
         
       }
       if(num===0){
         $scope.tab = 0;
-        $scope.$broadcast('tabs',num);
+        $scope.$broadcast('tab',num);
 
       }
     }

@@ -8,7 +8,8 @@ angular.module('basic')
   .controller('DataProcessingCtrl',['$rootScope', '$scope','$http','$sce','Notification', '$timeout', '$filter','openPreview', function ($rootScope, $scope, $http, $sce, Notification, $timeout, $filter,openPreview) {
   $scope.data = "DataProcessingCtrl";
   $scope.resultPreview = "Preview";
-  $scope.$on('tabs',function(el, num){
+  $scope.$on('tab',function(el, num){
+    console.log("num:", num);
     if (num ===2) {
       $http.get('/api/jupyter/step2').success(function(data){
           $scope.data = data.result;
