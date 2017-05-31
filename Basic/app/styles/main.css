@@ -296,3 +296,186 @@ body .login p {
   background: #4847ff;
   color: #ffffff;
 }
+
+.dataLeft {
+  min-height: 600px;
+}
+
+.dataLeft ul {
+  list-style: none;
+}
+
+.dataLeft ul li {
+  font-size: 14px;
+  color: #333;
+}
+
+.dataLeft ul li.active {
+  color: #4847ff;
+}
+
+.dataRight .dataSource-title {
+  font-size: 20px;
+  color: #333;
+}
+
+.dataRight .dataSource-chooseOne {
+  margin-top: 30px;
+  font-size: 14px;
+  color: #333333;
+}
+
+.dataRight .dataSource-chooseOne input {
+  margin-right: 10px;
+}
+
+.dataRight .dataSource-chooseTwo {
+  margin-top: 30px;
+  font-size: 14px;
+  color: #333333;
+}
+
+.dataRight .dataSource-chooseTwo input {
+  margin-right: 10px;
+}
+
+.dataRight .dataSource-chooseTwo .dataSource-file {
+  display: inline-block;
+}
+
+.dataRight .dataSource-chooseTwo .dataSource-upload {
+  display: inline-block;
+  font-size: 14px;
+  padding: 2px 10px;
+  background: #f4f4f4;
+}
+
+.dataRight .button {
+  width: 100%;
+}
+
+.dataRight .dataSource-btn {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.dataRight .dataSource-btn .dataSource-preview {
+  font-size: 14px;
+  padding: 5px 12px;
+  background: #f4f4f4;
+}
+
+.dataRight .dataSource-btn .dataSource-preview:hover {
+  background: #4847ff;
+  color: #ffffff;
+}
+
+.dataRight .dataSource-btn .dataSource-preview:active {
+  background: #4847ff;
+  color: #ffffff;
+}
+
+.dataRight .content {
+  margin-top: 15px;
+  width: 800px;
+  height: 300px;
+  border: 1px solid #f4f4f4;
+}
+
+.dataRight .btn {
+  margin-top: 40px;
+  overflow: hidden;
+}
+
+.dataRight .btn .btnStep {
+  text-decoration: none;
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 14px;
+  background: #f4f4f4;
+}
+
+.dataRight .btn .btnStep:hover {
+  background: #4847ff;
+  color: #ffffff;
+}
+
+.dataRight .btn .btnStep:active {
+  background: #4847ff;
+  color: #ffffff;
+}
+
+.dataRight .dataProcess-title {
+  font-size: 20px;
+  color: #333;
+  margin-top: 0;
+  margin-left: 0;
+}
+
+.dataRight .dataProcess-stepOne .dataProcess-one {
+  padding: 0 20px;
+  height: 52px;
+  line-height: 52px;
+  background: #f4f4f4;
+  font-size: 14px;
+  color: #333;
+}
+
+.dataRight .dataProcess-stepOne .dataProcess-one .oneImg {
+  display: inline-block;
+  width: 14px;
+  height: 16px;
+  padding-top: 20px;
+}
+
+.dataRight .dataProcess-stepOne .step {
+  width: 100%;
+  border: solid 1px #f4f4f4;
+  margin: 20px 0;
+}
+
+.dataRight table, .dataRight th, .dataRight td {
+  border-collapse: collapse;
+  padding: 5px;
+  margin-left: 12px;
+}
+
+.dataRight .btn {
+  margin-top: 30px;
+}
+
+.dataRight .btn .btnStep {
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 14px;
+  background: #f4f4f4;
+  margin-right: 20px;
+}
+
+.dataRight .btn .btnStep-two {
+  display: inline-block;
+  padding: 5px 16px;
+  font-size: 14px;
+  background: #f4f4f4;
+  margin-right: 20px;
+}
+
+.dataRight .btn .btnStep:hover {
+  background: #4847ff;
+  color: #ffffff;
+}
+
+.dataRight .btn .btnStep:active {
+  background: #4847ff;
+  color: #ffffff;
+}
+
+.dataRight .btn .btnStep-two:hover {
+  background: #4847ff;
+  color: #ffffff;
+}
+
+.dataRight .btn .btnStep-two:active {
+  background: #4847ff;
+  color: #ffffff;
+}

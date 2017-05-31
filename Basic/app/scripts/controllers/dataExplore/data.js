@@ -4,8 +4,8 @@
  */
 'use strict';
 angular.module('basic')
-  .controller('DataCtrl',['$rootScope', '$scope','$http', '$filter','Upload', 'Notification', '$timeout','$window',
-    function ($rootScope, $scope, $http, $filter, Upload, Notification, $timeout,$window) {
+  .controller('DataCtrl',['$rootScope', '$scope','$http', '$filter','Upload', 'Notification', '$timeout','$window','openPreview',
+    function ($rootScope, $scope, $http, $filter, Upload, Notification, $timeout,$window,openPreview) {
     $scope.processing = $filter('translate')('web_common_data_explore_003');
     $scope.source = $filter('translate')('web_common_data_explore_001');
     $scope.report = $filter('translate')('web_common_data_explore_002');
@@ -25,12 +25,20 @@ angular.module('basic')
 
     $scope.tab=0;
     $scope.clicked=function(num){
-      $scope.tabs=num;
+      $scope.tab=num;
       if(num===2){
-        $scope.$broadcast('tabs',num);
+        // $scope.$broadcast('tabs',num);
+        $scope.tab = 2
       }
       if(num===1){
+        $scope.tab = 1;
         $scope.$broadcast('tabs',num);
+        
+      }
+      if(num===0){
+        $scope.tab = 0;
+        $scope.$broadcast('tabs',num);
+
       }
     }
 
