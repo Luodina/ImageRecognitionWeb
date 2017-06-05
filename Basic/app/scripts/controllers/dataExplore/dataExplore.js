@@ -1,6 +1,6 @@
 'use strict';
 angular.module('basic')
-  .controller('DataExploreCtrl',['buildLog','$rootScope', '$scope', '$filter', function (buildLog,$rootScope, $scope, $filter) {
+  .controller('DataExploreCtrl',['buildLog','$rootScope','$scope','$filter','$http','$timeout', function (buildLog, $rootScope, $scope, $filter, $http, $timeout) {
     $scope.msg = $filter('translate')('web_common_data_explore_002');
     $scope.listofProject = [
       {header:"Structural data", content:{Rows: "1", Columns: 'aaa',NumberOfNumericVariables:'',NumberOfCategoryVariables:'',NullRatio:''}, footer:'Add a description'},
@@ -14,6 +14,19 @@ angular.module('basic')
     $scope.newProject = function () {
       buildLog.open(); 
     };
+    
+
+    function getProjectList() {
+      console.log("inside getProjectList");
+      $http.get('/api/model/getProjectList').success(function(data){
+        console.log("getProjectList:", data.model);
+        $timeout(function(){
+          $scope.listofProjectTwo = data.model;
+          // Notification.success('Success!!!');
+        }, 1000);     
+      });   
+    };
+    getProjectList();
 }]);
 
 

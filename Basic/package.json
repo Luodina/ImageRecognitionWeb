@@ -37,13 +37,10 @@
     "open": "0.0.5",
     "rimraf": "^2.4.0",
     "run-sequence": "^1.1.1",
+    "sequelize": "^3.24.7",
+    "mysql": "^2.12.0",
     "serve-favicon": "^2.4.2",
-    "wiredep": "^2.2.2"
-  },
-  "engines": {
-    "node": ">=0.10.0"
-  },
-  "dependencies": {
+    "wiredep": "^2.2.2",
     "@jupyterlab/services": "^0.43.0",
     "fs": "0.0.1-security",
     "karma": "^0.12.37",
@@ -51,5 +48,10 @@
     "websocket": "^1.0.24",
     "ws": "^2.3.1",
     "xmlhttprequest": "^1.8.0"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "dependencies": {
   }
 }

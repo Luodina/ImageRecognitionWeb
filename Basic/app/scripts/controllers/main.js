@@ -14,7 +14,6 @@ angular.module('basic')
     $scope.login = function () {
       //$state.go('dataExplore');
       if($scope.user.pass !== undefined) {
-        console.log("LOGIN!");
         $rootScope.login($scope.user.name, $scope.user.pass);
       }
     }

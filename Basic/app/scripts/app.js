@@ -24,7 +24,7 @@ angular
     'angularMoment',
     'chart.js',
     'ui.router',
-    'ui.router.state.events'
+    //'ui.router.state.events'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
@@ -72,7 +72,7 @@ angular
       chartColors: ['#4da9ff','#79d2a6','#ff9900','#ff704d','#669999','#4d0000']
     });
   }])
-  .run(['$rootScope', '$location', '$state', '$http', function ($rootScope, $location, $state, $http) {
+  .run(['$rootScope', '$location', '$state', '$http','$cookies',  function ($rootScope, $location, $state, $http, $cookies ) {
       // $rootScope.$on('$stateChangeStart', function (event,toState) {
       //   console.log(toState.name);
       //   if(toState && toState.name === 'main'){
@@ -85,9 +85,10 @@ angular
     $rootScope.login = (username ,password) => {
       $http.post("/api/user/login/" ,{username,password}).success(function (user) {
         if (user.status) {
-          console.log("LOGIN 1");
+          console.log("LOGIN SUCCESS!");
+          $cookies.put("username", username);
           $location.path("/home");
-          // $cookies.put("username", username);
+          
           // $cookies.put("token", user.token);
           // if($rootScope.isAdmin()) {
           //   $location.path("/dashboard");
@@ -98,7 +99,7 @@ angular
           // $rootScope.message = null;
           // $rootScope.changeTab('task');
         } else {
-          console.log("LOGIN 2");
+          console.log("LOGIN FAILED!please, use login name:ocai and pass:123456");
           // $rootScope.message = $filter('translate')('ocsp_web_user_manage_005');
           // $rootScope.styles = "redBlock";
           // $cookies.remove("username");
@@ -107,7 +108,9 @@ angular
         $rootScope.message = err;
       });
     };
-
+    $rootScope.getUsername = () => {
+      return $cookies.get("username");
+    };
     }])
     .service('buildLog', ['$uibModal', function ($uibModal) {
       this.open = function (tit,cont) {
@@ -115,13 +118,18 @@ angular
           backdrop: 'static',
           templateUrl: 'views/layer/dataExplore.html',
           // size: 'size',
-          controller: ['$scope','$filter','$uibModalInstance',
-            function ($scope,$filter,$uibModalInstance) {
+          controller: ['$scope','$filter','$uibModalInstance','$http',
+            function ($scope,$filter,$uibModalInstance, $http) {
               $scope.tit = $filter('translate')('web_common_data_explore_019');
               $scope.cont = $filter('translate')('web_common_data_explore_020');
               $scope.create = $filter('translate')('web_common_015');
               $scope.createName ='';
               $scope.cancel = function () {
+                if($scope.model.name !== undefined) {
+                  $http.post('/api/model/newModel', { modelName:$scope.model.name }).success(function(data){
+                      console.log("DataProcessingCtrl save:", data.msg);
+                  });
+                };
                 $uibModalInstance.dismiss();
               };
             }]

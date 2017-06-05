@@ -6,7 +6,7 @@
 angular.module('basic')
   .controller('DataReportCtrl',['$rootScope', '$scope','$http', '$sce', function ($rootScope, $scope, $http, $sce) {
     $scope.msg = "DataReportCtrl";
-    $scope.$on('tabs',function(el, num){
+    $scope.$on('tab',function(el, num){
       if (num ===1) {
         $http.get('/api/jupyter/report')
         .then(function successCallback(response) {

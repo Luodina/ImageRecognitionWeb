@@ -149,46 +149,12 @@ router.get('/step2', function (req, res) {
 });
 
 ///////apply
-router.get('/step3', function (req, res) {
-    //deleteCols 要删除的列，如果是多个列，以逗号分割
+router.post('/step3', function (req, res) {
+    console.log('req.query.deleteCols',req.query.deleteCols,'req.query.imputerCols',req.query.imputerCols,'req.query.standardCols',req.query.standardCols);
     var deleteCols = "deleteCols='petal length (cm)'";
-    //   var unCheckedBoxs = $("input[name='corrValues']").not("input:checked");
-    //   for(var i=0;i<unCheckedBoxs.length;i++){
-    //     if(i!=0){
-    //       deleteCols = deleteCols + ",";
-    //     }
-    //     deleteCols = deleteCols + unCheckedBoxs[i].value;
-    //   }
-
-    //imputerCols需要做空值处理的列，json格式，例如：{'petal width (cm)':'median','petal length (cm)':'mean','sepal width (cm)':'most_frequent','sepal length (cm)':'most_frequent'}
     var imputerCols = "imputerCols={'sepal width (cm)':'mean'}";
-    //   var imputerSelectItems = $("select[name='imputerOpers']");
-    //   for(var i=0;i<imputerSelectItems.length;i++){
-    //       var varName = imputerSelectItems[i].id;
-    //       var option = imputerSelectItems[i].value;
-    //       if(option!='none'){
-    //         if(imputerCols!='{'){
-    //           imputerCols = imputerCols + ",";
-    //         }
-    //         imputerCols = imputerCols + "'" +varName+ "'" + ":" + "'" +option+ "'";
-    //       }
-    //   }
-    //   imputerCols = imputerCols + "}";
-
-    //standardCols需要做正则化处理的列，json格式，例如：{'petal width (cm)':'Standarded','petal length (cm)':'MinMax','sepal width (cm)':'MaxAbs','sepal length (cm)':'Robust'}
     var standardCols = "standardCols={'sepal length (cm)':'Standarded'}";
-    //   var standardSelectItems = $("select[name='scalarOpers']");
-    //   for(var i=0;i<standardSelectItems.length;i++){
-    //       var varName = standardSelectItems[i].id;
-    //       var option = standardSelectItems[i].value;
-    //       if(option!='none'){
-    //         if(standardCols!='{'){
-    //           standardCols = standardCols + ",";
-    //         }
-    //         standardCols = standardCols + "'" +varName+ "'" + ":" + "'" +option+ "'";
-    //       }
-    //   }
-    //   standardCols = standardCols + "}";
+
 
     var code = sourceCodes[2];
 

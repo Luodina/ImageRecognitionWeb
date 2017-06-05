@@ -1,77 +1,88 @@
-
-<div class="contect-tabs">
-  <p class="dataProcess-title">{{ datamation | translate}}</p>
-  <div class="dataProcess-stepOne">
-    <!--<p class="dataProcess-one">{{ stepone | translate}}<i class="pull-right glyphicon glyphicon-chevron-up oneImg" ng-click="pulldownlistone()"></i></p>-->
-    <p class="dataProcess-one">{{ stepone | translate}}<span class="pull-right glyphicon glyphicon-chevron-up oneImg"
-                                                             ng-click="pulldownlistone()"></span></p>
-    <div class="step" ng-show="isShowOne">
-      
-      <table>
-        <tr ng-repeat="item in dataItem">
-          <td >相关性: {{item.corrValue}}</td>
-          <td >{{item.varName}}</td>
-          <td >{{item.corrVarName}}</td>
-        </tr>
-      </table>
+  <div class="contect-tabs">
+    <p class="dataProcess-title">{{ datamation | translate}}</p>
+    <div class="dataProcess-stepOne">
+      <!--<p class="dataProcess-one">{{ stepone | translate}}<i class="pull-right glyphicon glyphicon-chevron-up oneImg" ng-click="pulldownlistone()"></i></p>-->
+      <p class="dataProcess-one">{{ stepone | translate}}<span class="pull-right glyphicon glyphicon-chevron-up oneImg"
+                                                              ng-click="pulldownlistone()"></span></p>
+      <div class="step" ng-show="isShowOne">
+        
+        <table>
+          <tr ng-repeat="item in dataHighCorr">
+            <td >相关性: {{item.corrValue}}</td>
+            <td >
+              <!--<label>-->
+                {{item.varName}}
+                <input type="checkbox" name={{item.varName}} ng-model="dataHighCorr[$index].varNameStatus">
+              <!--</label>-->
+            </td>
+            <td >
+              <!--<label>-->
+                {{item.corrVarName}}
+                <input type="checkbox" name={{item.corrVarName}} ng-model="dataHighCorr[$index].corrVarNameStatus">
+              <!--</label>-->
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
-  </div>
-  <div class="dataProcess-stepOne">
-    <form data-ng-controller="DataProcessingCtrl">
-    <p class="dataProcess-one">{{ steptwo | translate}}<i class="pull-right glyphicon glyphicon-chevron-up oneImg"
-                                                          ng-click="pulldownlisttwo()"></i></p>
-    <div class="step" ng-show="isShowTwo" class="form-group">
-      
-      <table>
-        <tr ng-repeat="item in dataItemTwo">
-          
-          <td >变量名: {{item.varName}}</td>
-          <td >空值比例: {{item.imputerRatio}}</td>
-          <td>
-            <select class="form-control" name={{item.varName}} ng-model="selectedSite[$index]">             
-              <option value=''>不处理</option>
-              <option value='mean' >mean</option>
-              <option value='median' >median</option>
-              <option value='most_frequent' >most_frequent</option>
-            </select>
-          </td>
-          <td>
-            {{item.varName}} = {{selectedSite[$index]}}
-          </td>
-        </tr>
-      </table>
-    </div></form>
-    <!--<span class="stepBtn">{{ application | translate}}</span>-->
-  </div>
-  <div class="dataProcess-stepOne">
-    <p class="dataProcess-one">{{ stepthree | translate}}<i class="pull-right glyphicon glyphicon-chevron-up oneImg"
-                                                            ng-click="pulldownlistthree()"></i></p>
-    <div class="step" ng-show="isShowThree">
-      <table>
-        <tr ng-repeat="item in dataItemThree">
-          <td >  {{selectedSite[1]}}</td>
-          <td >变量名: {{item.varName}}</td>
-          <td >空值比例: {{item.stdValue}}</td>
-          <td ><img src="{{item.miniHistogram}}"></td>
-          <td>
-            <select name='imputerOpers'>
-              <option value='none'>不处理</option>
-              <option value='mean' >mean</option>
-              <option value='median' >median</option>
-              <option value='most_frequent' >most_frequent</option>
-            </select>
-          </td>
-        </tr>
-      </table>
+    <div class="dataProcess-stepOne"> 
+      <p class="dataProcess-one">{{ steptwo | translate}}
+        <i class="pull-right glyphicon glyphicon-chevron-up oneImg" ng-click="pulldownlisttwo()"></i>
+      </p>
+      <div class="step" ng-show="isShowTwo">           
+        <table>
+          <tr ng-repeat="item in dataImputer">
+            <td >变量名: {{item.varName}}</td>
+            <td >空值比例: {{item.imputerRatio}}</td>
+            <td>
+              <select name={{item.varName}} ng-model="dataImputer[$index].status">             
+                <option value=''>不处理</option>
+                <option value='mean' >mean</option>
+                <option value='median' >median</option>
+                <option value='most_frequent' >most_frequent</option>
+              </select>
+            </td>
+            <td>
+              <div>
+              {{item.varName}} = {{item.status}}
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
-  </div>
-  <button type="submit" class="btn btn-default" ng-click="submit()">Submit</button>
+    <div class="dataProcess-stepOne">
+      <p class="dataProcess-one">{{ stepthree | translate}}
+        <i class="pull-right glyphicon glyphicon-chevron-up oneImg" ng-click="pulldownlistthree()"></i>
+      </p>
+      <div class="step" ng-show="isShowThree">
+        <table>
+          <tr ng-repeat="item in dataScalar">
+            <td >变量名: {{item.varName}}</td>
+            <td >空值比例: {{item.stdValue}}</td>
+            <td ><img src="{{item.miniHistogram}}"></td>
+            <td>
+              <select name={{item.varName}} ng-model="dataScalar[$index].status">             
+                <option value=''>不处理</option>
+                <option value='mean' >mean</option>
+                <option value='median' >median</option>
+                <option value='most_frequent' >most_frequent</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div>
+      <p>{{dataHighCorr}}</p>
+       <p>{{dataImputer}}</p>
+        <p>{{dataScalar}}</p>
+    </div>
+    <!--<button type = "submit"  class="btn btn-default" ng-click="apply(dataHighCorr, dataImputer, dataScalar)">Submit</button>-->
   
- 
-  <div class="btn">
-    <!--<span class="form-group" class="btnStep" ng-click="submit()">Submit</span>-->
-    <span class="btnStep" ng-click="apply()">{{ application | translate}}</span>
-    <span class="btnStep" ng-click="preview()">{{ previewPage | translate}}</span>
+    <div class="btn">
+      <span class="btnStep" ng-click="apply(dataHighCorr, dataImputer, dataScalar)">{{ application | translate}}</span>
+      <span class="btnStep" ng-click="preview()">{{ previewPage | translate}}</span>
+    </div>
   </div>
-</div>
 
