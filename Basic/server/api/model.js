@@ -21,13 +21,15 @@ router.get('/getProjectList', function(req, res){
 router.post('/newModel', function(req, res){
     // (1, 'User1', "01","02_01",'Newmodel', '/dataProfileFolder/dataProfile.ipynb', "/Users/luodina/Documents/test/testDB.csv", "Add a description", NULL,"0", NULL, CURDATE() , 'blahblah' )
     let modelName = req.body.modelName;
-    Model.create({MODEL_ID:"3", MODEL_NAME: modelName
-    }).then(function(){  
-        res.send({msg:"Success!!!!"});
-    }).catch(err =>{
-        console.log("err",err);
-    });
-    
+    sequelize.transaction(function (t) {
+    console.log("!!!!!!!!!!!!!!!!!!!!t",t);
+        return Model.create({MODEL_ID: t.id, MODEL_NAME: modelName,
+        isNewRecord:true}).then(function(){  
+            res.send({msg:"Success!!!!"});
+        }).catch(err =>{
+            console.log("err",err);
+        });
+    }) 
 });
 
 module.exports = router; 
