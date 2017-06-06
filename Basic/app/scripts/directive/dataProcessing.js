@@ -51,14 +51,17 @@ angular.module('basic')
       newDataDel.forEach(function(el) { 
         console.log("el", el,"dataDel:", dataDel);
         if (!el.varNameStatus || el.varNameStatus!==true){
+          console.log("LOOOOKKKK!!!!dataDel:", dataDel);
           if(dataDel !== "") { dataDel = dataDel + "," }
-          dataDel =  dataDel + "'" + el.varName + "':'" + el.status + "'";
+          dataDel =  dataDel + "'" + el.varName  + "'";
         } 
         if (!el.corrVarNameStatus || el.corrVarNameStatus!==true){
-           if(dataDel !== "") { dataDel + "," }
+          console.log("LOOOOKKKK!!!!dataDel:", dataDel);
+          if(dataDel !== "") {  dataDel =  dataDel + "," }
           dataDel =  dataDel + "'" + el.corrVarName + "'";
         } 
       }, this);
+      if(dataDel === "") { dataDel =  "''" }
       dataDel = "\"" + "deleteCols=" + dataDel +"\""
       console.log("dataDel:", dataDel);
     };
