@@ -35,7 +35,9 @@ var upload = multer({ storage: storage });
 // The base url of the Jupyter server.
 var BASE_URL = _config2.default[env].notebook;
 var token = _config2.default[env].token;
+
 var templatIpynbPath = '/dataProfile.ipynb';
+var templatFolderPath = '/dataProfileFolder';
 
 var options = {
     baseUrl: BASE_URL,
@@ -50,8 +52,10 @@ var notebookModel;
 var notebookFilePath;
 var kernel;
 var dataFile;
+var basePath =path.join(__dirname, "../../uploads/");
+
 //console.log('contents', contents, 'ipynbPath', ipynbPath);
-contents.copy(templatIpynbPath, '/dataProfileFolder').then(function (model) {
+contents.copy(templatIpynbPath, templatFolderPath).then(function (model) {
     //console.log('contents.copy');
     notebookFilePath = model.path;
     contents.get(notebookFilePath).then(function (model1) {
@@ -123,10 +127,18 @@ router.get('/report', function (req, res) {
 });
 
 router.get('/step1', function (req, res) {
-    var newpath = "filePath=\"" + path.join(__dirname, "../../uploads/dataFile.csv\"");
+    var newpath = "filePath=\"" + basePath + "dataFile.csv\"";
+    if(process.platform =="win32"){
+        newpath=newpath.replace(/\\/g, "/");
+    }
     // console.log('!!!!!!!!!!!!!!!!!!!newpath:', newpath);
     var fileCode = sourceCodes[0].replace(/filePath=/g, newpath);
-    fileCode = fileCode.replace(/htmlFilePath=/g, "htmlFilePath=\"" + path.join(__dirname, "../../uploads/report.html\""));
+    var bb="htmlFilePath=\"" + path.join(__dirname, "../../uploads/report.html\"");
+    if(process.platform=="win32"){
+        bb=bb.replace(/\\/g, "/");
+    }
+    fileCode = fileCode.replace(/htmlFilePath=/g,bb);
+    // fileCode = fileCode.replace(/htmlFilePath=/g, "htmlFilePath=\"" + basePath + "report.html\"");
     console.log('!!!!!!!!STEP1___________CODE:', fileCode);
     var future = kernel.requestExecute({ code: fileCode });
     future.onIOPub = function (msg) {
@@ -150,12 +162,12 @@ router.get('/step2', function (req, res) {
 
 ///////apply
 router.post('/step3', function (req, res) {
-    console.log('req.query.deleteCols',req.query.deleteCols,'req.query.imputerCols',req.query.imputerCols,'req.query.standardCols',req.query.standardCols);
-    var deleteCols = "deleteCols='petal length (cm)'";
-    var imputerCols = "imputerCols={'sepal width (cm)':'mean'}";
-    var standardCols = "standardCols={'sepal length (cm)':'Standarded'}";
-
-
+    var imputerCols = req.body.imputerCols;//"imputerCols={'sepal width (cm)':'mean'}";
+    var standardCols = req.body.standardCols;//"standardCols={'sepal length (cm)':'Standarded'}";
+    var deleteCols = req.body.deleteCols; //"deleteCols='petal length (cm)'";
+    console.log('!!!!!!!!deleteCols:', deleteCols);
+    console.log('!!!!!!!!standardCols:', standardCols);
+    console.log('!!!!!!!!imputerCols:', imputerCols);
     var code = sourceCodes[2];
 
     code = code.replace("deleteCols=", deleteCols);
@@ -163,11 +175,6 @@ router.post('/step3', function (req, res) {
     code = code.replace("standardCols=", standardCols);
     console.log('!!!!!!!!STEP3___________CODE:', code);
     var future = kernel.requestExecute({ code: code });
-
-    future.onIOPub = function (msg) {
-
-        console.log('!!!!!!!!STEP3___________RESULT:', msg);
-    };
     return res.send({ result: "Hey" });
 });
 
@@ -186,7 +193,7 @@ router.get('/step4', function (req, res) {
 });
 
 router.get('/step5', function (req, res) {
-    var newpath = "outputFilePath=\"" + path.join(__dirname, "../../uploads/dataFileNew.csv\"");
+    var newpath = "outputFilePath=\"" + basePath + "dataFileNew.csv\"";
     var fileCode = sourceCodes[4].replace(/outputFilePath=/g, newpath);
     console.log('!!!!!!!!STEP5___________CODE:', fileCode);
     var future = kernel.requestExecute({ code: fileCode });

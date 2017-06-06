@@ -32,8 +32,7 @@ angular
       {name: 'main', url: '/', templateUrl: "views/main.html", controller: 'MainCtrl'},
 
       {name: 'home', url: '/home', templateUrl: "views/dashboard.html"},
-      {
-        name: 'dataExplore',
+      {name: 'dataExplore',
         url: '/explore',
         templateUrl: 'views/dataExplore/dataExplore.html',
         controller: 'DataExploreCtrl'
@@ -88,21 +87,8 @@ angular
           console.log("LOGIN SUCCESS!");
           $cookies.put("username", username);
           $location.path("/home");
-          
-          // $cookies.put("token", user.token);
-          // if($rootScope.isAdmin()) {
-          //   $location.path("/dashboard");
-          // }else{
-          //   $location.path("/task_management");
-          // }
-          // $rootScope.styles = null;
-          // $rootScope.message = null;
-          // $rootScope.changeTab('task');
         } else {
           console.log("LOGIN FAILED!please, use login name:ocai and pass:123456");
-          // $rootScope.message = $filter('translate')('ocsp_web_user_manage_005');
-          // $rootScope.styles = "redBlock";
-          // $cookies.remove("username");
         }
       }).error(function(err){
         $rootScope.message = err;
@@ -118,20 +104,29 @@ angular
           backdrop: 'static',
           templateUrl: 'views/layer/dataExplore.html',
           // size: 'size',
-          controller: ['$scope','$filter','$uibModalInstance','$http',
-            function ($scope,$filter,$uibModalInstance, $http) {
+          controller: ['$cookies','$scope','$filter','$uibModalInstance','$http',
+            function ($cookies, $scope, $filter, $uibModalInstance, $http) {
+              
               $scope.tit = $filter('translate')('web_common_data_explore_019');
               $scope.cont = $filter('translate')('web_common_data_explore_020');
               $scope.create = $filter('translate')('web_common_015');
-              $scope.createName ='';
-              $scope.cancel = function () {
+              $scope.userName = $cookies.get("username");
+              $scope.go = function () {
                 if($scope.model.name !== undefined) {
-                  $http.post('/api/model/newModel', { modelName:$scope.model.name }).success(function(data){
+                  $http.post('/api/model/newModel', { 
+                    modelName:$scope.model.name, 
+                    userName: $scope.userName,
+                    viewOrCode: "01",
+                    menuID: "02_",
+                  }).success(function(data){
                       console.log("DataProcessingCtrl save:", data.msg);
                   });
                 };
                 $uibModalInstance.dismiss();
               };
+              $scope.cancel = function () {
+                $uibModalInstance.dismiss();
+              }
             }]
         }).result;
       };
@@ -159,4 +154,8 @@ angular
       }).result;
     };
 
+  }])
+  .factory('test',['$resource',function($resource){
+    var test =$resource('http://baidu.com/:news',{news:'@news'},{create:{method:'POST'}});
+    return test;
   }])

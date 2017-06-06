@@ -36,7 +36,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_explore_009': 'High relevance variable to weight (check the reserved variables)',
     'web_common_data_explore_010': 'Variable null processing',
     'web_common_data_explore_011': 'Variable regularization',
-    'web_common_data_explore_012': 'Application',
+    'web_common_data_explore_012': 'Apply',
 
     'web_common_data_explore_013': 'Data application search',
     'web_common_data_explore_014': 'Text preprocessing',

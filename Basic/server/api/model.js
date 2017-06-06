@@ -21,9 +21,17 @@ router.get('/getProjectList', function(req, res){
 router.post('/newModel', function(req, res){
     // (1, 'User1', "01","02_01",'Newmodel', '/dataProfileFolder/dataProfile.ipynb', "/Users/luodina/Documents/test/testDB.csv", "Add a description", NULL,"0", NULL, CURDATE() , 'blahblah' )
     let modelName = req.body.modelName;
+    let userName = req.body.userName;
+    let viewOrCode = req.body.viewOrCode;
+    let menuID = req.body.menuID;
+     console.log("req.body.userName", req.body.userName);
     sequelize.transaction(function (t) {
-    console.log("!!!!!!!!!!!!!!!!!!!!t",t);
-        return Model.create({MODEL_ID: t.id, MODEL_NAME: modelName,
+        return Model.create({
+            MODEL_ID: t.id, 
+            MODEL_NAME: modelName, 
+            USER_ID: userName, 
+            VIEW_OR_CODE: viewOrCode,
+            VIEW_MENU_ID: menuID,
         isNewRecord:true}).then(function(){  
             res.send({msg:"Success!!!!"});
         }).catch(err =>{

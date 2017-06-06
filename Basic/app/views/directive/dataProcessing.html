@@ -64,24 +64,21 @@
             <td>
               <select name={{item.varName}} ng-model="dataScalar[$index].status">             
                 <option value=''>不处理</option>
-                <option value='mean' >mean</option>
-                <option value='median' >median</option>
-                <option value='most_frequent' >most_frequent</option>
+                <option value='Standarded'>Standarded</option>
+                <option value='MinMax' >MinMax</option>
+                <option value='MaxAbs' >MaxAbs</option>
+                <option value='Robust' >Robust</option>
               </select>
             </td>
           </tr>
         </table>
       </div>
     </div>
-    <div>
-      <p>{{dataHighCorr}}</p>
-       <p>{{dataImputer}}</p>
-        <p>{{dataScalar}}</p>
-    </div>
+
     <!--<button type = "submit"  class="btn btn-default" ng-click="apply(dataHighCorr, dataImputer, dataScalar)">Submit</button>-->
   
     <div class="btn">
-      <span class="btnStep" ng-click="apply(dataHighCorr, dataImputer, dataScalar)">{{ application | translate}}</span>
+      <span class="btnStep" ng-click="apply(dataHighCorr, dataImputer, dataScalar)">{{ 'web_common_data_explore_012' | translate}}</span>
       <span class="btnStep" ng-click="preview()">{{ previewPage | translate}}</span>
     </div>
   </div>

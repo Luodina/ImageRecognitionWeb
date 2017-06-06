@@ -87,12 +87,12 @@ angular.module('basic')
       console.log("dataScalar:", dataScalar);
     };
 
-    console.log("Apply!!!");
-    // $http.post('/api/jupyter/step3/', { deleteCols: dataDel, imputerCols: dataImputer, standardCols: dataScalar, }).success(function(data){
-    //   $timeout(function(){
-    //     Notification.success('Success!!!');
-    //   }, 1000);   
-    // });
+    console.log("Apply!!!", dataDel, dataImputer, dataScalar);
+    $http.post('/api/jupyter/step3/', { deleteCols: dataDel, imputerCols: dataImputer, standardCols: dataScalar }).success(function(data){
+      $timeout(function(){
+        Notification.success('Success!!!');
+      }, 1000);   
+    });
   };
 
   }])
