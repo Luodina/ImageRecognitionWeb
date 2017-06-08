@@ -4,7 +4,7 @@
       <!--<p class="dataProcess-one">{{ stepone | translate}}<i class="pull-right glyphicon glyphicon-chevron-up oneImg" ng-click="pulldownlistone()"></i></p>-->
       <p class="dataProcess-one">{{ stepone | translate}}<span class="pull-right glyphicon glyphicon-chevron-up oneImg"
                                                               ng-click="pulldownlistone()"></span></p>
-      <div class="step" ng-show="isShowOne">
+      <!--<div class="step" ng-show="isShowOne">-->
         
         <table>
           <tr ng-repeat="item in dataHighCorr">
@@ -23,7 +23,7 @@
             </td>
           </tr>
         </table>
-      </div>
+      <!--</div>-->
     </div>
     <div class="dataProcess-stepOne"> 
       <p class="dataProcess-one">{{ steptwo | translate}}
@@ -55,7 +55,7 @@
       <p class="dataProcess-one">{{ stepthree | translate}}
         <i class="pull-right glyphicon glyphicon-chevron-up oneImg" ng-click="pulldownlistthree()"></i>
       </p>
-      <div class="step" ng-show="isShowThree">
+      <!--<div class="step" ng-show="isShowThree">-->
         <table>
           <tr ng-repeat="item in dataScalar">
             <td >变量名: {{item.varName}}</td>
@@ -72,11 +72,9 @@
             </td>
           </tr>
         </table>
-      </div>
+      <!--</div>-->
     </div>
 
-    <!--<button type = "submit"  class="btn btn-default" ng-click="apply(dataHighCorr, dataImputer, dataScalar)">Submit</button>-->
-  
     <div class="btn">
       <span class="btnStep" ng-click="apply(dataHighCorr, dataImputer, dataScalar)">{{ 'web_common_data_explore_012' | translate}}</span>
       <span class="btnStep" ng-click="preview()">{{ previewPage | translate}}</span>

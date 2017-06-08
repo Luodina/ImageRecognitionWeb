@@ -8,29 +8,29 @@ angular.module('basic')
   .controller('DataProcessingCtrl',['$rootScope', '$scope','$http','$sce','Notification', '$timeout', '$filter','openPreview', function ($rootScope, $scope, $http, $sce, Notification, $timeout, $filter,openPreview) {
   //$scope.data = "DataProcessingCtrl";
   $scope.resultPreview = "Preview";
+  $scope.model = {};
   $scope.$on('tab',function(el, num){
     console.log("num:", num);
     if (num ===2) {
-      $http.get('/api/jupyter/step2').success(function(data){
-        // $scope.data = data.result;
-        // console.log("DataProcessingCtrl data:",  $scope.data);
-        $scope.dataHighCorr = JSON.parse(data.result).highCorr;
-        console.log("$scope.dataHighCorr:", $scope.dataHighCorr);
-        $scope.dataImputer= JSON.parse(data.result).imputer;
-        // dataItemTwo.forEach(function(element) { 
-        //   element["status"] = "none";  
-        // }, this);
-        // console.log("dataItemTwo:", dataItemTwo);
-        console.log("$scope.dataImputer:", $scope.dataImputer);
-        $scope.dataScalar = JSON.parse(data.result).scalar;
-        console.log("$scope.dataScalar :", $scope.dataScalar);
-      });
+      if ($scope.model === {}) {
+        $http.get('/api/jupyter/step2').success(function(data){
+          $scope.dataHighCorr = JSON.parse(data.result).highCorr;
+          console.log("$scope.dataHighCorr:", $scope.dataHighCorr);
+          $scope.dataImputer= JSON.parse(data.result).imputer;
+          console.log("$scope.dataImputer:", $scope.dataImputer);
+          $scope.dataScalar = JSON.parse(data.result).scalar;
+          console.log("$scope.dataScalar :", $scope.dataScalar);
+        });
+      }
     }
   });
+       
+  $scope.$on('model',function(el, model){
+      $scope.model = model;
+      console.log('model in DP:', model);
 
-  // $scope.apply = function(){
-
-  // };
+  });
+ 
   
   $scope.preview = function () {
      $http.get('/api/jupyter/step4').success(function(data){
@@ -42,7 +42,6 @@ angular.module('basic')
       }, 1000);     
     });   
   };
-
   $scope.apply =function(newDataDel, newDataImputer, newDataScalar){
     var dataDel = "", dataImputer = "", dataScalar = "";
     // "deleteCols='petal length (cm)'"
@@ -79,7 +78,6 @@ angular.module('basic')
     };
     // "standardCols={'sepal length (cm)':'Standarded'}"
     if (newDataScalar){
-      //console.log("newDataScalar :", newDataScalar);
       newDataScalar.forEach(function(el) { 
         if (el.status){
            if(dataScalar !== "") { dataScalar = dataScalar + ","}
@@ -97,7 +95,6 @@ angular.module('basic')
       }, 1000);   
     });
   };
-
   }])
   .directive('processing', function() {
     return {

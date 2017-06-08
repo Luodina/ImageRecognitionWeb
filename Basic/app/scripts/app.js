@@ -111,19 +111,19 @@ angular
               $scope.cont = $filter('translate')('web_common_data_explore_020');
               $scope.create = $filter('translate')('web_common_015');
               $scope.userName = $cookies.get("username");
-              $scope.go = function () {
-                if($scope.model.name !== undefined) {
-                  $http.post('/api/model/newModel', { 
-                    modelName:$scope.model.name, 
-                    userName: $scope.userName,
-                    viewOrCode: "01",
-                    menuID: "02_",
-                  }).success(function(data){
-                      console.log("DataProcessingCtrl save:", data.msg);
-                  });
-                };
-                $uibModalInstance.dismiss();
-              };
+              //$scope.go = function () {
+                // if($scope.model.name !== undefined) {
+                //   $http.post('/api/model/newModel', { 
+                //     modelName:$scope.model.name, 
+                //     userName: $scope.userName,
+                //     viewOrCode: "01",
+                //     menuID: "02",
+                //   }).success(function(data){
+                //       console.log("DataProcessingCtrl save:", data.msg);
+                //   });
+                // };
+                //$uibModalInstance.dismiss();
+              //};
               $scope.cancel = function () {
                 $uibModalInstance.dismiss();
               }
@@ -148,6 +148,16 @@ angular
               $http.get('/api/jupyter/step5').success(function(data){
                   console.log("DataProcessingCtrl save:", data.result);
               });
+                // if($scope.model.name !== undefined) {
+                //   $http.post('/api/model/newModel', { 
+                //     modelName:$scope.model.name, 
+                //     userName: $scope.userName,
+                //     viewOrCode: "01",
+                //     menuID: "02",
+                //   }).success(function(data){
+                //       console.log("DataProcessingCtrl save:", data.msg);
+                //   });
+                // };
               $uibModalInstance.dismiss();
             };
           }]
@@ -155,7 +165,14 @@ angular
     };
 
   }])
-  .factory('test',['$resource',function($resource){
-    var test =$resource('http://baidu.com/:news',{news:'@news'},{create:{method:'POST'}});
-    return test;
+  .factory('dataExploreFactory', ['$resource', '$http', function($resource, $http){
+    // var test =$resource('http://baidu.com/:news',{news:'@news'},{create:{method:'POST'}});
+    // return test;
+    return {
+      getProjectList: function(){
+        return $http.get('/api/model/getProjectList').success(function(data){
+          // console.log("getProjectList:", data.model);  
+        }); 
+      }
+    }
   }])
