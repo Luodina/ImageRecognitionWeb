@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     VIEW_OR_CODE: {
       type: DataTypes.CHAR(2),
-      allowNull: false,
+      allowNull: true,
       defaultValue: ""
     },
     VIEW_MENU_ID: {
@@ -25,7 +25,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     NOTEBOOK_PATH: {
       type: DataTypes.CHAR(64),
-      allowNull: false
+      allowNull: true
     },
     USER_INPUT_ITEMS: {
       type: DataTypes.CHAR(256),
@@ -33,19 +33,19 @@ module.exports = function(sequelize, DataTypes) {
     },
     MODEL_INFO: {
       type: DataTypes.CHAR(256),
-      allowNull: false
+      allowNull: true
     },
     TRAINNING_RESULT: {
       type: DataTypes.CHAR(512),
-      allowNull: false
+      allowNull: true
     },
     REGULAR_TRAINNING: {
       type: DataTypes.CHAR(1),
-      allowNull: false
+      allowNull: true
     },
     TRAINNING_PERIOD: {
       type: DataTypes.CHAR(32),
-      allowNull: false
+      allowNull: true
     },
     UPDATED_TIME: {
       type: DataTypes.DATE(),
@@ -53,7 +53,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     COMMENT: {
       type: DataTypes.CHAR(256),
-      allowNull: false
+      allowNull: true
     },
     FILE_PATH: {
       type: DataTypes.CHAR(11),

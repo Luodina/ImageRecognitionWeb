@@ -2,10 +2,10 @@
     <p class="dataProcess-title">{{ datamation | translate}}</p>
     <div class="dataProcess-stepOne">
       <!--<p class="dataProcess-one">{{ stepone | translate}}<i class="pull-right glyphicon glyphicon-chevron-up oneImg" ng-click="pulldownlistone()"></i></p>-->
-      <p class="dataProcess-one">{{ stepone | translate}}<span class="pull-right glyphicon glyphicon-chevron-up oneImg"
-                                                              ng-click="pulldownlistone()"></span></p>
-      <!--<div class="step" ng-show="isShowOne">-->
-        
+      <p class="dataProcess-one">{{ stepone | translate}}
+        <span class="pull-right glyphicon glyphicon-chevron-up oneImg" ng-click="pulldownlistone()"></span>
+      </p>
+      <div class="step" ng-show="isShowImputer">
         <table>
           <tr ng-repeat="item in dataHighCorr">
             <td >相关性: {{item.corrValue}}</td>
@@ -29,7 +29,7 @@
       <p class="dataProcess-one">{{ steptwo | translate}}
         <i class="pull-right glyphicon glyphicon-chevron-up oneImg" ng-click="pulldownlisttwo()"></i>
       </p>
-      <div class="step" ng-show="isShowTwo">           
+      <div class="step" ng-show="isShowScalar">           
         <table>
           <tr ng-repeat="item in dataImputer">
             <td >变量名: {{item.varName}}</td>

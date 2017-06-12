@@ -132,8 +132,8 @@ angular
       };
 
     }])
-    .service('openPreview', ['$uibModal','$http', function ($uibModal, $http) {
-    this.open = function (resultPreview) {
+    .service('openPreview', ['$rootScope','$uibModal','$http','moment', function ($rootScope, $uibModal, $http, moment) {
+    this.open = function (resultPreview, model) {
       return $uibModal.open({
         backdrop: 'static',
         templateUrl: 'views/layer/savePreview.html',
@@ -144,20 +144,26 @@ angular
             $scope.preTil = $filter('translate')('web_common_017');
             $scope.savebtn = $filter('translate')('web_common_018');
             $scope.resultPreview = resultPreview;
+            $scope.model = model;
+            $scope.model.USER_ID = $rootScope.getUsername();
+            $scope.cancel = function () {
+              $uibModalInstance.dismiss();
+            };
+            $scope.model.UPDATED_TIME = moment()._d;
+            console.log("GONNA BE POSTED:", $scope.model );
             $scope.save = function () {
               $http.get('/api/jupyter/step5').success(function(data){
                   console.log("DataProcessingCtrl save:", data.result);
+              }).catch(function(err){
+                  console.log("$http.get('/api/jupyter/step5') ERROR:", err);
               });
-                // if($scope.model.name !== undefined) {
-                //   $http.post('/api/model/newModel', { 
-                //     modelName:$scope.model.name, 
-                //     userName: $scope.userName,
-                //     viewOrCode: "01",
-                //     menuID: "02",
-                //   }).success(function(data){
-                //       console.log("DataProcessingCtrl save:", data.msg);
-                //   });
-                // };
+              if($scope.model !== undefined) {
+                $http.post('/api/model/newModel', $scope.model).success(function(data){
+                    console.log("DataProcessingCtrl save:", data.msg);
+                }).catch(function(err){
+                    console.log("$http.post('/api/model/newModel) ERROR:", err);
+                });
+              };
               $uibModalInstance.dismiss();
             };
           }]

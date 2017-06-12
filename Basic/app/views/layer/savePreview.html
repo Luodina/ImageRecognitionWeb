@@ -1,5 +1,8 @@
 <div class="openTotal">
-  <div class="title">{{preTil}}</div>
+  <div class="title">
+    <span style= "float:left;">{{preTil}}</span>
+    <span style= "float:right;" class="btn"  ng-click="cancel()">X</span>
+  </div>
   <div class="content">
       <div ng-bind-html="resultPreview"></div>
   </div>

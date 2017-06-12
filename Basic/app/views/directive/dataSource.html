@@ -8,11 +8,12 @@
     <input ngf-select type="file" ng-model="file" class="dataSource-file">
     
     <!--<input ng-if = "model.FILE_PATH != null" type="text" value ng-model="model.FILE_PATH" class="dataSource-file">-->
-    <!--Uploaded file: {{model.FILE_PATH}}-->
-    <span ng-if = "model.FILE_PATH== null" class="dataSource-upload" ng-click="upload()">{{fileimport | translate}}</span>
+    <!--<div>Uploaded file: {{model.FILE_PATH}}</div>-->
+    <span class="dataSource-upload" ng-click="upload()">{{fileimport | translate}}</span>
   </div>
   <div class="dataSource-btn">
-    <span ng-if = "model.FILE_PATH == null" class="dataSource-preview" ng-click="run(fileName)">!!!{{datapreview | translate}}</span>
+    <!--{{fileName}}-->
+    <span class="dataSource-preview" ng-click="run(fileName)">!!!{{datapreview | translate}}</span>
     <!--<span ng-if = "model.FILE_PATH != null" class="dataSource-preview" ng-click="run(model.FILE_PATH)">{{datapreview | translate}}</span>-->
   </div>
   <div ng-bind-html="result"></div>

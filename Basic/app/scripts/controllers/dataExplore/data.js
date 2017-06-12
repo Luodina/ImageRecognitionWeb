@@ -22,20 +22,23 @@ angular.module('basic')
     $scope.stepthree = $filter('translate')('web_common_data_explore_011');
     $scope.application = $filter('translate')('web_common_data_explore_012');
     $scope.headline = $filter('translate')('web_common_data_explore_021');
-    
-    $scope.tab=0;
-    
+
+    $scope.tab=0; 
     $scope.init = function(){
       let modelName = $location.path().split(/[\s/]+/).pop();
-      console.log("modelName",modelName);
+      console.log("data init modelName",modelName);
       if (modelName !==""){
         $http.get('/api/model/' + modelName)
-        .success(function(data){      
+        .success(function(data){ 
+          console.log("data init modelName",modelName);     
           if (data.model !== null && data.model !== undefined){
             $scope.model = data.model; 
-            console.log('$scope.model', $scope.model);
-            $scope.$broadcast('model',data.model);
-          }    
+
+          }else{
+            $scope.model={};
+          } 
+          console.log('$scope.model IN data', $scope.model);
+          $scope.$broadcast('model',$scope.model );  
         })
         .catch(err =>{console.log("err",err);});
       }  else {
@@ -43,7 +46,6 @@ angular.module('basic')
       }; 
     };
     $scope.init();
-
 
     $scope.clicked=function(num){
       $scope.tab = num;
@@ -61,5 +63,4 @@ angular.module('basic')
         $scope.$broadcast('tab',num);
       }
     }
-
     }]);
