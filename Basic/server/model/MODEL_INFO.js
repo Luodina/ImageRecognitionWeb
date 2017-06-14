@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     USER_ID: {
       type: DataTypes.CHAR(32),
-      allowNull: true
+      allowNull: false
     },
     VIEW_OR_CODE: {
       type: DataTypes.CHAR(2),
@@ -17,11 +17,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     VIEW_MENU_ID: {
       type: DataTypes.CHAR(3),
-      allowNull: true
+      allowNull: false
     },
     MODEL_NAME: {
       type: DataTypes.CHAR(64),
-      allowNull: true
+      allowNull: false
     },
     NOTEBOOK_PATH: {
       type: DataTypes.CHAR(64),
@@ -29,7 +29,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     USER_INPUT_ITEMS: {
       type: DataTypes.CHAR(256),
-      allowNull: true
+      allowNull: false
     },
     MODEL_INFO: {
       type: DataTypes.CHAR(256),
@@ -49,11 +49,15 @@ module.exports = function(sequelize, DataTypes) {
     },
     UPDATED_TIME: {
       type: DataTypes.DATE(),
-      allowNull: true
+      allowNull: false
     },
     COMMENT: {
       type: DataTypes.CHAR(256),
       allowNull: true
+    },
+    FILE_PATH: {
+      type: DataTypes.CHAR(11),
+      allowNull: false
     },
   }, {
     createdAt: false,

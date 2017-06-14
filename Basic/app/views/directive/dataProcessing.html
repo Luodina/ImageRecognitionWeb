@@ -2,10 +2,17 @@
     <p class="dataProcess-title">{{ datamation | translate}}</p>
     <div class="dataProcess-stepOne">
       <!--<p class="dataProcess-one">{{ stepone | translate}}<i class="pull-right glyphicon glyphicon-chevron-up oneImg" ng-click="pulldownlistone()"></i></p>-->
+<<<<<<< HEAD
       <p class="dataProcess-one">{{ stepone | translate}}<span class="pull-right glyphicon glyphicon-chevron-up oneImg"
                                                               ng-click="pulldownlistone()"></span></p>
       <div class="step" ng-show="isShowOne">
         
+=======
+      <p class="dataProcess-one">{{ stepone | translate}}
+        <span class="pull-right glyphicon glyphicon-chevron-up oneImg" ng-click="pulldownlistone()"></span>
+      </p>
+      <div class="step" ng-show="isShowImputer">
+>>>>>>> 024432262b2322d1dccbb5ef1802ae0d8b73d312
         <table>
           <tr ng-repeat="item in dataHighCorr">
             <td >相关性: {{item.corrValue}}</td>
@@ -23,13 +30,21 @@
             </td>
           </tr>
         </table>
+<<<<<<< HEAD
       </div>
+=======
+      <!--</div>-->
+>>>>>>> 024432262b2322d1dccbb5ef1802ae0d8b73d312
     </div>
     <div class="dataProcess-stepOne"> 
       <p class="dataProcess-one">{{ steptwo | translate}}
         <i class="pull-right glyphicon glyphicon-chevron-up oneImg" ng-click="pulldownlisttwo()"></i>
       </p>
+<<<<<<< HEAD
       <div class="step" ng-show="isShowTwo">           
+=======
+      <div class="step" ng-show="isShowScalar">           
+>>>>>>> 024432262b2322d1dccbb5ef1802ae0d8b73d312
         <table>
           <tr ng-repeat="item in dataImputer">
             <td >变量名: {{item.varName}}</td>
@@ -55,7 +70,11 @@
       <p class="dataProcess-one">{{ stepthree | translate}}
         <i class="pull-right glyphicon glyphicon-chevron-up oneImg" ng-click="pulldownlistthree()"></i>
       </p>
+<<<<<<< HEAD
       <div class="step" ng-show="isShowThree">
+=======
+      <!--<div class="step" ng-show="isShowThree">-->
+>>>>>>> 024432262b2322d1dccbb5ef1802ae0d8b73d312
         <table>
           <tr ng-repeat="item in dataScalar">
             <td >变量名: {{item.varName}}</td>
@@ -72,11 +91,17 @@
             </td>
           </tr>
         </table>
+<<<<<<< HEAD
       </div>
     </div>
 
     <!--<button type = "submit"  class="btn btn-default" ng-click="apply(dataHighCorr, dataImputer, dataScalar)">Submit</button>-->
   
+=======
+      <!--</div>-->
+    </div>
+
+>>>>>>> 024432262b2322d1dccbb5ef1802ae0d8b73d312
     <div class="btn">
       <span class="btnStep" ng-click="apply(dataHighCorr, dataImputer, dataScalar)">{{ 'web_common_data_explore_012' | translate}}</span>
       <span class="btnStep" ng-click="preview()">{{ previewPage | translate}}</span>
