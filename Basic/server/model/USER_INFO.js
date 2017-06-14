@@ -8,20 +8,20 @@ module.exports = function(sequelize, DataTypes) {
     },
     USER_NAME: {
       type: DataTypes.CHAR(64),
-      allowNull: true
+      allowNull: false
     },
     PASSWORD: {
       type: DataTypes.CHAR(32),
-      allowNull: true,
+      allowNull: false,
       defaultValue: ""
     },
     NOTEBOOK_SERVER_URL: {
       type: DataTypes.CHAR(64),
-      allowNull: true
+      allowNull: false
     },
     JUPYTER_TOKEN: {
       type: DataTypes.CHAR(64),
-      allowNull: true
+      allowNull: false
     }
   }, {
     createdAt: false,

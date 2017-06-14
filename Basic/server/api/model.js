@@ -19,12 +19,13 @@ router.get('/getProjectList', function(req, res){
 });
 
 router.post('/newModel', function(req, res){
-    // (1, 'User1', "01","02_01",'Newmodel', '/dataProfileFolder/dataProfile.ipynb', "/Users/luodina/Documents/test/testDB.csv", "Add a description", NULL,"0", NULL, CURDATE() , 'blahblah' )
-    let modelName = req.body.modelName;
-    let userName = req.body.userName;
-    let viewOrCode = req.body.viewOrCode;
-    let menuID = req.body.menuID;
-     console.log("req.body.userName", req.body.userName);
+    let modelName = req.body.MODEL_NAME;
+    let userName = req.body.USER_ID;
+    let viewOrCode = req.body.VIEW_OR_CODE;
+    let menuID = req.body.VIEW_MENU_ID;
+    let time = req.body.UPDATED_TIME;
+    let items = req.body.USER_INPUT_ITEMS;
+    console.log("req.body", req.body);
     sequelize.transaction(function (t) {
         return Model.create({
             MODEL_ID: t.id, 
@@ -32,12 +33,30 @@ router.post('/newModel', function(req, res){
             USER_ID: userName, 
             VIEW_OR_CODE: viewOrCode,
             VIEW_MENU_ID: menuID,
-        isNewRecord:true}).then(function(){  
-            res.send({msg:"Success!!!!"});
-        }).catch(err =>{
-            console.log("err",err);
-        });
+            UPDATED_TIME: time,
+            USER_INPUT_ITEMS: items,
+            FILE_PATH: 'iris.csv',
+            isNewRecord:true})
+            .then(function(){res.send({msg:"Success!!!!"});})
+            .catch(err =>{console.log("err",err);});
     }) 
 });
 
+router.get('/:modelName', function(req, res){
+  let modelName = req.params.modelName;
+  console.log("req.params.modelName",req.params.modelName, "modelName",modelName); 
+  if (modelName !== null){
+    Model.findOne({
+        where: { MODEL_NAME: modelName},
+        raw: true
+    })
+    .then(function(model){  
+      console.log("model is:",model); 
+      res.send(model);
+    })
+    .catch(err =>{
+      console.log("err",err);
+    });
+  }
+});
 module.exports = router; 

@@ -4,8 +4,8 @@
  */
 'use strict';
 angular.module('basic')
-  .controller('DataCtrl',['$rootScope', '$scope','$http', '$filter','Upload', 'Notification', '$timeout','$window','openPreview',
-    function ($rootScope, $scope, $http, $filter, Upload, Notification, $timeout,$window,openPreview) {
+  .controller('DataCtrl',['$location', '$rootScope', '$scope','$http', '$filter','Upload', 'Notification', '$timeout','$window','openPreview',
+    function ( $location, $rootScope, $scope, $http, $filter, Upload, Notification, $timeout,$window,openPreview) {
     $scope.processing = $filter('translate')('web_common_data_explore_003');
     $scope.source = $filter('translate')('web_common_data_explore_001');
     $scope.report = $filter('translate')('web_common_data_explore_002');
@@ -23,9 +23,32 @@ angular.module('basic')
     $scope.application = $filter('translate')('web_common_data_explore_012');
     $scope.headline = $filter('translate')('web_common_data_explore_021');
 
-    $scope.tab=0;
+    $scope.tab=0; 
+    $scope.init = function(){
+      let modelName = $location.path().split(/[\s/]+/).pop();
+      console.log("data init modelName",modelName);
+      if (modelName !==""){
+        $http.get('/api/model/' + modelName)
+        .success(function(data){ 
+          console.log("data init modelName",modelName);     
+          if (data.model !== null && data.model !== undefined){
+            $scope.model = data.model; 
+
+          }else{
+            $scope.model={};
+          } 
+          console.log('$scope.model IN data', $scope.model);
+          $scope.$broadcast('model',$scope.model );  
+        })
+        .catch(err =>{console.log("err",err);});
+      }  else {
+         $location.path("/explore")
+      }; 
+    };
+    $scope.init();
+
     $scope.clicked=function(num){
-      $scope.tab=num;
+      $scope.tab = num;
       if(num===2){
         $scope.$broadcast('tab',num);
         $scope.tab = 2
@@ -38,24 +61,6 @@ angular.module('basic')
       if(num===0){
         $scope.tab = 0;
         $scope.$broadcast('tab',num);
-
       }
     }
-
-      $scope.isShowOne = true;
-      $scope.isShowTwo = true;
-      $scope.isShowThree = true;
-
-      $scope.pulldownlistone = function () {
-        $scope.isShowOne = !$scope.isShowOne;
-      };
-
-      $scope.pulldownlisttwo = function () {
-        $scope.isShowTwo = !$scope.isShowTwo;
-      };
-
-      $scope.pulldownlistthree = function () {
-        $scope.isShowThree = !$scope.isShowThree;
-      };
-
     }]);

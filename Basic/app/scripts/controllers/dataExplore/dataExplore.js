@@ -1,32 +1,30 @@
 'use strict';
 angular.module('basic')
-  .controller('DataExploreCtrl',['buildLog','$rootScope','$scope','$filter','$http','$timeout', function (buildLog, $rootScope, $scope, $filter, $http, $timeout) {
+  .controller('DataExploreCtrl',['buildLog','$rootScope','$scope','$filter','$http','$timeout', 'dataExploreFactory', function (buildLog, $rootScope, $scope, $filter, $http, $timeout, dataExploreFactory) {
     $scope.msg = $filter('translate')('web_common_data_explore_002');
-    $scope.listofProject = [
-      {header:"Structural data", content:{Rows: "1", Columns: 'aaa',NumberOfNumericVariables:'',NumberOfCategoryVariables:'',NullRatio:''}, footer:'Add a description'},
-      {header:"Text preprocessing", content:{Ngram: "2", TheNumberOfWords: '1000',NumberOfFeatures:'40998',Weight:'tf-idf'}, footer:'Add a description'}
-    ];
-    $scope.listofProjectTwo = [
-      {header:"Project3", content:"container", footer:'Add a description'},
-      {header:"Project4", content:"container container", footer:'Add a description'}
-    ];
-    $scope.listofProjectTwoCount = $scope.listofProjectTwo.length;
+    
+    $scope.projectType=['web_common_007', 'web_common_008', 'web_common_data_explore_014', 'web_common_data_explore_015'];
+    $scope.listAllProject=[[]];
+    var handleSuccess = function(data, status) {
+      let listAllProject  = data.model;
+      listAllProject.forEach(function(model) {
+       if (model.USER_ID === 'ocai'){
+        $scope.listAllProject[0].push(model);  
+       };
+       if (model.VIEW_MENU_ID !== null && model.VIEW_MENU_ID !== undefined ){
+          if ($scope.listAllProject[parseInt(model.VIEW_MENU_ID)]===undefined){
+            $scope.listAllProject[parseInt(model.VIEW_MENU_ID)]=[];
+          } 
+          $scope.listAllProject[parseInt(model.VIEW_MENU_ID)].push(model);
+       }
+      }, this);
+      console.log("$scope.listAllProject", $scope.listAllProject)
+    };
+
+    dataExploreFactory.getProjectList().success(handleSuccess);    
     $scope.newProject = function () {
       buildLog.open(); 
     };
-    
-
-    function getProjectList() {
-      console.log("inside getProjectList");
-      $http.get('/api/model/getProjectList').success(function(data){
-        console.log("getProjectList:", data.model);
-        $timeout(function(){
-          $scope.listofProjectTwo = data.model;
-          // Notification.success('Success!!!');
-        }, 1000);     
-      });   
-    };
-    getProjectList();
 }]);
 
 

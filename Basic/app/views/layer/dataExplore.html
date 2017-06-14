@@ -1,14 +1,12 @@
-<div class="openTotal">
-  <div class="title">
-    <span style= "float:left;">{{tit}}</span>
-    <span style= "float:right;" class="btn"  ng-click="cancel()">X</span>
-  </div>
-  <div class="content">
-    <div class="content-title">{{cont}}</div>
-    <input class="content-name" ng-model='model.name'>
-  </div>
-  <div class="footer">
-    <span class="btn" ui-sref="data({name: model.name})"  ng-click="go()">{{create}}</span>
-  </div>
+<div class="modal-header">
+  <span class="modal-header-title">{{tit}}</span>
+  <span class="modal-header-close" ng-click="cancel()">X</span>
+</div>
+<div class="modal-body">
+  <div class="modal-body-title">{{cont}}</div>
+  <input class="modal-body-name" ng-model='model.name'>
+</div>
+<div class="modal-footer">
+  <span class="modal-footer-btn" ui-sref="data({name: model.name})" ng-click="cancel()">{{create}}</span>
 </div>
 
