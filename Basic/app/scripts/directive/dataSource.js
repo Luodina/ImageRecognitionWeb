@@ -14,7 +14,7 @@ angular.module('basic')
       console.log('model in DS:', $scope.model);
       if (Object.keys($scope.model).length == 0) {
         $scope.isNew = true;
-        $scope.init2();
+        $scope.init();
       }else{
         let fn = getFileName($scope.model.FILE_PATH) + '_' + $rootScope.getUsername() + '.' + getFileExtension($scope.model.FILE_PATH);
         //console.log(getFileName($scope.model.FILE_PATH) + '_' + $rootScope.getUsername() + '.' + getFileExtension($scope.model.FILE_PATH))
@@ -72,7 +72,7 @@ angular.module('basic')
       });
     };
 
-    $scope.init2 = function(){
+    $scope.init = function(){
       console.log("Let's init it :)");
       $http.post('/api/jupyter/init/')
       .success(function(data){
@@ -80,8 +80,18 @@ angular.module('basic')
       })
       .catch(err =>{console.log("err",err);
       });
-    };
-    // $scope.init();
+    };   
+
+    $scope.save = function(){
+      console.log("Let's save it :)");
+      $http.get('/api/jupyter/save/')
+      .success(function(data){
+        console.log("data.msg",data.msg);
+      })
+      .catch(err =>{console.log("err",err);
+      });
+    }; 
+
   }])
 .directive('source', function() {
   return {
