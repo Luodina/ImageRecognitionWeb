@@ -35,7 +35,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_explore_006': '数据文件导入',
     'web_common_data_explore_007': '上传',
     'web_common_data_explore_008': '数据预览',
-    'web_common_data_explore_009': '高关联性变量去重(请勾选保留的变量)',
+    'web_common_data_explore_009': '高关联性变量去重(请勾选删除的变量)',
     'web_common_data_explore_010': '变量空值处理',
     'web_common_data_explore_011': '变量正则化',
     'web_common_data_explore_012': '应用',

@@ -24,7 +24,7 @@ angular
     'angularMoment',
     'chart.js',
     'ui.router',
-    //'ui.router.state.events'
+    'ui.router.state.events'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
@@ -72,14 +72,21 @@ angular
     });
   }])
   .run(['$rootScope', '$location', '$state', '$http','$cookies',  function ($rootScope, $location, $state, $http, $cookies ) {
-      // $rootScope.$on('$stateChangeStart', function (event,toState) {
-      //   console.log(toState.name);
-      //   if(toState && toState.name === 'main'){
-      //     $('#navbar-nav').css('visibility','hidden');
-      //   }else{
-      //     $('#navbar-nav').css('visibility','visible');
-      //   }
-      // })
+    $rootScope.iflogin=false;
+      $rootScope.$on('$stateChangeStart', function (event,toState) {
+        console.log(toState.name);
+        if(!$rootScope.iflogin){
+          // console.log('lalallalal')
+          $location.path("/");
+        }else{
+          console.log('ifloginok')
+        }
+        if(toState && toState.name === 'main'){
+          $('#navbar-nav').css('visibility','hidden');
+        }else{
+          $('#navbar-nav').css('visibility','visible');
+        }
+      })
 
     $rootScope.login = (username ,password) => {
       $http.post("/api/user/login/" ,{username,password}).success(function (user) {
@@ -87,6 +94,7 @@ angular
           console.log("LOGIN SUCCESS!");
           $cookies.put("username", username);
           $location.path("/home");
+          $rootScope.iflogin = true;
         } else {
           console.log("LOGIN FAILED!please, use login name:ocai and pass:123456");
         }
@@ -111,19 +119,19 @@ angular
               $scope.cont = $filter('translate')('web_common_data_explore_020');
               $scope.create = $filter('translate')('web_common_015');
               $scope.userName = $cookies.get("username");
-              //$scope.go = function () {
-                // if($scope.model.name !== undefined) {
-                //   $http.post('/api/model/newModel', { 
-                //     modelName:$scope.model.name, 
-                //     userName: $scope.userName,
-                //     viewOrCode: "01",
-                //     menuID: "02",
-                //   }).success(function(data){
-                //       console.log("DataProcessingCtrl save:", data.msg);
-                //   });
-                // };
-                //$uibModalInstance.dismiss();
-              //};
+              $scope.go = function () {
+                if($scope.model.name !== undefined) {
+                  $http.post('/api/model/newModel', {
+                    modelName:$scope.model.name,
+                    userName: $scope.userName,
+                    viewOrCode: "01",
+                    menuID: "02_",
+                  }).success(function(data){
+                      console.log("DataProcessingCtrl save:", data.msg);
+                  });
+                };
+                $uibModalInstance.dismiss();
+              };
               $scope.cancel = function () {
                 $uibModalInstance.dismiss();
               }
