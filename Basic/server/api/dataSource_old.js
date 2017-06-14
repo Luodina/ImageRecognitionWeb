@@ -1,16 +1,16 @@
 "use strict";
 
-let contents = require('../jupyter');//require("@jupyterlab/services");
-// var _xmlhttprequest = require("xmlhttprequest");
-// var _ws = require("ws");
-// var _ws2 = _interopRequireDefault(_ws);
-// var _config = require("./../config");
-// var _config2 = _interopRequireDefault(_config);
-// function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _services = require("@jupyterlab/services");
+var _xmlhttprequest = require("xmlhttprequest");
+var _ws = require("ws");
+var _ws2 = _interopRequireDefault(_ws);
+var _config = require("./../config");
+var _config2 = _interopRequireDefault(_config);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// var env = _config2.default.env || 'dev';
-// global.XMLHttpRequest = _xmlhttprequest.XMLHttpRequest;
-// global.WebSocket = _ws2.default;
+var env = _config2.default.env || 'dev';
+global.XMLHttpRequest = _xmlhttprequest.XMLHttpRequest;
+global.WebSocket = _ws2.default;
 
 var express = require('express');
 var router = express.Router();
@@ -30,20 +30,36 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 // The base url of the Jupyter server.
-// var BASE_URL = _config2.default[env].notebook;
-// var token = _config2.default[env].token;
+var BASE_URL = _config2.default[env].notebook;
+var token = _config2.default[env].token;
 
 var templatIpynbPath = '/dataProfile.ipynb';
 var templatFolderPath = '/dataProfileFolder';
 
-// var options = {
-//     baseUrl: BASE_URL,
-//     token: token
-// };
+var options = {
+    baseUrl: BASE_URL,
+    token: token
+};
+//
 
-//console.log('!!!!!!!!___________OPTIONS:', options);
 
-//var contents = new _services.ContentsManager(options);
+    // // Read the file and send to the callback
+    // fs.readFile('/Users/luodina/dataProfileFolder/dataProfile-Copy1.ipynb', handleFile)
+
+    // // Write the callback function
+    // function handleFile(err, data) {
+    //     if (err) throw err
+    //     let obj = JSON.parse(data)
+    //     console.log('!!!!!!!!___________ipynbFile:', obj);
+    //     // You can now play with your datas
+    // }
+
+
+
+//
+console.log('!!!!!!!!___________OPTIONS:', options);
+
+var contents = new _services.ContentsManager(options);
 var sourceCodes = new Array();
 var notebookModel;
 var notebookFilePath;
@@ -53,57 +69,68 @@ var basePath =path.join(__dirname, "../../uploads/");
 
 console.log('contents', contents, 'ipynbPath', templatIpynbPath);
 
-contents.copy(templatIpynbPath, '/dataProfileFolder').then(function (model) {
-    console.log('model', model);
-    notebookFilePath = model.path;
-    contents.get(notebookFilePath).then(function (model1) {
-        notebookModel = model1;
-        var cellsLength = model1.content.cells.length;
-        for(var i=0;i<cellsLength;i++){
-          sourceCodes[i] =  model1.content.cells[i].source;
-        }
+router.post('/init', function (req, res) { 
+    res.status(200).send({ msg: "GREAT SUCCESS!!!" });
+    // contents.get('/dataProfileFolder').then(
+    //     (model) => {
+    //         console.log('files:', model.content);
+    //     }
+    // );
+    contents.copy(templatIpynbPath, '/dataProfileFolder').then(function (model) {
+        //console.log('contents.copy');
+        notebookFilePath = model.path;
+        contents.get(notebookFilePath).then(function (model1) {
+            notebookModel = model1;
+            var cellsLength = model1.content.cells.length;
+            for(var i=0;i<cellsLength;i++){
+            sourceCodes[i] =  model1.content.cells[i].source;
+            }
 
-        //连接到session(如果已经存在该ipynb对应的session,则直接使用;如果没有，则创建一个session
-        //have a test
-        options = {
-          baseUrl: BASE_URL,
-          token:token,
-          kernelName: 'python',
-          path:notebookFilePath
-        };
+            //连接到session(如果已经存在该ipynb对应的session,则直接使用;如果没有，则创建一个session
+            //have a test
+            options = {
+            baseUrl: BASE_URL,
+            token:token,
+            kernelName: 'python',
+            path:notebookFilePath
+            };
 
-        _services.Session.listRunning(options).then(function (sessionModels) {
-            var sessionNums = sessionModels.length;
-            var existSession = false;
-            // console.log('sessionModels.length',sessionModels.length);
-            for (var i = 0; i < sessionNums; i++) {
-                var path = sessionModels[i].notebook.path;
-                if (path === notebookFilePath) {
-                    //存在session，直接连接
-                    var sessionOptions = {
-                        baseUrl: BASE_URL,
-                        token: token,
-                        kernelName: sessionModels[i].kernel.name,
-                        path: sessionModels[i].notebook.path
-                    };
-                    _services.Session.connectTo(sessionModels[i].id, sessionOptions).then(function (session) {
-                        console.log('connected to existing session');
-                        kernel = session.kernel;
-                        // return res.send({result:"Hey!"});
-                    });
-                    existSession = true;
-                    break;
+            _services.Session.listRunning(options).then(function (sessionModels) {
+                var sessionNums = sessionModels.length;
+                var existSession = false;
+                // console.log('sessionModels.length',sessionModels.length);
+                for (var i = 0; i < sessionNums; i++) {
+                    var path = sessionModels[i].notebook.path;
+                    if (path === notebookFilePath) {
+                        //存在session，直接连接
+                        var sessionOptions = {
+                            baseUrl: BASE_URL,
+                            token: token,
+                            kernelName: sessionModels[i].kernel.name,
+                            path: sessionModels[i].notebook.path
+                        };
+                        _services.Session.connectTo(sessionModels[i].id, sessionOptions).then(function (session) {
+                            console.log('connected to existing session');
+                            kernel = session.kernel;
+                            // return res.send({result:"Hey!"});
+                        });
+                        existSession = true;
+                        break;
+                    }
                 }
-            }
-            if (!existSession) {
-                //没有现有的session，新创建session
-                console.log('start new session');
-                _services.Session.startNew(options).then(function (session) {
-                    kernel = session.kernel;
-                });
-            }
+                if (!existSession) {
+                    //没有现有的session，新创建session
+                    console.log('start new session');
+                    _services.Session.startNew(options).then(function (session) {
+                        kernel = session.kernel;
+                    });
+                }
+            });
         });
     });
+    contents.save('NewDataProfile.ipynb')
+        .then(function () {console.log('SAVED!!!!');})
+        .catch(function(err){console.log('!!!!!!!!___________ERR:', err);});
 });
 
 router.post('/upload', upload.single('file'), function (req, res) { 
@@ -143,6 +170,10 @@ router.post('/step1', function (req, res) {
         // fileCode = fileCode.replace(/htmlFilePath=/g, "htmlFilePath=\"" + basePath + "report.html\"");
         console.log('!!!!!!!!STEP1___________CODE:', fileCode);
         var future = kernel.requestExecute({ code: fileCode });
+
+        //let contents = new _services.ContentsManager(options);
+        
+
         future.onIOPub = function (msg) {
             if (msg.header.msg_type === "execute_result") {
                 console.log('!!!!!!!!STEP1___________RESULT:', msg);

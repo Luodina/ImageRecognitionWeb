@@ -91,11 +91,12 @@ angular.module('basic')
       .catch(err =>{console.log("err",err);
       });
     }; 
-
+    // $scope.init();
   }])
 .directive('source', function() {
   return {
     templateUrl: 'views/directive/dataSource.html'
   };
 });
+
 

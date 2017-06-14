@@ -1,23 +1,19 @@
 "use strict";
+import {
+  KernelMessage, Kernel, Session, ContentsManager
+} from '@jupyterlab/services';
 
-var _services = require("@jupyterlab/services");
-var _xmlhttprequest = require("xmlhttprequest");
-var _ws = require("ws");
-var _ws2 = _interopRequireDefault(_ws);
-var _config = require("./../config");
-var _config2 = _interopRequireDefault(_config);
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+import { XMLHttpRequest } from "xmlhttprequest";
+import { default as WebSocket } from 'ws';
 
-var env = _config2.default.env || 'dev';
-global.XMLHttpRequest = _xmlhttprequest.XMLHttpRequest;
-global.WebSocket = _ws2.default;
+global.XMLHttpRequest = XMLHttpRequest;
+global.WebSocket = WebSocket;
 
 var express = require('express');
 var router = express.Router();
 var path = require('path');
 var fs = require('fs');
 var multer = require('multer');
-var fileName ;//= "./uploads/dataFile.csv";
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './uploads/')
@@ -26,111 +22,119 @@ var storage = multer.diskStorage({
         cb(null, file.originalname);
     }
 });
-
 var upload = multer({ storage: storage });
 
-// The base url of the Jupyter server.
-var BASE_URL = _config2.default[env].notebook;
-var token = _config2.default[env].token;
+var fileName ;
+
+let config = require('./../config');
+let env = config.env || 'dev';
 
 var templatIpynbPath = '/dataProfile.ipynb';
 var templatFolderPath = '/dataProfileFolder';
 
-var options = {
-    baseUrl: BASE_URL,
-    token: token
-};
-//
-
-
-    // // Read the file and send to the callback
-    // fs.readFile('/Users/luodina/dataProfileFolder/dataProfile-Copy1.ipynb', handleFile)
-
-    // // Write the callback function
-    // function handleFile(err, data) {
-    //     if (err) throw err
-    //     let obj = JSON.parse(data)
-    //     console.log('!!!!!!!!___________ipynbFile:', obj);
-    //     // You can now play with your datas
-    // }
-
-
-
-//
-console.log('!!!!!!!!___________OPTIONS:', options);
-
-var contents = new _services.ContentsManager(options);
+const filePath = "filePath=\n";
+const htmlFilePath = "htmlFilePath=\n";
 var sourceCodes = new Array();
-var notebookModel;
-var notebookFilePath;
-var kernel;
-var dataFile;
+// var notebookModel;
+// var notebookFilePath;
+
+// var dataFile;
+
 var basePath =path.join(__dirname, "../../uploads/");
 
-console.log('contents', contents, 'ipynbPath', templatIpynbPath);
+var obj = {
+};
+var options = {
+    baseUrl: config[env].notebook,
+    token: config[env].token,
+    kernelName: 'python',
+    path:templatIpynbPath
+};
+
+var sourceCodes = new Array();
+var outputs = new Array();
+var mysession;
+var kernel;
+console.log('!!!!!!!!___________OPTIONS:', options);
+var contents = new ContentsManager(options);
+
+contents.get(templatFolderPath).then((model) => {
+    console.log('files in ', templatFolderPath , ":", model.content);
+    for (var i = 0, len = model.content.length; i < len; i++) {
+        if (("/" + model.content[i].name)===templatIpynbPath){
+            contents.delete(templatFolderPath + templatIpynbPath);  
+            console.log('deleted:' , templatFolderPath + templatIpynbPath);  
+        }
+    }
+}); 
+
+function runNewSession(){
+    Session.listRunning(options).then(sessionModels => {
+        var sessionNums = sessionModels.length;
+        var existSession = false;
+        console.log('sessionModels.length',sessionModels.length);
+        for (let i = 0; i < sessionNums; i++) {
+            let path = sessionModels[i].notebook.path;
+            if (path === templatIpynbPath) {
+                Session.connectTo(sessionModels[i].id, options).then(session => {
+                    kernel = session.kernel;
+                    mysession = session;
+                    console.log('session started');
+                });
+                existSession = true;
+                break;
+            }
+        }
+        if (!existSession) {
+            //没有现有的session，新创建session
+            console.log('start new session');
+            Session.startNew(options).then(session => {
+                kernel = session.kernel;
+                mysession = session;
+                console.log('session started');
+            });
+        }
+    });
+}
+
 
 router.post('/init', function (req, res) { 
-    res.status(200).send({ msg: "GREAT SUCCESS!!!" });
-    // contents.get('/dataProfileFolder').then(
-    //     (model) => {
-    //         console.log('files:', model.content);
-    //     }
-    // );
-    contents.copy(templatIpynbPath, '/dataProfileFolder').then(function (model) {
-        //console.log('contents.copy');
-        notebookFilePath = model.path;
-        contents.get(notebookFilePath).then(function (model1) {
-            notebookModel = model1;
-            var cellsLength = model1.content.cells.length;
-            for(var i=0;i<cellsLength;i++){
-            sourceCodes[i] =  model1.content.cells[i].source;
-            }
 
-            //连接到session(如果已经存在该ipynb对应的session,则直接使用;如果没有，则创建一个session
-            //have a test
-            options = {
-            baseUrl: BASE_URL,
-            token:token,
-            kernelName: 'python',
-            path:notebookFilePath
-            };
-
-            _services.Session.listRunning(options).then(function (sessionModels) {
-                var sessionNums = sessionModels.length;
-                var existSession = false;
-                // console.log('sessionModels.length',sessionModels.length);
-                for (var i = 0; i < sessionNums; i++) {
-                    var path = sessionModels[i].notebook.path;
-                    if (path === notebookFilePath) {
-                        //存在session，直接连接
-                        var sessionOptions = {
-                            baseUrl: BASE_URL,
-                            token: token,
-                            kernelName: sessionModels[i].kernel.name,
-                            path: sessionModels[i].notebook.path
-                        };
-                        _services.Session.connectTo(sessionModels[i].id, sessionOptions).then(function (session) {
-                            console.log('connected to existing session');
-                            kernel = session.kernel;
-                            // return res.send({result:"Hey!"});
-                        });
-                        existSession = true;
-                        break;
+    contents.copy(templatIpynbPath, templatFolderPath).then(model =>{
+        fs.readFile('/Users/luodina/dataProfileFolder/dataProfile.ipynb', 'utf8', 
+            function readFileCallback(err, data){
+                if (err){
+                    console.log(err);
+                } else {
+                obj = JSON.parse(data);  //now it an object
+                for (let i = 0, len = obj.cells[0].source.length; i < len; i++) {
+                    if (obj.cells[0].source[i] === filePath){
+                        obj.cells[0].source[i] ="filePath=\"" + basePath + "iris_ocai.csv\"\n";
+                    };
+                    if (obj.cells[0].source[i] === htmlFilePath){
+                        obj.cells[0].source[i] ="htmlFilePath=\"" + basePath + "iris_ocai_report.html\"\n"; 
                     }
-                }
-                if (!existSession) {
-                    //没有现有的session，新创建session
-                    console.log('start new session');
-                    _services.Session.startNew(options).then(function (session) {
-                        kernel = session.kernel;
-                    });
-                }
-            });
+                }               
+                var json = JSON.stringify(obj); //convert it back to json           
+                fs.writeFile('/Users/luodina/dataProfileFolder/dataProfile.ipynb', json, 'utf8', 
+                    function writeFileCallback(err){
+                        if(err) {
+                            console.log(err);
+                        } else {
+                            contents.get(templatFolderPath + templatIpynbPath).then(model =>{ 
+                                for(var i=0;i<model.content.cells.length;i++){
+                                    sourceCodes[i] =  model.content.cells[i].source;
+                                }   
+                                console.log('sourceCodes',sourceCodes);
+                                runNewSession();
+                                res.status(200).send({ msg: "GREAT SUCCESS WE INIT IT!!!" });
+                            })
+                        }
+                    }
+                ); // write it back 
+            }
         });
-    });
-    contents.save('NewDataProfile.ipynb')
-        .then(function () {console.log('SAVED!!!!');})
-        .catch(function(err){console.log('!!!!!!!!___________ERR:', err);});
+    });  
 });
 
 router.post('/upload', upload.single('file'), function (req, res) { 
@@ -152,93 +156,55 @@ router.get('/report', function (req, res) {
 });
 
 router.post('/step1', function (req, res) {
-    fileName = req.body.fileName;
-    console.log('fileName', fileName);
-    if (sourceCodes[0] !== null && sourceCodes[0] !== ""){
-        console.log('!!!!!!!!!!!!!!!!!!!req.query.fileName:', fileName, 'sourceCodes[0]', sourceCodes[0]);
-        var newpath = "filePath=\"" + basePath + fileName + "\"";// "dataFile.csv\"";
-        if(process.platform =="win32"){
-            newpath=newpath.replace(/\\/g, "/");
-        }
-        console.log('!!!!!!!!!!!!!!!!!!!newpath:', newpath);
-        var fileCode = sourceCodes[0].replace(/filePath=/g, newpath);
-        var bb="htmlFilePath=\"" + path.join(__dirname, "../../uploads/" + fileName.replace(/.csv/g, "_") + "report.html\"");
-        if(process.platform=="win32"){
-            bb=bb.replace(/\\/g, "/");
-        }
-        fileCode = fileCode.replace(/htmlFilePath=/g,bb);
-        // fileCode = fileCode.replace(/htmlFilePath=/g, "htmlFilePath=\"" + basePath + "report.html\"");
-        console.log('!!!!!!!!STEP1___________CODE:', fileCode);
-        var future = kernel.requestExecute({ code: fileCode });
-
-        //let contents = new _services.ContentsManager(options);
-        
-
+    console.log('sourceCodes in /step1',sourceCodes);
+    if (sourceCodes[0] !== undefined){
+        console.log('!!!!!!!!STEP1___________CODE:', sourceCodes[0]);
+        var future = kernel.requestExecute({ code: sourceCodes[0]});  
         future.onIOPub = function (msg) {
+            console.log('!!!!!!!!STEP1___________RESULT:', msg);
             if (msg.header.msg_type === "execute_result") {
-                console.log('!!!!!!!!STEP1___________RESULT:', msg);
-                return res.send({ result: msg });
+                    console.log('!!!!!!!!STEP1___________RESULT:', msg);
+                    outputs.push(msg.content);
+                    return res.send({ result: msg });  
             }
-        };
-    } else {
-        console.log('sourceCodes[0]:', sourceCodes[0]);
-        return res.send({ result: "" });
+        }
     }
-
 });
 
-router.get('/step2', function (req, res) {
-    console.log('!!!!!!!!STEP2___________CODE:', sourceCodes[1]);
-    var future = kernel.requestExecute({ code: sourceCodes[1] });
-    future.onIOPub = function (msg) {
-        if (msg.header.msg_type === "stream") {
-            console.log('!!!!!!!!STEP2___________RESULT:', msg.content.text);
-            return res.send({ result: msg.content.text });
-        }
-    };
+router.get('/save', function (req, res) {
+    // console.log('sourceCodes in /step1',outputs);
+    res.status(200).send({ msg: "GREAT SUCCESS WE SAVED IT!!!" });
+    // Kill the session.
+    mysession.shutdown().then(() => {
+        console.log('session closed');
+        fs.readFile('/Users/luodina/dataProfileFolder/dataProfile.ipynb', 'utf8', 
+            function readFileCallback(err, data){
+                if (err){
+                    console.log(err);
+                } else {
+                console.log('obj json', obj);
+                obj = JSON.parse(data);  //now it an object
+                console.log('obj as obj', obj);
+                for (let i = 0, len = obj.cells.length; i < len; i++) {
+                    if (i === 0){
+                        outputs[i].output_type = "execute_result";
+                        console.log('outputs[0]', outputs[i]);
+                        obj.cells[i].outputs.push(outputs[i]);
+                        obj.cells[i].execution_count = i+1;
+                    };
+                }               
+                var json = JSON.stringify(obj); //convert it back to json   
+                console.log('json', json);        
+                fs.writeFile('/Users/luodina/dataProfileFolder/dataProfile.ipynb', json, 'utf8', 
+                    function writeFileCallback(err){
+                        if(err) {
+                            console.log(err);
+                        } 
+                    }
+                ); // write it back 
+            }
+        });      
+    });
 });
 
-///////apply
-router.post('/step3', function (req, res) {
-    var imputerCols = req.body.imputerCols;//"imputerCols={'sepal width (cm)':'mean'}";
-    var standardCols = req.body.standardCols;//"standardCols={'sepal length (cm)':'Standarded'}";
-    var deleteCols = req.body.deleteCols; //"deleteCols='petal length (cm)'";
-    console.log('!!!!!!!!deleteCols:', deleteCols);
-    console.log('!!!!!!!!standardCols:', standardCols);
-    console.log('!!!!!!!!imputerCols:', imputerCols);
-    var code = sourceCodes[2];
-
-    code = code.replace("deleteCols=", deleteCols);
-    code = code.replace("imputerCols=", imputerCols);
-    code = code.replace("standardCols=", standardCols);
-    console.log('!!!!!!!!STEP3___________CODE:', code);
-    var future = kernel.requestExecute({ code: code });
-    return res.send({ result: "Hey" });
-});
-
-//////
-router.get('/step4', function (req, res) {
-    console.log('!!!!!!!!STEP4___________CODE:', sourceCodes[3]);
-    var future = kernel.requestExecute({ code: sourceCodes[3] });
-    future.onIOPub = function (msg) {
-        if (msg.header.msg_type === "execute_result") {
-            console.log('!!!!!!!!STEP4___________RESULT:', msg);
-            return res.send({ result: msg });
-        }
-    };
-});
-
-router.get('/step5', function (req, res) {
-    console.log('fileName IN /step5', fileName);
-    var newpath = "outputFilePath=\"" + basePath  + fileName.replace(/.csv/g, "_") +"result.csv\"";
-    var fileCode = sourceCodes[4].replace(/outputFilePath=/g, newpath);
-    console.log('!!!!!!!!STEP5___________CODE:', fileCode);
-    var future = kernel.requestExecute({ code: fileCode });
-    future.onIOPub = function (msg) {
-        if (msg.header.msg_type === "execute_result") {
-            console.log('!!!!!!!!STEP5___________RESULT:', msg);
-            return res.send({ result: "Hey" });
-        }
-    };
-});
 module.exports = router;

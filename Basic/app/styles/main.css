@@ -53,61 +53,43 @@ body .login p {
   margin-left: 43%;
 }
 
-.openTotal {
-  width: 600px;
-}
-
-.openTotal .title {
-  height: 50px;
-  line-height: 50px;
-  padding: 0 20px;
-  font-size: 14px;
+.modal-header {
   background: #f2f2f2;
 }
 
-.openTotal .content .content-title {
-  width: 600px;
-  height: 120px;
-  line-height: 120px;
-  text-align: center;
-  font-size: 16px;
-  color: #3d63d9;
-}
-
-.openTotal .content .content-name {
-  display: inline-block;
-  width: 217px;
-  height: 30px;
-  margin-left: 32%;
-  text-align: center;
-  border: solid 1px #eaeaea;
-  font-size: 14px;
+.modal-header .modal-header-title {
   color: #333;
-}
-
-.openTotal .content .content-name:hover {
-  border: solid 1px #4847ff;
-}
-
-.openTotal .footer {
-  margin-top: 80px;
-  height: 70px;
-  background: #f2f2f2;
   font-size: 14px;
-  color: #ffffff;
 }
 
-.openTotal .footer .btn {
-  display: inline-block;
-  margin-top: 20px;
-  margin-left: 20px;
-  width: 90px;
-  height: 30px;
+.modal-header .modal-header-close {
+  float: right;
+}
+
+.modal-body .modal-body-title {
   text-align: center;
+  color: #4847ef;
+  font-size: 16px;
+}
+
+.modal-body .modal-body-name {
+  display: inline-block;
+  width: 200px;
+  text-align: center;
+  margin-left: 32%;
+  margin-top: 30px;
+}
+
+.modal-footer .modal-footer-btn {
+  float: left;
+  color: #fff;
+  display: inline-block;
+  padding: 5px 20px;
+  border-radius: 5px;
   background: #4847ff;
 }
 
-.openTotal .footer .btn:hover {
+.modal-footer .modal-footer-btn:hover {
   background: #3d63d9;
   color: #ffffff;
 }

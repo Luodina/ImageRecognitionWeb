@@ -33,7 +33,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_explore_006': 'Data file import',
     'web_common_data_explore_007': 'Import',
     'web_common_data_explore_008': 'Data preview',
-    'web_common_data_explore_009': 'High relevance variable to weight (check the reserved variables)',
+    'web_common_data_explore_009': 'High relevance variable to weight (check the deleted variable)',
     'web_common_data_explore_010': 'Variable null processing',
     'web_common_data_explore_011': 'Variable regularization',
     'web_common_data_explore_012': 'Apply',
