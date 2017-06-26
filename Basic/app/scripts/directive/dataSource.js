@@ -6,20 +6,27 @@ angular.module('basic')
   .controller('DataSourceCtrl',['$rootScope', '$location','$sce','$filter', '$scope','$http','Upload', 'Notification', '$timeout',
     function ($rootScope, $location, $sce, $filter, $scope, $http, Upload, Notification, $timeout) {
     $scope.name = $filter('translate')('web_common_data_explore_001');
-    $scope.result = "Result..."
-    // $scope.model = {};
-    $scope.isNew = false;
+    
+    // $scope.isNew = false;
     $scope.$on('model',function(el, dataModel){
-      $scope.model = dataModel;
-      console.log('model in DS:', $scope.model);
-      if (Object.keys($scope.model).length == 0) {
-        $scope.isNew = true;
-        $scope.init();
-      }else{
-        let fn = getFileName($scope.model.FILE_PATH) + '_' + $rootScope.getUsername() + '.' + getFileExtension($scope.model.FILE_PATH);
-        //console.log(getFileName($scope.model.FILE_PATH) + '_' + $rootScope.getUsername() + '.' + getFileExtension($scope.model.FILE_PATH))
-        $scope.runFile(fn);
+      $scope.model = dataModel.model;
+      $scope.notebook = dataModel.notebook;
+      $scope.mode = dataModel.mode;
+      //console.log('model in DS:', $scope.model.model, "notebook", $scope.model.notebook[1]['text/html'], "mode:", $scope.model.mode);
+      // console.log('model in DS:', $scope.model, dataModel[1]['text/html']);
+      if ($scope.mode !== 'new'){
+        $scope.result = $scope.notebook[1]['text/html']?  $scope.notebook[1]['text/html'] :"Result...";
       }
+        
+      //$scope.result = $scope.model.outputs[1]['text/html']? $scope.model.outputs[1]['text/html'] :"Result...";      // if (Object.keys($scope.model).length == 0) {
+      //   $scope.isNew = true;
+        
+      // }else{
+      //   var fn = getFileName($scope.model.FILE_PATH) + '_' + $rootScope.getUsername() + '.' + getFileExtension($scope.model.FILE_PATH);
+      //   console.log('$scope.model.FILE_PATH', $scope.model.FILE_PATH,'$scope.model.NOTEBOOK_PATH', $scope.model.NOTEBOOK_PATH)
+      // }
+      //$scope.init($scope.model.FILE_PATH, $scope.model.NOTEBOOK_PATH);
+      
     });
       
     function getFileExtension(filename) {
@@ -29,11 +36,10 @@ angular.module('basic')
     }
 
     function getFileName(filename) {
-      return filename.split('.')[0]; // Get the first item from the split
+      return filename.replace("." + getFileExtension(filename), ''); // Get the first item from the split
     }
 
     $scope.upload = function(){
-      console.log('!!!!!!!!file',$scope.file , "$scope", $scope)
       if($scope.file !== undefined && $scope.file !== "") {
         $scope.uploadFile($scope.file);
       }
@@ -41,14 +47,14 @@ angular.module('basic')
 
     $scope.uploadFile = function (file) {
       console.log('!!!!!!!!file',file, "$scope", $scope)
-      Upload.rename(file,getFileName(file.name)+'_' + $rootScope.getUsername() + '.' + getFileExtension(file.name));
+      Upload.rename(file, getFileName(file.name)+'_' + $rootScope.getUsername() + '.' + getFileExtension(file.name));
       Upload.upload({
         url:'/api/jupyter/upload',
         data: { file: file}
       }).then(function (data) {
         $timeout(function(){
           $scope.fileName = data.data.fileName;
-          console.log('!!!!!!!! $scope.fileName',$scope.fileName);
+          $scope.htmlFileName = getFileName(data.data.fileName) + "_report.html";
           Notification.success($filter('translate')('web_common_explore_013'));
         }, 1000);
       }, function (err) {
@@ -56,31 +62,32 @@ angular.module('basic')
       });
     };
 
-    $scope.run = function(fileName){
-      console.log('!!!!!!!!fileName in run',fileName);
+    $scope.run = function(){
       if($scope.file!== undefined && $scope.file !== "") {
-        $scope.runFile($scope.fileName);
+        $scope.runFile($scope.fileName, $scope.htmlFileName );
       }
     };
 
-    $scope.runFile = function(fileName){
-      $http.post('/api/jupyter/step1/',{fileName})
+    $scope.runFile = function(fileName,htmlFileName){
+      $http.post('/api/jupyter/step1/',{fileName, htmlFileName})
       .success(function(data){
+        console.log("data",data)
         $scope.result = $sce.trustAsHtml(data.result.content.data["text/html"]);
       })
       .catch(err =>{console.log("err",err);
       });
     };
 
-    $scope.init = function(){
-      console.log("Let's init it :)");
-      $http.post('/api/jupyter/init/')
-      .success(function(data){
-        console.log("data.msg",data.msg);
-      })
-      .catch(err =>{console.log("err",err);
-      });
-    };   
+    // $scope.init = function(fileName,notebookPath){
+    //   console.log("Let's init it :)", 'fileName', fileName, 'notebookPath', notebookPath);
+    //   $http.post('/api/jupyter/init/', {fileName, notebookPath})
+    //   .success(function(data){
+    //     console.log("data.msg",data.msg);
+    //     $scope.result = data.msg;
+    //   })
+    //   .catch(err =>{console.log("err",err);
+    //   });
+    // };   
 
     $scope.save = function(){
       console.log("Let's save it :)");

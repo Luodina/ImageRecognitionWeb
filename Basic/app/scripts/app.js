@@ -23,8 +23,8 @@ angular
     'ui.bootstrap.datetimepicker',
     'angularMoment',
     'chart.js',
-    'ui.router',
-    'ui.router.state.events'
+    'ui.router'
+    // 'ui.router.state.events'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
@@ -37,7 +37,7 @@ angular
         templateUrl: 'views/dataExplore/dataExplore.html',
         controller: 'DataExploreCtrl'
       },
-      {name: 'data', url: '/data/{name}', templateUrl: 'views/dataExplore/data.html', controller: 'DataCtrl'},
+      {name: 'data', url: '/data/{mode}/{name}', templateUrl: 'views/dataExplore/data.html', controller: 'DataCtrl'},
       {name: 'console.taskSchedule', url: '/schedule', templateUrl: 'views/dashboard.html', controller: 'DashboardCtrl'},
       {name: 'console.settings', url: '/settings', templateUrl: 'views/settings.html', controller: 'SettingsCtrl'}
     ];
@@ -72,21 +72,21 @@ angular
     });
   }])
   .run(['$rootScope', '$location', '$state', '$http','$cookies',  function ($rootScope, $location, $state, $http, $cookies ) {
-    $rootScope.iflogin=false;
-      $rootScope.$on('$stateChangeStart', function (event,toState) {
-        console.log(toState.name);
-        if(!$rootScope.iflogin){
-          // console.log('lalallalal')
-          $location.path("/");
-        }else{
-          console.log('ifloginok')
-        }
-        if(toState && toState.name === 'main'){
-          $('#navbar-nav').css('visibility','hidden');
-        }else{
-          $('#navbar-nav').css('visibility','visible');
-        }
-      })
+    // $rootScope.iflogin=false;
+    //   $rootScope.$on('$stateChangeStart', function (event,toState) {
+    //     console.log(toState.name);
+    //     if(!$rootScope.iflogin){
+    //       // console.log('lalallalal')
+    //       $location.path("/");
+    //     }else{
+    //       console.log('ifloginok')
+    //     }
+    //     if(toState && toState.name === 'main'){
+    //       $('#navbar-nav').css('visibility','hidden');
+    //     }else{
+    //       $('#navbar-nav').css('visibility','visible');
+    //     }
+    //   })
 
     $rootScope.login = (username ,password) => {
       $http.post("/api/user/login/" ,{username,password}).success(function (user) {
@@ -106,65 +106,86 @@ angular
       return $cookies.get("username");
     };
     }])
-    .service('buildLog', ['$uibModal', function ($uibModal) {
-      this.open = function (tit,cont) {
-        return $uibModal.open({
-          backdrop: 'static',
-          templateUrl: 'views/layer/dataExplore.html',
-          // size: 'size',
-          controller: ['$cookies','$scope','$filter','$uibModalInstance','$http',
-            function ($cookies, $scope, $filter, $uibModalInstance, $http) {
-              $scope.tit = $filter('translate')('web_common_data_explore_019');
-              $scope.cont = $filter('translate')('web_common_data_explore_020');
-              $scope.create = $filter('translate')('web_common_015');
-              $scope.userName = $cookies.get("username");
-              $scope.go = function () {
-                if($scope.model.name !== undefined) {
-                  $http.post('/api/model/newModel', {
-                    modelName:$scope.model.name,
-                    userName: $scope.userName,
-                    viewOrCode: "01",
-                    menuID: "02_",
-                  }).success(function(data){
-                      console.log("DataProcessingCtrl save:", data.msg);
-                  });
-                };
-                $uibModalInstance.dismiss();
-              };
-              $scope.cancel = function () {
-                $uibModalInstance.dismiss();
-              }
-            }]
-        }).result;
-      };
-
-    }])
-    .service('openPreview', ['$uibModal','$http', function ($uibModal, $http) {
+  .service('createModel', ['$uibModal', function ($uibModal) {
+    this.open = function (tit,cont) {
+      return $uibModal.open({
+        backdrop: 'static',
+        templateUrl: 'views/layer/createModel.html',
+        size: 'size',
+        controller: ['$cookies','$scope','$filter','$uibModalInstance','$http',
+          function ($cookies, $scope, $filter, $uibModalInstance, $http) {
+            $scope.tit = $filter('translate')('web_common_data_explore_019');
+            $scope.cont = $filter('translate')('web_common_data_explore_020');
+            $scope.create = $filter('translate')('web_common_015');
+            $scope.userName = $cookies.get("username");
+            $scope.go = function () {
+              //if($scope.model.name !== undefined) {
+                // $http.post('/api/model/newModel', {
+                //   modelName:$scope.model.name,
+                //   userName: $scope.userName,
+                //   viewOrCode: "01",
+                //   menuID: "02_",
+                // }).success(function(data){
+                //     console.log("DataProcessingCtrl save:", data.msg);
+                // });
+              //};
+              $uibModalInstance.dismiss();
+            };
+            $scope.cancel = function () {
+              $uibModalInstance.dismiss();
+            }
+          }]
+      }).result;
+    };
+  }])
+  .service('openPreview', ['$uibModal','$http', function ($uibModal, $http) {
     this.open = function (resultPreview) {
       return $uibModal.open({
         backdrop: 'static',
         templateUrl: 'views/layer/savePreview.html',
-        // size: 'size',
+        size: 'size',
         //controllerUrl: 'scripts/layer/savePreview.js',
-        controller: ['$scope','$filter','$uibModalInstance',
-          function ($scope,$filter,$uibModalInstance) {
+        controller: ['$scope','$filter','$uibModalInstance','$location','$cookies',
+          function ($scope,$filter,$uibModalInstance, $location, $cookies) {
             $scope.preTil = $filter('translate')('web_common_017');
             $scope.savebtn = $filter('translate')('web_common_018');
             $scope.resultPreview = resultPreview;
+            
             $scope.save = function () {
-              $http.get('/api/jupyter/step5').success(function(data){
-                  console.log("DataProcessingCtrl save:", data.result);
+              $http.get('/api/jupyter/save').success(function(data){
+                  console.log("DataProcessingCtrl save:", data.modelInfo, data.dataFileName, data.notebookPath);
+                  let modelName = $location.path().split(/[\s/]+/).pop();
+                  let userName = $cookies.get("username");
+                  let modelInfo = data.modelInfo;
+                  let date = new Date();
+                  let time = date.getTime();
+                  let filePath = data.dataFileName;
+                  let notebookPath = data.notebookPath;
+                  let comment = 'Lets try it!';
+                  $http.post('/api/model/new', {
+                      MODEL_NAME: modelName,
+                      MODEL_INFO: modelInfo, 
+                      USER_ID: userName, 
+                      VIEW_MENU_ID: "01",
+                      UPDATED_TIME: time,
+                      FILE_PATH: filePath,
+                      NOTEBOOK_PATH: notebookPath,
+                      COMMENT:comment,
+                  }).success(function(data){
+                      console.log("DataProcessingCtrl save:", data.msg);
+                  });
+                  $location.path("/explore");
               });
+              $uibModalInstance.dismiss();
+            };
+            $scope.cancel = function () {
               $uibModalInstance.dismiss();
             };
           }]
       }).result;
     };
-
   }])
   .factory('dataExploreFactory', ['$resource', '$http', function($resource, $http){
-    // var test =$resource('http://baidu.com/:news',{news:'@news'},{create:{method:'POST'}});
-    // return test;
     return {
       getProjectList: function(){
         return $http.get('/api/model/getProjectList').success(function(data){

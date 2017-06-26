@@ -26,19 +26,36 @@ angular.module('basic')
     $scope.tab=0; 
     $scope.init = function(){
       let modelName = $location.path().split(/[\s/]+/).pop();
+      $location.path().split(/[\s/]+/).lastIndexOf('new');
       console.log("data init modelName",modelName);
-      if (modelName !==""){
+      if (modelName !== ""){
+        //is model in DB?
         $http.get('/api/model/' + modelName)
-        .success(function(data){ 
-          console.log("data init modelName",modelName);     
-          if (data.model !== null && data.model !== undefined){
-            $scope.model = data.model; 
-
+        .success(function(data){  
+          $scope.modelDB =  data.model;
+          //if model exists in DB        
+          if (data.model !== null && data.model !== undefined) {  
+            //if try to create new with the same name as in DB 
+            if ($location.path().split(/[\s/]+/).lastIndexOf('new') !== -1) {
+              $location.path("/explore")
+              console.log("modelName:",modelName, " already exist!");
+            }    
+            //if model opened by owner     
+            initNotebook($scope.modelDB.FILE_PATH, $scope.modelDB.NOTEBOOK_PATH)
+            .then(data => {
+              if ($scope.modelDB.USER_ID  === $rootScope.getUsername()) {
+                console.log("outputs", data.data.outputs,'$scope.modelDB',$scope.modelDB);
+                $scope.$broadcast('model',{ notebook: data.data.outputs, model:$scope.modelDB, mode: 'update'});
+              } else {
+                console.log("outputs", data.data.outputs,'$scope.modelDB',$scope.modelDB);
+                $scope.$broadcast('model',{ notebook: data.data.outputs, model:{}, mode: 'view'});
+              }
+            })
+            .catch(err =>{console.log("err",err);});
           }else{
-            $scope.model={};
-          } 
-          console.log('$scope.model IN data', $scope.model);
-          $scope.$broadcast('model',$scope.model );  
+            initNotebook();
+            $scope.$broadcast('model',{notebook:{}, model:{}, mode: 'new'});
+          }                   
         })
         .catch(err =>{console.log("err",err);});
       }  else {
@@ -47,16 +64,28 @@ angular.module('basic')
     };
     $scope.init();
 
+    var initNotebook = (fileName, notebookPath) => {
+      console.log("Let's init it :)", 'fileName', fileName, 'notebookPath', notebookPath);
+      return $http.post('/api/jupyter/init/', { fileName, notebookPath })
+      .success( data => {
+        // return data.outputs;
+        // console.log("data.msg",data.msg,'outputs',data.outputs);
+        // $scope.$broadcast('model',data.outputs);
+      }) 
+      .catch( err => { console.log("err in initNotebook():",err);
+      });
+    };  
+
     $scope.clicked=function(num){
+      console.log("num",num);
       $scope.tab = num;
-      if(num===2){
-        $scope.$broadcast('tab',num);
+      if(num===2){    
         $scope.tab = 2
+        $scope.$broadcast('tab',num);
       }
       if(num===1){
         $scope.tab = 1;
-        $scope.$broadcast('tab',num);
-        
+        $scope.$broadcast('tab',num);       
       }
       if(num===0){
         $scope.tab = 0;
