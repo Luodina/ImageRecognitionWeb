@@ -33,10 +33,10 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_explore_006': 'Data file import',
     'web_common_data_explore_007': 'Import',
     'web_common_data_explore_008': 'Data preview',
-    'web_common_data_explore_009': 'High relevance variable to weight (check the reserved variables)',
+    'web_common_data_explore_009': 'High relevance variable to weight (check the deleted variable)',
     'web_common_data_explore_010': 'Variable null processing',
     'web_common_data_explore_011': 'Variable regularization',
-    'web_common_data_explore_012': 'Application',
+    'web_common_data_explore_012': 'Apply',
 
     'web_common_data_explore_013': 'Data application search',
     'web_common_data_explore_014': 'Text preprocessing',
@@ -49,9 +49,39 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_explore_021': 'Headline',
 
 
-    'web_common_explore_013':'File uploaded'
+    'web_common_explore_013':'File uploaded',
 
+    'modelType_00':'My data explores',
+    'modelType_01':'Structured data exploration',
+    'modelType_02':'Text data preprocessing',
+    'modelType_03':'Classification prediction',
+    'modelType_04':'Cluster analysis',
+    'modelType_05':'Target Detection',
 
+    'modelType_01_00':'Number of category variables:',    
+    'modelType_01_01':'Number of variables(columns number):',
+    'modelType_01_02':'Null ratio:',
+    'modelType_01_03':'Number of numeric variables:',
+    'modelType_01_04':'Number of rows:',
+    'modelType_01_05':'Last execution time:',
+
+    'modelType_02_00':'N-gram:',
+    'modelType_02_01':'The number of vocabulary:',
+    'modelType_02_02':'Number of features:',
+    'modelType_02_03':'Weight:',
+
+    'modelType_03_00':'True rate:',
+    'modelType_03_01':'Recall rate:',
+    'modelType_03_02':'F1 value:',
+
+    'modelType_04_00':'Number of groups:',
+    'modelType_04_01':'Data label:',
+
+    'modelType_05_00':'N-gram:',
+    'modelType_05_01':'The number of vocabulary:',
+    'modelType_05_02':'Number of features:',
+    'modelType_05_03':'Weight:',
+    
 
 
   });

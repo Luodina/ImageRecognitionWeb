@@ -1,35 +1,3 @@
-  <!--<div class="data-tab">-->
-    <!--&lt;!&ndash;<div active="model.active"></div>&ndash;&gt;-->
-    <!--<uib-tabset vertical="true" type="tabs" active="tabs">-->
-      <!--<uib-tab index="0" heading="{{ source | translate}}"  >-->
-        <!--<div ng-controller="DataSourceCtrl" >-->
-          <!--<div source></div>-->
-        <!--</div>-->
-        <!--<div class="button">-->
-          <!--<button type="button" class="btn btn-default btn-sm" ng-click="clicked(1)" >{{next | translate}}</button>-->
-        <!--</div>-->
-      <!--</uib-tab>-->
-      <!--<uib-tab index="1" disable="model.active == 0"  heading="{{ report | translate}}" >-->
-        <!--<div ng-controller="DataReportCtrl">-->
-          <!--<div report></div>-->
-        <!--</div>-->
-        <!--<div class="button">-->
-          <!--<button type="button" class="btn btn-default btn-sm" ng-click="clicked(0)" >{{back | translate}}</button>-->
-          <!--<button type="button" class="btn btn-default btn-sm" ng-click="clicked(2)" >{{next | translate}}</button>-->
-        <!--</div>-->
-      <!--</uib-tab>-->
-      <!--<uib-tab index="2" disable="model.active == 0" heading="{{ processing | translate}}">-->
-        <!--<div ng-controller="DataProcessingCtrl">-->
-          <!--<div processing></div>-->
-        <!--</div>-->
-        <!--<div class="button">-->
-          <!--<button type="button" class="btn btn-default btn-sm" ng-click=clicked(1) >{{back | translate}}</button>-->
-          <!--<button type="button" class="btn btn-default btn-sm" >{{application | translate}}</button>-->
-          <!--&lt;!&ndash;<button type="button" class="btn btn-default btn-sm" ng-click="preview()">{{previewPage | translate}}</button>&ndash;&gt;-->
-        <!--</div>-->
-      <!--</uib-tab>-->
-    <!--</uib-tabset>-->
-  <!--</div>-->
 
   <table style="width: 100%;">
     <tr>
@@ -48,9 +16,7 @@
             <div class="button">
               <button type="button" class="btn btn-default btn-sm" ng-click="clicked(1)" >{{next | translate}}</button>
             </div>
-
         </div>
-
         <div ng-show='tab == 1'>
             <div ng-controller="DataReportCtrl">
               <div report></div>
@@ -66,8 +32,6 @@
           </div>
           <div class="button">
             <button type="button" class="btn btn-default btn-sm" ng-click=clicked(1) >{{back | translate}}</button>
-            <button type="button" class="btn btn-default btn-sm" >{{application | translate}}</button>
-            <button type="button" class="btn btn-default btn-sm" ng-click="preview()">{{previewPage | translate}}</button>
           </div>
 
         </div>

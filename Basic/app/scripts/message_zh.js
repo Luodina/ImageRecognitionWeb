@@ -35,7 +35,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_explore_006': '数据文件导入',
     'web_common_data_explore_007': '上传',
     'web_common_data_explore_008': '数据预览',
-    'web_common_data_explore_009': '高关联性变量去重(请勾选保留的变量)',
+    'web_common_data_explore_009': '高关联性变量去重(请勾选删除的变量)',
     'web_common_data_explore_010': '变量空值处理',
     'web_common_data_explore_011': '变量正则化',
     'web_common_data_explore_012': '应用',
@@ -53,7 +53,38 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
 
 
 
-    'web_common_explore_013':' File uploaded'
+    'web_common_explore_013':' File uploaded',
+
+    'modelType_0':'我的数据探索',
+    'modelType_1':'结构化数据探索',
+    'modelType_2':'文本数据预处理',
+    'modelType_3':'分类预测',
+    'modelType_4':'聚类分析',
+    'modelType_5':'目标检测',
+
+    'modelType_1_00':'类别型变量数:', 
+    'modelType_1_01':'变量数(列数):',
+    'modelType_1_02':'空值比例:',
+    'modelType_1_03':'数值型变量数:',
+    'modelType_1_04':'行数:',
+    'modelType_1_05':'上次执行时间:',
+
+    'modelType_2_00':'N-gram:',
+    'modelType_2_01':'词汇数:',
+    'modelType_2_02':'特征数:',
+    'modelType_2_03':'权值:',
+
+    'modelType_3_00':'准确率:',
+    'modelType_3_01':'召回率:',
+    'modelType_3_02':'F1 值:',
+
+    'modelType_4_00':'分组数:',
+    'modelType_4_01':'数据标签:',
+
+    'modelType_5_00':'N-gram:',
+    'modelType_5_01':'词汇数:',
+    'modelType_5_02':'特征数:',
+    'modelType_5_03':'权值:'
 
 
 

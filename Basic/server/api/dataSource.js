@@ -1,117 +1,213 @@
 "use strict";
+import {
+  KernelMessage, Kernel, Session, ContentsManager
+} from '@jupyterlab/services';
 
-var _services = require("@jupyterlab/services");
+import { XMLHttpRequest } from "xmlhttprequest";
+import { default as WebSocket } from 'ws';
+import { readFile, writeFile, existsSync, readFileSync } from 'fs';
 
-var _xmlhttprequest = require("xmlhttprequest");
-
-var _ws = require("ws");
-
-var _ws2 = _interopRequireDefault(_ws);
-
-var _config = require("./../config");
-
-var _config2 = _interopRequireDefault(_config);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var env = _config2.default.env || 'dev';
-global.XMLHttpRequest = _xmlhttprequest.XMLHttpRequest;
-global.WebSocket = _ws2.default;
-
+global.XMLHttpRequest = XMLHttpRequest;
+global.WebSocket = WebSocket;
+var fileName ;
 var express = require('express');
 var router = express.Router();
 var path = require('path');
-var fs = require('fs');
+//var fs = require('fs');
 var multer = require('multer');
-var fileName = "./uploads/dataFile.csv";
 var storage = multer.diskStorage({
-    destination: './uploads/',
+    destination: function (req, file, cb) {
+        cb(null, './uploads/')
+    },
     filename: function filename(req, file, cb) {
-        cb(null, "dataFile.csv");
+        cb(null, file.originalname);
+        fileName =  file.originalname;
     }
 });
 var upload = multer({ storage: storage });
 
-// The base url of the Jupyter server.
-var BASE_URL = _config2.default[env].notebook;
-var token = _config2.default[env].token;
-var templatIpynbPath = '/dataProfile.ipynb';
+let config = require('./../config');
+let env = config.env || 'dev';
 
+var templatIpynbPath = '/dataProfile-V4.0.ipynb';
+var templatFolderPath = '/dataProfileFolder';
+
+const filePath = "filePath=\n";
+const htmlFilePath = "htmlFilePath=\n";
+
+var basePath = path.join(__dirname, "../../uploads/");
+var baseNotebookPath = "/Users/luodina"
+var obj = {};
 var options = {
-    baseUrl: BASE_URL,
-    token: token
+    baseUrl: config[env].notebook,
+    token: config[env].token,
+    kernelName: 'python',
+    path:templatIpynbPath
 };
-
-console.log('!!!!!!!!___________OPTIONS:', options);
-
-var contents = new _services.ContentsManager(options);
+var dataFileName
+var htmlFileName
 var sourceCodes = new Array();
-var notebookModel;
-var notebookFilePath;
+var outputs = Array(10);
+var source = Array(10);
+var modelInfo;
+var mysession;
 var kernel;
-var dataFile;
-//console.log('contents', contents, 'ipynbPath', ipynbPath);
-contents.copy(templatIpynbPath, '/dataProfileFolder').then(function (model) {
-    //console.log('contents.copy');
-    notebookFilePath = model.path;
-    contents.get(notebookFilePath).then(function (model1) {
-        notebookModel = model1;
-        var cellsLength = model1.content.cells.length;
-        for(var i=0;i<cellsLength;i++){
-          sourceCodes[i] =  model1.content.cells[i].source;
+var notebookPath;
+console.log('!!!!!!!!___________OPTIONS:', options);
+var contents = new ContentsManager(options);
+
+contents.get(templatFolderPath)
+.then((model) => {
+    console.log('files in ', templatFolderPath , ":", model.content);
+    for (var i = 0, len = model.content.length; i < len; i++) {     
+        if (("/" + model.content[i].name)===templatIpynbPath){
+            // contents.delete(templatFolderPath + templatIpynbPath)
+            // .then(()=>{
+            //     console.log('deleted:' , templatFolderPath + templatIpynbPath); 
+            // })
+            // .catch(err => {
+            //     console.log(err);
+            // });                   
         }
+    }
+})
+.catch(err => {
+    console.log(err);
+});
+function getMode(f1,f2){
+    if ((f1 != undefined && f1 != null) && (f1 != undefined && f1 != null)) {
+        return "readOnly";
+    // }  else if ((!(f1 != undefined) ^ !(f1 != null)) && (f1 != undefined && f1 != null))  {
+    //     return "readOnly";
+    } else { return "new"} ; 
+}
+function runNewSession(){
+    Session.listRunning(options).then(sessionModels => {
+        var sessionNums = sessionModels.length;
+        var existSession = false;
+        console.log('sessionModels.length',sessionModels.length);
+        for (let i = 0; i < sessionNums; i++) {
+            let path = sessionModels[i].notebook.path;
+            if (path === templatIpynbPath) {
+                Session.connectTo(sessionModels[i].id, options).then(session => {
+                    kernel = session.kernel;
+                    mysession = session;
+                    init();
+                    console.log('session started');
+                });
+                existSession = true;
+                break;
+            }
+        }
+        if (!existSession) {
+            //没有现有的session，新创建session
+            console.log('start new session');
+            Session.startNew(options).then(session => {
+                kernel = session.kernel;
+                mysession = session;
+                init();
+                console.log('session started');
+            });
+        }
+    });
+}
 
-        //连接到session(如果已经存在该ipynb对应的session,则直接使用;如果没有，则创建一个session
-        //have a test
-        options = {
-          baseUrl: BASE_URL,
-          token:token,
-          kernelName: 'python',
-          path:notebookFilePath
-        };
+function init(){
+    console.log('init');
+    if (sourceCodes[0] !== undefined){
+        // console.log('!!!!!!!!STEP0___________CODE:', sourceCodes[0]);
+        var future = kernel.requestExecute({ code: sourceCodes[0]});  
+    }
+}
 
-        _services.Session.listRunning(options).then(function (sessionModels) {
-            var sessionNums = sessionModels.length;
-            var existSession = false;
-            // console.log('sessionModels.length',sessionModels.length);
-            for (var i = 0; i < sessionNums; i++) {
-                var path = sessionModels[i].notebook.path;
-                if (path === notebookFilePath) {
-                    //存在session，直接连接
-                    var sessionOptions = {
-                        baseUrl: BASE_URL,
-                        token: token,
-                        kernelName: sessionModels[i].kernel.name,
-                        path: sessionModels[i].notebook.path
-                    };
-                    _services.Session.connectTo(sessionModels[i].id, sessionOptions).then(function (session) {
-                        console.log('connected to existing session');
-                        kernel = session.kernel;
-                        // return res.send({result:"Hey!"});
-                    });
-                    existSession = true;
-                    break;
+function readFilePromisified(filename) {
+    return new Promise(
+        function (resolve, reject) {
+            readFile(filename, { encoding: 'utf8' },
+                (error, data) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(data);
+                    }
+                });
+        });
+}
+
+function writeFilePromisified(filename,text) {
+    return new Promise(
+        function (resolve, reject) {
+            writeFile(filename, text, { encoding: 'utf8' },
+                (error, data) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(data);
+                    }
+                });
+        });
+}
+
+router.post('/init', function (req, res) { 
+    let fileName = req.body.fileName;
+    let notebookPath = req.body.notebookPath;
+    console.log('/init: fileName ', fileName, ' notebookPath ',notebookPath);
+    var mode = getMode(fileName, notebookPath);
+    console.log('mode',mode);
+    if (mode === 'new'){
+        contents.copy(templatIpynbPath, templatFolderPath)
+        .then(model =>{       
+            contents.get(templatFolderPath + templatIpynbPath).then(model =>{ 
+                for(var i = 0; i<model.content.cells.length; i++){
+                    sourceCodes[i] =  model.content.cells[i].source;
+                }   
+                console.log('sourceCodes',sourceCodes);
+                runNewSession();
+                // init();
+                res.status(200).send({ msg: "GREAT SUCCESS WE INIT IT!!!" });
+            })
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
+    if (mode === 'readOnly'){
+        console.log('mode is readOnly', baseNotebookPath + notebookPath); 
+        readFilePromisified(baseNotebookPath + notebookPath)
+        .then(text => { 
+            var obj = JSON.parse(text);  //now it an object       
+            for (let i = 0, len = obj.cells.length; i < len; i++) { 
+                let tmp = obj.cells[i].outputs;  
+                       
+                if (tmp !== undefined && tmp !== null){
+                   if (tmp.length !== 0) {
+                       console.log('tmp', tmp); 
+                        if (tmp[0].data !== undefined && tmp[0].data !== null ){                              
+                            outputs[i] = tmp[0].data ;
+                        }         
+                   }
+                   
+                    
                 }
             }
-            if (!existSession) {
-                //没有现有的session，新创建session
-                console.log('start new session');
-                _services.Session.startNew(options).then(function (session) {
-                    kernel = session.kernel;
-                });
-            }
+            res.status(200).send({ msg: "GREAT SUCCESS WATCH IT!!!" , outputs: outputs});     
+        }) 
+        .catch(err => {
+            console.log(err);
         });
-    });
-});
+    }
 
-router.post('/upload', upload.single('file'), function (req, res) {
+})           
+
+router.post('/upload', upload.single('file'), function (req, res) { 
     res.status(200).send({ fileName: req.file.originalname });
 });
 
-router.get('/report', function (req, res) {
-    console.log("RESULT fs.existsSync('./uploads/report.html')", fs.existsSync('./uploads/report.html'));
-    if (fs.existsSync('./uploads/report.html')) {
-        var html = fs.readFileSync('./uploads/report.html', 'utf8');
+router.get('/report/:fn', function (req, res) {
+    (req.params.fn)? fileName = req.params.fn :fileName;
+    console.log(" fileName", fileName);
+    if (existsSync("./uploads/" + fileName.replace(/.csv/g, "_") + "report.html")) {
+        var html = readFileSync("./uploads/" + fileName.replace(/.csv/g, "_") + "report.html", 'utf8');
         res.writeHeader(200, { "Content-Type": "text/html" });
         res.write(html);
         res.end();
@@ -122,113 +218,197 @@ router.get('/report', function (req, res) {
     }
 });
 
-router.get('/step1', function (req, res) {
-    var newpath = "filePath=\"" + path.join(__dirname, "../../uploads/dataFile.csv\"");
-    // console.log('!!!!!!!!!!!!!!!!!!!newpath:', newpath);
-    var fileCode = sourceCodes[0].replace(/filePath=/g, newpath);
-    fileCode = fileCode.replace(/htmlFilePath=/g, "htmlFilePath=\"" + path.join(__dirname, "../../uploads/report.html\""));
-    console.log('!!!!!!!!STEP1___________CODE:', fileCode);
-    var future = kernel.requestExecute({ code: fileCode });
-    future.onIOPub = function (msg) {
-        if (msg.header.msg_type === "execute_result") {
-            console.log('!!!!!!!!STEP1___________RESULT:', msg);
-            return res.send({ result: msg });
+router.post('/step1', function (req, res) {
+    (req.body.fileName)?(dataFileName = req.body.fileName):fileName;
+    (req.body.htmlFileName)? (htmlFileName = req.body.htmlFileName):fileName+'report.html';
+
+    notebookPath = templatFolderPath + '/'+ dataFileName + '.ipynb'
+     console.log('dataFileName ', dataFileName, 'htmlFileName', htmlFileName, "notebookPath", notebookPath);
+    // Rename a file.
+    contents.rename(templatFolderPath + templatIpynbPath, notebookPath);
+        if (sourceCodes[1] !== undefined){
+            var code = sourceCodes[1];
+            code = code.replace(/filePath=/g, "filePath=\"" + basePath + dataFileName +"\"\n");
+            code = code.replace(/htmlFilePath=/g, "htmlFilePath=\"" + basePath + htmlFileName + "\"\n");
+            console.log('!!!!!!!!STEP1___________CODE:', code);
+            source[1]=code;
+            var future = kernel.requestExecute({ code: code});  
+            future.onIOPub = function (msg) {
+                console.log('!!!!!!!!STEP1___________RESULT:', msg);
+                if (msg.header.msg_type === "execute_result") {
+                        console.log('!!!!!!!!STEP1___________RESULT:', msg);
+                        outputs[1]=msg.content;
+                        console.log('!!!!!!!!OUTPUTS___________RESULT:', outputs[1]);
+                        return res.send({ result: msg });  
+                }
+            }
         }
-    };
+    
+
 });
 
-router.get('/step2', function (req, res) {
-    console.log('!!!!!!!!STEP2___________CODE:', sourceCodes[1]);
-    var future = kernel.requestExecute({ code: sourceCodes[1] });
-    future.onIOPub = function (msg) {
-        if (msg.header.msg_type === "stream") {
-            console.log('!!!!!!!!STEP2___________RESULT:', msg.content.text);
-            return res.send({ result: msg.content.text });
-        }
-    };
+//相关性分析
+router.get('/step2', function (req, res) {  
+    if (sourceCodes[2] !== undefined){
+        console.log('!!!!!!!!STEP2___________CODE:', sourceCodes.length, "--", sourceCodes[2]);
+        var future = kernel.requestExecute({code: sourceCodes[2]});      
+        future.onIOPub = function (msg) {
+            if (msg.header.msg_type === "execute_result") { 
+                console.log('!!!!!!!!STEP2___________RESULT:', msg);
+                outputs[2]=msg.content;
+                console.log('!!!!!!!!OUTPUTS___________RESULT:', outputs[2]);
+                return res.send({result: msg.content.data["text/plain"]});
+            }
+        };
+    }
 });
 
-///////apply
-router.get('/step3', function (req, res) {
-    //deleteCols 要删除的列，如果是多个列，以逗号分割
-    var deleteCols = "deleteCols='petal length (cm)'";
-    //   var unCheckedBoxs = $("input[name='corrValues']").not("input:checked");
-    //   for(var i=0;i<unCheckedBoxs.length;i++){
-    //     if(i!=0){
-    //       deleteCols = deleteCols + ",";
-    //     }
-    //     deleteCols = deleteCols + unCheckedBoxs[i].value;
-    //   }
-
-    //imputerCols需要做空值处理的列，json格式，例如：{'petal width (cm)':'median','petal length (cm)':'mean','sepal width (cm)':'most_frequent','sepal length (cm)':'most_frequent'}
-    var imputerCols = "imputerCols={'sepal width (cm)':'mean'}";
-    //   var imputerSelectItems = $("select[name='imputerOpers']");
-    //   for(var i=0;i<imputerSelectItems.length;i++){
-    //       var varName = imputerSelectItems[i].id;
-    //       var option = imputerSelectItems[i].value;
-    //       if(option!='none'){
-    //         if(imputerCols!='{'){
-    //           imputerCols = imputerCols + ",";
-    //         }
-    //         imputerCols = imputerCols + "'" +varName+ "'" + ":" + "'" +option+ "'";
-    //       }
-    //   }
-    //   imputerCols = imputerCols + "}";
-
-    //standardCols需要做正则化处理的列，json格式，例如：{'petal width (cm)':'Standarded','petal length (cm)':'MinMax','sepal width (cm)':'MaxAbs','sepal length (cm)':'Robust'}
-    var standardCols = "standardCols={'sepal length (cm)':'Standarded'}";
-    //   var standardSelectItems = $("select[name='scalarOpers']");
-    //   for(var i=0;i<standardSelectItems.length;i++){
-    //       var varName = standardSelectItems[i].id;
-    //       var option = standardSelectItems[i].value;
-    //       if(option!='none'){
-    //         if(standardCols!='{'){
-    //           standardCols = standardCols + ",";
-    //         }
-    //         standardCols = standardCols + "'" +varName+ "'" + ":" + "'" +option+ "'";
-    //       }
-    //   }
-    //   standardCols = standardCols + "}";
-
-    var code = sourceCodes[2];
-
-    code = code.replace("deleteCols=", deleteCols);
-    code = code.replace("imputerCols=", imputerCols);
-    code = code.replace("standardCols=", standardCols);
-    console.log('!!!!!!!!STEP3___________CODE:', code);
-    var future = kernel.requestExecute({ code: code });
-
-    future.onIOPub = function (msg) {
-
-        console.log('!!!!!!!!STEP3___________RESULT:', msg);
-    };
-    return res.send({ result: "Hey" });
+router.post('/step3', function (req, res) {
+    var deleteCols = req.body.deleteCols; //"deleteCols='petal length (cm)'";
+    console.log('!!!!!!!!deleteCols:', deleteCols);
+    if (sourceCodes[3] !== undefined && sourceCodes[4] !== undefined ){
+        var code = sourceCodes[3];
+        //delete corr cols
+        code = code.replace(/deleteCols=/g, deleteCols);
+        console.log('!!!!!!!!STEP3___________DeleteCODE:', code);
+        source[3]=code;
+        var future = kernel.requestExecute({code: code});
+        future.onIOPub = function (msg) {
+            if (msg.header.msg_type === "execute_result") { 
+                console.log('!!!!!!!!STEP3___________RESULT:', msg);
+                outputs[3]=msg.content;
+                console.log('!!!!!!!!OUTPUTS___________RESULT:', outputs[3]);
+            }
+        };
+        // get p_missing
+        var codeNR = sourceCodes[4];
+        console.log('!!!!!!!!STEP3___________getNulCODE:', codeNR);
+        var futureNR = kernel.requestExecute({code: codeNR});
+        futureNR.onIOPub = function (msg) {
+            if (msg.header.msg_type === "execute_result") {
+                console.log('!!!!!!!!STEP3___________GetNulRESULT:', msg);
+                outputs[4]=msg.content;
+                console.log('!!!!!!!!OUTPUTS___________RESULT:', outputs[1]);
+                return res.send({result: msg.content.data["text/plain"]});
+            }
+        };
+    }
 });
-
-//////
-
-
-router.get('/step4', function (req, res) {
-    console.log('!!!!!!!!STEP4___________CODE:', sourceCodes[3]);
-    var future = kernel.requestExecute({ code: sourceCodes[3] });
+//空值处理并获取标准差
+router.post('/step4', function (req, res) {
+  var imputerCols = req.body.imputerCols;//"imputerCols={'sepal width (cm)':'mean'}";
+  console.log('!!!!!!!!imputerCols:', imputerCols);
+  if (sourceCodes[5] !== undefined && sourceCodes[6] !== undefined){    
+    //imputer code
+    var code = sourceCodes[5];
+    code = code.replace(/col_input=/g, imputerCols);
+    source[5]=code;
+    console.log('!!!!!!!!STEP4___________CODE:', code);
+    var future = kernel.requestExecute({code: code});
     future.onIOPub = function (msg) {
-        if (msg.header.msg_type === "execute_result") {
+        if (msg.header.msg_type === "execute_result") { 
             console.log('!!!!!!!!STEP4___________RESULT:', msg);
-            return res.send({ result: msg });
+            outputs[5]=msg.content;
+            console.log('!!!!!!!!OUTPUTS___________RESULT:', outputs[5]);
         }
     };
+    //get std var
+    var codeStd = sourceCodes[6];
+    var futureStd = kernel.requestExecute({code: codeStd});
+    futureStd.onIOPub = function (msg) {
+        if (msg.header.msg_type === "execute_result") {
+            console.log('!!!!!!!!STEP4___________GetstdRESULT:', msg);
+            outputs[6]=msg.content;
+            console.log('!!!!!!!!OUTPUTS___________RESULT:', outputs[6]);
+            return res.send({result: msg.content.data["text/plain"]});
+        }
+    };
+  }
 });
-
-router.get('/step5', function (req, res) {
-    var newpath = "outputFilePath=\"" + path.join(__dirname, "../../uploads/dataFileNew.csv\"");
-    var fileCode = sourceCodes[4].replace(/outputFilePath=/g, newpath);
-    console.log('!!!!!!!!STEP5___________CODE:', fileCode);
-    var future = kernel.requestExecute({ code: fileCode });
+//正则化
+router.post('/step5', function (req, res) {
+  var standardCols = req.body.standardCols;//
+  console.log('!!!!!!!!standardCols:', standardCols);
+  //standard code
+  if (sourceCodes[7] !== undefined){ 
+    var code = sourceCodes[7];
+    code = code.replace(/col_input =/g, standardCols);
+    source[7]=code;
+    console.log('!!!!!!!!STEP5___________CODE:', code);
+    var future = kernel.requestExecute({code: code});
     future.onIOPub = function (msg) {
         if (msg.header.msg_type === "execute_result") {
             console.log('!!!!!!!!STEP5___________RESULT:', msg);
-            return res.send({ result: "Hey" });
+            outputs[7]=msg.content;
+            console.log('!!!!!!!!OUTPUTS___________RESULT:', outputs[7]);
+        return res.send({result: msg});
         }
     };
+  }
 });
+
+router.get('/step6', function (req, res) {
+    console.log('!!!!!!!!STEP6___________CODE:', sourceCodes[9]);
+    if (sourceCodes[9] !== undefined){ 
+        var future = kernel.requestExecute({code: sourceCodes[9]});
+        future.onIOPub = function (msg) {
+            if (msg.header.msg_type === "execute_result") {
+                console.log('!!!!!!!!STEP10___________RESULT:', msg);
+                modelInfo = msg.content.data['text/plain'];
+                console.log('!!!!!!!!OUTPUTS___________RESULT:', modelInfo);
+                return res.send({result: "Got model info!"});
+            }
+        };
+    }
+});
+
+router.get('/save', function (req, res) {
+    readFilePromisified(baseNotebookPath + notebookPath)
+        .then(text => {
+            console.log('outputs array', outputs);
+            console.log('source array', source);
+            //console.log('obj json', obj);
+            var obj = JSON.parse(text);  //now it an object
+            //console.log('obj as obj', obj);
+            //save to cell outputs 
+            for (let i = 0, len = obj.cells.length; i < len; i++) {
+                //console.log('obj.cells[i]', obj.cells[i]);
+                if (outputs[i] !== undefined && outputs[i] !== null){
+                    outputs[i].output_type = "execute_result";
+                    //console.log('outputs[',i,']',  outputs[i]);
+                    obj.cells[i].outputs.push(outputs[i]);
+                    obj.cells[i].execution_count = i+1;
+                }
+                if (source[i] !== undefined && source[i] !== null){
+                    //console.log('source[',i,']', source[i]);
+                    obj.cells[i].source = source[i];
+                }
+            }               
+            var json = JSON.stringify(obj); //convert it back to json   
+            console.log('json', json); 
+            writeFilePromisified(baseNotebookPath + notebookPath, json)
+            .then(() => {  
+                // get model info
+                
+                // Kill the session.  
+                mysession.shutdown()
+                .then(() => {
+                    console.log('session closed');
+                    console.log('modelInfo', modelInfo);
+                    res.status(200).send({ modelInfo: modelInfo, dataFileName:dataFileName, notebookPath: notebookPath });
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            });     
+    })
+    .catch(err => {
+        console.log(err);
+    });
+});
+
+
 module.exports = router;
