@@ -1,90 +1,113 @@
 "use strict";
-import {
-  KernelMessage, Kernel, Session, ContentsManager
-} from '@jupyterlab/services';
-
+import { KernelMessage, Kernel, Session, ContentsManager} from '@jupyterlab/services';
 import { XMLHttpRequest } from "xmlhttprequest";
 import { default as WebSocket } from 'ws';
-import { readFile, writeFile, existsSync, readFileSync } from 'fs';
+import { readFile, writeFile, existsSync, readFileSync, mkdir, createReadStream, createWriteStream } from 'fs';
 
 global.XMLHttpRequest = XMLHttpRequest;
 global.WebSocket = WebSocket;
-var fileName ;
+
 var express = require('express');
 var router = express.Router();
 var path = require('path');
-//var fs = require('fs');
-var multer = require('multer');
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads/')
-    },
-    filename: function filename(req, file, cb) {
-        cb(null, file.originalname);
-        fileName =  file.originalname;
-    }
-});
-var upload = multer({ storage: storage });
-
 let config = require('./../config');
 let env = config.env || 'dev';
 
-var templatIpynbPath = '/dataProfile-V4.0.ipynb';
-var templatFolderPath = '/dataProfileFolder';
-
+const templatIpynbPath = path.join(__dirname, '../../template');
+const templatIpynbFile = '/dataProfile-V4.0.ipynb';
+const baseNotebookPath = config[env].notebookPath;
 const filePath = "filePath=\n";
 const htmlFilePath = "htmlFilePath=\n";
 
-var basePath = path.join(__dirname, "../../uploads/");
-var baseNotebookPath = "/Users/luodina"
-var obj = {};
-var options = {
-    baseUrl: config[env].notebook,
+const options = {
+    baseUrl: config[env].notebookUrl,
     token: config[env].token,
     kernelName: 'python',
-    path:templatIpynbPath
+    path: baseNotebookPath,
 };
-var dataFileName
-var htmlFileName
-var sourceCodes = new Array();
-var outputs = Array(10);
-var source = Array(10);
+let projectName;
+let outputs = Array(10);
+let source = Array(10);
+let sourceCodes = [];
+let mode;
+let dataFileName;
+let htmlFileName;
+
+
 var modelInfo;
 var mysession;
 var kernel;
-var notebookPath;
-console.log('!!!!!!!!___________OPTIONS:', options);
-var contents = new ContentsManager(options);
+//var notebookPath;
 
-contents.get(templatFolderPath)
-.then((model) => {
-    console.log('files in ', templatFolderPath , ":", model.content);
-    for (var i = 0, len = model.content.length; i < len; i++) {     
-        if (("/" + model.content[i].name)===templatIpynbPath){
-            // contents.delete(templatFolderPath + templatIpynbPath)
-            // .then(()=>{
-            //     console.log('deleted:' , templatFolderPath + templatIpynbPath); 
-            // })
-            // .catch(err => {
-            //     console.log(err);
-            // });                   
-        }
+console.log('!!!!!!!!___________OPTIONS:', options);
+let contents = new ContentsManager(options);
+let multer = require('multer');
+let storage = multer.diskStorage({
+    destination:
+     function destination(req, destination, cb) { 
+        cb(null, baseNotebookPath + '/' +  projectName);
+    },
+
+    filename: function filename(req, file, cb) {
+        cb(null, file.originalname);
+        dataFileName = file.originalname;
     }
-})
-.catch(err => {
-    console.log(err);
 });
-function getMode(f1,f2){
-    if ((f1 != undefined && f1 != null) && (f1 != undefined && f1 != null)) {
-        return "readOnly";
-    // }  else if ((!(f1 != undefined) ^ !(f1 != null)) && (f1 != undefined && f1 != null))  {
-    //     return "readOnly";
-    } else { return "new"} ; 
+
+let upload = multer({ storage: storage });
+
+function ensureExists(path, mask, cb) {
+    if (typeof mask === 'function') { // allow the `mask` parameter to be optional
+        cb = mask;
+        mask = '0777';
+    }
+    mkdir(path, mask, function(err) {
+        console.log('mkdir done!');
+        if (err) {
+            (err.code === 'EEXIST')? cb(null):cb(err); // ignore the error if the folder already exists
+        }else {
+            cb(null);
+        } // successfully created folder
+    });
+}
+
+// contents.get(templatIpynbPath)
+// .then((model) => {
+//     console.log('files in ',model , ":", model);
+//     for (var i = 0, len = model.content.length; i < len; i++) {     
+//         if (("/" + model.content[i].name)===templatIpynbPath){
+//             // contents.delete(templatFolderPath + templatIpynbPath)
+//             // .then(()=>{
+//             //     console.log('deleted:' , templatFolderPath + templatIpynbPath); 
+//             // })
+//             // .catch(err => {
+//             //     console.log(err);
+//             // });                   
+//         }
+//     }
+// })
+// .catch(err => {
+//     console.log(err);
+// });
+
+function getMode(f1, f2, user){
+    if (f1 !== undefined && f1 !== null && f2 !== undefined && f2 !== null && user !== undefined && user !== null) {
+        if (user === 'ocai'){
+            return "update";
+        } else { return "view";} 
+    } else { return "new";} 
+}
+function init(){
+    console.log('init');
+    if (sourceCodes[0] !== undefined){
+        // console.log('!!!!!!!!STEP0___________CODE:', sourceCodes[0]);
+        let future = kernel.requestExecute({ code: sourceCodes[0]});  
+    }
 }
 function runNewSession(){
     Session.listRunning(options).then(sessionModels => {
-        var sessionNums = sessionModels.length;
-        var existSession = false;
+        let sessionNums = sessionModels.length;
+        let existSession = false;
         console.log('sessionModels.length',sessionModels.length);
         for (let i = 0; i < sessionNums; i++) {
             let path = sessionModels[i].notebook.path;
@@ -111,15 +134,6 @@ function runNewSession(){
         }
     });
 }
-
-function init(){
-    console.log('init');
-    if (sourceCodes[0] !== undefined){
-        // console.log('!!!!!!!!STEP0___________CODE:', sourceCodes[0]);
-        var future = kernel.requestExecute({ code: sourceCodes[0]});  
-    }
-}
-
 function readFilePromisified(filename) {
     return new Promise(
         function (resolve, reject) {
@@ -133,7 +147,6 @@ function readFilePromisified(filename) {
                 });
         });
 }
-
 function writeFilePromisified(filename,text) {
     return new Promise(
         function (resolve, reject) {
@@ -151,85 +164,89 @@ function writeFilePromisified(filename,text) {
 router.post('/init', function (req, res) { 
     let fileName = req.body.fileName;
     let notebookPath = req.body.notebookPath;
-    console.log('/init: fileName ', fileName, ' notebookPath ',notebookPath);
-    var mode = getMode(fileName, notebookPath);
+    projectName = req.body.projectName;
+    let userName = req.body.userName;
+    console.log('/init: fileName ', fileName, 'projectName  ', projectName, 'userName', userName);
+    mode = getMode(fileName, notebookPath, userName);
     console.log('mode',mode);
-    if (mode === 'new'){
-        contents.copy(templatIpynbPath, templatFolderPath)
-        .then(model =>{       
-            contents.get(templatFolderPath + templatIpynbPath).then(model =>{ 
-                for(var i = 0; i<model.content.cells.length; i++){
-                    sourceCodes[i] =  model.content.cells[i].source;
-                }   
-                console.log('sourceCodes',sourceCodes);
-                runNewSession();
-                // init();
-                res.status(200).send({ msg: "GREAT SUCCESS WE INIT IT!!!" });
-            })
-        })
-        .catch(err => {
-            console.log(err);
-        });
-    }
-    if (mode === 'readOnly'){
-        console.log('mode is readOnly', baseNotebookPath + notebookPath); 
-        readFilePromisified(baseNotebookPath + notebookPath)
-        .then(text => { 
-            var obj = JSON.parse(text);  //now it an object       
-            for (let i = 0, len = obj.cells.length; i < len; i++) { 
-                let tmp = obj.cells[i].outputs;  
-                       
-                if (tmp !== undefined && tmp !== null){
-                   if (tmp.length !== 0) {
-                       console.log('tmp', tmp); 
-                        if (tmp[0].data !== undefined && tmp[0].data !== null ){                              
-                            outputs[i] = tmp[0].data ;
-                        }         
-                   }
-                   
-                    
-                }
+    if (mode === 'new'){    
+        ensureExists(baseNotebookPath + '/'+ projectName, '0744', function(err) {
+            if (err) {
+                console.log('Cannot create folder: ',err);    
+            } else {
+                console.log('Success!!!' , baseNotebookPath + '/'+ projectName + '/'+ projectName + '.ipynb', 'exists!');  
+                createReadStream(templatIpynbPath + templatIpynbFile).pipe(createWriteStream(baseNotebookPath + '/'+ projectName + '/'+ projectName + '.ipynb'))
+                contents.get(projectName + '/'+ projectName + '.ipynb')
+                .then(model =>{ 
+                    for(var i = 0; i<model.content.cells.length; i++){
+                        sourceCodes[i] =  model.content.cells[i].source;
+                    }
+                    runNewSession();
+                    res.status(200).send({ msg: "GREAT SUCCESS WE INIT IT!!!" });
+                })    
+                .catch(err => {
+                    console.log(err);
+                })
             }
-            res.status(200).send({ msg: "GREAT SUCCESS WATCH IT!!!" , outputs: outputs});     
-        }) 
-        .catch(err => {
-            console.log(err);
         });
     }
-
-})           
+    if (mode === 'update' || mode === 'view'){
+        if (existsSync(baseNotebookPath  + '/' + projectName  + '/' + projectName + ".ipynb")) {
+            readFilePromisified(baseNotebookPath  + '/'+ projectName + '/' + projectName + ".ipynb")
+            .then(text => { 
+                let obj = JSON.parse(text);  //now it an object       
+                for (let i = 0, len = obj.cells.length; i < len; i++) { 
+                    let tmp = obj.cells[i].outputs;                     
+                    if (tmp !== undefined && tmp !== null){
+                    if (tmp.length !== 0) {
+                            if (tmp[0].data !== undefined && tmp[0].data !== null ){                              
+                                outputs[i] = tmp[0].data ;
+                            }         
+                    }  
+                    }
+                }
+                res.status(200).send({ msg: "GREAT SUCCESS WATCH IT!!!" , outputs: outputs});     
+            }) 
+            .catch(err => {
+                console.log(err);
+            });
+        } else {
+            console.log('File ', baseNotebookPath + '/' + projectName + '/'+ projectName + '.ipynb', ' does not exist!') ;   
+        }
+    }
+});           
 
 router.post('/upload', upload.single('file'), function (req, res) { 
-    res.status(200).send({ fileName: req.file.originalname });
+    res.status(200).send({ fileName: req.file.originalname});
 });
 
 router.get('/report/:fn', function (req, res) {
-    (req.params.fn)? fileName = req.params.fn :fileName;
-    console.log(" fileName", fileName);
-    if (existsSync("./uploads/" + fileName.replace(/.csv/g, "_") + "report.html")) {
-        var html = readFileSync("./uploads/" + fileName.replace(/.csv/g, "_") + "report.html", 'utf8');
-        res.writeHeader(200, { "Content-Type": "text/html" });
-        res.write(html);
-        res.end();
+    console.log(" !!!!!!!!dataFileName", dataFileName, 'req.params.fn', req.params.fn);
+    
+    if (req.params.fn !== undefined && mode !== 'new') {
+        dataFileName = req.params.fn 
+    }
+
+    if (existsSync(baseNotebookPath + '/'+ projectName + '/' + dataFileName.replace(/.csv/g, "_") + "report.html")) {
+        let html = readFileSync(baseNotebookPath + '/'+ projectName + '/' + dataFileName.replace(/.csv/g, "_") + "report.html", 'utf8');
+        res.status(200).send({data: html });
     } else {
-        res.writeHeader(200, { "Content-Type": "text/html" });
-        res.write('<div>!!!!!!!</div>');
-        res.end();
+        res.status(200).send({data: '<div>!!!!!!!</div>' });
     }
 });
 
 router.post('/step1', function (req, res) {
-    (req.body.fileName)?(dataFileName = req.body.fileName):fileName;
-    (req.body.htmlFileName)? (htmlFileName = req.body.htmlFileName):fileName+'report.html';
-
-    notebookPath = templatFolderPath + '/'+ dataFileName + '.ipynb'
-     console.log('dataFileName ', dataFileName, 'htmlFileName', htmlFileName, "notebookPath", notebookPath);
-    // Rename a file.
-    contents.rename(templatFolderPath + templatIpynbPath, notebookPath);
+    (req.body.fileName) ? (dataFileName = req.body.fileName) : fileName;
+    (req.body.htmlFileName) ? (htmlFileName = req.body.htmlFileName) : fileName + 'report.html';
+    
+    // notebookPath = templatFolderPath + '/'+ dataFileName + '.ipynb'
+    console.log('dataFileName ', dataFileName, 'htmlFileName', htmlFileName, '/'+ projectName + '/');
+    // // Rename a file.
+    // contents.rename(templatFolderPath + templatIpynbPath, notebookPath);
         if (sourceCodes[1] !== undefined){
             var code = sourceCodes[1];
-            code = code.replace(/filePath=/g, "filePath=\"" + basePath + dataFileName +"\"\n");
-            code = code.replace(/htmlFilePath=/g, "htmlFilePath=\"" + basePath + htmlFileName + "\"\n");
+            code = code.replace(/filePath=/g, "filePath=\"" + baseNotebookPath + '/'+ projectName + '/'+ dataFileName +"\"\n");
+            code = code.replace(/htmlFilePath=/g, "htmlFilePath=\"" + baseNotebookPath + '/'+ projectName + '/'+htmlFileName + "\"\n");
             console.log('!!!!!!!!STEP1___________CODE:', code);
             source[1]=code;
             var future = kernel.requestExecute({ code: code});  
@@ -363,7 +380,9 @@ router.get('/step6', function (req, res) {
 });
 
 router.get('/save', function (req, res) {
-    readFilePromisified(baseNotebookPath + notebookPath)
+    if (existsSync(baseNotebookPath + '/'+ projectName  + '/' + projectName + ".ipynb")) {
+        readFilePromisified(baseNotebookPath + '/'+ projectName + '/' + projectName + ".ipynb")
+    //readFilePromisified(baseNotebookPath + notebookPath)
         .then(text => {
             console.log('outputs array', outputs);
             console.log('source array', source);
@@ -386,7 +405,7 @@ router.get('/save', function (req, res) {
             }               
             var json = JSON.stringify(obj); //convert it back to json   
             console.log('json', json); 
-            writeFilePromisified(baseNotebookPath + notebookPath, json)
+            writeFilePromisified(baseNotebookPath +'/' +  projectName + '/' + projectName + ".ipynb", json)
             .then(() => {  
                 // get model info
                 
@@ -394,8 +413,8 @@ router.get('/save', function (req, res) {
                 mysession.shutdown()
                 .then(() => {
                     console.log('session closed');
-                    console.log('modelInfo', modelInfo);
-                    res.status(200).send({ modelInfo: modelInfo, dataFileName:dataFileName, notebookPath: notebookPath });
+                    console.log('modelInfo', modelInfo, 'dataFileName', dataFileName);
+                    res.status(200).send({ modelInfo: modelInfo, dataFileName:dataFileName, notebookPath: baseNotebookPath });
                 })
                 .catch(err => {
                     console.log(err);
@@ -404,10 +423,13 @@ router.get('/save', function (req, res) {
             .catch(err => {
                 console.log(err);
             });     
-    })
-    .catch(err => {
-        console.log(err);
-    });
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    } else {
+        console.log('File ', baseNotebookPath + '/'+ projectName + '/'+ projectName + '.ipynb', ' does not exist!') ;   
+    }
 });
 
 

@@ -47,7 +47,7 @@ angular.module('basic')
 
     $scope.uploadFile = function (file) {
       console.log('!!!!!!!!file',file, "$scope", $scope)
-      Upload.rename(file, getFileName(file.name)+'_' + $rootScope.getUsername() + '.' + getFileExtension(file.name));
+      //Upload.rename(file, getFileName(file.name)+'_' + $rootScope.getUsername() + '.' + getFileExtension(file.name));
       Upload.upload({
         url:'/api/jupyter/upload',
         data: { file: file}

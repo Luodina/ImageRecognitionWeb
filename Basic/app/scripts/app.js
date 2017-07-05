@@ -153,25 +153,20 @@ angular
             
             $scope.save = function () {
               $http.get('/api/jupyter/save').success(function(data){
-                  console.log("DataProcessingCtrl save:", data.modelInfo, data.dataFileName, data.notebookPath);
-                  let modelName = $location.path().split(/[\s/]+/).pop();
-                  let userName = $cookies.get("username");
-                  let modelInfo = data.modelInfo;
+
                   let date = new Date();
-                  let time = date.getTime();
-                  let filePath = data.dataFileName;
-                  let notebookPath = data.notebookPath;
-                  let comment = 'Lets try it!';
-                  $http.post('/api/model/new', {
-                      MODEL_NAME: modelName,
-                      MODEL_INFO: modelInfo, 
-                      USER_ID: userName, 
+                  let savaData = {
+                      MODEL_NAME: $location.path().split(/[\s/]+/).pop(),
+                      MODEL_INFO: data.modelInfo, 
+                      USER_ID: $cookies.get("username"), 
                       VIEW_MENU_ID: "01",
-                      UPDATED_TIME: time,
-                      FILE_PATH: filePath,
-                      NOTEBOOK_PATH: notebookPath,
-                      COMMENT:comment,
-                  }).success(function(data){
+                      UPDATED_TIME: date.getTime(),
+                      FILE_PATH: data.dataFileName,
+                      NOTEBOOK_PATH: data.notebookPath,
+                      COMMENT:'Lets try it!',
+                  }
+                  console.log("Data to DB savaData:", savaData);
+                  $http.post('/api/model/new', savaData ).success(function(data){
                       console.log("DataProcessingCtrl save:", data.msg);
                   });
                   $location.path("/explore");
