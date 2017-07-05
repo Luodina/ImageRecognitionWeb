@@ -85,9 +85,6 @@ angular.module('basic.services', ['ui.bootstrap'])
         // size: 'size',
         controller: ['$scope', '$uibModalInstance', '$filter', '$state', '$location',
           function ($scope, $uibModalInstance, $filter, $state, $location) {
-            $scope.applicationTitle = $filter('translate')('web_common_data_application_layer_01');
-            $scope.applicationName = $filter('translate')('web_common_data_application_layer_02');
-            $scope.btnNew = $filter('translate')('web_common_015');
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
             }
