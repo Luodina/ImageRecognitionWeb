@@ -30,28 +30,58 @@
 }
 .dataExplore-container{
   margin-top: 40px;
-  .text{
-    border: none;
-  }
-  .text:active{
-    border-bottom: solid 2px #4874ff;
+  .tab-default{
+    .nav-tabs{
+      li{
+        margin-bottom:0;
+        color: #555;
+        .nav-link{
+          color: #555555;
+          border:none;
+          list-style: none;
+          text-decoration: none;
+          .text{
+            border: none;
+          }
+          .text:active{
+            border-bottom: solid 2px #4874ff;
 
-  }
-  .icon{
-    margin:0 10px;
-    display: inline-block;
-    font-size: 12px;
-    color: #999;
-    border-radius: 10px;
-    width:20px;
-    height: 16px;
-    line-height: 16px;
-    text-align: center;
-    background: #f0f0f0;
-  }
-  .icon:hover{
-    background: #dae3ff;
-    color: #4874ff;
+          }
+          .icon{
+            margin:0 10px;
+            display: inline-block;
+            font-size: 12px;
+            color: #999;
+            border-radius: 10px;
+            width:20px;
+            height: 16px;
+            line-height: 16px;
+            text-align: center;
+            background: #f0f0f0;
+          }
+          .icon:hover{
+            background: #dae3ff;
+            color: #4874ff;
+          }
+        }
+        a:hover{
+          color: #4874ff;
+          background: #fff;
+          border-bottom: solid 2px #4874ff;
+        }
+        a:active{
+          border:none;
+          color: #4874ff;
+          border-bottom: solid 2px #4874ff;
+        }
+        a:focus{
+          outline:none;
+          color: #4874ff;
+          border-bottom: solid 2px #4874ff;
+        }
+      }
+
+    }
   }
   .dataExplore-container-main{
     float: left;

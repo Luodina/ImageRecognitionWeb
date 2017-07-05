@@ -37,15 +37,27 @@
   margin-top: 40px;
 }
 
-.dataExplore-container .text {
+.dataExplore-container .tab-default .nav-tabs li {
+  margin-bottom: 0;
+  color: #555;
+}
+
+.dataExplore-container .tab-default .nav-tabs li .nav-link {
+  color: #555555;
+  border: none;
+  list-style: none;
+  text-decoration: none;
+}
+
+.dataExplore-container .tab-default .nav-tabs li .nav-link .text {
   border: none;
 }
 
-.dataExplore-container .text:active {
+.dataExplore-container .tab-default .nav-tabs li .nav-link .text:active {
   border-bottom: solid 2px #4874ff;
 }
 
-.dataExplore-container .icon {
+.dataExplore-container .tab-default .nav-tabs li .nav-link .icon {
   margin: 0 10px;
   display: inline-block;
   font-size: 12px;
@@ -58,9 +70,27 @@
   background: #f0f0f0;
 }
 
-.dataExplore-container .icon:hover {
+.dataExplore-container .tab-default .nav-tabs li .nav-link .icon:hover {
   background: #dae3ff;
   color: #4874ff;
+}
+
+.dataExplore-container .tab-default .nav-tabs li a:hover {
+  color: #4874ff;
+  background: #fff;
+  border-bottom: solid 2px #4874ff;
+}
+
+.dataExplore-container .tab-default .nav-tabs li a:active {
+  border: none;
+  color: #4874ff;
+  border-bottom: solid 2px #4874ff;
+}
+
+.dataExplore-container .tab-default .nav-tabs li a:focus {
+  outline: none;
+  color: #4874ff;
+  border-bottom: solid 2px #4874ff;
 }
 
 .dataExplore-container .dataExplore-container-main {
