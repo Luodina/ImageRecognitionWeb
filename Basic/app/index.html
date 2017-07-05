@@ -26,6 +26,8 @@
   <link rel="stylesheet" href="bower_components/mermaid/dist/mermaid.dark.css"/>
   <link rel="stylesheet" href="bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css"/>
   <link rel="stylesheet" href="styles/dataExplore/dataExplore.css"/>
+  <link rel="stylesheet" href="styles/dataApplication/application.css"/>
+
 
   <!-- endbuild -->
 </head>
@@ -42,10 +44,7 @@
     <div class="container-fluid">
       <div class="col-md-offset-1 col-md-10">
         <div class="navbar-header">
-          <a href="#/" class="navbar-brand logo">
-            <!--<img src="/images/yeoman.png" style="height: 32px;" alt="basic" title="basic">-->
-            <span class="brand">{{'web_common_000' | translate}}</span>
-          </a>
+          <img src="./images/logo.png" style="height: 50px;" alt="basic" title="basic">
         </div>
         <div class="collapse navbar-collapse navbar-head" id="js-navbar-collapse">
           <div class="nav navbar-nav navbar-left nav-top" id="navbar-nav">
@@ -111,18 +110,28 @@
 <script src="bower_components/angular-drag-and-drop-lists/angular-drag-and-drop-lists.js"></script>
 <script src="bower_components/mermaid/dist/mermaid.js"></script>
 <script src="build-scripts/app.js"></script>
+<script src="build-scripts/routers.js"></script>
+<script src="build-scripts/services.js"></script>
 <script src="build-scripts/message_en.js"></script>
 <script src="build-scripts/message_zh.js"></script>
 <!--<script src="build-scripts/directive/tokenfield.js"></script>-->
 <script src="build-scripts/controllers/main.js"></script>
 <script src="build-scripts/controllers/dataExplore/dataExplore.js"></script>
 <script src="build-scripts/controllers/dataExplore/data.js"></script>
+<script src="build-scripts/controllers/dataApplication/dataApplication.js"></script>
+<script src="build-scripts/controllers/dataApplication/applicationInfo.js"></script>
 
 <script src="build-scripts/controllers/dashboard.js"></script>
 <script src="build-scripts/directive/dataSource.js"></script>
 <script src="build-scripts/directive/dataReport.js"></script>
 <script src="build-scripts/directive/dataProcessing.js"></script>
 <script src="build-scripts/controllers/settings.js"></script>
+<script src="build-scripts/controllers/dataApplication/applicationModel/applicationFile.js"></script>
+<script src="build-scripts/controllers/dataApplication/applicationModel/applicationPreview.js"></script>
+<script src="build-scripts/controllers/dataApplication/applicationModel/operationResult.js"></script>
+<script src="build-scripts/controllers/dataApplication/applicationModel/runTheChoreography.js"></script>
+<script src="build-scripts/controllers/dataApplication/applicationModel/taskPlan.js"></script>
+
 
 <!-- endbuild -->
 </body>

@@ -81,8 +81,21 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'modelType_05_01':'The number of vocabulary:',
     'modelType_05_02':'Number of features:',
     'modelType_05_03':'Weight:',
-    
 
+    'web_common_data_application_01': 'Data application search',
+    'web_common_data_application_02': 'My data application',
+    'web_common_data_application_03': 'Data application',
+    'web_common_data_application_04': 'Universal data applications',
+    'web_common_data_application_05': 'Application file',
+    'web_common_data_application_06': 'Task plan',
+    'web_common_data_application_07': 'Run the choreography',
+    'web_common_data_application_08': 'Operation result',
+    'web_common_data_application_09': 'Application preview',
+
+
+    'web_common_data_application_layer_01': 'Create my data application',
+    'web_common_data_application_layer_02': 'Open a new data application',
+    'web_common_data_application_layer_03': 'Create',
 
   });
 }]);

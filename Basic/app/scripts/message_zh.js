@@ -55,14 +55,14 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
 
     'web_common_explore_013':' File uploaded',
 
-    'modelType_0':'我的数据探索',
-    'modelType_1':'结构化数据探索',
-    'modelType_2':'文本数据预处理',
-    'modelType_3':'分类预测',
-    'modelType_4':'聚类分析',
-    'modelType_5':'目标检测',
+    'modelType_00':'我的数据探索',
+    'modelType_01':'结构化数据探索',
+    'modelType_02':'文本数据预处理',
+    'modelType_03':'分类预测',
+    'modelType_04':'聚类分析',
+    'modelType_05':'目标检测',
 
-    'modelType_1_00':'类别型变量数:', 
+    'modelType_1_00':'类别型变量数:',
     'modelType_1_01':'变量数(列数):',
     'modelType_1_02':'空值比例:',
     'modelType_1_03':'数值型变量数:',
@@ -84,7 +84,21 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'modelType_5_00':'N-gram:',
     'modelType_5_01':'词汇数:',
     'modelType_5_02':'特征数:',
-    'modelType_5_03':'权值:'
+    'modelType_5_03':'权值:',
+
+    'web_common_data_application_01': '数据应用搜索',
+    'web_common_data_application_02': '我的数据应用',
+    'web_common_data_application_03': '数据应用',
+    'web_common_data_application_04': '通用数据应用',
+    'web_common_data_application_05': '应用文件',
+    'web_common_data_application_06': '任务计划',
+    'web_common_data_application_07': '运行编排',
+    'web_common_data_application_08': '运行结果',
+    'web_common_data_application_09': '应用概览',
+
+    'web_common_data_application_layer_01': '创建我的数据应用',
+    'web_common_data_application_layer_02': '开启新的数据应用',
+    'web_common_data_application_layer_03': '创建'
 
 
 

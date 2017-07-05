@@ -1,0 +1,11 @@
+<div class="modal-header">
+  <span class="modal-header-title">{{applicationTitle| translate}}</span>
+  <span class="modal-header-close" ng-click="cancel()">X</span>
+</div>
+<div class="modal-body">
+  <div class="modal-body-title">{{applicationName| translate}}</div>
+  <input class="modal-body-name" ng-model='model.name'>
+</div>
+<div class="modal-footer">
+  <span class="modal-footer-btn" ng-click="create()">{{btnNew| translate}}</span>
+</div>
