@@ -84,7 +84,7 @@ angular.module('basic.services', ['ui.bootstrap'])
       return $uibModal.open({
         backdrop: 'static',
         templateUrl: 'views/layer/createApplicationframework.html',
-        // size: 'size',
+        size: 'size',
         controller: ['$scope', '$uibModalInstance', '$filter', '$state', '$location',
           function ($scope, $uibModalInstance, $filter, $state, $location) {
             $scope.cancel = function () {
@@ -92,8 +92,8 @@ angular.module('basic.services', ['ui.bootstrap'])
             }
             $scope.create = function () {
               $uibModalInstance.dismiss();
-              // $state.go('/dataAppllication');
-              $location.path("/applicationInfo");
+              //$state.go('/dataAppllication');
+               //$location.path("/applicationInfomation");
               // $location.path("/previewPage");
             }
           }]
