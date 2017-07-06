@@ -4,16 +4,18 @@
 'use strict';
 angular.module('basic.services', ['ui.bootstrap'])
   .service('createModel', ['$uibModal', function ($uibModal) {
-    this.open = function (tit, cont) {
+    this.open = function (obj,idx) {
       return $uibModal.open({
         backdrop: 'static',
         templateUrl: 'views/layer/createModel.html',
         size: 'size',
         controller: ['$cookies', '$scope', '$filter', '$uibModalInstance', '$http',
           function ($cookies, $scope, $filter, $uibModalInstance, $http) {
-            $scope.tit = $filter('translate')('web_common_data_explore_019');
-            $scope.cont = $filter('translate')('web_common_data_explore_020');
-            $scope.create = $filter('translate')('web_common_015');
+
+            $scope.title = $filter('translate')(obj.title);
+            $scope.content = $filter('translate')(obj.con);
+            $scope.newBtn = $filter('translate')('web_common_015');
+            $scope.url = idx;
             $scope.userName = $cookies.get("username");
             $scope.go = function () {
               //if($scope.model.name !== undefined) {
@@ -77,11 +79,11 @@ angular.module('basic.services', ['ui.bootstrap'])
       }).result;
     };
   }])
-  .service('createApplication', ['$uibModal', function ($uibModal) {
+  .service('createApplicationframework', ['$uibModal', function ($uibModal) {
     this.open = function () {
       return $uibModal.open({
         backdrop: 'static',
-        templateUrl: 'views/layer/dataApplication.html',
+        templateUrl: 'views/layer/createApplicationframework.html',
         // size: 'size',
         controller: ['$scope', '$uibModalInstance', '$filter', '$state', '$location',
           function ($scope, $uibModalInstance, $filter, $state, $location) {

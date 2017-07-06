@@ -47,7 +47,7 @@ angular
       positionX: 'right',
       positionY: 'bottom'
     });
-    usSpinnerConfigProvider.setDefaults({color: 'orange', radius: 20});
+    usSpinnerConfigProvider.setDefaults({color: 'orange', radius: 0});
 
     ChartJsProvider.setOptions({
       chartColors: ['#4da9ff','#79d2a6','#ff9900','#ff704d','#669999','#4d0000']

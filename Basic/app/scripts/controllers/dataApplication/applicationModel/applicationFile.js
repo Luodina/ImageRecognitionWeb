@@ -4,11 +4,11 @@
 
 "use strict";
 angular.module('basic')
-  .controller('FileCtrl',['$rootScope','$sce','$filter', '$scope','$http','Upload', 'Notification', '$timeout',
-    function ($rootScope, $sce, $filter, $scope, $http, Upload, Notification, $timeout) {
-      // $scope.createModel = function () {
-      //   createApplicationframework.open()
-      // }
+  .controller('FileCtrl',['createApplicationframework','$rootScope','$sce','$filter', '$scope','$http','Upload', 'Notification', '$timeout',
+    function (createApplicationframework,$rootScope, $sce, $filter, $scope, $http, Upload, Notification, $timeout) {
+      $scope.createModel = function () {
+        createApplicationframework.open()
+      }
     }])
   .directive('file', function() {
     return {

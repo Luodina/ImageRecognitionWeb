@@ -1,40 +1,104 @@
+<!--<table style="width: 100%;">-->
+  <!--<tr>-->
+    <!--<td class="dataRight">-->
+      <!--<div ng-show='tab == 0'>-->
+        <!--<div ng-controller="DataSourceCtrl">-->
+          <!--<div source></div>-->
+        <!--</div>-->
+        <!--<div class="button">-->
+          <!--<button type="button" class="btn btn-default btn-sm" ng-click="clicked(1)">{{next | translate}}</button>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div ng-show='tab == 1'>-->
+        <!--<div ng-controller="DataReportCtrl">-->
+          <!--<div report></div>-->
+        <!--</div>-->
+        <!--<div class="button">-->
+          <!--<button type="button" class="btn btn-default btn-sm" ng-click="clicked(0)">{{back | translate}}</button>-->
+          <!--<button type="button" class="btn btn-default btn-sm" ng-click="clicked(2)">{{next | translate}}</button>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div ng-show='tab == 2'>-->
+        <!--<div ng-controller="DataProcessingCtrl">-->
+          <!--<div processing></div>-->
+        <!--</div>-->
+        <!--<div class="button">-->
+          <!--<button type="button" class="btn btn-default btn-sm" ng-click=clicked(1)>{{back | translate}}</button>-->
+        <!--</div>-->
 
-  <table style="width: 100%;">
-    <tr>
-      <td style="width: 15%;background: #f4f4f4;vertical-align: top" class="dataLeft">
-        <ul style="padding:0">
-          <li style="padding:10px" ng-class="{'active' : tab == 0}">{{ source | translate}}</li>
-          <li style="padding:10px" ng-class="{'active' : tab == 1}">{{ report | translate}}</li>
-          <li style="padding:10px" ng-class="{'active' : tab == 2}">{{ processing | translate}}</li>
-        </ul>
-      </td>
-      <td style="width: 85%;" class="dataRight">
-        <div ng-show='tab == 0'>
-            <div ng-controller="DataSourceCtrl" >
-              <div source></div>
-            </div>
-            <div class="button">
-              <button type="button" class="btn btn-default btn-sm" ng-click="clicked(1)" >{{next | translate}}</button>
-            </div>
-        </div>
-        <div ng-show='tab == 1'>
-            <div ng-controller="DataReportCtrl">
-              <div report></div>
-            </div>
-            <div class="button">
-              <button type="button" class="btn btn-default btn-sm" ng-click="clicked(0)" >{{back | translate}}</button>
-              <button type="button" class="btn btn-default btn-sm" ng-click="clicked(2)" >{{next | translate}}</button>
-            </div>
-        </div>
-        <div ng-show='tab == 2'>
-          <div ng-controller="DataProcessingCtrl">
-            <div processing></div>
-          </div>
-          <div class="button">
-            <button type="button" class="btn btn-default btn-sm" ng-click=clicked(1) >{{back | translate}}</button>
-          </div>
-
-        </div>
-      </td>
-    </tr>
-  </table>
+      <!--</div>-->
+    <!--</td>-->
+    <!--<td class="dataRight">-->
+      <!--<div ng-show='tab == 0' class="dataSource">-->
+        <!--<div ng-controller="DataSourceCtrl" class="dataSourcePart">-->
+          <!--<div source class="sourcePart"></div>-->
+        <!--</div>-->
+        <!--<div class="button">-->
+          <!--<span class="btn btn-default btn-sm bBtn" ng-click="clicked(1)">{{next | translate}}</span>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div ng-show='tab == 1' class="dataReport">-->
+        <!--<div ng-controller="DataReportCtrl">-->
+          <!--<div report class="reportPart"></div>-->
+        <!--</div>-->
+        <!--<div class="button">-->
+          <!--<span class="btn btn-default btn-sm bBtn" ng-click="clicked(0)">{{back | translate}}</span>-->
+          <!--<span type="button" class="btn btn-default btn-sm bBtn" ng-click="clicked(2)">{{next | translate}}</span>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div ng-show='tab == 2' class="dataProcess">-->
+        <!--<div ng-controller="DataProcessingCtrl">-->
+          <!--<div processing class="processPart"></div>-->
+        <!--</div>-->
+        <!--<div class="button">-->
+          <!--<button type="button" class="btn btn-default btn-sm bBtn" ng-click=clicked(1)>{{back | translate}}</button>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</td>-->
+  <!--</tr>-->
+<!--</table>-->
+<div class="dataExploreModel">
+  <div class="exploreModelLeft">
+    <ul>
+      <li ng-class="{'active' : tab == 0}" style="padding: 0px">
+        <div class="circle" style="top: 30%;"></div>
+        <div class="text">{{ 'web_common_data_explore_001' | translate}}</div>
+      </li>
+      <li ng-class="{'active' : tab == 1}">
+        <div class="circle" style="top: 70%;"></div>
+        <div class="text">{{ 'web_common_data_explore_002' | translate}}</div>
+      </li>
+      <li ng-class="{'active' : tab == 2}">
+        <div class="circle" style="top: 70%;"></div>
+        <div class="text">{{ 'web_common_data_explore_003' | translate}}</div>
+      </li>
+    </ul>
+  </div>
+  <div class="exploreModelRight">
+    <div ng-show='tab == 0' class="dataSource">
+      <div ng-controller="DataSourceCtrl" class="dataSourcePart">
+        <div source class="sourcePart"></div>
+      </div>
+      <div class="button">
+        <span class="btn btn-default btn-sm bBtn" ng-click="clicked(1)">{{'web_common_009' | translate}}</span>
+      </div>
+    </div>
+    <div ng-show='tab == 1' class="dataReport">
+      <div ng-controller="DataReportCtrl">
+        <div report class="reportPart"></div>
+      </div>
+      <div class="button">
+        <span class="btn btn-default btn-sm bBtn" ng-click="clicked(0)">{{'web_common_016' | translate}}</span>
+        <span type="button" class="btn btn-default btn-sm bBtn" ng-click="clicked(2)">{{'web_common_009' | translate}}</span>
+      </div>
+    </div>
+    <div ng-show='tab == 2' class="dataProcess">
+      <div ng-controller="DataProcessingCtrl">
+        <div processing class="processPart"></div>
+      </div>
+      <div class="button">
+        <button type="button" class="btn btn-default btn-sm bBtn" ng-click=clicked(1)>{{'web_common_016' | translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>

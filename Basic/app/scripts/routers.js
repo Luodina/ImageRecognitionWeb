@@ -10,7 +10,7 @@ angular.module('basic.routers', ['ui.router'])
       {name: 'home', url: '/home', templateUrl: "views/dataApplication/dataApplication.html",controller:'DataApplicationCtrl'},
       {
         name: 'applicationInfomation',
-        url: '/applicationInfo',
+        url: '/applicationInfo/{mode}/{name}',
         templateUrl: "views/dataApplication/applicationInfo.html",
         controller: 'ApplicationInfoCtrl'
       },

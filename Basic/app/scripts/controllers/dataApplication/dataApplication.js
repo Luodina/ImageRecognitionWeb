@@ -3,7 +3,7 @@
  */
 'use strict';
 angular.module('basic')
-  .controller('DataApplicationCtrl',['createApplication','$rootScope','$scope','$filter','$http','$timeout', 'dataExploreFactory', function (createApplication, $rootScope, $scope, $filter, $http, $timeout, dataExploreFactory) {
+  .controller('DataApplicationCtrl',['createModel','$rootScope','$scope','$filter','$http','$timeout', 'dataExploreFactory', function (createModel, $rootScope, $scope, $filter, $http, $timeout, dataExploreFactory) {
     $scope.msg = $filter('translate')('web_common_data_explore_002');
     $scope.projectType=['web_common_data_application_02', 'web_common_data_application_03', 'web_common_data_application_04'];
     $scope.listAllProject=[[]];
@@ -24,6 +24,6 @@ angular.module('basic')
     };
     dataExploreFactory.getProjectList().success(handleSuccess);
     $scope.newProject = function () {
-      createApplication.open();
+      createModel.open({'title': 'web_common_data_application_layer_01', 'con':'web_common_data_application_layer_02'}, 'applicationInfomation');
     };
   }]);

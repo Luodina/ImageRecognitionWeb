@@ -25,8 +25,6 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_018': '保存',
 
 
-
-
     'web_common_data_explore_001': '数据选择',
     'web_common_data_explore_002': '数据探索',
     'web_common_data_explore_003': '数据预处理建议',
@@ -49,9 +47,6 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_explore_019': '创建我的数据探索',
     'web_common_data_explore_020': '开启新的数据探索',
     'web_common_data_explore_021': '标题',
-
-
-
 
     'web_common_explore_013':' File uploaded',
 
@@ -97,10 +92,8 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_application_09': '应用概览',
 
     'web_common_data_application_layer_01': '创建我的数据应用',
-    'web_common_data_application_layer_02': '开启新的数据应用',
+    'web_common_data_application_layer_02': '新的数据应用',
     'web_common_data_application_layer_03': '创建'
-
-
 
 
   });

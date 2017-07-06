@@ -1,20 +1,13 @@
-<div class="contect-tabs">
-  <p class="dataSource-title">{{ datamation | translate}}</p>
-  <div class="dataSource-chooseOne">
-    <input type="radio" ng-model="bigData" value="iptOne">&nbsp;&nbsp;{{defaultData | translate}}
-  </div>
-  <div class="dataSource-chooseTwo">
-    <input type="radio" ng-model="bigData" value="iptTwo">&nbsp;&nbsp;{{datafileimport | translate}}
-    <input ngf-select type="file" ng-model="file" class="dataSource-file">
-    
-    <!--<input ng-if = "model.FILE_PATH != null" type="text" value ng-model="model.FILE_PATH" class="dataSource-file">-->
-    <!--<div>Uploaded file: {{model.FILE_PATH}}</div>-->
-    <span class="dataSource-upload" ng-click="upload()">{{fileimport | translate}}</span>
-  </div>
-  <div class="dataSource-btn">
-    <!--{{fileName}}-->
-    <span class="dataSource-preview" ng-click="run(fileName)">!!!{{datapreview | translate}}</span>
-    <!--<span ng-if = "model.FILE_PATH != null" class="dataSource-preview" ng-click="run(model.FILE_PATH)">{{datapreview | translate}}</span>-->
-  </div>
-  <div ng-bind-html="result"></div>
+<p class="title">{{ 'web_common_data_explore_004' | translate}}</p>
+<div class="dataSourceChoose">
+  <input type="radio" ng-model="bigData" value="iptOne">&nbsp;&nbsp;{{'web_common_data_explore_005' | translate}}
 </div>
+<div class="dataFileImport">
+  <input type="radio" ng-model="bigData" value="iptTwo">&nbsp;&nbsp;{{'web_common_data_explore_006' | translate}}
+  <input ngf-select type="file" ng-model="file" class="chooseFile">
+  <span class="fileUpload" ng-click="upload()">{{'web_common_data_explore_007' | translate}}</span>
+</div>
+<div class="dataSourcePreview">
+  <span class="dataSource-preview" ng-click="run(fileName)">{{'web_common_data_explore_008' | translate}}</span>
+</div>
+<div ng-bind-html="result" style="padding-top: 30px;"></div>

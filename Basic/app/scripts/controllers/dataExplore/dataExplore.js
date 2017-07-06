@@ -37,9 +37,19 @@ angular.module('basic')
       }
     };
 
-    dataExploreFactory.getProjectList().success(handleSuccess);    
-    $scope.newProject = () => {
-      createModel.open(); 
+    dataExploreFactory.getProjectList().success(handleSuccess);
+    $scope.newProject = (index) => {
+      var arr = [
+        {'title':'modelType_00','con':'web_common_data_explore_020'},
+        {'title':'modelType_01','con':'modelType_01'},
+        {'title':'modelType_02','con':'modelType_02'},
+        {'title':'modelType_03','con':'modelType_03'},
+        {'title':'modelType_04','con':'modelType_04'},
+        {'title':'modelType_05','con':'modelType_05'},
+        {'title':'modelType_06','con':'modelType_06'}
+      ];
+      var arr2 = ['test','data','test','test','test','test','notebook'];
+      createModel.open(arr[index],arr2[index])
     };
 }]);
 
