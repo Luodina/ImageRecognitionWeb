@@ -1,23 +1,17 @@
-<p class="title">{{ datamation | translate}}</p>
-<div class="dataProcess-stepOne" id="divCorr" style="display: block">
-  <!--<p class="dataProcess-one">{{ stepone | translate}}<i class="pull-right glyphicon glyphicon-chevron-up oneImg" ng-click="pulldownlistone()"></i></p>-->
+<p class="title">{{ 'web_common_data_explore_004' | translate}}</p>
+<div class="dataProcess-stepOne commonStyle" id="divCorr" style="display: block">
   <p class="dataProcess-one">{{ stepone | translate}}<span class="pull-right glyphicon glyphicon-chevron-up oneImg"
                                                            ng-click="pulldownlistone()"></span></p>
-  <!--<div class="step" ng-show="isShowImputer">-->
   <table>
     <tr ng-repeat="item in dataHighCorr">
       <td>相关性: {{item.corrValue}}</td>
       <td>
-        <!--<label>-->
         {{item.varName}}
         <input type="checkbox" name={{item.varName}} ng-model="dataHighCorr[$index].varNameStatus">
-        <!--</label>-->
       </td>
       <td>
-        <!--<label>-->
         {{item.corrVarName}}
         <input type="checkbox" name={{item.corrVarName}} ng-model="dataHighCorr[$index].corrVarNameStatus">
-        <!--</label>-->
       </td>
     </tr>
   </table>
@@ -25,10 +19,8 @@
     <span class="btnStep"
           ng-click="apply(dataHighCorr, false, false)">{{ 'web_common_data_explore_012' | translate}}</span>
   </div>
-  <!--</div>-->
-
 </div>
-<div class="dataProcess-stepOne" id="divImputer" style="display: none">
+<div class="dataProcess-stepOne commonStyle" id="divImputer" style="display: none">
   <p class="dataProcess-one">{{ steptwo | translate}}
     <i class="pull-right glyphicon glyphicon-chevron-up oneImg" ng-click="pulldownlisttwo()"></i>
   </p>
@@ -62,7 +54,7 @@
   </div>
 
 </div>
-<div class="dataProcess-stepOne" id="divScalar" style="display: none">
+<div class="dataProcess-stepOne commonStyle" id="divScalar" style="display: none">
   <p class="dataProcess-one">{{ stepthree | translate}}
     <i class="pull-right glyphicon glyphicon-chevron-up oneImg" ng-click="pulldownlistthree()"></i>
   </p>
@@ -88,13 +80,8 @@
             ng-click="apply(false,false,dataScalar)">{{ 'web_common_data_explore_012' | translate}}</span>
     </div>
   </div>
-
 </div>
-
-<!--<button type = "submit"  class="btn btn-default" ng-click="apply(dataHighCorr, dataImputer, dataScalar)">Submit</button>-->
-
-<div class="btn">
-  <!--<span class="btnStep" ng-click="apply(dataHighCorr, dataImputer, dataScalar)">{{ 'web_common_data_explore_012' | translate}}</span>-->
-  <span class="btnStep" ng-click="preview()">{{ previewPage | translate}}</span>
+<div class="btn" style="margin-top: 20px;padding: 0">
+  <span class="btnStep" ng-click="preview()" style="padding: 5px 25px;background: #f2f2f2;">{{ previewPage | translate}}</span>
 </div>
 

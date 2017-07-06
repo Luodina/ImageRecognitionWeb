@@ -477,6 +477,15 @@ body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle
   line-height: 52px;
 }
 
+body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle table {
+  margin-top: 10px;
+}
+
+body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle table tr td {
+  padding-left: 20px;
+  padding-right: 30px;
+}
+
 body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle .btn {
   padding: 0;
   margin: 0;
@@ -487,6 +496,14 @@ body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle
 
 body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle .btn .btnStep {
   margin-right: 20px;
-  padding: 5px 15px;
+  padding: 5px 25px;
   background: #f4f4f4;
+}
+
+body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle .btn .btnStep:hover {
+  background: #4874ff;
+}
+
+body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle .btn .btnStep:active {
+  background: #4874ff;
 }

@@ -436,6 +436,15 @@ body {
                 line-height: 52px;
               }
             }
+            table{
+              margin-top: 10px;
+              tr{
+                td{
+                  padding-left: 20px;
+                  padding-right: 30px;
+                }
+              }
+            }
             .btn {
               padding: 0;
               margin: 0;
@@ -444,8 +453,15 @@ body {
               color: #333;
               .btnStep {
                 margin-right: 20px;
-                padding: 5px 15px;
+                padding: 5px 25px;
                 background: #f4f4f4;
+
+              }
+              .btnStep:hover{
+                background: #4874ff;
+              }
+              .btnStep:active{
+                background: #4874ff;
               }
             }
           }
