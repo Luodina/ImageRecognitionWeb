@@ -10,13 +10,12 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.CHAR(32),
       allowNull: false
     },
-    // VIEW_OR_CODE: {
-    //   type: DataTypes.CHAR(2),
-    //   allowNull: true,
-    //   defaultValue: ""
-    // },
     VIEW_MENU_ID: {
-      type: DataTypes.CHAR(3),
+      type: DataTypes.CHAR(2),
+      allowNull: false
+    },
+    TYPE_MENU_ID: {
+      type: DataTypes.CHAR(2),
       allowNull: false
     },
     MODEL_NAME: {
@@ -27,26 +26,16 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.CHAR(64),
       allowNull: true
     },
-    // USER_INPUT_ITEMS: {
-    //   type: DataTypes.CHAR(256),
-    //   allowNull: false
-    // },
+
     MODEL_INFO: {
       type: DataTypes.CHAR(256),
       allowNull: true
     },
-    // TRAINNING_RESULT: {
-    //   type: DataTypes.CHAR(512),
-    //   allowNull: true
-    // },
-    // REGULAR_TRAINNING: {
-    //   type: DataTypes.CHAR(1),
-    //   allowNull: true
-    // },
-    // TRAINNING_PERIOD: {
-    //   type: DataTypes.CHAR(32),
-    //   allowNull: true
-    // },
+    APP_ID: {
+      type: DataTypes.CHAR(256),
+      allowNull: true
+    },
+
     UPDATED_TIME: {
       type: DataTypes.DATE(),
       allowNull: false

@@ -7,16 +7,10 @@ let express = require('express');
 let router = express.Router();
 let moment = require('moment');
 
-router.get('/getProjectList', function(req, res){
-    
-    Model.findAll({
-      raw: true
-    }).then(function(model){  
-        res.send({model});
-    }).catch(err =>{
-        console.log("err",err);
-    });
-    
+router.get('/getProjectList', function(req, res){    
+    Model.findAll({raw: true})
+    .then(model=>{ res.send({model});})
+    .catch(err =>{console.log("err",err);});    
 });
 
 router.post('/new', function(req, res){
@@ -29,20 +23,21 @@ router.post('/new', function(req, res){
     let notebookPath = req.body.NOTEBOOK_PATH;
     let comment = req.body.COMMENT;
     console.log("req.body", req.body);
-    sequelize.transaction(function (t) {
+    sequelize.transaction(t => {
         return Model.create({
             MODEL_ID: t.id, 
             MODEL_NAME: modelName,
             MODEL_INFO: modelInfo, 
-            USER_ID: userName, 
+            USER_ID: userName,
+            TYPE_MENU_ID: '00', 
             VIEW_MENU_ID: menuID,
             UPDATED_TIME: time,
             FILE_PATH: filePath,
             NOTEBOOK_PATH: notebookPath,
             COMMENT:comment,
             isNewRecord:true})
-            .then(function(){res.send({msg:"Success!!!!"});})
-            .catch(err =>{console.log("err",err);});
+            .then(() => {res.send({ msg:"Success!!!!" });})
+            .catch(err =>{console.log( "err",err );});
     }) 
 });
 
@@ -54,13 +49,11 @@ router.get('/:modelName', function(req, res){
         where: { MODEL_NAME: modelName},
         raw: true
     })
-    .then(function(model){  
+    .then(model => {  
       console.log("model is:",model); 
       res.send({model: model});
     })
-    .catch(err =>{
-      console.log("err",err);
-    });
+    .catch(err =>{console.log("err",err);});
   }
 });
 module.exports = router; 

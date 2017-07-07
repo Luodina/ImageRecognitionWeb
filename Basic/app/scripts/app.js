@@ -88,12 +88,18 @@ angular
       return $cookies.get("username");
     };
   }])
-  .factory('dataExploreFactory', ['$resource', '$http', function ($resource, $http) {
+  .factory('dataFactory', ['$resource', '$http', function ($resource, $http) {
     return {
-      getProjectList: function () {
+      getProjectList: () => {
         return $http.get('/api/model/getProjectList').success(function (data) {
-          // console.log("getProjectList:", data.model);
+          console.log("getProjectList", data);
+        });
+      },
+      getAppList: () => {
+        return $http.get('/api/app/getAppList').success(function (data) {
+          console.log("getAppList", data);
         });
       }
     }
   }])
+

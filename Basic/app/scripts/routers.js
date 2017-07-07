@@ -6,8 +6,12 @@ angular.module('basic.routers', ['ui.router'])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
     var states = [
-      {name: 'main', url: '/', templateUrl: "views/main.html", controller: 'MainCtrl'},
-      {name: 'home', url: '/home', templateUrl: "views/dataApplication/dataApplication.html",controller:'DataApplicationCtrl'},
+      { name: 'main', url: '/', templateUrl: "views/main.html", controller: 'MainCtrl'},
+      { name: 'home', 
+        url: '/home',
+        templateUrl: "views/dataApplication/dataApplication.html",
+        controller:'DataApplicationCtrl'
+      },
       {
         name: 'applicationInfomation',
         url: '/applicationInfo/{mode}/{name}',
@@ -20,7 +24,12 @@ angular.module('basic.routers', ['ui.router'])
         templateUrl: 'views/dataExplore/dataExplore.html',
         controller: 'DataExploreCtrl'
       },
-      {name: 'data', url: '/data/{mode}/{name}', templateUrl: 'views/dataExplore/data.html', controller: 'DataCtrl'},
+      { 
+        name: 'data',
+        url: '/data/{mode}/{name}', 
+        templateUrl: 'views/dataExplore/data.html',
+        controller: 'DataCtrl'
+      },
       {
         name: 'console.taskSchedule',
         url: '/schedule',

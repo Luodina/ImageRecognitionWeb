@@ -11,11 +11,11 @@
       <uib-tab ng-repeat="(indexType, item) in projectType track by indexType" index="$index">
         <uib-tab-heading>
           <i class="text"></i>&nbsp;&nbsp;{{ item | translate}}
-          <span class="icon">{{listAllProject[$index].length}}</span>
+           <span class="icon">{{(listAllApp[$index] === undefined ||listAllProject[$index] === null) ? "0" : listAllApp[$index].length}}</span>
         </uib-tab-heading>
-        <div class="dataExplore-container-main" ng-repeat="item in listAllProject[$index]"
-             ui-sref="data({name: item.MODEL_NAME})">
-          <div class="main_header_data">{{item.MODEL_NAME}}</div>
+        <div class="dataExplore-container-main" ng-repeat="item in listAllApp[$index]"
+             ui-sref="applicationInfomation({mode: item.mode, name: item.APP_NAME})">
+          <div class="main_header_data">{{item.APP_NAME}}</div>
           <div class="main_container_data">
             <!--<div class="contentone" ng-repeat="(key, contentitem) in item.content">{{key}} : {{contentitem}}</div>-->
           </div>
