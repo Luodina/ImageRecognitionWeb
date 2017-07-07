@@ -3,10 +3,10 @@
   <span class="modal-header-close" ng-click="cancel()">X</span>
 </div>
 <div class="modal-body">
-  <div class="modal-body-title">开启我的{{content| translate}}</div>
+  <div class="modal-body-title">{{'web_common_019'| translate}}{{content| translate}}</div>
   <input class="modal-body-name" ng-model='model.name'>
 </div>
 <div class="modal-footer">
-  <span class="modal-footer-btn" ui-sref="{{url}}({mode: 'new', name: model.name})" ng-click="cancel()">{{newBtn| translate}}</span>
+  <span class="modal-footer-btn" ui-sref="{{url}}({mode: 'new', name: model.name})" ng-click="cancel()">{{'web_common_015'| translate}}</span>
 </div>
 

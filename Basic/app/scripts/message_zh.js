@@ -23,6 +23,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_016': '上一步',
     'web_common_017': '预览',
     'web_common_018': '保存',
+    'web_common_019': '开启我的',
 
 
     'web_common_data_explore_001': '数据选择',
@@ -56,6 +57,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'modelType_03':'分类预测',
     'modelType_04':'聚类分析',
     'modelType_05':'目标检测',
+    'modelType_06':'专家模式',
 
     'modelType_1_00':'类别型变量数:',
     'modelType_1_01':'变量数(列数):',
@@ -93,7 +95,9 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
 
     'web_common_data_application_layer_01': '创建我的数据应用',
     'web_common_data_application_layer_02': '新的数据应用',
-    'web_common_data_application_layer_03': '创建'
+    'web_common_data_application_layer_03': '创建',
+    'web_common_data_application_layer_04': '创建分析框架',
+    'web_common_data_application_layer_05': '名字',
 
 
   });

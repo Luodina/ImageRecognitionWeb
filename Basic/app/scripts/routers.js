@@ -21,6 +21,7 @@ angular.module('basic.routers', ['ui.router'])
         controller: 'DataExploreCtrl'
       },
       {name: 'data', url: '/data/{mode}/{name}', templateUrl: 'views/dataExplore/data.html', controller: 'DataCtrl'},
+      {name: 'notebook', url: '/notebook/{mode}/{name}', templateUrl: 'views/dataExplore/notebook.html', controller: 'NotebookCtrl'},
       {
         name: 'console.taskSchedule',
         url: '/schedule',
