@@ -15,6 +15,6 @@
               notebookUrl: 'http://localhost:8888',
               notebookPath: "/Users/luodina",
               token:"0c7b170fd6c4751d04f44ef60329f4312e8f0a4b45e597a6"
-5.[mysql配置]
-    mysql数据库安装在10.1.236.82上，连接串为：mariadb://ocai:Ocai@1234@10.1.236.82:3306/ocai
-    需要在server/config.js修改：mariadb:"mariadb://ocai:Ocai@1234@10.1.236.82:3306/ocai"
+5.  [mysql配置]
+     mysql数据库安装在10.1.236.82上，连接串为：mariadb://ocai:Ocai@1234@10.1.236.82:3306/ocai
+     需要在server/config.js修改：mariadb:"mariadb://ocai:Ocai@1234@10.1.236.82:3306/ocai"
