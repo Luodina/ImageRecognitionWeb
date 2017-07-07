@@ -6,16 +6,6 @@
 angular.module('basic')
   .controller('DataCtrl',['$location', '$rootScope', '$scope','$http', '$filter','Upload', 'Notification', '$timeout','$window','openPreview',
     function ( $location, $rootScope, $scope, $http, $filter, Upload, Notification, $timeout,$window,openPreview) {
-    // $scope.processing = $filter('translate')('web_common_data_explore_003');
-    // $scope.source = $filter('translate')('web_common_data_explore_001');
-    // $scope.report = $filter('translate')('web_common_data_explore_002');
-    // $scope.datamation = $filter('translate')('web_common_data_explore_004');
-    // $scope.defaultData = $filter('translate')('web_common_data_explore_005');
-    // $scope.datafileimport = $filter('translate')('web_common_data_explore_006');
-    // $scope.fileimport = $filter('translate')('web_common_data_explore_007');
-    // $scope.datapreview = $filter('translate')('web_common_data_explore_008');
-    // $scope.next = $filter('translate')('web_common_009');
-    // $scope.back = $filter('translate')('web_common_016');
     $scope.previewPage = $filter('translate')('web_common_017');
     $scope.stepone = $filter('translate')('web_common_data_explore_009');
     $scope.steptwo = $filter('translate')('web_common_data_explore_010');
@@ -23,7 +13,7 @@ angular.module('basic')
     $scope.application = $filter('translate')('web_common_data_explore_012');
     $scope.headline = $filter('translate')('web_common_data_explore_021');
 
-    $scope.tab=0; 
+    $scope.tab=0;
     $scope.init = function(){
       var modelName = $location.path().split(/[\s/]+/).pop();
       $location.path().split(/[\s/]+/).lastIndexOf('new');
@@ -31,16 +21,16 @@ angular.module('basic')
       if (modelName !== ""){
         //is model in DB?
         $http.get('/api/model/' + modelName)
-        .success(function(data){  
+        .success(function(data){
           $scope.modelDB =  data.model;
-          //if model exists in DB        
-          if (data.model !== null && data.model !== undefined) {  
-            //if try to create new with the same name as in DB 
+          //if model exists in DB
+          if (data.model !== null && data.model !== undefined) {
+            //if try to create new with the same name as in DB
             if ($location.path().split(/[\s/]+/).lastIndexOf('new') !== -1) {
               $location.path("/explore")
               console.log("modelName:", modelName, " already exist!");
-            }    
-            //if model opened by owner     
+            }
+            //if model opened by owner
             initNotebook($scope.modelDB.FILE_PATH, $scope.modelDB.NOTEBOOK_PATH, $scope.modelDB.MODEL_NAME, $scope.modelDB.USER_ID)
             .then(data => {
               if ($scope.modelDB.USER_ID  === $rootScope.getUsername()) {
@@ -55,12 +45,12 @@ angular.module('basic')
           }else{
             initNotebook(null, null, modelName, $rootScope.getUsername());
             $scope.$broadcast('model',{notebook:{}, model:{}, mode: 'new'});
-          }                   
+          }
         })
         .catch(err =>{console.log("err",err);});
       }  else {
          $location.path("/explore")
-      }; 
+      };
     };
     $scope.init();
 
@@ -71,21 +61,21 @@ angular.module('basic')
         // return data.outputs;
         // console.log("data.msg",data.msg,'outputs',data.outputs);
         // $scope.$broadcast('model',data.outputs);
-      }) 
+      })
       .catch( err => { console.log("err in initNotebook():",err);
       });
-    };  
+    };
 
     $scope.clicked=function(num){
       console.log("num",num);
       $scope.tab = num;
-      if(num===2){    
+      if(num===2){
         $scope.tab = 2
         $scope.$broadcast('tab',num);
       }
       if(num===1){
         $scope.tab = 1;
-        $scope.$broadcast('tab',num);       
+        $scope.$broadcast('tab',num);
       }
       if(num===0){
         $scope.tab = 0;
