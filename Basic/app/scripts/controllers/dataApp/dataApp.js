@@ -1,17 +1,13 @@
-/**
- * Created by JiYi on 17/6/21.
- */
 'use strict';
 angular.module('basic')
-  .controller('DataApplicationCtrl',['createModel','$rootScope','$scope','$filter','$http','$timeout', 'dataFactory', function (createModel, $rootScope, $scope, $filter, $http, $timeout, dataFactory) {
-    $scope.msg = $filter('translate')('web_common_data_explore_002');
-    $scope.projectType=['web_common_data_application_02', 'web_common_data_application_03', 'web_common_data_application_04'];
+  .controller('DataAppCtrl',['createModel','$rootScope','$scope','$filter','dataFactory', 
+    (createModel, $rootScope, $scope, $filter, dataFactory) => {
+    $scope.projectType=['web_common_data_app_02', 'web_common_data_app_03', 'web_common_data_app_04'];
     $scope.listAllApp=[[]];
     var handleSuccess = function(data, status) {
       let listAllApp  = data.app;
       console.log("$scope.listAllApp", data.app);
       if (listAllApp !== null && listAllApp !== undefined ){
-
         listAllApp.forEach(function(app) {
           if (app.USER_NAME !== null && app.USER_NAME !== undefined ){
             app.mode = 'view';
@@ -29,7 +25,7 @@ angular.module('basic')
       }
     };
     dataFactory.getAppList().success(handleSuccess);
-    $scope.newProject = function () {
-      createModel.open({'title': 'web_common_data_application_layer_01', 'con':'web_common_data_application_layer_02'}, 'applicationInfomation');
+    $scope.newApp = function () {
+      createModel.open({'title': 'web_common_data_app_layer_01', 'content':'web_common_data_app_layer_02'}, 'appInfo');
     };
   }]);

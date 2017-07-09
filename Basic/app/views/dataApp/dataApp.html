@@ -1,9 +1,9 @@
 <div style="padding: 0 30px">
   <div class="dataExplore-header">
-    <span class="dataExplore-header-left">{{'web_common_001'| translate}} <i ng-click="newProject()" style="color: green;"> + </i></span>
+    <span class="dataExplore-header-left">{{'web_common_001'| translate}} <i ng-click="newApp()" style="color: green;"> + </i></span>
       <span class="dataExplore-header-right">
         <img src="./images/search.png" alt="搜索">
-        <input type="text" placeholder="{{'web_common_data_application_01'| translate}}">
+        <input type="text" placeholder="{{'web_common_data_app_01'| translate}}">
       </span>
   </div>
   <div class="dataExplore-container">
@@ -14,7 +14,7 @@
            <span class="icon">{{(listAllApp[$index] === undefined ||listAllProject[$index] === null) ? "0" : listAllApp[$index].length}}</span>
         </uib-tab-heading>
         <div class="dataExplore-container-main" ng-repeat="item in listAllApp[$index]"
-             ui-sref="applicationInfomation({mode: item.mode, name: item.APP_NAME})">
+             ui-sref="appInfo({mode: item.mode, name: item.APP_NAME})">
           <div class="main_header_data">{{item.APP_NAME}}</div>
           <div class="main_container_data">
             <!--<div class="contentone" ng-repeat="(key, contentitem) in item.content">{{key}} : {{contentitem}}</div>-->

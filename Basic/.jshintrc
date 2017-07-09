@@ -1,4 +1,5 @@
 {
+  "maxerr" : 50,       
   "bitwise": true,
   "browser": true,
   "curly": true,
@@ -9,9 +10,16 @@
   "node": true,
   "strict": true,
   "undef": true,
-  "unused": true,
+  "unused": "strict",
+  
   "globals": {
     "angular": true,
     "$": true
-  }
+  },
+  "plusplus": false,
+  "quotmark": "single",
+  "varstmt": true,
+  "proto" : false, 
+  "notypeof": false
+  
 }

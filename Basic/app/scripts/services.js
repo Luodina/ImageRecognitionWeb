@@ -11,10 +11,8 @@ angular.module('basic.services', ['ui.bootstrap'])
         size: 'size',
         controller: ['$cookies', '$scope', '$filter', '$uibModalInstance', '$http',
           function ($cookies, $scope, $filter, $uibModalInstance, $http) {
-
             $scope.title = $filter('translate')(obj.title);
-            $scope.content = $filter('translate')(obj.con);
-            $scope.newBtn = $filter('translate')('web_common_015');
+            $scope.content = $filter('translate')(obj.content);
             $scope.url = idx;
             $scope.userName = $cookies.get("username");
             $scope.go = function () {
@@ -46,13 +44,9 @@ angular.module('basic.services', ['ui.bootstrap'])
         //controllerUrl: 'scripts/layer/savePreview.js',
         controller: ['$scope', '$filter', '$uibModalInstance', '$location', '$cookies',
           function ($scope, $filter, $uibModalInstance, $location, $cookies) {
-            $scope.preTil = $filter('translate')('web_common_017');
-            $scope.savebtn = $filter('translate')('web_common_018');
             $scope.resultPreview = resultPreview;
-
             $scope.save = function () {
               $http.get('/api/jupyter/save').success(function (data) {
-
                 let date = new Date();
                 let savaData = {
                   MODEL_NAME: $location.path().split(/[\s/]+/).pop(),
@@ -79,22 +73,33 @@ angular.module('basic.services', ['ui.bootstrap'])
       }).result;
     };
   }])
-  .service('createApplicationframework', ['$uibModal', function ($uibModal) {
-    this.open = function () {
+  .service('createApp', ['$uibModal', function ($uibModal) {
+    this.open = function (obj,pic,idx) {
       return $uibModal.open({
         backdrop: 'static',
-        templateUrl: 'views/layer/createApplicationframework.html',
+        templateUrl: 'views/layer/createApp.html',
         size: 'size',
         controller: ['$scope', '$uibModalInstance', '$filter', '$state', '$location',
           function ($scope, $uibModalInstance, $filter, $state, $location) {
+            $scope.items = [
+              {img:'pic1',content:'modelType_01',url:'data',name:'data'},
+              {img:'pic2',content:'modelType_02',url:'t1',name:'data2'},
+              {img:'pic3',content:'modelType_03',url:'t2',name:'data3'},
+              {img:'pic4',content:'modelType_04',url:'t3',name:'data4'},
+              {img:'pic5',content:'modelType_05',url:'t4',name:'data5'},
+              {img:'pic6',content:'modelType_06',url:'notebook',name:'notebook'}
+            ]
+            $scope.urlcontent = $scope.items[0];
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
             }
+            $scope.changeStyle = function(idx){
+              $scope.urlcontent = $scope.items[idx];
+              console.log('312312',$scope.urlcontent);
+            }
             $scope.create = function () {
               $uibModalInstance.dismiss();
-              //$state.go('/dataAppllication');
-               //$location.path("/applicationInfomation");
-              // $location.path("/previewPage");
+              $location.path("/"+$scope.urlcontent.url+'/new/'+$scope.urlcontent.name);
             }
           }]
       }).result;

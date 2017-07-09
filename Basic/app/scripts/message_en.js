@@ -23,6 +23,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_016': 'Back',
     'web_common_017': 'Preview',
     'web_common_018': 'Save',
+    'web_common_019': 'Open my',
 
 
     'web_common_data_explore_001': 'Data Source',
@@ -57,8 +58,9 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'modelType_03':'Classification prediction',
     'modelType_04':'Cluster analysis',
     'modelType_05':'Target Detection',
+    'modelType_06':'Expert model',
 
-    'modelType_01_00':'Number of category variables:',    
+    'modelType_01_00':'Number of category variables:',
     'modelType_01_01':'Number of variables(columns number):',
     'modelType_01_02':'Null ratio:',
     'modelType_01_03':'Number of numeric variables:',
@@ -82,20 +84,22 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'modelType_05_02':'Number of features:',
     'modelType_05_03':'Weight:',
 
-    'web_common_data_application_01': 'Data application search',
-    'web_common_data_application_02': 'My data application',
-    'web_common_data_application_03': 'Data application',
-    'web_common_data_application_04': 'Universal data applications',
-    'web_common_data_application_05': 'Application file',
-    'web_common_data_application_06': 'Task plan',
-    'web_common_data_application_07': 'Run the choreography',
-    'web_common_data_application_08': 'Operation result',
-    'web_common_data_application_09': 'Application preview',
+    'web_common_data_app_01': 'Data application search',
+    'web_common_data_app_02': 'My data application',
+    'web_common_data_app_03': 'Data application',
+    'web_common_data_app_04': 'Universal data applications',
+    'web_common_data_app_05': 'Application file',
+    'web_common_data_app_06': 'Task plan',
+    'web_common_data_app_07': 'Run the choreography',
+    'web_common_data_app_08': 'Operation result',
+    'web_common_data_app_09': 'Application preview',
 
 
-    'web_common_data_application_layer_01': 'Create my data application',
-    'web_common_data_application_layer_02': 'Open a new data application',
-    'web_common_data_application_layer_03': 'Create',
+    'web_common_data_app_layer_01': 'Create my data application',
+    'web_common_data_app_layer_02': 'Open a new data application',
+    'web_common_data_app_layer_03': 'Create',
+    'web_common_data_app_layer_04': 'Create an analysis framework',
+    'web_common_data_app_layer_05': 'Name',
 
   });
 }]);

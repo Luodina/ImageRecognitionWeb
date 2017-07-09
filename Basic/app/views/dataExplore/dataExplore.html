@@ -1,6 +1,6 @@
 <div style="padding: 0 30px">
   <div class="dataExplore-header">
-    <span class="dataExplore-header-left">{{msg}}</span>
+    <span class="dataExplore-header-left">{{'web_common_data_explore_002'| translate}}</span>
       <span class="dataExplore-header-right">
         <img src="./images/search.png" alt="搜索">
         <input type="text" placeholder="{{'web_common_data_explore_013'| translate}}">
@@ -11,7 +11,6 @@
       <uib-tab ng-repeat="itemType in projectType"  index="$index">
         <uib-tab-heading>
           <i class="text"></i>&nbsp;&nbsp;{{ "modelType_0" + $index | translate}}
-          <!--<i class="text"></i>&nbsp;&nbsp;{{ itemType | translate}}-->
           <span class="icon">{{(listAllProject[$index] === undefined ||listAllProject[$index] === null) ? "0" : listAllProject[$index].length}}</span>
           <i ng-click="newProject($index)"> + </i>
         </uib-tab-heading>

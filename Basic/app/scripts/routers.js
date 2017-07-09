@@ -9,14 +9,14 @@ angular.module('basic.routers', ['ui.router'])
       { name: 'main', url: '/', templateUrl: "views/main.html", controller: 'MainCtrl'},
       { name: 'home', 
         url: '/home',
-        templateUrl: "views/dataApplication/dataApplication.html",
-        controller:'DataApplicationCtrl'
+        templateUrl: "views/dataApp/dataApp.html",
+        controller:'DataAppCtrl'
       },
       {
-        name: 'applicationInfomation',
-        url: '/applicationInfo/{mode}/{name}',
-        templateUrl: "views/dataApplication/applicationInfo.html",
-        controller: 'ApplicationInfoCtrl'
+        name: 'appInfo',
+        url: '/appInfo/{mode}/{name}',
+        templateUrl: "views/dataApp/appInfo.html",
+        controller: 'AppInfoCtrl'
       },
       {
         name: 'dataExplore',
@@ -24,11 +24,17 @@ angular.module('basic.routers', ['ui.router'])
         templateUrl: 'views/dataExplore/dataExplore.html',
         controller: 'DataExploreCtrl'
       },
-      { 
+      {
         name: 'data',
-        url: '/data/{mode}/{name}', 
-        templateUrl: 'views/dataExplore/data.html',
+        url: '/data/{mode}/{name}',
+        templateUrl: 'views/dataExplore/data.html', 
         controller: 'DataCtrl'
+      },
+      {
+        name: 'notebook',
+        url: '/notebook/{mode}/{name}',
+        templateUrl: 'views/dataExplore/notebook.html',
+        controller: 'NotebookCtrl'
       },
       {
         name: 'console.taskSchedule',
@@ -36,7 +42,11 @@ angular.module('basic.routers', ['ui.router'])
         templateUrl: 'views/dashboard.html',
         controller: 'DashboardCtrl'
       },
-      {name: 'console.settings', url: '/settings', templateUrl: 'views/settings.html', controller: 'SettingsCtrl'}
+      { 
+        name: 'console.settings',
+        url: '/settings', 
+        templateUrl: 'views/settings.html',
+        controller: 'SettingsCtrl'}
     ];
     // Loop over the state definitions and register them
     states.forEach(function (state) {

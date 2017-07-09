@@ -6,14 +6,6 @@ let User = require('../model/USER_INFO')(sequelize, Sequelize);
 let express = require('express');
 let router = express.Router();
 
-// sequelize.authenticate()
-//   .then(() => {
-//     console.log('Connection has been established successfully.');
-//   })
-//   .catch(err => {
-//     console.error('Unable to connect to the database:', err);
-//   });
-
 router.post('/login', function(req, res){
   let username = req.body.username;
   let pass = req.body.password;

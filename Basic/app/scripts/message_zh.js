@@ -23,6 +23,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_016': '上一步',
     'web_common_017': '预览',
     'web_common_018': '保存',
+    'web_common_019': '开启我的',
 
 
     'web_common_data_explore_001': '数据选择',
@@ -56,6 +57,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'modelType_03':'分类预测',
     'modelType_04':'聚类分析',
     'modelType_05':'目标检测',
+    'modelType_06':'专家模式',
 
     'modelType_1_00':'类别型变量数:',
     'modelType_1_01':'变量数(列数):',
@@ -81,19 +83,21 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'modelType_5_02':'特征数:',
     'modelType_5_03':'权值:',
 
-    'web_common_data_application_01': '数据应用搜索',
-    'web_common_data_application_02': '我的数据应用',
-    'web_common_data_application_03': '数据应用',
-    'web_common_data_application_04': '通用数据应用',
-    'web_common_data_application_05': '应用文件',
-    'web_common_data_application_06': '任务计划',
-    'web_common_data_application_07': '运行编排',
-    'web_common_data_application_08': '运行结果',
-    'web_common_data_application_09': '应用概览',
+    'web_common_data_app_01': '数据应用搜索',
+    'web_common_data_app_02': '我的数据应用',
+    'web_common_data_app_03': '数据应用',
+    'web_common_data_app_04': '通用数据应用',
+    'web_common_data_app_05': '应用文件',
+    'web_common_data_app_06': '任务计划',
+    'web_common_data_app_07': '运行编排',
+    'web_common_data_app_08': '运行结果',
+    'web_common_data_app_09': '应用概览',
 
-    'web_common_data_application_layer_01': '创建我的数据应用',
-    'web_common_data_application_layer_02': '新的数据应用',
-    'web_common_data_application_layer_03': '创建'
+    'web_common_data_app_layer_01': '创建我的数据应用',
+    'web_common_data_app_layer_02': '新的数据应用',
+    'web_common_data_app_layer_03': '创建',
+    'web_common_data_app_layer_04': '创建分析框架',
+    'web_common_data_app_layer_05': '名字',
 
 
   });
