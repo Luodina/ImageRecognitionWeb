@@ -3,6 +3,7 @@ import { KernelMessage, Kernel, Session, ContentsManager} from '@jupyterlab/serv
 import { XMLHttpRequest } from "xmlhttprequest";
 import { default as WebSocket } from 'ws';
 import { readFile, writeFile, existsSync, readFileSync, mkdir, createReadStream, createWriteStream } from 'fs';
+const { exec } = require('child_process');
 
 global.XMLHttpRequest = XMLHttpRequest;
 global.WebSocket = WebSocket;
@@ -44,7 +45,7 @@ let contents = new ContentsManager(options);
 let multer = require('multer');
 let storage = multer.diskStorage({
     destination:
-     function destination(req, destination, cb) { 
+     function destination(req, destination, cb) {
         cb(null, baseNotebookPath + '/' +  projectName);
     },
 
@@ -74,15 +75,15 @@ function ensureExists(path, mask, cb) {
 // contents.get(templatIpynbPath)
 // .then((model) => {
 //     console.log('files in ',model , ":", model);
-//     for (var i = 0, len = model.content.length; i < len; i++) {     
+//     for (var i = 0, len = model.content.length; i < len; i++) {
 //         if (("/" + model.content[i].name)===templatIpynbPath){
 //             // contents.delete(templatFolderPath + templatIpynbPath)
 //             // .then(()=>{
-//             //     console.log('deleted:' , templatFolderPath + templatIpynbPath); 
+//             //     console.log('deleted:' , templatFolderPath + templatIpynbPath);
 //             // })
 //             // .catch(err => {
 //             //     console.log(err);
-//             // });                   
+//             // });
 //         }
 //     }
 // })
@@ -94,14 +95,14 @@ function getMode(f1, f2, user){
     if (f1 !== undefined && f1 !== null && f2 !== undefined && f2 !== null && user !== undefined && user !== null) {
         if (user === 'ocai'){
             return "update";
-        } else { return "view";} 
-    } else { return "new";} 
+        } else { return "view";}
+    } else { return "new";}
 }
 function init(){
     console.log('init');
     if (sourceCodes[0] !== undefined){
         // console.log('!!!!!!!!STEP0___________CODE:', sourceCodes[0]);
-        let future = kernel.requestExecute({ code: sourceCodes[0]});  
+        let future = kernel.requestExecute({ code: sourceCodes[0]});
     }
 }
 function runNewSession(){
@@ -161,7 +162,7 @@ function writeFilePromisified(filename,text) {
         });
 }
 
-router.post('/init', function (req, res) { 
+router.post('/init', function (req, res) {
     let fileName = req.body.fileName;
     let notebookPath = req.body.notebookPath;
     projectName = req.body.projectName;
@@ -169,21 +170,21 @@ router.post('/init', function (req, res) {
     console.log('/init: fileName ', fileName, 'projectName  ', projectName, 'userName', userName);
     mode = getMode(fileName, notebookPath, userName);
     console.log('mode',mode);
-    if (mode === 'new'){    
+    if (mode === 'new'){
         ensureExists(baseNotebookPath + '/'+ projectName, '0744', function(err) {
             if (err) {
-                console.log('Cannot create folder: ',err);    
+                console.log('Cannot create folder: ',err);
             } else {
-                console.log('Success!!!' , baseNotebookPath + '/'+ projectName + '/'+ projectName + '.ipynb', 'exists!');  
+                console.log('Success!!!' , baseNotebookPath + '/'+ projectName + '/'+ projectName + '.ipynb', 'exists!');
                 createReadStream(templatIpynbPath + templatIpynbFile).pipe(createWriteStream(baseNotebookPath + '/'+ projectName + '/'+ projectName + '.ipynb'))
                 contents.get(projectName + '/'+ projectName + '.ipynb')
-                .then(model =>{ 
+                .then(model =>{
                     for(var i = 0; i<model.content.cells.length; i++){
                         sourceCodes[i] =  model.content.cells[i].source;
                     }
                     runNewSession();
                     res.status(200).send({ msg: "GREAT SUCCESS WE INIT IT!!!" });
-                })    
+                })
                 .catch(err => {
                     console.log(err);
                 })
@@ -193,38 +194,38 @@ router.post('/init', function (req, res) {
     if (mode === 'update' || mode === 'view'){
         if (existsSync(baseNotebookPath  + '/' + projectName  + '/' + projectName + ".ipynb")) {
             readFilePromisified(baseNotebookPath  + '/'+ projectName + '/' + projectName + ".ipynb")
-            .then(text => { 
-                let obj = JSON.parse(text);  //now it an object       
-                for (let i = 0, len = obj.cells.length; i < len; i++) { 
-                    let tmp = obj.cells[i].outputs;                     
+            .then(text => {
+                let obj = JSON.parse(text);  //now it an object
+                for (let i = 0, len = obj.cells.length; i < len; i++) {
+                    let tmp = obj.cells[i].outputs;
                     if (tmp !== undefined && tmp !== null){
                     if (tmp.length !== 0) {
-                            if (tmp[0].data !== undefined && tmp[0].data !== null ){                              
+                            if (tmp[0].data !== undefined && tmp[0].data !== null ){
                                 outputs[i] = tmp[0].data ;
-                            }         
-                    }  
+                            }
+                    }
                     }
                 }
-                res.status(200).send({ msg: "GREAT SUCCESS WATCH IT!!!" , outputs: outputs});     
-            }) 
+                res.status(200).send({ msg: "GREAT SUCCESS WATCH IT!!!" , outputs: outputs});
+            })
             .catch(err => {
                 console.log(err);
             });
         } else {
-            console.log('File ', baseNotebookPath + '/' + projectName + '/'+ projectName + '.ipynb', ' does not exist!') ;   
+            console.log('File ', baseNotebookPath + '/' + projectName + '/'+ projectName + '.ipynb', ' does not exist!') ;
         }
     }
-});           
+});
 
-router.post('/upload', upload.single('file'), function (req, res) { 
+router.post('/upload', upload.single('file'), function (req, res) {
     res.status(200).send({ fileName: req.file.originalname});
 });
 
 router.get('/report/:fn', function (req, res) {
     console.log(" !!!!!!!!dataFileName", dataFileName, 'req.params.fn', req.params.fn);
-    
+
     if (req.params.fn !== undefined && mode !== 'new') {
-        dataFileName = req.params.fn 
+        dataFileName = req.params.fn
     }
 
     if (existsSync(baseNotebookPath + '/'+ projectName + '/' + dataFileName.replace(/.csv/g, "_") + "report.html")) {
@@ -238,7 +239,7 @@ router.get('/report/:fn', function (req, res) {
 router.post('/step1', function (req, res) {
     (req.body.fileName) ? (dataFileName = req.body.fileName) : fileName;
     (req.body.htmlFileName) ? (htmlFileName = req.body.htmlFileName) : fileName + 'report.html';
-    
+
     // notebookPath = templatFolderPath + '/'+ dataFileName + '.ipynb'
     console.log('dataFileName ', dataFileName, 'htmlFileName', htmlFileName, '/'+ projectName + '/');
     // // Rename a file.
@@ -249,28 +250,28 @@ router.post('/step1', function (req, res) {
             code = code.replace(/htmlFilePath=/g, "htmlFilePath=\"" + baseNotebookPath + '/'+ projectName + '/'+htmlFileName + "\"\n");
             console.log('!!!!!!!!STEP1___________CODE:', code);
             source[1]=code;
-            var future = kernel.requestExecute({ code: code});  
+            var future = kernel.requestExecute({ code: code});
             future.onIOPub = function (msg) {
                 console.log('!!!!!!!!STEP1___________RESULT:', msg);
                 if (msg.header.msg_type === "execute_result") {
                         console.log('!!!!!!!!STEP1___________RESULT:', msg);
                         outputs[1]=msg.content;
                         console.log('!!!!!!!!OUTPUTS___________RESULT:', outputs[1]);
-                        return res.send({ result: msg });  
+                        return res.send({ result: msg });
                 }
             }
         }
-    
+
 
 });
 
 //相关性分析
-router.get('/step2', function (req, res) {  
+router.get('/step2', function (req, res) {
     if (sourceCodes[2] !== undefined){
         console.log('!!!!!!!!STEP2___________CODE:', sourceCodes.length, "--", sourceCodes[2]);
-        var future = kernel.requestExecute({code: sourceCodes[2]});      
+        var future = kernel.requestExecute({code: sourceCodes[2]});
         future.onIOPub = function (msg) {
-            if (msg.header.msg_type === "execute_result") { 
+            if (msg.header.msg_type === "execute_result") {
                 console.log('!!!!!!!!STEP2___________RESULT:', msg);
                 outputs[2]=msg.content;
                 console.log('!!!!!!!!OUTPUTS___________RESULT:', outputs[2]);
@@ -291,7 +292,7 @@ router.post('/step3', function (req, res) {
         source[3]=code;
         var future = kernel.requestExecute({code: code});
         future.onIOPub = function (msg) {
-            if (msg.header.msg_type === "execute_result") { 
+            if (msg.header.msg_type === "execute_result") {
                 console.log('!!!!!!!!STEP3___________RESULT:', msg);
                 outputs[3]=msg.content;
                 console.log('!!!!!!!!OUTPUTS___________RESULT:', outputs[3]);
@@ -315,7 +316,7 @@ router.post('/step3', function (req, res) {
 router.post('/step4', function (req, res) {
   var imputerCols = req.body.imputerCols;//"imputerCols={'sepal width (cm)':'mean'}";
   console.log('!!!!!!!!imputerCols:', imputerCols);
-  if (sourceCodes[5] !== undefined && sourceCodes[6] !== undefined){    
+  if (sourceCodes[5] !== undefined && sourceCodes[6] !== undefined){
     //imputer code
     var code = sourceCodes[5];
     code = code.replace(/col_input=/g, imputerCols);
@@ -323,7 +324,7 @@ router.post('/step4', function (req, res) {
     console.log('!!!!!!!!STEP4___________CODE:', code);
     var future = kernel.requestExecute({code: code});
     future.onIOPub = function (msg) {
-        if (msg.header.msg_type === "execute_result") { 
+        if (msg.header.msg_type === "execute_result") {
             console.log('!!!!!!!!STEP4___________RESULT:', msg);
             outputs[5]=msg.content;
             console.log('!!!!!!!!OUTPUTS___________RESULT:', outputs[5]);
@@ -347,7 +348,7 @@ router.post('/step5', function (req, res) {
   var standardCols = req.body.standardCols;//
   console.log('!!!!!!!!standardCols:', standardCols);
   //standard code
-  if (sourceCodes[7] !== undefined){ 
+  if (sourceCodes[7] !== undefined){
     var code = sourceCodes[7];
     code = code.replace(/col_input =/g, standardCols);
     source[7]=code;
@@ -366,7 +367,7 @@ router.post('/step5', function (req, res) {
 
 router.get('/step6', function (req, res) {
     console.log('!!!!!!!!STEP6___________CODE:', sourceCodes[9]);
-    if (sourceCodes[9] !== undefined){ 
+    if (sourceCodes[9] !== undefined){
         var future = kernel.requestExecute({code: sourceCodes[9]});
         future.onIOPub = function (msg) {
             if (msg.header.msg_type === "execute_result") {
@@ -389,7 +390,7 @@ router.get('/save', function (req, res) {
             //console.log('obj json', obj);
             var obj = JSON.parse(text);  //now it an object
             //console.log('obj as obj', obj);
-            //save to cell outputs 
+            //save to cell outputs
             for (let i = 0, len = obj.cells.length; i < len; i++) {
                 //console.log('obj.cells[i]', obj.cells[i]);
                 if (outputs[i] !== undefined && outputs[i] !== null){
@@ -402,14 +403,14 @@ router.get('/save', function (req, res) {
                     //console.log('source[',i,']', source[i]);
                     obj.cells[i].source = source[i];
                 }
-            }               
-            var json = JSON.stringify(obj); //convert it back to json   
-            console.log('json', json); 
+            }
+            var json = JSON.stringify(obj); //convert it back to json
+            console.log('json', json);
             writeFilePromisified(baseNotebookPath +'/' +  projectName + '/' + projectName + ".ipynb", json)
-            .then(() => {  
+            .then(() => {
                 // get model info
-                
-                // Kill the session.  
+
+                // Kill the session.
                 mysession.shutdown()
                 .then(() => {
                     console.log('session closed');
@@ -422,15 +423,35 @@ router.get('/save', function (req, res) {
             })
             .catch(err => {
                 console.log(err);
-            });     
+            });
         })
         .catch(err => {
             console.log(err);
         });
     } else {
-        console.log('File ', baseNotebookPath + '/'+ projectName + '/'+ projectName + '.ipynb', ' does not exist!') ;   
+        console.log('File ', baseNotebookPath + '/'+ projectName + '/'+ projectName + '.ipynb', ' does not exist!') ;
     }
 });
 
+//notebook
+var ipyFolder= '';
+router.get('/pathNoteBook', function (modelName) {
+  console.log('nsynsy',modelName)
+  ipyFolder = modelName;
+  var cmmd ='mkdir -p /Users/JiYi/Desktop/useModel/'+ modelName;
+  exec(cmmd,(error, stdout, stderr) => {
+    if (error) {
+      console.error(`exec error: ${error}`);
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
+    console.log(`stderr: ${stderr}`);
+  });
+});
+var ipyOptions = {
+  path:ipyFolder+'/untitled.ipynb'
+}
+
+contents.newUntitled(ipyOptions);
 
 module.exports = router;

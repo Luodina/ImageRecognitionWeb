@@ -5,5 +5,16 @@
 angular.module('basic')
   .controller('NotebookCtrl',['$location', '$rootScope', '$scope','$http', '$filter','Upload', 'Notification', '$timeout','$window',
     function ( $location, $rootScope, $scope, $http, $filter, Upload, Notification, $timeout,$window) {
-      console.log('ok!!!!')
-    }]);
+      $scope.isShow = true;
+      $scope.openJupyter = ()=>{
+        $scope.isShow = false;
+        var modelName = $location.path().split(/[\s/]+/).pop();
+        console.log("modelName",modelName);
+        $http.get('/api/jupyter/pathNoteBook',{
+          params: {
+            "modelName":modelName
+          }
+        })
+        }
+      }
+    ]);

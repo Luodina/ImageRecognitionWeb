@@ -1,3 +1,56 @@
-<div STYLE="padding: 30px 30px;font-size: 16px">
+<div class="title">
   NOTEBOOK
 </div>
+<div class="btnContent">
+  <span class="btnOne" ng-click="openJupyter()">Launch Notebook</span>
+  <span class="btnTwo">reflesh</span>
+</div>
+<div class="content">
+  <div ng-click="openJupyter()">
+    <div class="contentText" ng-if="isShow">进入Launch Notebook编辑</div>
+
+  </div>
+  <!--<iframe frameborder=0 width=870 height=400 marginheight=0 marginwidth=0 scrolling=auto src=http://www.baidu.com></iframe>-->
+</div>
+
+<style>
+  .title{
+    padding: 30px 30px;
+    font-size: 16px
+  }
+  .btnContent{
+    padding: 30px 30px;
+    font-size: 14px
+  }
+  .btnOne{
+    background: #4874ff;
+    padding: 5px 15px;
+    border: solid 1px #f2f2f2;
+    font-size: 16px;color:#ffffff;
+  }
+  .btnTwo{
+    background: #ffffff;
+    padding: 5px 15px;
+    border: solid 1px #4874ff;
+    font-size: 16px;color: #4874ff;
+  }
+  .content{
+    margin: 30px 30px;
+    position: relative;
+    padding: 30px 30px;
+    width: 900px;
+    height: 400px;
+    overflow:auto;
+    border: solid 1px #f2f2f2;
+  }
+  .contentText{
+    font-size:16px;
+    position: absolute;
+    left: 400px;
+    right: 0;
+    bottom: 0;
+    top: 200px;
+    color: #4874ff;
+  }
+
+</style>
