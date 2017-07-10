@@ -17,7 +17,8 @@ router.post('/new', function(req, res){
     let modelName = req.body.MODEL_NAME;
     let modelInfo = req.body.MODEL_INFO;
     let userName = req.body.USER_ID;
-    let menuID = req.body.VIEW_MENU_ID;
+    let typeMenuID = req.body.TYPE_MENU_ID
+    let viewMenuID = req.body.VIEW_MENU_ID;
     let time = moment(req.body.UPDATED_TIME).format("YYYY-MM-DD");;
     let filePath = req.body.FILE_PATH;
     let notebookPath = req.body.NOTEBOOK_PATH;
@@ -29,8 +30,8 @@ router.post('/new', function(req, res){
             MODEL_NAME: modelName,
             MODEL_INFO: modelInfo, 
             USER_ID: userName,
-            TYPE_MENU_ID: '00', 
-            VIEW_MENU_ID: menuID,
+            TYPE_MENU_ID: typeMenuID, 
+            VIEW_MENU_ID: viewMenuID,
             UPDATED_TIME: time,
             FILE_PATH: filePath,
             NOTEBOOK_PATH: notebookPath,

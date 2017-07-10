@@ -52,6 +52,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                   MODEL_NAME: $location.path().split(/[\s/]+/).pop(),
                   MODEL_INFO: data.modelInfo,
                   USER_ID: $cookies.get("username"),
+                  TYPE_MENU_ID: "01",
                   VIEW_MENU_ID: "01",
                   UPDATED_TIME: date.getTime(),
                   FILE_PATH: data.dataFileName,
