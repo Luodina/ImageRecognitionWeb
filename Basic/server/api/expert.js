@@ -34,10 +34,7 @@ router.get('/pathNoteBook', function (request, response) {
   var modelName = request.query.modelName;
 
   var dirName = path.join(baseNotebookPath, modelName);
-  console.log('---nsy',dirName);
-
   mkdir(dirName, function (error) {
-    console.log('nsy',dirName);
     if (error) {
       console.error('exec error: ' + error);
       return;
