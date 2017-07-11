@@ -16,11 +16,14 @@ angular.module('basic')
               };
             }
             if (model.VIEW_MENU_ID !== null && model.VIEW_MENU_ID !== undefined ){
-              if ($scope.listAllProject[parseInt(model.VIEW_MENU_ID)]===undefined){
+              if ($scope.listAllProject[parseInt(model.VIEW_MENU_ID)] === undefined){
                 $scope.listAllProject[parseInt(model.VIEW_MENU_ID)]=[];
               }
-              if (model.MODEL_INFO !==undefined && model.MODEL_INFO !==undefined ){
-                var objJSON = eval("(function(){return " + model.MODEL_INFO + ";})()");
+              if (model.MODEL_INFO !== null && model.MODEL_INFO !== undefined ){
+                console.log("model.MODEL_INFO: ", model.MODEL_INFO);
+
+                let objJSON = eval("(function(){return " + model.MODEL_INFO + ";})()");
+                console.log("objJSON: ", objJSON);
                 model.MODEL_INFO = Object.values(objJSON);
               }
               if (model.USER_ID === $rootScope.getUsername()){
