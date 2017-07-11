@@ -2,7 +2,7 @@
 angular.module('basic')
   .controller('DataExploreCtrl',['createModel','$rootScope','$scope','$filter','dataFactory',
     (createModel, $rootScope, $scope, $filter, dataFactory) => {
-    $scope.projectType= ['modelType_00', 'modelType_01', 'modelType_02', 'modelType_03','modelType_04', 'modelType_5','modelType_06'];
+    $scope.projectType= ['modelType_00', 'modelType_01', 'modelType_02', 'modelType_03','modelType_04', 'modelType_05','modelType_06'];
     $scope.listAllProject=[[]];
     let handleSuccess = (data, status)=> {
       let listAllProject = data.model;
@@ -16,11 +16,14 @@ angular.module('basic')
               };
             }
             if (model.VIEW_MENU_ID !== null && model.VIEW_MENU_ID !== undefined ){
-              if ($scope.listAllProject[parseInt(model.VIEW_MENU_ID)]===undefined){
+              if ($scope.listAllProject[parseInt(model.VIEW_MENU_ID)] === undefined){
                 $scope.listAllProject[parseInt(model.VIEW_MENU_ID)]=[];
               }
-              if (model.MODEL_INFO !==undefined && model.MODEL_INFO !==undefined ){
-                var objJSON = eval("(function(){return " + model.MODEL_INFO + ";})()");
+              if (model.MODEL_INFO !== null && model.MODEL_INFO !== undefined ){
+                console.log("model.MODEL_INFO: ", model.MODEL_INFO);
+
+                let objJSON = eval("(function(){return " + model.MODEL_INFO + ";})()");
+                console.log("objJSON: ", objJSON);
                 model.MODEL_INFO = Object.values(objJSON);
               }
               if (model.USER_ID === $rootScope.getUsername()){
