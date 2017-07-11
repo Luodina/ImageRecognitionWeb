@@ -106,3 +106,21 @@ angular.module('basic.services', ['ui.bootstrap'])
       }).result;
     };
   }])
+  .service('addArrange', ['$uibModal', function ($uibModal) {
+    this.open = function () {
+      return $uibModal.open({
+        backdrop: 'static',
+        templateUrl: 'views/layer/addArrange.html',
+        size: 'size',
+        controller: ['$cookies', '$scope', '$filter', '$uibModalInstance', '$http',
+          function ($cookies, $scope, $filter, $uibModalInstance, $http) {
+            $scope.cancel = function () {
+              $uibModalInstance.dismiss();
+            }
+            $scope.save = function () {
+              $uibModalInstance.dismiss();
+            }
+          }]
+      }).result;
+    };
+  }])
