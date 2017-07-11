@@ -33,7 +33,7 @@ angular.module('basic.routers', ['ui.router'])
       {
         name: 'notebook',
         url: '/notebook/{mode}/{name}',
-        templateUrl: 'views/dataExplore/notebook.html',
+        templateUrl: 'views/dataExplore/expertModule.html',
         controller: 'NotebookCtrl'
       },
       {

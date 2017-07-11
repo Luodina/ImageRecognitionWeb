@@ -90,7 +90,7 @@ var writeMakeFile = function (targetList,callback) {
       fs.readFile('input.txt', function (err, data) {
         if (err) {
           return console.error(err);
-          callback("error",err);
+        //   callback("error",err);
         }
         console.log("异步读取文件数据: " + data.toString());
         callback("success",data.toString());
