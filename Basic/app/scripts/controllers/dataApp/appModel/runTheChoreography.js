@@ -1,10 +1,10 @@
 
 "use strict";
 angular.module('basic')
-  .controller('ChoreographyCtrl',['$rootScope','$scope','addArrange',
-  ($rootScope, $scope,addArrange) => {
+  .controller('ChoreographyCtrl',['$rootScope','$scope','createArrange',
+  ($rootScope, $scope,createArrange) => {
     $scope.openAddArrange = () => {
-      addArrange.open()
+      createArrange.open()
     }
   }])
   .directive('choreography', () => {

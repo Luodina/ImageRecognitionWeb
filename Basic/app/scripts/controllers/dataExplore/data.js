@@ -6,12 +6,12 @@
 angular.module('basic')
   .controller('DataCtrl',['$location', '$rootScope', '$scope','$http', '$filter','Upload', 'Notification', '$timeout','$window','openPreview',
     function ( $location, $rootScope, $scope, $http, $filter, Upload, Notification, $timeout,$window,openPreview) {
-    $scope.previewPage = $filter('translate')('web_common_017');
-    $scope.stepone = $filter('translate')('web_common_data_explore_009');
-    $scope.steptwo = $filter('translate')('web_common_data_explore_010');
-    $scope.stepthree = $filter('translate')('web_common_data_explore_011');
-    $scope.application = $filter('translate')('web_common_data_explore_012');
-    $scope.headline = $filter('translate')('web_common_data_explore_021');
+    // $scope.previewPage = $filter('translate')('web_common_017');
+    // $scope.stepone = $filter('translate')('web_common_data_explore_009');
+    // $scope.steptwo = $filter('translate')('web_common_data_explore_010');
+    // $scope.stepthree = $filter('translate')('web_common_data_explore_011');
+    // $scope.application = $filter('translate')('web_common_data_explore_012');
+    // $scope.headline = $filter('translate')('web_common_data_explore_021');
 
     $scope.tab=0;
     $scope.init = function(){
