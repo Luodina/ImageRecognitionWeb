@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     SCHEDULE_NAME: {
       type: DataTypes.CHAR(255),
-      allowNull: true
+      allowNull: false
     },
     STATE: {
       type: DataTypes.CHAR(255),

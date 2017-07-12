@@ -28,6 +28,8 @@ app.use('/api/user', require('./api/user'));
 app.use('/api/model', require('./api/model'));
 app.use('/api/app', require('./api/app'));
 app.use('/api/expert', require('./api/expert'));
+app.use('/api/appMakeFile', require('./api/appMakeFile'));
+app.use('/api/testSchedule', require('./api/testSchedule'));
 //
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, '../',config[env].dist,'/404.html'));// load the single view file (angular will handle the page changes on the front-end)
