@@ -15,17 +15,10 @@
         <tr style="margin: 0;">
           <td style="width: 10%;padding:0;margin: 0;">前置条件:</td>
           <td style="width: 90%;padding:0;margin: 0;">
-            <table>
-              <tr>
-                <td style="padding-bottom: 0px;"><i>1</i><span>xxx</span></td>
-              </tr>
-              <tr>
-                <td style="padding-bottom: 0px;"><i>2</i><span>xxx</span></td>
-              </tr>
-              <tr>
-                <td style="padding-bottom: 0px;"><i>3</i><span>xxx</span></td>
-              </tr>
-            </table>
+            <div ng-repeat="item in list track by $index">
+              <span>{{$index + 1}}</span>
+              <span>{{value}}</span>
+            </div>
           </td>
         </tr>
       </table>
@@ -34,4 +27,5 @@
   <div style="margin-top: 30px;font-size: 14px;color: #ffffff;">
     <span style="background:#4874ff;padding: 5px 15px;">保存编排</span>
   </div>
+
 </div>

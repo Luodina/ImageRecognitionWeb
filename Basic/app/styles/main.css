@@ -90,6 +90,22 @@ body .modal-body .modal-body-name {
   margin-top: 30px;
 }
 
+body .modal-body .createTaskPlan {
+  margin-top: 30px;
+  font-size: 14px;
+  color: #999;
+}
+
+body .modal-body .createTaskPlan input {
+  width: 89%;
+  color: #333;
+  border: solid 1px #eaeaea;
+}
+
+body .modal-footer {
+  background: #ecf1ff;
+}
+
 body .modal-footer .modal-footer-btn {
   float: right;
   color: #fff;

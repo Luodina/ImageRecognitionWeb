@@ -3,7 +3,7 @@
  */
 'use strict';
 
-angular.module('basic').controller('NotebookCtrl', ['$cookies', '$sce', '$location', '$rootScope', '$scope', '$http', '$filter', 'Upload', 'Notification', '$timeout', '$window', function ($cookies, $sce, $location, $rootScope, $scope, $http, $filter, Upload, Notification, $timeout, $window) {
+angular.module('basic').controller('NotebookCtrl', ['$cookies', '$sce', '$location', '$rootScope', '$scope', '$http',  function ($cookies, $sce, $location, $rootScope, $scope, $http) {
   $scope.notebookPath = '';
   var ipyPath = '';
   $scope.init = function () {

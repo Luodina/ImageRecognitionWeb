@@ -79,8 +79,19 @@ body {
       margin-top: 30px;
 
     }
+    .createTaskPlan{
+      margin-top: 30px;
+      font-size: 14px;
+      color: #999;
+      input{
+        width:89%;
+        color: #333;
+        border:solid 1px #eaeaea;
+      }
+    }
   }
   .modal-footer {
+    background: #ecf1ff;
     .modal-footer-btn {
       float: right;
       color: #fff;

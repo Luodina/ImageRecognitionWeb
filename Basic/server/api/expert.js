@@ -42,7 +42,8 @@ router.get('/pathNoteBook', function (request, response) {
     var destUrl = baseNotebookUrl + 'notebooks/' + modelName + '/' + modelName + '.ipynb';
     createReadStream(templatIpynbPath + templatIpynbFile).pipe(createWriteStream(baseNotebookPath + '/'+ modelName + '/'+ modelName + '.ipynb'));
     response.send({
-      jpyPath: destUrl, notebookPath:baseNotebookPath
+      jpyPath: destUrl,
+      notebookPath:baseNotebookPath
     });
   });
 });
