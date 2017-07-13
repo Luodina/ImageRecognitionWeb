@@ -28,12 +28,14 @@ angular
     'basic.resource',
     'basic.services'
     // 'ui.router.state.events'
-  ]).constant('GLOBAL', {
+  ])
+  .constant('GLOBAL', {
     host_jupyter: './api/dataSource',
     host_user: './api/user',
     host_model: './api/model',
     host_app: './api/app',
     host_expert: './api/expert',
+    host_makefile: './api/appMakeFile',
   })
   .config(['$translateProvider', '$windowProvider', function ($translateProvider, $windowProvider) {
     let window = $windowProvider.$get();

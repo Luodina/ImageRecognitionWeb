@@ -4,10 +4,9 @@
 
 "use strict";
 angular.module('basic')
-  .controller('AppFileCtrl',['createApp','$location','$filter','$scope','dataFactory',
-  (createApp,$location,$filter,$scope,dataFactory) => {
+  .controller('AppFileCtrl',['createApp','$location','$filter','$scope','projectList',
+  (createApp,$location,$filter,$scope,projectList) => {
     $scope.appName = $location.path().split(/[\s/]+/).pop();
-    console.log("$scope.appName",$scope.appName);
     $scope.listAllProject = [];
     let handleSuccess = data => {
       let listAllProject = data.model;
@@ -19,10 +18,10 @@ angular.module('basic')
             }
           }
         });
-      }
-      console.log("$scope.listAllProject in APP", $scope.listAllProject);      
+      }    
     };
-    dataFactory.getProjectList().success(handleSuccess);
+    
+    projectList.get({}, function (res) {handleSuccess(res);});
     $scope.createModel = () => {
       createApp.open();
     };

@@ -1,7 +1,7 @@
 'use strict';
 angular.module('basic')
-  .controller('DataAppCtrl',['createModel','$rootScope','$scope','$filter','dataFactory', 'appList',
-    (createModel, $rootScope, $scope, $filter, dataFactory,appList) => {
+  .controller('DataAppCtrl',['createModel','$rootScope','$scope','$filter','appList',
+    (createModel, $rootScope, $scope, $filter, appList) => {
     $scope.projectType=['web_common_data_app_02', 'web_common_data_app_03', 'web_common_data_app_04'];
     $scope.listAllApp=[[]];
     var handleSuccess = function(data, status) {

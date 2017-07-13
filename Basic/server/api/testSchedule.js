@@ -11,35 +11,32 @@ let moment = require('moment');
 router.get('/getMakeScheduleList', (req, res) => {    
     MakeSchedule.findAll({ raw: true })
     .then(makeSchedule => { res.send({ makeSchedule });})
-    .catch(err =>{console.log("err",err);});    
+    .catch(err =>{console.log('err',err);});    
 });
 
 // SELECT * from APP_MAKESCHEDULE where APP_MAKESCHEDULE = 1;
 router.get('/:makeSchedule', (req, res) => {
   let makeSchedule = req.params.makeSchedule;
-  console.log("makeSchedule",makeSchedule); 
+  console.log('makeSchedule',makeSchedule); 
   if (makeSchedule !== null){
     MakeSchedule.findAll({
         where: { APP_MAKESCHEDULE: makeSchedule},
         raw: true
     })
     .then(makeSchedule => {  
-      console.log("makeSchedule is:",makeSchedule); 
+      console.log('makeSchedule is:',makeSchedule); 
       res.send({makeSchedule: makeSchedule});
     })
-    .catch(err =>{console.log("err",err);});
+    .catch(err =>{console.log('err',err);});
   }
 });
 
 // create new makeScheduleID
 router.post('/:makeScheduleID', (req, res) => {
-
     let appID = req.body.APP_ID;
     let scheduleName = req.body.SCHEDULE_NAME;
     let state = req.body.STATE;
     let command = req.body.COMMAND;
-
-    console.log("req.body", req.body);
     sequelize.transaction(t => {
         return MakeSchedule.create({
             ID: t.id, 
@@ -55,8 +52,8 @@ router.post('/:makeScheduleID', (req, res) => {
             YEAR: '2017',
             DAYOFWEEK: '3',
             isNewRecord:true})
-            .then(() => {res.send({ msg:"Success!!!!" });})
-            .catch(err =>{console.log("err", err);});
+            .then(() => {res.send({ msg:'Success!!!!' });})
+            .catch(err =>{console.log('err', err);});
     }); 
 });
 
