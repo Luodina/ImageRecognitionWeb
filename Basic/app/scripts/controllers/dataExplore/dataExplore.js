@@ -1,7 +1,7 @@
 'use strict';
 angular.module('basic')
-  .controller('DataExploreCtrl',['createModel','$rootScope','$scope','$filter','dataFactory',
-    (createModel, $rootScope, $scope, $filter, dataFactory) => {
+  .controller('DataExploreCtrl',['createModel','$rootScope','$scope','$filter','dataFactory','projectList',
+    (createModel, $rootScope, $scope, $filter, dataFactory,projectList) => {
     $scope.projectType= ['modelType_00', 'modelType_01', 'modelType_02', 'modelType_03','modelType_04', 'modelType_05','modelType_06'];
     $scope.listAllProject=[[]];
     let handleSuccess = (data, status)=> {
@@ -40,7 +40,12 @@ angular.module('basic')
       }
     };
 
-    dataFactory.getProjectList().success(handleSuccess);
+    //dataFactory.getProjectList().success(handleSuccess);
+      projectList.get({}, function (res) {
+        console.log('projectList',res);
+        handleSuccess(res);
+
+      });
     $scope.newProject = (index) => {
       var arr = [
         {'title':'modelType_00','content':'web_common_data_explore_020'},

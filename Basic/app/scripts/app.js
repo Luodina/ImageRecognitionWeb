@@ -25,9 +25,16 @@ angular
     'chart.js',
     'ui.router',
     'basic.routers',
+    'basic.resource',
     'basic.services'
     // 'ui.router.state.events'
-  ])
+  ]).constant('GLOBAL', {
+    host_jupyter: './api/dataSource',
+    host_user: './api/user',
+    host_model: './api/model',
+    host_app: './api/app',
+    host_expert: './api/expert',
+  })
   .config(['$translateProvider', '$windowProvider', function ($translateProvider, $windowProvider) {
     let window = $windowProvider.$get();
     let lang = window.navigator.userLanguage || window.navigator.language;
@@ -88,18 +95,18 @@ angular
       return $cookies.get("username");
     };
   }])
-  .factory('dataFactory', ['$resource', '$http', function ($resource, $http) {
-    return {
-      getProjectList: () => {
-        return $http.get('/api/model/getProjectList').success(function (data) {
-          console.log("getProjectList", data);
-        });
-      },
-      getAppList: () => {
-        return $http.get('/api/app/getAppList').success(function (data) {
-          console.log("getAppList", data);
-        });
-      }
-    }
-  }])
+  //.factory('dataFactory', ['$resource', '$http', function ($resource, $http) {
+  //  return {
+  //    getProjectList: () => {
+  //      return $http.get('/api/model/getProjectList').success(function (data) {
+  //        console.log("getProjectList", data);
+  //      });
+  //    },
+  //    getAppList: () => {
+  //      return $http.get('/api/app/getAppList').success(function (data) {
+  //        console.log("getAppList", data);
+  //      });
+  //    }
+  //  }
+  //}])
 
