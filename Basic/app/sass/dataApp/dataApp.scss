@@ -1,0 +1,418 @@
+body {
+  padding: 0;
+  margin: 0;
+  .dataApp {
+    .dataLeft {
+      width: 15%;
+      background: #f4f4f4;
+      vertical-align: top;
+      min-height: 600px;
+      .dataStepUl {
+        margin: 0;
+        padding: 0;
+        padding-top: 50px;
+        list-style: none;
+        .dataStepLi {
+          //position: relative;
+          margin: 0 auto;
+          padding-left: 20%;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          font-size: 12px;
+          color: #333;
+        }
+        .dataStepLi.active {
+          color: #4874ff;
+          border: #4874ff;
+        }
+      }
+    }
+    .dataRight {
+      padding: 0;
+      margin: 0;
+      width: 85%;
+      .previewContent {
+        margin: 0;
+        padding: 0 30px;
+        min-height: 600px;
+        .previewPart {
+          .preview {
+            .title {
+              margin-top: 40px;
+              font-size: 20px;
+              color: #333;
+            }
+            .content {
+              margin-top: 30px;
+              //border:solid 1px #f2f2f2;
+              .contentTitle {
+                padding-left: 20px;
+                height: 54px;
+                background: #f4f4f4;
+                line-height: 54px;
+              }
+              .ower {
+                padding: 0 20px;
+                .owerOne {
+                  margin-top: 20px;
+                  font-size: 24px;
+                  color: #333;
+                }
+                .owerTwo {
+                  margin-top: 20px;
+                  font-size: 18px;
+                  color: #333;
+                }
+                .owerThr {
+                  margin-top: 20px;
+                  font-size: 16px;
+                  color: #333;
+                }
+                .owerFour {
+                  margin-top: 20px;
+                  font-size: 14px;
+                  color: #333;
+                }
+                .owerFive {
+                  margin-top: 24px;
+                  font-size: 14px;
+                  color: #666;
+                }
+              }
+            }
+            .error {
+              border: solid 1px #f2f2f2;
+            }
+            .waring {
+              border: solid 1px blue;
+            }
+          }
+        }
+      }
+      .fileContent {
+        margin: 0;
+        padding: 0 30px;
+        min-height: 600px;
+        .filePart {
+          .file {
+            .title {
+              margin-top: 40px;
+              font-size: 20px;
+              color: #333;
+            }
+            .content {
+              margin-top: 30px;
+              padding: 0;
+              list-style: none;
+              li {
+                margin-right: 45px;
+                float: left;
+                width: 238px;
+                height: 298px;
+                border: solid 1px #eaeaea;
+                border-radius: 2px;
+                .header {
+                  height: 70px;
+
+                  line-height: 70px;
+
+                  font-size: 16px;
+
+                  color: #666;
+
+                  background: #f4f4f4;
+                }
+
+                .body {
+
+                  height: 170px;
+
+                  padding-left: 20px;
+
+                  padding-top: 20px;
+
+                  color: #333;
+
+                }
+
+                .footer {
+
+                  border-top: solid 1px #f2f2f2;
+
+                  height: 59px;
+
+                  padding-left: 20px;
+
+                  line-height: 59px;
+
+                }
+
+                .footer:hover {
+
+                  color: #4874ff;
+
+                }
+
+              }
+
+              li:hover {
+
+                border: solid 1px #4874ff;
+              }
+
+              .newModel {
+
+                position: relative;
+
+                .model {
+
+                  width: 10px;
+
+                  height: 10px;
+
+                  position: absolute;
+
+                  top: 145px;
+
+                  bottom: 0;
+
+                  left: 0;
+
+                  right: 0;
+
+                  margin: 0 auto;
+
+                }
+
+              }
+
+            }
+
+          }
+
+        }
+      }
+
+      .resultContent {
+
+        margin: 0;
+
+        padding: 0 30px;
+
+        min-height: 600px;
+
+        .resultPart {
+
+          .result {
+
+            .title {
+
+              margin-top: 40px;
+
+              font-size: 20px;
+
+              color: #333;
+
+            }
+
+            .content {
+
+              margin-top: 30px;
+
+              border: solid 1px #f2f2f2;
+
+              .contentTitle {
+
+                padding-left: 20px;
+                height: 52px;
+
+                background: #f4f4f4;
+
+                line-height: 52px;
+
+              }
+
+              .contentData {
+
+                height: 200px;
+
+              }
+
+              .contentBody {
+
+                height: 52px;
+
+                padding: 0 20px;
+
+                line-height: 52px;
+
+                span {
+
+                  font-size: 14px;
+
+                  color: #333;
+
+                  margin-right: 80px;
+
+                }
+
+                a {
+
+                  text-decoration: none;
+                  float: right;
+
+                }
+
+              }
+
+            }
+
+          }
+
+        }
+
+      }
+
+      .taskPlanContent {
+
+        margin: 0;
+
+        padding: 0 30px;
+
+        min-height: 600px;
+
+        .taskPlanPart {
+
+          .task {
+
+            .title {
+
+              margin-top: 40px;
+
+              font-size: 20px;
+
+              color: #333;
+            }
+
+            .content {
+
+              margin-top: 30px;
+
+              //border:solid 1px #f2f2f2;
+
+              .contentTitle {
+
+                border: solid 1px #f4f4f4;
+
+                .title {
+
+                  background: #f2f2f2;
+
+                  height: 52px;
+
+                  font-size: 14px;
+
+                  td {
+
+                    padding: 0 30px;
+
+                  }
+
+                }
+                .content {
+
+                  height: 52px;
+
+                  font-size: 14px;
+
+                  td {
+
+                    padding: 0 30px;
+
+                    .btn {
+
+                      float: right;
+
+                      width: 60px;
+
+                      height: 30px;
+
+                      border: solid 1px #4847ff;
+
+                      color: #4874ff;
+
+                      margin-left: 15px;
+
+                    }
+
+                  }
+
+                }
+
+              }
+
+            }
+          }
+        }
+      }
+      .choreographyContent {
+        margin: 0;
+        padding: 0 30px;
+        min-height: 600px;
+        .choreographyPart {
+          .choreography {
+            .title {
+              margin-top: 40px;
+              font-size: 20px;
+              color: #333;
+            }
+            .content {
+              margin-top: 30px;
+              font-size: 14px;
+              color: #666;
+              tr {
+                margin-bottom: 30px;
+                td {
+                  padding-bottom: 20px;
+                }
+                .tdOne {
+                  padding-right: 70px;
+                  span {
+                    padding-right: 15px;
+                  }
+                  select {
+                    width: 300px;
+                    height: 30px;
+                    background: #ffffff;
+                  }
+                }
+                .tdTwo {
+                  padding-right: 30px;
+                  span {
+                    padding-right: 15px;
+                  }
+                  select {
+                    width: 300px;
+                    height: 30px;
+                    background: #ffffff;
+                  }
+                }
+              }
+            }
+            .saveBtn {
+              margin-top: 30px;
+              span {
+                font-size: 12px;
+                color: #ffffff;
+                display: inline-block;
+                padding: 5px 20px;
+                border-radius: 3px;
+                background: #4874ff;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
