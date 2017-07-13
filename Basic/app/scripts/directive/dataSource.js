@@ -6,7 +6,7 @@ angular.module('basic')
   .controller('DataSourceCtrl',['$rootScope', '$location','$sce','$filter', '$scope','$http','Upload', 'Notification', '$timeout',
     function ($rootScope, $location, $sce, $filter, $scope, $http, Upload, Notification, $timeout) {
     $scope.name = $filter('translate')('web_common_data_explore_001');
-    
+
     // $scope.isNew = false;
     $scope.$on('model',function(el, dataModel){
       $scope.model = dataModel.model;
@@ -15,20 +15,20 @@ angular.module('basic')
       //console.log('model in DS:', $scope.model.model, "notebook", $scope.model.notebook[1]['text/html'], "mode:", $scope.model.mode);
       // console.log('model in DS:', $scope.model, dataModel[1]['text/html']);
       if ($scope.mode !== 'new'){
-        $scope.result = $scope.notebook[1]['text/html']?  $scope.notebook[1]['text/html'] :"Result...";
+        $scope.result = $scope.notebook.outputs[1]['text/html']?  $scope.notebook.outputs[1]['text/html'] :"Result...";
       }
-        
+
       //$scope.result = $scope.model.outputs[1]['text/html']? $scope.model.outputs[1]['text/html'] :"Result...";      // if (Object.keys($scope.model).length == 0) {
       //   $scope.isNew = true;
-        
+
       // }else{
       //   var fn = getFileName($scope.model.FILE_PATH) + '_' + $rootScope.getUsername() + '.' + getFileExtension($scope.model.FILE_PATH);
       //   console.log('$scope.model.FILE_PATH', $scope.model.FILE_PATH,'$scope.model.NOTEBOOK_PATH', $scope.model.NOTEBOOK_PATH)
       // }
       //$scope.init($scope.model.FILE_PATH, $scope.model.NOTEBOOK_PATH);
-      
+
     });
-      
+
     function getFileExtension(filename) {
       return filename
         .split('.')    // Split the string on every period
@@ -87,7 +87,7 @@ angular.module('basic')
     //   })
     //   .catch(err =>{console.log("err",err);
     //   });
-    // };   
+    // };
 
     $scope.save = function(){
       console.log("Let's save it :)");
@@ -97,7 +97,7 @@ angular.module('basic')
       })
       .catch(err =>{console.log("err",err);
       });
-    }; 
+    };
     // $scope.init();
   }])
 .directive('source', function() {
