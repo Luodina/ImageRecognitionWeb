@@ -1,8 +1,11 @@
-<div class="title" style="padding: 30px 30px;font-size: 16px">
-  NOTEBOOK
+<div class="modal-header">
+  <span class="modal-header-title">NOTEBOOK</span>
+  <span class="modal-header-close" ng-click="cancel()">X</span>
 </div>
-<iframe style="padding-left:30px;" 
-        frameborder=0 width=870 height=400 marginheight=0 
-        marginwidth=0 scrolling=auto 
-        src={{notebookPath}}>
-</iframe>
+<div class="modal-body">
+  <iframe style="border: solid 1px #f4f4f4;"
+          frameborder=0 width=850 height=800 marginheight=0
+          marginwidth=0 scrolling=auto
+          src={{notebookPath}}>
+  </iframe>
+</div>

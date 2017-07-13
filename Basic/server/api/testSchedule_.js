@@ -1,6 +1,8 @@
 /**
  * Created by zezhenjia on 2017/7/5.
  */
+'use strict';
+
 var schedule = require('node-schedule');
 var query=require("./mysqlpool.js");
 

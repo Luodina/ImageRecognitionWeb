@@ -14,22 +14,22 @@ angular.module('basic.services', ['ui.bootstrap'])
             $scope.title = $filter('translate')(obj.title);
             $scope.content = $filter('translate')(obj.content);
             $scope.url = idx;
+            console.log('222222',idx);
+            if(idx ==='notebook'){
+              $scope.UISref = false;
+            }else{
+              $scope.UISref = true;
+            }
             $scope.userName = $cookies.get("username");
-            $scope.go = function () {
-              //if($scope.model.name !== undefined) {
-              // $http.post('/api/model/newModel', {
-              //   modelName:$scope.model.name,
-              //   userName: $scope.userName,
-              //   viewOrCode: "01",
-              //   menuID: "02_",
-              // }).success(function(data){
-              //     console.log("DataProcessingCtrl save:", data.msg);
-              // });
-              //};
-              $uibModalInstance.dismiss();
-            };
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
+            }
+            $scope.create = function () {
+              if(!$scope.UISref){
+                $uibModalInstance.close($scope.model.name)
+              }else{
+                $uibModalInstance.dismiss();
+              }
             }
           }]
       }).result;
@@ -173,5 +173,54 @@ angular.module('basic.services', ['ui.bootstrap'])
           }]
       })
       .result;
+    };
+  }])
+  .service('createExpertModule',['$uibModal', function ($uibModal) {
+    this.open = function (name) {
+      return $uibModal.open({
+        backdrop: 'static',
+        templateUrl: 'views/dataExplore/expertModule.html',
+        size: 'lg',
+        controller: ['$cookies', '$scope', '$filter', '$uibModalInstance', '$http','$location','$sce',
+          function ($cookies, $scope, $filter, $uibModalInstance, $http,$location,$sce) {
+
+            $scope.notebookPath = '';
+            var ipyPath = '';
+            $scope.init = function () {
+
+              $http.get('/api/expert/pathNoteBook', {
+                params: {
+                  "modelName": name
+                }
+              }).then(function (response) {
+                console.log('55555',response);
+                ipyPath = response.data.jpyPath;
+                $scope.notebookPath = $sce.trustAsResourceUrl(ipyPath);
+                // $http.get('/api/jupyter/save').success(function (data) {
+                var date = new Date();
+                var savaData = {
+                  MODEL_NAME: $location.path().split(/[\s/]+/).pop(),
+                  USER_ID: $cookies.get("username"),
+                  TYPE_MENU_ID: "01",
+                  VIEW_MENU_ID: "06",
+                  UPDATED_TIME: date.getTime(),
+                  NOTEBOOK_PATH: response.data.notebookPath,
+                  COMMENT: 'Lets try it!'
+                };
+                console.log("Data to DB savaData:", savaData);
+                $http.post('/api/model/new', savaData).success(function (data) {
+                  console.log("Expert MODE save:", data.msg);
+                });
+                // $location.path("/explore");
+                // });
+              });
+            };
+            $scope.init();
+
+            $scope.cancel = function () {
+              $uibModalInstance.dismiss();
+            }
+          }]
+      }).result;
     };
   }])

@@ -3,8 +3,9 @@
  */
 'use strict';
 
-angular.module('basic').controller('NotebookCtrl', ['$cookies', '$sce', '$location', '$rootScope', '$scope', '$http',  function ($cookies, $sce, $location, $rootScope, $scope, $http) {
-  $scope.notebookPath = '';
+angular.module('basic')
+  .controller('NotebookCtrl', ['$cookies', '$sce', '$location', '$rootScope', '$scope', '$http', function ($cookies, $sce, $location, $rootScope, $scope, $http) {
+  $rootScope.notebookPath = '';
   var ipyPath = '';
   $scope.init = function () {
     var modelName = $location.path().split(/[\s/]+/).pop();
@@ -16,7 +17,7 @@ angular.module('basic').controller('NotebookCtrl', ['$cookies', '$sce', '$locati
       }
     }).then(function (response) {
       ipyPath = response.data.jpyPath;
-      $scope.notebookPath = $sce.trustAsResourceUrl(ipyPath);
+      $rootScope.notebookPath = $sce.trustAsResourceUrl(ipyPath);
       // $http.get('/api/jupyter/save').success(function (data) {
       var date = new Date();
       var savaData = {
