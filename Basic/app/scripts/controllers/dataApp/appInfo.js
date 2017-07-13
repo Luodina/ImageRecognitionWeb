@@ -6,6 +6,23 @@ angular.module('basic')
   .controller('AppInfoCtrl',['$location', '$rootScope', '$scope','$http', '$filter','Upload', 'Notification', '$timeout','$window','openPreview',
     ( $location, $rootScope, $scope, $filter) => {
       $scope.tab=0;
+      //左边导航自动变化
+      var left_by_block = function(){
+        var thisheight = $(window).height()-$(".header").height();
+        $('.dataLeft').height(thisheight);
+      };
+      $(window).resize(function(){
+        left_by_block();
+      });
+      $(function(){
+        left_by_block();
+      });
+      //按钮展开收缩
+      $(".zx_set_btn").on("click",function(){
+        $(this).toggleClass("zx_set_btn_rotate");
+        $(".dataLeft").toggleClass("sider_zx");
+      })
+
       $scope.clicked=function(num){
         $scope.tab = num;
         if(num===4){

@@ -1,7 +1,7 @@
 'use strict';
 angular.module('basic')
-  .controller('DataExploreCtrl',['createModel','$rootScope','$scope','$filter','dataFactory',
-    (createModel, $rootScope, $scope, $filter, dataFactory) => {
+  .controller('DataExploreCtrl',['createModel','$rootScope','$scope','$filter','projectList',
+    (createModel, $rootScope, $scope, $filter, projectList) => {
     $scope.projectType= ['modelType_00', 'modelType_01', 'modelType_02', 'modelType_03','modelType_04', 'modelType_05','modelType_06'];
     $scope.listAllProject=[[]];
     let handleSuccess = (data, status)=> {
@@ -19,11 +19,8 @@ angular.module('basic')
               if ($scope.listAllProject[parseInt(model.VIEW_MENU_ID)] === undefined){
                 $scope.listAllProject[parseInt(model.VIEW_MENU_ID)]=[];
               }
-              if (model.MODEL_INFO !== null && model.MODEL_INFO !== undefined ){
-                console.log("model.MODEL_INFO: ", model.MODEL_INFO);
-
+              if (model.MODEL_INFO !== null && model.MODEL_INFO !== undefined ){    
                 let objJSON = eval("(function(){return " + model.MODEL_INFO + ";})()");
-                console.log("objJSON: ", objJSON);
                 model.MODEL_INFO = Object.values(objJSON);
               }
               if (model.USER_ID === $rootScope.getUsername()){
@@ -36,11 +33,9 @@ angular.module('basic')
             }
           }
         }, this);
-      console.log("listAllProject in DataExplore: ", $scope.listAllProject)
       }
     };
-
-    dataFactory.getProjectList().success(handleSuccess);
+    projectList.get({}, function (res) {handleSuccess(res);});
     $scope.newProject = (index) => {
       var arr = [
         {'title':'modelType_00','content':'web_common_data_explore_020'},

@@ -4,26 +4,117 @@ body {
 }
 
 body .dataApp .dataLeft {
-  width: 15%;
-  background: #f4f4f4;
+  width: 216px;
+  background: #ecf1ff;
   vertical-align: top;
-  min-height: 600px;
+}
+
+body .dataApp .dataLeft .zx_set_btn {
+  background: #ecf1ff url(../../images/zx_set.png) no-repeat center;
+  width: 14px;
+  height: 14px;
+  background-size: 14px 14px;
+  display: block;
+  padding: 21px 108px;
+}
+
+body .dataApp .dataLeft .zx_set_btn:hover {
+  background: #dbe4ff url(../../images/zx_set_hover.png) no-repeat center;
+  background-size: 14px 14px;
+}
+
+body .dataApp .dataLeft .zx_set_btn_rotate {
+  background: #ecf1ff url(../../images/zx_set_active.png) no-repeat center;
+  width: 14px;
+  height: 14px;
+  background-size: 14px 14px;
+  display: block;
+  padding: 21px 28px;
+}
+
+body .dataApp .dataLeft .zx_set_btn_rotate:hover {
+  background: #dbe4ff url(../../images/zx_set_active_hover.png) no-repeat center;
+  background-size: 14px 14px;
+}
+
+body .dataApp .dataLeft .icon25 {
+  color: #5a6378;
+  width: 16px;
+  height: 16px;
+  vertical-align: sub;
+  display: inline-block;
+  background-size: contain;
+}
+
+body .dataApp .dataLeft .side_tit {
+  padding-left: 36px;
+  font-size: 14px;
+}
+
+body .dataApp .dataLeft .icon25_yywj {
+  background: url(../../images/yywj_nor.png) no-repeat;
+  background-size: contain;
+}
+
+body .dataApp .dataLeft .icon25_rwjh {
+  background: url(../../images/rwjh_nor.png) no-repeat;
+  background-size: contain;
+}
+
+body .dataApp .dataLeft .icon25_yybp {
+  background: url(../../images/yybp_nor.png) no-repeat;
+  background-size: contain;
+}
+
+body .dataApp .dataLeft .icon25_yyjg {
+  background: url(../../images/yyjg_nor.png) no-repeat;
+  background-size: contain;
+}
+
+body .dataApp .dataLeft .icon25_yygl {
+  background: url(../../images/yygl_nor.png) no-repeat;
+  background-size: contain;
+}
+
+body .dataApp .dataLeft .dataStepLi.active .icon25_yywj {
+  background: url(../../images/yywj_active.png) no-repeat;
+  background-size: contain;
+}
+
+body .dataApp .dataLeft .dataStepLi.active .icon25_rwjh {
+  background: url(../../images/rwjh_active.png) no-repeat;
+  background-size: contain;
+}
+
+body .dataApp .dataLeft .dataStepLi.active .icon25_yybp {
+  background: url(../../images/yybp_active.png) no-repeat;
+  background-size: contain;
+}
+
+body .dataApp .dataLeft .dataStepLi.active .icon25_yyjg {
+  background: url(../../images/yyjg_active.png) no-repeat;
+  background-size: contain;
+}
+
+body .dataApp .dataLeft .dataStepLi.active .icon25_yygl {
+  background: url(../../images/yygl_active.png) no-repeat;
+  background-size: contain;
 }
 
 body .dataApp .dataLeft .dataStepUl {
   margin: 0;
   padding: 0;
-  padding-top: 50px;
   list-style: none;
 }
 
 body .dataApp .dataLeft .dataStepUl .dataStepLi {
   margin: 0 auto;
-  padding-left: 20%;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-left: 18px;
   font-size: 12px;
   color: #333;
+  height: 56px;
+  line-height: 56px;
+  position: relative;
 }
 
 body .dataApp .dataLeft .dataStepUl .dataStepLi.active {
@@ -31,10 +122,42 @@ body .dataApp .dataLeft .dataStepUl .dataStepLi.active {
   border: #4874ff;
 }
 
+body .dataApp .dataLeft .dataStepUl .dataStepLi .num_detail {
+  display: none;
+  position: absolute;
+  left: 68px;
+  top: 50%;
+  margin-top: -12px;
+  padding: 1px 0;
+  text-align: left;
+  background: #3865fa;
+  width: 58px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  color: #fff;
+  font-size: 12px;
+  transition: all .3s;
+  border-radius: 2px;
+  z-index: 99999;
+}
+
+body .dataApp .dataLeft .dataStepUl .dataStepLi .num_detail:before {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-right: 6px solid #3865fa;
+  border-bottom: 6px solid transparent;
+  left: -5px;
+  margin-top: 6px;
+  border-left: 0;
+}
+
 body .dataApp .dataRight {
   padding: 0;
   margin: 0;
-  width: 85%;
 }
 
 body .dataApp .dataRight .previewContent {
@@ -127,6 +250,7 @@ body .dataApp .dataRight .fileContent .filePart .file .content li {
   height: 298px;
   border: solid 1px #eaeaea;
   border-radius: 2px;
+  margin-bottom: 16px;
 }
 
 body .dataApp .dataRight .fileContent .filePart .file .content li .header {
@@ -332,4 +456,22 @@ body .dataApp .dataRight .choreographyContent .choreographyPart .choreography .s
   padding: 5px 20px;
   border-radius: 3px;
   background: #4874ff;
+}
+
+.sider_zx {
+  width: 54px !important;
+  transition: all 0.3s linear;
+}
+
+.sider_zx .dataStepLi.active {
+  background: #dbe4ff !important;
+}
+
+.sider_zx li:hover .num_detail {
+  left: 164px;
+  display: block !important;
+}
+
+.sider_zx .side_tit {
+  display: none !important;
 }
