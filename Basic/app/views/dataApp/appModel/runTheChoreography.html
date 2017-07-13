@@ -1,53 +1,31 @@
 <div class="title">demo1</div>
 <div class="content">
-  <table>
-    <tr>
-      <td class="tdOne">
-        <span>前置步骤</span>
-        <select name="">
-          <option value=""></option>
-        </select>
-      </td>
-      <td class="tdTwo">
-        <span>执行</span>
-        <select name="">
-          <option value=""></option>
-        </select>
-      </td>
-      <td>x</td>
-    </tr>
-    <tr>
-      <td class="tdOne">
-        <span>前置步骤</span>
-        <select name="">
-          <option value=""></option>
-        </select>
-      </td>
-      <td class="tdTwo">
-        <span>执行</span>
-        <select name="">
-          <option value=""></option>
-        </select>
-      </td>
-      <td>x</td>
-    </tr>
-    <tr>
-      <td class="tdOne">
-        <span>前置步骤</span>
-        <select name="">
-          <option value=""></option>
-        </select>
-      </td>
-      <td class="tdTwo">
-        <span>执行</span>
-        <select name="">
-          <option value=""></option>
-        </select>
-      </td>
-      <td>+</td>
-    </tr>
-  </table>
-  <div class="saveBtn">
-    <span>保存</span>
+  <div style="margin-top: 30px;font-size: 14px;color: #4874ff;" >
+    <span style="border: solid 1px #4874ff;padding: 5px 15px;" ng-click="openAddArrange()">添加编排</span>
   </div>
+  <div style="margin-top: 20px;border:solid 1px #f2f2f2;">
+    <div style="padding:10px 10px;border-bottom: solid 1px #f2f2f2;background: #f2f2f2;">
+      编排<span>1</span>
+    </div>
+    <div style="padding:10px 10px;border-bottom: solid 1px #f2f2f2;">
+      执行:<span>xxx</span>
+    </div>
+    <div style="padding:10px 10px;">
+      <table style="width: 100%;margin: 0;padding: 0;">
+        <tr style="margin: 0;">
+          <td style="width: 10%;padding:0;margin: 0;">前置条件:</td>
+          <td style="width: 90%;padding:0;margin: 0;">
+            <div ng-repeat="item in list track by $index">
+              <span>{{$index + 1}}</span>
+              <span>{{value}}</span>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div style="margin-top: 30px;font-size: 14px;color: #ffffff;">
+    <span style="background:#4874ff;padding: 5px 15px;">保存编排</span>
+  </div>
+
 </div>

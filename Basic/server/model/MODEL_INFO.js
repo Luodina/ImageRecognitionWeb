@@ -46,7 +46,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     FILE_PATH: {
       type: DataTypes.CHAR(11),
-      allowNull: false
+      allowNull: true
     },
   }, {
     createdAt: false,

@@ -433,25 +433,4 @@ router.get('/save', function (req, res) {
     }
 });
 
-//notebook
-var ipyFolder= '';
-router.get('/pathNoteBook', function (modelName) {
-  console.log('nsynsy',modelName)
-  ipyFolder = modelName;
-  var cmmd ='mkdir -p /Users/JiYi/Desktop/useModel/'+ modelName;
-  exec(cmmd,(error, stdout, stderr) => {
-    if (error) {
-      console.error(`exec error: ${error}`);
-      return;
-    }
-    console.log(`stdout: ${stdout}`);
-    console.log(`stderr: ${stderr}`);
-  });
-});
-var ipyOptions = {
-  path:ipyFolder+'/untitled.ipynb'
-}
-
-contents.newUntitled(ipyOptions);
-
 module.exports = router;

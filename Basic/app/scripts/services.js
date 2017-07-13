@@ -106,3 +106,54 @@ angular.module('basic.services', ['ui.bootstrap'])
       }).result;
     };
   }])
+  .service('createArrange', ['$uibModal', function ($uibModal) {
+
+    this.open = function () {
+      return $uibModal.open({
+        backdrop: 'static',
+        templateUrl: 'views/layer/createArrange.html',
+        size: 'size',
+        controller: ['$cookies', '$scope', '$filter', '$uibModalInstance', '$http',
+          function ($cookies, $scope, $filter, $uibModalInstance, $http) {
+            $scope.list = [{value: ''}];
+            // 点击+或x的事件
+            $scope.action = (index) => {
+              console.log(index, $scope.list.length)
+              if (index == $scope.list.length - 1) {
+                $scope.list.push({value: ''});
+              }else {
+                $scope.list.splice(index, 1)
+              }
+            }
+            // 右侧option 值发生变化的事件
+            $scope.change = (value, index) => {
+              $scope.list[index].value = value;
+            }
+            $scope.cancel = function () {
+              $uibModalInstance.dismiss();
+            }
+            $scope.save = function () {
+              $uibModalInstance.dismiss();
+            }
+          }]
+      }).result;
+    };
+  }])
+  .service('createTaskPlan', ['$uibModal', function ($uibModal) {
+    this.open = function () {
+      return $uibModal.open({
+        backdrop: 'static',
+        templateUrl: 'views/layer/createTaskPlan.html',
+        size: 'size',
+        controller: ['$cookies', '$scope', '$filter', '$uibModalInstance', '$http',
+          function ($cookies, $scope, $filter, $uibModalInstance, $http) {
+            $scope.cancel = function () {
+              $uibModalInstance.dismiss();
+            }
+            $scope.save = function () {
+              $uibModalInstance.dismiss();
+            }
+          }]
+      }).result;
+    };
+  }])

@@ -1,0 +1,32 @@
+<div class="modal-header">
+  <span class="modal-header-title">运行编排 <span>1</span></span>
+  <span class="modal-header-close" ng-click="cancel()">X</span>
+</div>
+<div class="modal-body">
+  <table style="width: 100%;margin: 0;padding: 0;">
+    <tr>
+      <td style="width: 50%;padding:0;margin: 0;">前置条件:</td>
+      <td style="width: 50%;padding:0;margin: 0;">执行</td>
+    </tr>
+    <tr style="margin: 0;">
+      <td style="width: 50%;padding:0;margin: 0;">
+        <select style="width:200px;background: #fff;">
+          <option value=""></option>
+        </select>
+      </td>
+      <td style="width: 50%;padding:0;margin: 0;">
+              <div ng-repeat="item in list track by $index">
+                <span>{{$index + 1}}</span>
+                <select style="width: 200px;background: #fff;">
+                  <option value="" change="change(value, $index)"></option>
+                </select>
+                <span style="display: inline-block;padding: 2px 5px;border: solid 1px #333;" ng-click="action($index)">{{$index < list.length -1? 'x': '+'}}</span>
+              </div>
+      </td>
+    </tr>
+  </table>
+</div>
+<div class="modal-footer">
+  <span class="modal-footer-btn" ng-click="save()">{{'web_common_015'| translate}}</span>
+</div>
+
