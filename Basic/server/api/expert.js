@@ -16,11 +16,11 @@ let exec = _require.exec;
 global.XMLHttpRequest = XMLHttpRequest;
 global.WebSocket = WebSocket;
 
-var express = require('express');
-var router = express.Router();
-var path = require('path');
-var config = require('./../config');
-var env = config.env || 'dev';
+const express = require('express');
+const router = express.Router();
+const path = require('path');
+const config = require('./../config');
+let env = config.env || 'dev';
 
 var templatIpynbPath = path.join(__dirname, '../../template');
 var baseNotebookPath = config[env].notebookPath;
