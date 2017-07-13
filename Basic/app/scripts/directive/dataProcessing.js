@@ -21,15 +21,11 @@ angular.module('basic')
       if ($scope.mode !== 'new'){
         //1.get highCorr
         var highCorrRes = $scope.notebook.outputs[2];
-
-        console.log("-------------->",highCorrRes["text/plain"][0]=="'"?highCorrRes["text/plain"]:highCorrRes["text/plain"][0])
         if(highCorrRes){
           var data =highCorrRes["text/plain"][0]=="'"?highCorrRes["text/plain"]:highCorrRes["text/plain"][0];
           data = data.substring(1, data.length - 1);
-          console.log("step2---------result--》",JSON.parse(data).varName)
           if(typeof(JSON.parse(data).highCorr)!=="undefined"){
             $scope.dataHighCorr = JSON.parse(data).highCorr;
-            console.log("$scope.dataHighCorr", $scope.dataHighCorr)
           }
           //which one checked  "deleteCols="petal width (cm)"
           var highCorrSource=$scope.notebook.sources[3][1];
@@ -47,11 +43,9 @@ angular.module('basic')
         }
         //2.get imputer
         var imputerRes = $scope.notebook.outputs[4];
-        console.log("----->",imputerRes);
         if(imputerRes){
           var data = imputerRes["text/plain"][0]=="'"?imputerRes["text/plain"]:imputerRes["text/plain"][0];
           data = data.substring(1, data.length - 1);
-          console.log("dataImputer------------>", data)
           if(typeof(JSON.parse(data).p_missing)!=="undefined"){
             data = JSON.parse(data).p_missing
             var jsonObj = [];
@@ -67,7 +61,6 @@ angular.module('basic')
             $scope.dataImputer = jsonObj;
             //document.getElementById("divCorr").style.display = "none";
             document.getElementById("divImputer").style.display = "block";
-            console.log("$scope.dataImputer------------>", $scope.dataImputer);
           }
           //imputer check   col_input={'petal length (cm)':'mean','sepal length (cm)':'median','sepal width (cm)':'min'}
           var imputerSource=$scope.notebook.sources[5][4];
@@ -90,7 +83,6 @@ angular.module('basic')
           //var data = scalaRes["text/plain"][0];
           var data = scalaRes["text/plain"][0]=="'"?scalaRes["text/plain"]:scalaRes["text/plain"][0];
           data = data.substring(1, data.length - 1);
-          console.log("dataScalar------------>", data)
           data = JSON.parse(data)
           var jsonObj = [];
           for (var key in data.std) {
@@ -99,7 +91,6 @@ angular.module('basic')
             if(mini_histogram){
               mini_histogram = mini_histogram.replace(/[\\]/g, '');
             }
-            console.log("mini_hist=====", mini_histogram);
             var arr =
               {
                 "varName": key,
