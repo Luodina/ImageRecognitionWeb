@@ -197,16 +197,25 @@ router.post('/init', function (req, res) {
             .then(text => {
                 let obj = JSON.parse(text);  //now it an object
                 for (let i = 0, len = obj.cells.length; i < len; i++) {
-                    let tmp = obj.cells[i].outputs;
-                    if (tmp !== undefined && tmp !== null){
-                    if (tmp.length !== 0) {
-                            if (tmp[0].data !== undefined && tmp[0].data !== null ){
-                                outputs[i] = tmp[0].data ;
-                            }
+                    let tmpOutputs = obj.cells[i].outputs;
+                    if (tmpOutputs !== undefined && tmpOutputs !== null){
+                      if (tmpOutputs.length !== 0) {
+                              if (tmpOutputs[0].data !== undefined && tmpOutputs[0].data !== null ){
+                                  outputs[i] = tmpOutputs[0].data ;
+                              }
+                      }
                     }
+                    //source
+                  let tmpSource = obj.cells[i].source;
+                  if (tmpSource !== undefined && tmpSource !== null){
+                    if (tmpSource.length !== 0) {
+                      if (tmpSource!== undefined && tmpSource!== null ){
+                        source[i] = tmpSource ;
+                      }
                     }
+                  }
                 }
-                res.status(200).send({ msg: "GREAT SUCCESS WATCH IT!!!" , outputs: outputs});
+                res.status(200).send({ msg: "GREAT SUCCESS WATCH IT!!!" , outputs: outputs,sources:source});
             })
             .catch(err => {
                 console.log(err);

@@ -35,10 +35,14 @@ angular.module('basic')
             .then(data => {
               if ($scope.modelDB.USER_ID  === $rootScope.getUsername()) {
                 console.log("outputs", data.data.outputs,'$scope.modelDB',$scope.modelDB);
-                $scope.$broadcast('model',{ notebook: data.data.outputs, model:$scope.modelDB, mode: 'update'});
+                console.log("sources", data.data.sources,'$scope.modelDB',$scope.modelDB);
+                $scope.$broadcast('model',{ notebook: data.data, model:$scope.modelDB, mode: 'update'});
+
               } else {
                 console.log("outputs", data.data.outputs,'$scope.modelDB',$scope.modelDB);
-                $scope.$broadcast('model',{ notebook: data.data.outputs, model:{}, mode: 'view'});
+                console.log("sources", data.data.sources,'$scope.modelDB',$scope.modelDB);
+                $scope.$broadcast('model',{ notebook: data.data, model:{}, mode: 'view'});
+
               }
             })
             .catch(err =>{console.log("err",err);});
