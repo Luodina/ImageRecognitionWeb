@@ -42,7 +42,10 @@ angular.module('basic')
     }    
     $scope.openAddArrange = () => {
       createArrange.open(modelNameList, $scope.appName, newMakeFileName()).then(function(msg){
-        if (msg === 'success') { $scope.init();}
+        if (msg === 'success') { 
+          $scope.makeFileList = [];
+          $scope.init();
+        }
       })
       .catch(err =>{console.log('err',err);});
     };    
