@@ -99,6 +99,11 @@ angular
         return $http.get('/api/app/getAppList').success(function (data) {
           console.log("getAppList", data);
         });
+      },
+      getMakeFileList: (appName) => {
+        return $http.get('/api/appMakeFile/getMakeFileList/' + appName).success(function (data) {
+          console.log("getAppList", data);
+        });
       }
     }
   }])

@@ -6,32 +6,24 @@ let MakeFile = require('../model/APP_MAKEFILE')(sequelize, Sequelize);
 let express = require('express');
 let router = express.Router();
 
-// SELECT * from APP_MAKEFILE;
-router.get('/getMakeFileList', (req, res) => {    
-    MakeFile.findAll({raw: true})
-    .then(makeFile => { res.send({MakeFile});})
-    .catch(err =>{console.log("err",err);});    
-});
-
-// SELECT * from APP_MAKEFILE where MAKEFILE_ID = 1;
-router.get('/:makeFileID', (req, res) => {
-  let makeFileID = req.params.makeFileID;
-  console.log("makeFileID",makeFileID); 
-  if (makeFileID !== null){
+router.get('/getMakeFileList/:appID', (req, res) => {   
+  let appID = req.params.appID;
+  console.log("appID",appID); 
+  if (appID !== null){
     MakeFile.findAll({
-        where: { MAKEFILE_ID: makeFileID},
+        where: { APP_ID: appID},
+        order: [['MAKEFILE_ID']],//'MAKEFILE_ID DESC',
         raw: true
     })
-    .then(makeFile => {  
-      console.log("MakeFile is:",MakeFile); 
-      res.send({MakeFile: MakeFile});
+    .then(appMakeFileList => {   
+      res.send({appMakeFileList: appMakeFileList});
     })
     .catch(err =>{console.log("err",err);});
   }
 });
 
 // create new makeFileID
-router.post('/:makeFileID', (req, res) => {
+router.post('/new', (req, res) => {
     let makeFile = req.body.MAKEFILE_ID;
     let userName = req.body.USER_ID;
     let appID = req.body.APP_ID;
@@ -49,7 +41,9 @@ router.post('/:makeFileID', (req, res) => {
             PREREQUISITES: prerequisites,
             FLAG: flag,
             isNewRecord:true})
-            .then(() => {res.send({ msg:"Success!!!!" });})
+            .then(() => {res.send({ msg:'success' });})
             .catch(err =>{console.log("err", err);});
     }); 
 });
+
+module.exports = router;

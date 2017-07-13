@@ -59,3 +59,5 @@ router.post('/:makeScheduleID', (req, res) => {
             .catch(err =>{console.log("err", err);});
     }); 
 });
+
+module.exports = router;

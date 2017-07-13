@@ -57,4 +57,21 @@ router.get('/:modelName', function(req, res){
     .catch(err =>{console.log("err",err);});
   }
 });
+
+router.get('/modelList/:appName', function(req, res){
+  let appName = req.params.appName;
+  console.log("req.params.appName",req.params.appName, "appName",appName); 
+  if (appName !== null){
+    Model.findAll({
+        where: { APP_ID: appName},
+        raw: true
+    })
+    .then(modelList => {  
+      console.log("modelList is:",modelList); 
+      res.send({ modelList: modelList});
+    })
+    .catch(err =>{console.log("err",err);});
+  }
+});
+
 module.exports = router; 

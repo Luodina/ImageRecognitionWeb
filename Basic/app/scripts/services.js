@@ -107,14 +107,20 @@ angular.module('basic.services', ['ui.bootstrap'])
     };
   }])
   .service('createArrange', ['$uibModal', function ($uibModal) {
-
-    this.open = function () {
+    this.open = (ipynbNameList, appName, makeFileName) => {
       return $uibModal.open({
         backdrop: 'static',
         templateUrl: 'views/layer/createArrange.html',
         size: 'size',
         controller: ['$cookies', '$scope', '$filter', '$uibModalInstance', '$http',
-          function ($cookies, $scope, $filter, $uibModalInstance, $http) {
+          ($cookies, $scope, $filter, $uibModalInstance, $http) => {
+            $scope.appName = appName;
+            $scope.makeFileName = makeFileName;
+            $scope.data = {
+              targetModel: null,
+              prereqModel:null,
+              availableOptions: ipynbNameList
+            };// 
             $scope.list = [{value: ''}];
             // 点击+或x的事件
             $scope.action = (index) => {
@@ -133,10 +139,21 @@ angular.module('basic.services', ['ui.bootstrap'])
               $uibModalInstance.dismiss();
             }
             $scope.save = function () {
-              $uibModalInstance.dismiss();
+              let savaData = {
+                    MAKEFILE_ID: $scope.makeFileName,
+                    USER_ID: $cookies.get("username"),
+                    APP_ID: $scope.appName,
+                    TARGET: $scope.data.targetModel,
+                    PREREQUISITES: Object.values($scope.data.prereqModel).join(' ')
+                  };            
+              $http.post('/api/appMakeFile/new', savaData).success((data)=> {
+                console.log("MAKEFILE save:", data.msg);
+                $uibModalInstance.close(data.msg);  
+              });              
             }
           }]
-      }).result;
+      })
+      .result;
     };
   }])
   .service('createTaskPlan', ['$uibModal', function ($uibModal) {
@@ -154,6 +171,7 @@ angular.module('basic.services', ['ui.bootstrap'])
               $uibModalInstance.dismiss();
             }
           }]
-      }).result;
+      })
+      .result;
     };
   }])
