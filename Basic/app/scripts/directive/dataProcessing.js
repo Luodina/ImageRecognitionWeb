@@ -18,6 +18,117 @@ angular.module('basic')
       $scope.model = dataModel.model;
       $scope.notebook = dataModel.notebook;
       $scope.mode = dataModel.mode;
+      if ($scope.mode !== 'new'){
+        //1.get highCorr
+        var highCorrRes = $scope.notebook.outputs[2];
+
+        console.log("-------------->",highCorrRes["text/plain"][0]=="'"?highCorrRes["text/plain"]:highCorrRes["text/plain"][0])
+        if(highCorrRes){
+          var data =highCorrRes["text/plain"][0]=="'"?highCorrRes["text/plain"]:highCorrRes["text/plain"][0];
+          data = data.substring(1, data.length - 1);
+          console.log("step2---------result--》",JSON.parse(data).varName)
+          if(typeof(JSON.parse(data).highCorr)!=="undefined"){
+            $scope.dataHighCorr = JSON.parse(data).highCorr;
+            console.log("$scope.dataHighCorr", $scope.dataHighCorr)
+          }
+          //which one checked  "deleteCols="petal width (cm)"
+          var highCorrSource=$scope.notebook.sources[3][1];
+          var corrChecked =highCorrSource.substring(12,highCorrSource.length-2).split(",");
+          if($scope.dataHighCorr){
+            for(var i =0;i<$scope.dataHighCorr.length;i++){
+              for(var j = 0;j<corrChecked.length;j++){
+                if($scope.dataHighCorr[i].varName=corrChecked[j]){
+                  $scope.dataHighCorr[i].varNameStatus=true;
+                }
+
+              }
+            }
+          }
+        }
+        //2.get imputer
+        var imputerRes = $scope.notebook.outputs[4];
+        console.log("----->",imputerRes);
+        if(imputerRes){
+          var data = imputerRes["text/plain"][0]=="'"?imputerRes["text/plain"]:imputerRes["text/plain"][0];
+          data = data.substring(1, data.length - 1);
+          console.log("dataImputer------------>", data)
+          if(typeof(JSON.parse(data).p_missing)!=="undefined"){
+            data = JSON.parse(data).p_missing
+            var jsonObj = [];
+            for (var key in data) {
+              var arr =
+                {
+                  "varName": key,
+                  "imputerRatio": data[key],
+                  "status": ""
+                }
+              jsonObj.push(arr)
+            }
+            $scope.dataImputer = jsonObj;
+            //document.getElementById("divCorr").style.display = "none";
+            document.getElementById("divImputer").style.display = "block";
+            console.log("$scope.dataImputer------------>", $scope.dataImputer);
+          }
+          //imputer check   col_input={'petal length (cm)':'mean','sepal length (cm)':'median','sepal width (cm)':'min'}
+          var imputerSource=$scope.notebook.sources[5][4];
+          var imputerChecked =imputerSource.substring(10,imputerSource.length-1);
+          var imputerJson = eval('('+imputerChecked+')');
+          if($scope.dataImputer){
+            for(var i =0;i<$scope.dataImputer.length;i++){
+              var varName = $scope.dataImputer[i].varName;
+              if(imputerJson[varName]){
+                $scope.dataImputer[i].status=imputerJson[varName]
+              }
+            }
+          }
+
+        }
+
+        //3.get dataScalar
+        var scalaRes = $scope.notebook.outputs[6];
+        if(scalaRes){
+          //var data = scalaRes["text/plain"][0];
+          var data = scalaRes["text/plain"][0]=="'"?scalaRes["text/plain"]:scalaRes["text/plain"][0];
+          data = data.substring(1, data.length - 1);
+          console.log("dataScalar------------>", data)
+          data = JSON.parse(data)
+          var jsonObj = [];
+          for (var key in data.std) {
+            var mini_histogram = data.mini_histogram[key];
+            //如果路径中有反斜杠要删除掉
+            if(mini_histogram){
+              mini_histogram = mini_histogram.replace(/[\\]/g, '');
+            }
+            console.log("mini_hist=====", mini_histogram);
+            var arr =
+              {
+                "varName": key,
+                "stdValue": data.std[key],
+                "miniHistogram": mini_histogram,
+                "status": ""
+              }
+            jsonObj.push(arr)
+          }
+          $scope.dataScalar = jsonObj;
+          document.getElementById("divScalar").style.display = "block";
+          console.log("$scope.dataScalar------------>", $scope.dataScalar)
+
+          //scalar check col_input ={'Unnamed: 0':'Standarded','petal length (cm)':'Robust','sepal length (cm)':'MaxAbs','sepal width (cm)':'Standarded'}
+          var scalarSource=$scope.notebook.sources[7][1];
+          var scalarChecked =scalarSource.substring(11,scalarSource.length-1);
+          var scalarJson = eval('('+scalarChecked+')');
+          if($scope.dataScalar){
+            for(var i =0;i<$scope.dataScalar.length;i++){
+              var varName = $scope.dataScalar[i].varName;
+              if(scalarJson[varName]){
+                $scope.dataScalar[i].status=scalarJson[varName]
+              }
+            }
+          }
+
+        }
+
+      }
       console.log('DataProcessingCtrl: model in DB:', $scope.model, "notebook", $scope.notebook, "mode:", $scope.mode);
       $scope.$on('tab',function(el, num){
           if (num === 2) {
@@ -35,15 +146,15 @@ angular.module('basic')
             });
           }
 
-        // if (num ===2) {    
-        //     console.log("num:", num, '$scope.isNew', $scope.isNew);  
-            
+        // if (num ===2) {
+        //     console.log("num:", num, '$scope.isNew', $scope.isNew);
+
         //   if (!$scope.isNew) {
-        //     console.log('$scope.model.USER_INPUT_ITEMS ', $scope.model.USER_INPUT_ITEMS); 
+        //     console.log('$scope.model.USER_INPUT_ITEMS ', $scope.model.USER_INPUT_ITEMS);
         //   }
         // }
       });
-    } );    
+    } );
   $scope.$on('model',function(el, dataModel){
       $scope.model = dataModel;
       // console.log('model in DP:', $scope.model);
@@ -114,7 +225,7 @@ angular.module('basic')
     });
 
   };
-  
+
   $scope.preview = function () {
     if ($scope.resultPreview) {
       $http.get('/api/jupyter/step6').success(function (data) {
@@ -123,11 +234,11 @@ angular.module('basic')
           openPreview.open($scope.resultPreview);
           Notification.success('Success!!!');
         }, 1000);
-        
+
       });
     }
   };
-  
+
   $scope.apply = function (newDataDel, newDataImputer, newDataScalar) {
       var dataDel = "", dataImputer = "", dataScalar = "";
       // "deleteCols='petal length (cm)'"
@@ -208,7 +319,7 @@ angular.module('basic')
             var jsonObj = [];
             for (var key in data.std) {
               var mini_histogram = data.mini_histogram[key];
-             
+
               if(mini_histogram){
                 mini_histogram = mini_histogram.replace(/[\\]/g, '');
               }
