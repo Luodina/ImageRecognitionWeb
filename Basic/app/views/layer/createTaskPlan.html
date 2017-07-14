@@ -3,9 +3,80 @@
   <span class="modal-header-close" ng-click="cancel()">X</span>
 </div>
 <div class="modal-body">
-  <div class="createTaskPlan" style="margin-top: 10px;">文件命令 <input type="text"></div>
-  <div class="createTaskPlan">文件名称 <input type="text"></div>
-  <div class="createTaskPlan">计划设置 </div>
+  <div class="createTaskPlan" style="margin-top: 10px;"><p class="diag_tit_set">文件命令</p><input type="text"></div>
+  <div class="createTaskPlan"><p class="diag_tit_set">文件名称</p><input type="text"></div>
+  <div class="createTaskPlan"><p class="diag_tit_set">计划设置</p>
+
+    <div class="data_bg header_area_select">
+      <div uib-dropdown="" on-toggle="toggled(open)" class="dropdown open">
+        <a href="javascript:void(0);" class="per_block dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="true">
+          <span class="header_per_tit ng-binding">每周</span>
+          <span class="xl_bg"></span>
+        </a>
+        <ul class="dropdown-menu zx_area_drop" uib-dropdown-menu="" aria-labelledby="user-menu">
+          <li class="zx_active" ng-click="gotomy()"><a href="javascript:void(0);"><span>不选</span></a></li>
+          <li class="zx_mange" ng-click="gotoorg()"><a href="javascript:void(0);"><span>每月</span></a></li>
+          <li class="zx_mange" ng-click="gotoorg()"><a href="javascript:void(0);"><span>每周</span></a></li>
+        </ul>
+
+      </div>
+    </div>
+
+    <div class="data_bg header_area_select head_week">
+      <div uib-dropdown="" on-toggle="toggled(open)" class="dropdown open">
+        <a href="javascript:void(0);" class="per_block dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="true">
+          <span class="header_per_tit ng-binding">每周</span>
+          <span class="xl_bg"></span>
+        </a>
+        <ul class="dropdown-menu zx_area_drop" uib-dropdown-menu="" aria-labelledby="user-menu">
+          <li class="zx_active" ng-click="gotomy()"><a href="javascript:void(0);"><span>不选</span></a></li>
+          <li class="zx_mange" ng-click="gotoorg()"><a href="javascript:void(0);"><span>每月</span></a></li>
+          <li class="zx_mange" ng-click="gotoorg()"><a href="javascript:void(0);"><span>每周</span></a></li>
+        </ul>
+
+      </div>
+    </div>
+
+    <div class="data_bg header_area_select head_hour">
+      <div uib-dropdown="" on-toggle="toggled(open)" class="dropdown open">
+        <a href="javascript:void(0);" class="per_block dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="true">
+          <span class="header_per_tit ng-binding">01</span>
+          <span class="xl_bg"></span>
+        </a>
+        <ul class="dropdown-menu zx_area_drop" uib-dropdown-menu="" aria-labelledby="user-menu">
+          <li class="zx_active" ng-click="gotomy()"><a href="javascript:void(0);"><span>00</span></a></li>
+          <li class="zx_mange" ng-click="gotoorg()"><a href="javascript:void(0);"><span>01</span></a></li>
+          <li class="zx_mange" ng-click="gotoorg()"><a href="javascript:void(0);"><span>02</span></a></li>
+        </ul>
+
+      </div>
+    </div>
+    <p class="block_cion">：</p>
+    <div class="data_bg header_area_select head_min">
+      <div uib-dropdown="" on-toggle="toggled(open)" class="dropdown open">
+        <a href="javascript:void(0);" class="per_block dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="true">
+          <span class="header_per_tit ng-binding">00</span>
+          <span class="xl_bg"></span>
+        </a>
+        <ul class="dropdown-menu zx_area_drop" uib-dropdown-menu="" aria-labelledby="user-menu">
+          <li class="zx_active" ng-click="gotomy()"><a href="javascript:void(0);"><span>00</span></a></li>
+          <li class="zx_mange" ng-click="gotoorg()"><a href="javascript:void(0);"><span>01</span></a></li>
+          <li class="zx_mange" ng-click="gotoorg()"><a href="javascript:void(0);"><span>02</span></a></li>
+        </ul>
+
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <div class="createTaskPlan pause_set" ng-class="{'active': grid.configChange}" ng-click="grid.configChange=!grid.configChange">
+        <i></i><p>pause schedule</p>
+  </div>
+  <div class="createTaskPlan email_set">
+    <p>邮件通知</p><input type="text">
+  </div>
 </div>
 <div class="modal-footer">
   <span class="modal-footer-btn" ng-click="save()">{{'web_common_015'| translate}}</span>

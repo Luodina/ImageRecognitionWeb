@@ -161,18 +161,156 @@ body .modal-body .modal-body-name {
   text-align: center;
   margin-left: 32%;
   margin-top: 30px;
+  border: solid 1px #333;
+  height: 30px;
 }
 
 body .modal-body .createTaskPlan {
   margin-top: 30px;
   font-size: 14px;
+  height: 30px;
   color: #999;
 }
 
 body .modal-body .createTaskPlan input {
-  width: 89%;
+  width: 80%;
   color: #333;
   border: solid 1px #eaeaea;
+  font-size: 14px;
+  padding: 5px 10px;
+  height: 30px;
+}
+
+body .modal-body .createTaskPlan .diag_tit_set {
+  width: 80px;
+  font-size: 14px;
+  color: #999;
+  float: left;
+  height: 30px;
+  line-height: 30px;
+}
+
+body .modal-body .createTaskPlan .header_area_select {
+  float: left;
+  width: 60px;
+  height: 30px;
+  line-height: 30px;
+  border: solid 1px #eaeaea;
+}
+
+body .modal-body .createTaskPlan .header_area_select .per_block {
+  padding: 5px 10px;
+  text-decoration: none;
+  color: #838383;
+}
+
+body .modal-body .createTaskPlan .header_area_select .per_block .xl_bg {
+  position: absolute;
+  right: 8px;
+  top: 9px;
+  width: 6px;
+  height: 6px;
+  border: solid #a7a7a7;
+  border-width: 1px 1px 0 0;
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
+  transition: all 0.3s;
+}
+
+body .modal-body .createTaskPlan .header_area_select .zx_area_drop {
+  width: 60px;
+  min-width: 60px;
+  top: 29px;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  border: 1px solid #eaeaea;
+  border-top: 0;
+  left: -1px;
+}
+
+body .modal-body .createTaskPlan .header_area_select .zx_area_drop li {
+  width: 58px;
+  text-align: center;
+  padding-left: 0;
+  border: 0;
+  color: #333;
+  font-size: 14px;
+}
+
+body .modal-body .createTaskPlan .header_area_select .zx_area_drop li a {
+  height: 24px !important;
+  line-height: 24px !important;
+  padding: 0;
+}
+
+body .modal-body .createTaskPlan .header_area_select .zx_area_drop li a span {
+  width: 58px;
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  overflow: hidden;
+  font-size: 12px;
+}
+
+body .modal-body .createTaskPlan .header_area_select .zx_area_drop li a:hover {
+  background: #ebf1fd;
+  color: #abc0ff;
+}
+
+body .modal-body .createTaskPlan .head_week, body .modal-body .createTaskPlan .head_hour {
+  margin-left: 20px;
+}
+
+body .modal-body .createTaskPlan .block_cion {
+  float: left;
+  margin-right: 10px;
+  margin-left: 10px;
+  line-height: 30px;
+}
+
+body .modal-body .pause_set {
+  margin-left: 82px;
+  height: 22px;
+  cursor: pointer;
+  width: 154px;
+}
+
+body .modal-body .pause_set i {
+  background: url(../../images/WechatIMG2.png) no-repeat;
+  width: 14px;
+  height: 14px;
+  display: block;
+  float: left;
+  margin-top: 4px;
+  margin-right: 10px;
+}
+
+body .modal-body .pause_set p {
+  float: left;
+  font-size: 14px;
+}
+
+body .modal-body .pause_set.active i {
+  background: url(../../images/WechatIMG1.png) no-repeat;
+}
+
+body .modal-body .email_set {
+  margin-left: 80px;
+}
+
+body .modal-body .email_set p {
+  float: left;
+  fon-size: 14px;
+  line-height: 30px;
+  margin-right: 15px;
+}
+
+body .modal-body .email_set input {
+  width: 78%;
 }
 
 body .modal-footer {
@@ -595,4 +733,10 @@ body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle
 
 body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle .btn .btnStep:active {
   background: #4874ff;
+}
+
+.header_area_select .open .xl_bg {
+  -webkit-transform: rotate(-45deg) !important;
+  transform: rotate(-45deg) !important;
+  top: 12px !important;
 }

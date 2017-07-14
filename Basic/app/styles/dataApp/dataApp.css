@@ -115,6 +115,7 @@ body .dataApp .dataLeft .dataStepUl .dataStepLi {
   height: 56px;
   line-height: 56px;
   position: relative;
+  cursor: pointer;
 }
 
 body .dataApp .dataLeft .dataStepUl .dataStepLi.active {
@@ -460,7 +461,6 @@ body .dataApp .dataRight .choreographyContent .choreographyPart .choreography .s
 
 .sider_zx {
   width: 54px !important;
-  transition: all 0.3s linear;
 }
 
 .sider_zx .dataStepLi.active {
