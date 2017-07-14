@@ -4,15 +4,10 @@
 
 "use strict";
 angular.module('basic')
-  .controller('AppFileCtrl',['createApp','$location','$filter','$scope','projectList','$http',
-  (createApp,$location,$filter,$scope,projectList,$http) => {
+  .controller('AppFileCtrl',['createApp','$location','$filter','$scope','projectList',
+  (createApp,$location,$filter,$scope,projectList) => {
     $scope.appName = $location.path().split(/[\s/]+/).pop();
-    console.log('/api/appFile/init')
-    $http.get('/api/appFile/init', {
-      params: {
-        "appName": $scope.appName
-      }
-    });
+
     $scope.listAllProject = [];
     let handleSuccess = data => {
       let listAllProject = data.model;
