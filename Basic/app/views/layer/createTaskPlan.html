@@ -7,16 +7,24 @@
   <div class="createTaskPlan"><p class="diag_tit_set">文件名称</p><input type="text"></div>
   <div class="createTaskPlan"><p class="diag_tit_set">计划设置</p>
 
-    <div class="data_bg header_area_select">
+    <div class="data_bg header_area_select head_main_set">
       <div uib-dropdown="" on-toggle="toggled(open)" class="dropdown open">
-        <a href="javascript:void(0);" class="per_block dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="true">
-          <span class="header_per_tit ng-binding">每周</span>
+        <a href="javascript:void(0);" class="per_block dropdown-toggle" uib-dropdown-toggle="">
+          <span class="header_per_tit">{{grids.changestatus}}</span>
           <span class="xl_bg"></span>
         </a>
+
+        <!--<a href="javascript:void(0);" class="service_block" uib-dropdown-toggle>-->
+    <!--<span style="color:#999;width:90px;display:block;margin:0 auto;position:relative;">{{grid.changestatus}}-->
+    <!--<b class="ser_bg_btn"></b></span>-->
+
+        <!--</a>-->
         <ul class="dropdown-menu zx_area_drop" uib-dropdown-menu="" aria-labelledby="user-menu">
-          <li class="zx_active" ng-click="gotomy()"><a href="javascript:void(0);"><span>不选</span></a></li>
-          <li class="zx_mange" ng-click="gotoorg()"><a href="javascript:void(0);"><span>每月</span></a></li>
-          <li class="zx_mange" ng-click="gotoorg()"><a href="javascript:void(0);"><span>每周</span></a></li>
+          <li class="zx_active" ng-repeat="name in grids.status" ng-click=grids.changestatus=name.name>
+            <a href="javascript:void(0);"><span ng-class="{colored:name.name===grids.changestatus}">{{name.name}}</span></a></li>
+          <!--<li class="zx_mange" ng-click="gotoorg()"><a href="javascript:void(0);"><span>每月</span></a></li>-->
+          <!--<li class="zx_mange" ng-click="gotoorg()"><a href="javascript:void(0);"><span>每周</span></a></li>-->
+
         </ul>
 
       </div>
@@ -25,13 +33,12 @@
     <div class="data_bg header_area_select head_week">
       <div uib-dropdown="" on-toggle="toggled(open)" class="dropdown open">
         <a href="javascript:void(0);" class="per_block dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="true">
-          <span class="header_per_tit ng-binding">每周</span>
+          <span class="header_per_tit">{{weeks.changestatus}}</span>
           <span class="xl_bg"></span>
         </a>
         <ul class="dropdown-menu zx_area_drop" uib-dropdown-menu="" aria-labelledby="user-menu">
-          <li class="zx_active" ng-click="gotomy()"><a href="javascript:void(0);"><span>不选</span></a></li>
-          <li class="zx_mange" ng-click="gotoorg()"><a href="javascript:void(0);"><span>每月</span></a></li>
-          <li class="zx_mange" ng-click="gotoorg()"><a href="javascript:void(0);"><span>每周</span></a></li>
+          <li class="zx_active" ng-repeat="name in weeks.status" ng-click=weeks.changestatus=name.name>
+            <a href="javascript:void(0);"><span ng-class="{colored:name.name===weeks.changestatus}">{{name.name}}</span></a></li>
         </ul>
 
       </div>
@@ -40,13 +47,13 @@
     <div class="data_bg header_area_select head_hour">
       <div uib-dropdown="" on-toggle="toggled(open)" class="dropdown open">
         <a href="javascript:void(0);" class="per_block dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="true">
-          <span class="header_per_tit ng-binding">01</span>
+          <span class="header_per_tit ng-binding">{{hours.changestatus}}</span>
           <span class="xl_bg"></span>
         </a>
         <ul class="dropdown-menu zx_area_drop" uib-dropdown-menu="" aria-labelledby="user-menu">
-          <li class="zx_active" ng-click="gotomy()"><a href="javascript:void(0);"><span>00</span></a></li>
-          <li class="zx_mange" ng-click="gotoorg()"><a href="javascript:void(0);"><span>01</span></a></li>
-          <li class="zx_mange" ng-click="gotoorg()"><a href="javascript:void(0);"><span>02</span></a></li>
+          <li class="zx_active" ng-repeat="name in hours.status" ng-click=hours.changestatus=name.name>
+            <a href="javascript:void(0);"><span ng-class="{colored:name.name===hours.changestatus}">{{name.name}}</span></a></li>
+
         </ul>
 
       </div>
@@ -55,13 +62,12 @@
     <div class="data_bg header_area_select head_min">
       <div uib-dropdown="" on-toggle="toggled(open)" class="dropdown open">
         <a href="javascript:void(0);" class="per_block dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="true">
-          <span class="header_per_tit ng-binding">00</span>
+          <span class="header_per_tit">{{minutes.changestatus}}</span>
           <span class="xl_bg"></span>
         </a>
         <ul class="dropdown-menu zx_area_drop" uib-dropdown-menu="" aria-labelledby="user-menu">
-          <li class="zx_active" ng-click="gotomy()"><a href="javascript:void(0);"><span>00</span></a></li>
-          <li class="zx_mange" ng-click="gotoorg()"><a href="javascript:void(0);"><span>01</span></a></li>
-          <li class="zx_mange" ng-click="gotoorg()"><a href="javascript:void(0);"><span>02</span></a></li>
+          <li class="zx_active" ng-repeat="name in minutes.status" ng-click=minutes.changestatus=name.name>
+            <a href="javascript:void(0);"><span ng-class="{colored:name.name===minutes.changestatus}">{{name.name}}</span></a></li>
         </ul>
 
       </div>
