@@ -164,16 +164,19 @@ angular.module('basic.services', ['ui.bootstrap'])
         size: 'size',
         controller: ['$cookies', '$scope', '$filter', '$uibModalInstance', '$http',
           function ($cookies, $scope, $filter, $uibModalInstance, $http) {
+
             //计划设置1
             $scope.grids = {
               changestatus:'每周',
               status:[{name:'不选'},{name:'每月'},{name:'每周'}]
             };
+
             //每周设置
             $scope.weeks = {
               changestatus:'周一',
               status:[{name:'周一'},{name:'周二'},{name:'周三'},{name:'周四'},{name:'周五'},{name:'周六'},{name:'周日'}]
             };
+            console.log("1111",$scope.weeks)
             //每月设置
             $scope.months = {
               changestatus:'1',
@@ -200,6 +203,37 @@ angular.module('basic.services', ['ui.bootstrap'])
                 ,{name:'51'},{name:'52'},{name:'53'},{name:'54'},{name:'55'},{name:'56'},{name:'57'},{name:'58'},{name:'59'}
               ]
             };
+
+            //初始值
+            $scope.grids.changestatus='不选';
+
+            $scope.isWeekOk=false;
+            $scope.isMonthOk=false;
+            $scope.$watch('grids.changestatus', function (n, o) {
+              if (n == o) {
+                return;
+              }
+              if (n === '不选') {
+                $scope.isWeekOk=false;
+                $scope.isMonthOk=false;
+              }
+              if (n === '每周') {
+                $scope.isWeekOk=true;
+                $scope.isMonthOk=false;
+              }
+
+              if (n === '每月') {
+                $scope.isWeekOk=false;
+                $scope.isMonthOk=true;
+              }
+
+
+
+            })
+
+
+
+
 
             $scope.cancel = function () {
               $uibModalInstance.dismiss();

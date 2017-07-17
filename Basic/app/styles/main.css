@@ -199,9 +199,11 @@ body .modal-body .createTaskPlan .header_area_select {
 }
 
 body .modal-body .createTaskPlan .header_area_select .per_block {
-  padding: 5px 10px;
+  padding: 0px 10px;
   text-decoration: none;
   color: #838383;
+  display: block;
+  width: 60px;
 }
 
 body .modal-body .createTaskPlan .header_area_select .per_block .xl_bg {
@@ -229,6 +231,9 @@ body .modal-body .createTaskPlan .header_area_select .zx_area_drop {
   border: 1px solid #eaeaea;
   border-top: 0;
   left: -1px;
+  max-height: 100px;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 body .modal-body .createTaskPlan .header_area_select .zx_area_drop li {
@@ -241,8 +246,8 @@ body .modal-body .createTaskPlan .header_area_select .zx_area_drop li {
 }
 
 body .modal-body .createTaskPlan .header_area_select .zx_area_drop li a {
-  height: 24px !important;
-  line-height: 24px !important;
+  height: 28px !important;
+  line-height: 28px !important;
   padding: 0;
 }
 
@@ -253,15 +258,26 @@ body .modal-body .createTaskPlan .header_area_select .zx_area_drop li a span {
   text-overflow: ellipsis;
   -o-text-overflow: ellipsis;
   overflow: hidden;
-  font-size: 12px;
+  font-size: 14px;
+  text-align: left;
+  text-indent: 11px;
+}
+
+body .modal-body .createTaskPlan .header_area_select .zx_area_drop li a span.colored {
+  color: #4874ff;
+  background: #ecf1ff;
 }
 
 body .modal-body .createTaskPlan .header_area_select .zx_area_drop li a:hover {
-  background: #ebf1fd;
-  color: #abc0ff;
+  background: #ecf1ff;
+  color: #4874ff;
 }
 
-body .modal-body .createTaskPlan .head_week, body .modal-body .createTaskPlan .head_hour {
+body .modal-body .createTaskPlan .head_main_set .zx_area_drop {
+  overflow: auto;
+}
+
+body .modal-body .createTaskPlan .head_week, body .modal-body .createTaskPlan .head_hour, body .modal-body .createTaskPlan .head_month {
   margin-left: 20px;
 }
 
