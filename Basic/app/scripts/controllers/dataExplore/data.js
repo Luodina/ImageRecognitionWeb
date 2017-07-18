@@ -7,6 +7,17 @@ angular.module('basic')
   .controller('DataCtrl',['$location', '$rootScope', '$scope','$http', '$filter','Upload', 'Notification', '$timeout','$window','openPreview',
     function ( $location, $rootScope, $scope, $http, $filter, Upload, Notification, $timeout,$window,openPreview) {
     $scope.tab=0;
+      //左边导航自动变化
+      var left_by_block = function(){
+        var thisheight = $(window).height()-$(".header").height();
+        $('.exploreModelLeft').height(thisheight);
+      };
+      $(window).resize(function(){
+        left_by_block();
+      });
+      $(function(){
+        left_by_block();
+      });
     $scope.init = function(){
       var modelName = $location.path().split(/[\s/]+/).pop();
       $location.path().split(/[\s/]+/).lastIndexOf('new');
