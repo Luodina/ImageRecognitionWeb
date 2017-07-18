@@ -62,7 +62,7 @@ body {
     }
     .dataRight {
       padding: 0;
-      margin: 0;
+      margin: 0;vertical-align: top;
       .previewContent {
         margin: 0;
         padding: 0 30px;
@@ -123,26 +123,27 @@ body {
       }
       .fileContent {
         margin: 0;
-        padding: 0 30px;
+        padding: 0 20px;
         min-height: 600px;
         .filePart {
           .file {
             .title {
               margin-top: 40px;
               font-size: 20px;
-              color: #333;
+              color: #333;margin-left:18px;
             }
             .content {
               margin-top: 30px;
               padding: 0;
               list-style: none;
               li {
-                margin-right: 45px;
+
                 float: left;
-                width: 238px;
+                width: 25%;
                 height: 298px;
-                border: solid 1px #eaeaea;
-                border-radius: 2px;margin-bottom:16px;
+                border-radius: 2px;margin-bottom:20px;padding:0 15px;
+                .app_set_main{
+                  border: solid 1px #eaeaea;height:296px;
                 .header {
                   height: 70px;
 
@@ -219,7 +220,11 @@ body {
               }
 
             }
+              li.newModel{height:298px;margin-bottom:20px;
+                .app_set_main{border:1px solid #eaeaea;}
+              }
 
+            }
           }
 
         }
@@ -455,6 +460,10 @@ body {
 .sider_zx  li:hover .num_detail{left:164px;
   display: block!important;}
 .sider_zx .side_tit{display:none!important;}
+
+@media (min-width: 1800px) {
+  .dataApp .dataRight .content li{width:20%!important;}
+}
 
 
 

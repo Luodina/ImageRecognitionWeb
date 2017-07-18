@@ -15,6 +15,7 @@
           <i ng-click="newProject($index)"> + </i>
         </uib-tab-heading>
         <div class="dataExplore-container-main" ng-repeat="item in listAllProject[$index]" ui-sref="data({mode:item.mode, name: item.MODEL_NAME})">
+          <div class="date_set_main">
           <div class="main_header_data">{{item.MODEL_NAME}}</div>
           <div class="main_container_data">
             <table style="width: 100%;">
@@ -25,6 +26,7 @@
             </table>
           </div>
           <div class="main_footer_data">{{item.COMMENT}}</div>
+        </div>
         </div>
       </uib-tab>
     </uib-tabset>

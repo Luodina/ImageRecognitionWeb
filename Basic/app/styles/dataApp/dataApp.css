@@ -159,6 +159,7 @@ body .dataApp .dataLeft .dataStepUl .dataStepLi .num_detail:before {
 body .dataApp .dataRight {
   padding: 0;
   margin: 0;
+  vertical-align: top;
 }
 
 body .dataApp .dataRight .previewContent {
@@ -228,7 +229,7 @@ body .dataApp .dataRight .previewContent .previewPart .preview .waring {
 
 body .dataApp .dataRight .fileContent {
   margin: 0;
-  padding: 0 30px;
+  padding: 0 20px;
   min-height: 600px;
 }
 
@@ -236,6 +237,7 @@ body .dataApp .dataRight .fileContent .filePart .file .title {
   margin-top: 40px;
   font-size: 20px;
   color: #333;
+  margin-left: 18px;
 }
 
 body .dataApp .dataRight .fileContent .filePart .file .content {
@@ -245,16 +247,20 @@ body .dataApp .dataRight .fileContent .filePart .file .content {
 }
 
 body .dataApp .dataRight .fileContent .filePart .file .content li {
-  margin-right: 45px;
   float: left;
-  width: 238px;
+  width: 25%;
   height: 298px;
-  border: solid 1px #eaeaea;
   border-radius: 2px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  padding: 0 15px;
 }
 
-body .dataApp .dataRight .fileContent .filePart .file .content li .header {
+body .dataApp .dataRight .fileContent .filePart .file .content li .app_set_main {
+  border: solid 1px #eaeaea;
+  height: 296px;
+}
+
+body .dataApp .dataRight .fileContent .filePart .file .content li .app_set_main .header {
   height: 70px;
   line-height: 70px;
   font-size: 16px;
@@ -262,33 +268,33 @@ body .dataApp .dataRight .fileContent .filePart .file .content li .header {
   background: #f4f4f4;
 }
 
-body .dataApp .dataRight .fileContent .filePart .file .content li .body {
+body .dataApp .dataRight .fileContent .filePart .file .content li .app_set_main .body {
   height: 170px;
   padding-left: 20px;
   padding-top: 20px;
   color: #333;
 }
 
-body .dataApp .dataRight .fileContent .filePart .file .content li .footer {
+body .dataApp .dataRight .fileContent .filePart .file .content li .app_set_main .footer {
   border-top: solid 1px #f2f2f2;
   height: 59px;
   padding-left: 20px;
   line-height: 59px;
 }
 
-body .dataApp .dataRight .fileContent .filePart .file .content li .footer:hover {
+body .dataApp .dataRight .fileContent .filePart .file .content li .app_set_main .footer:hover {
   color: #4874ff;
 }
 
-body .dataApp .dataRight .fileContent .filePart .file .content li:hover {
+body .dataApp .dataRight .fileContent .filePart .file .content li li:hover {
   border: solid 1px #4874ff;
 }
 
-body .dataApp .dataRight .fileContent .filePart .file .content .newModel {
+body .dataApp .dataRight .fileContent .filePart .file .content li .newModel {
   position: relative;
 }
 
-body .dataApp .dataRight .fileContent .filePart .file .content .newModel .model {
+body .dataApp .dataRight .fileContent .filePart .file .content li .newModel .model {
   width: 10px;
   height: 10px;
   position: absolute;
@@ -297,6 +303,15 @@ body .dataApp .dataRight .fileContent .filePart .file .content .newModel .model 
   left: 0;
   right: 0;
   margin: 0 auto;
+}
+
+body .dataApp .dataRight .fileContent .filePart .file .content li.newModel {
+  height: 298px;
+  margin-bottom: 20px;
+}
+
+body .dataApp .dataRight .fileContent .filePart .file .content li.newModel .app_set_main {
+  border: 1px solid #eaeaea;
 }
 
 body .dataApp .dataRight .resultContent {
@@ -474,4 +489,10 @@ body .dataApp .dataRight .choreographyContent .choreographyPart .choreography .s
 
 .sider_zx .side_tit {
   display: none !important;
+}
+
+@media (min-width: 1800px) {
+  .dataApp .dataRight .content li {
+    width: 20% !important;
+  }
 }
