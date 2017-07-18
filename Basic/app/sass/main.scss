@@ -13,6 +13,34 @@ a{-webkit-touch-callout:none;-webkit-user-select:none;text-decoration:none}
 table{border-collapse: collapse;border-spacing: 0;}
 input{ border:none;}
 input:focus,textarea:focus{outline:0}
+
+//数据应用大标题添加按钮
+.addBgPic{
+  display: inline-block;
+  height: 14px;
+  width:14px;
+  cursor: pointer;
+  background: url("../images/add_bg_btn.png") no-repeat;
+}
+//数据探索小标题添加按钮
+.addSmPic{
+  display: inline-block;
+  height: 13px;
+  width:13px;
+  cursor: pointer;
+  background: url("../images/add_sm_btn.png") no-repeat;
+}
+//弹出窗口关闭按钮
+.closeModelBtn{
+  display: inline-block;
+  height: 19px;
+  width: 18px;
+  vertical-align: middle;
+  cursor: pointer;
+  background: url("../images/btn_close.png") no-repeat;margin-top:6px;
+}
+
+
 body {
   padding: 0;
   margin: 0;
@@ -90,7 +118,7 @@ body {
       text-align: center;
       margin-left: 32%;
       margin-top: 30px;
-      border: solid 1px #333;
+      border: solid 1px #eaeaea;
       height: 30px;
 
     }
