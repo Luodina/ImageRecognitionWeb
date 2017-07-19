@@ -168,7 +168,7 @@ angular.module('basic.services', ['ui.bootstrap'])
             //计划设置1
             $scope.grids = {
               changestatus:'每周',
-              status:[{name:'不选'},{name:'每月'},{name:'每周'}]
+              status:[{name:'每天'},{name:'每月'},{name:'每周'}]
             };
 
             //每周设置
@@ -205,7 +205,7 @@ angular.module('basic.services', ['ui.bootstrap'])
             };
 
             //初始值
-            $scope.grids.changestatus='不选';
+            $scope.grids.changestatus='每天';
 
             $scope.isWeekOk=false;
             $scope.isMonthOk=false;
@@ -213,7 +213,7 @@ angular.module('basic.services', ['ui.bootstrap'])
               if (n == o) {
                 return;
               }
-              if (n === '不选') {
+              if (n === '每天') {
                 $scope.isWeekOk=false;
                 $scope.isMonthOk=false;
               }
