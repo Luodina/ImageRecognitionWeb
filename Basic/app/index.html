@@ -43,16 +43,18 @@
   <div class="navbar navbar-default navbar-au">
     <div class="container-fluid">
       <!--<div class="col-md-offset-1 col-md-10">-->
-        <div class="navbar-header">
-          <img src="./images/logo.png" style="height: 50px;" alt="basic" title="basic">
+        <div class="navbar-header" style="width:54px;height: 52px;cursor: pointer;">
+          <a href="home" ui-sref="home" >
+          <img src="./images/logo.jpg" style="width:54px;height: 52px;cursor:pointer" alt="Aura" title="Aura">
+          </a>
         </div>
         <div class="collapse navbar-collapse navbar-head" id="js-navbar-collapse">
           <div class="nav navbar-nav navbar-left nav-top" id="navbar-nav">
-            <a ui-sref="home">{{'web_common_001' | translate}}</a>
-            <a ui-sref="dataExplore">{{'web_common_002' | translate}}</a>
-            <a ui-sref="taskSchedule" ui-sref-active="active">{{'web_common_003' | translate}}</a>
-            <a ui-sref="knowledgeMap" ui-sref-active="active">{{'web_common_004' | translate}}</a>
-            <a ui-sref="settings" ui-sref-active="active">{{'web_common_005' | translate}}</a>
+            <a ui-sref-active="active" ui-sref="home">{{'web_common_001' | translate}}</a>
+            <a  ng-class="{true: 'active'}[active == 'dataExplore']" ui-sref="dataExplore">{{'web_common_002' | translate}}</a>
+            <a  ng-class="{true: 'active'}[active == 'taskSchedule']" ui-sref="taskSchedule" >{{'web_common_003' | translate}}</a>
+            <a  ng-class="{'active':knowledgeMap}" ui-sref="knowledgeMap">{{'web_common_004' | translate}}</a>
+            <a  ng-class="{'active':settings}" ui-sref="settings">{{'web_common_005' | translate}}</a>
           </div>
         </div>
       <!--</div>-->

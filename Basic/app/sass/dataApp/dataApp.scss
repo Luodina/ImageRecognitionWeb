@@ -223,8 +223,9 @@ body {
 
             }
               li.newModel{height:298px;margin-bottom:20px;
-                .app_set_main{border:1px solid #eaeaea;
-
+                .app_set_main{border:1px solid #eaeaea;position:relative;
+                    .add_btn{ background: url("../../images/add_btn.png") no-repeat;width:40px;height:40px;position:absolute;top:50%;left:50%;
+                    margin-left:-20px;margin-top:-20px;cursor: pointer}
                 }
               }
 
