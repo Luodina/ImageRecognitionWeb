@@ -8,7 +8,7 @@
 4. [jupyter 开发环境配置]
     （1）安装用户科学计算的Anaconda安装包，软件下载可以在清华镜像： https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/
         不同操作系统请选择适配的安装文件，请选择支持python2的按照包：Anaconda2*
-    （2）在命令行下执行jupter notebook  --generate-config，默认在用户目录下生成.jupyter/jupyter_notebook_config.py
+    （2）在命令行下执行jupyter notebook  --generate-config，默认在用户目录下生成.jupyter/jupyter_notebook_config.py
      (3) 打开jupyter_notebook_config.py文件，修改48行为：c.NotebookApp.allow_origin = '*'
         ## The IP address the notebook server will listen on.
         c.NotebookApp.ip = '127.0.0.1'

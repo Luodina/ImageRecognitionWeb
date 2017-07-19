@@ -18,8 +18,9 @@ angular.module('basic')
       $scope.model = dataModel.model;
       $scope.notebook = dataModel.notebook;
       $scope.mode = dataModel.mode;
-      if ($scope.mode !== 'new'){
+      if ($scope.mode !== 'new'&& $scope.notebook.outputs){
         //1.get highCorr
+        console.log("$scope.notebook.outputs.length---------------->",$scope.notebook.outputs.length)
         var highCorrRes = $scope.notebook.outputs[2];
         if(highCorrRes){
           var data =highCorrRes["text/plain"][0]=="'"?highCorrRes["text/plain"]:highCorrRes["text/plain"][0];
@@ -28,7 +29,14 @@ angular.module('basic')
             $scope.dataHighCorr = JSON.parse(data).highCorr;
           }
           //which one checked  "deleteCols="petal width (cm)"
-          var highCorrSource=$scope.notebook.sources[3][1];
+          //var highCorrSource=$scope.notebook.sources[3][1];
+          var highCorrSource=null;
+          if(typeof($scope.notebook.sources[3])=='string'){
+            var arr = $scope.notebook.sources[3].split("\n")
+            highCorrSource = arr[1]
+          }else{
+            highCorrSource = $scope.notebook.sources[5][4];
+          }
           var corrChecked =highCorrSource.substring(12,highCorrSource.length-2).split(",");
           if($scope.dataHighCorr){
             for(var i =0;i<$scope.dataHighCorr.length;i++){
@@ -63,9 +71,16 @@ angular.module('basic')
             document.getElementById("divImputer").style.display = "block";
           }
           //imputer check   col_input={'petal length (cm)':'mean','sepal length (cm)':'median','sepal width (cm)':'min'}
-          var imputerSource=$scope.notebook.sources[5][4];
-          var imputerChecked =imputerSource.substring(10,imputerSource.length-1);
+          var imputerSource=null;
+          if(typeof($scope.notebook.sources[5])=='string'){
+            var arr = $scope.notebook.sources[5].split("\n")
+            imputerSource = arr[4]
+          }else{
+            imputerSource = $scope.notebook.sources[5][4];
+          }
+          var imputerChecked =imputerSource.substring(10,imputerSource.length);
           var imputerJson = eval('('+imputerChecked+')');
+          //var imputerJson = JSON.parse(imputerChecked);
           if($scope.dataImputer){
             for(var i =0;i<$scope.dataImputer.length;i++){
               var varName = $scope.dataImputer[i].varName;
@@ -105,9 +120,17 @@ angular.module('basic')
           console.log("$scope.dataScalar------------>", $scope.dataScalar)
 
           //scalar check col_input ={'Unnamed: 0':'Standarded','petal length (cm)':'Robust','sepal length (cm)':'MaxAbs','sepal width (cm)':'Standarded'}
-          var scalarSource=$scope.notebook.sources[7][1];
-          var scalarChecked =scalarSource.substring(11,scalarSource.length-1);
+          var scalarSource=null;
+          if(typeof($scope.notebook.sources[7])=='string'){
+            var arr = $scope.notebook.sources[7].split("\n");
+            scalarSource = arr[1];
+          }else {
+            scalarSource =$scope.notebook.sources[7][1];
+          }
+          console.log("-------scalarSource",scalarSource)
+          var scalarChecked =scalarSource.substring(11,scalarSource.length);
           var scalarJson = eval('('+scalarChecked+')');
+          //var scalarJson = JSON.parse(scalarChecked);
           if($scope.dataScalar){
             for(var i =0;i<$scope.dataScalar.length;i++){
               var varName = $scope.dataScalar[i].varName;

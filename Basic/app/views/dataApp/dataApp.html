@@ -1,6 +1,6 @@
 <div style="padding: 0 30px">
   <div class="dataExplore-header">
-    <span class="dataExplore-header-left">{{'web_common_001'| translate}} <i ng-click="newApp()" style="color: green;"> + </i></span>
+    <span class="dataExplore-header-left">{{'web_common_001'| translate}} <i ng-click="newApp()"class="addBgPic" ></i></span>
       <span class="dataExplore-header-right">
         <img src="./images/search.png" alt="搜索">
         <input type="text" placeholder="{{'web_common_data_app_01'| translate}}">
@@ -15,12 +15,14 @@
         </uib-tab-heading>
         <div class="dataExplore-container-main" ng-repeat="item in listAllApp[$index]"
              ui-sref="appInfo({mode: item.mode, name: item.APP_NAME})">
+          <div class="date_set_main">
           <div class="main_header_data">{{item.APP_NAME}}</div>
           <div class="main_container_data">
             <!--<div class="contentone" ng-repeat="(key, contentitem) in item.content">{{key}} : {{contentitem}}</div>-->
           </div>
           <div class="main_footer_data">{{item.COMMENT}}</div>
         </div>
+          </div>
       </uib-tab>
     </uib-tabset>
   </div>

@@ -28,7 +28,6 @@ angular.module('basic')
       appList.get({}, function (res) {
         console.log('appList',res);
         handleSuccess(res);
-
       });
     $scope.newApp = function () {
       createModel.open({'title': 'web_common_data_app_layer_01', 'content':'web_common_data_app_layer_02'}, 'appInfo');

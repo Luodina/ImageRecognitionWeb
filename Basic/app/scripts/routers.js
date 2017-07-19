@@ -27,7 +27,7 @@ angular.module('basic.routers', ['ui.router'])
       {
         name: 'data',
         url: '/data/{mode}/{name}',
-        templateUrl: 'views/dataExplore/data.html', 
+        templateUrl: 'views/dataExplore/data.html',
         controller: 'DataCtrl'
       },
       {
@@ -42,9 +42,9 @@ angular.module('basic.routers', ['ui.router'])
         templateUrl: 'views/dashboard.html',
         controller: 'DashboardCtrl'
       },
-      { 
+      {
         name: 'console.settings',
-        url: '/settings', 
+        url: '/settings',
         templateUrl: 'views/settings.html',
         controller: 'SettingsCtrl'}
     ];

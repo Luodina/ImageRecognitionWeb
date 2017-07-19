@@ -1,4 +1,3 @@
-//
 'use strict';
 let sequelize = require('../sequelize');
 let Sequelize = require('sequelize');

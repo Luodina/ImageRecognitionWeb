@@ -1,7 +1,7 @@
 'use strict';
 angular.module('basic')
-  .controller('DataExploreCtrl',['createModel','$rootScope','$scope','$filter','projectList',
-    (createModel, $rootScope, $scope, $filter, projectList) => {
+  .controller('DataExploreCtrl',['createModel','$rootScope','$scope','$filter','projectList','createExpertModule',
+    (createModel, $rootScope, $scope, $filter, projectList,createExpertModule) => {
     $scope.projectType= ['modelType_00', 'modelType_01', 'modelType_02', 'modelType_03','modelType_04', 'modelType_05','modelType_06'];
     $scope.listAllProject=[[]];
     let handleSuccess = (data, status)=> {
@@ -19,7 +19,7 @@ angular.module('basic')
               if ($scope.listAllProject[parseInt(model.VIEW_MENU_ID)] === undefined){
                 $scope.listAllProject[parseInt(model.VIEW_MENU_ID)]=[];
               }
-              if (model.MODEL_INFO !== null && model.MODEL_INFO !== undefined ){    
+              if (model.MODEL_INFO !== null && model.MODEL_INFO !== undefined ){
                 let objJSON = eval("(function(){return " + model.MODEL_INFO + ";})()");
                 model.MODEL_INFO = Object.values(objJSON);
               }
@@ -47,7 +47,9 @@ angular.module('basic')
         {'title':'modelType_06','content':'modelType_06'}
       ];
       var arr2 = ['test','data','test','test','test','test','notebook'];
-      createModel.open(arr[index],arr2[index])
+      createModel.open(arr[index],arr2[index]).then(function (name) {
+        createExpertModule.open(name);
+      });
     };
 }]);
 
