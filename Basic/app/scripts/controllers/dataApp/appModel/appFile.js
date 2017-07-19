@@ -4,8 +4,8 @@
 
 "use strict";
 angular.module('basic')
-  .controller('AppFileCtrl',['createApp','$location','$filter','$scope','projectList',
-  (createApp,$location,$filter,$scope,projectList) => {
+  .controller('AppFileCtrl',['createAppModel','$location','$filter','$scope','projectList',
+  (createAppModel,$location,$filter,$scope,projectList) => {
     $scope.appName = $location.path().split(/[\s/]+/).pop();
 
     $scope.listAllProject = [];
@@ -24,7 +24,7 @@ angular.module('basic')
 
     projectList.get({}, function (res) {handleSuccess(res);});
     $scope.createModel = () => {
-      createApp.open();
+      createAppModel.open();
     };
   }])
   .directive('file', () => {

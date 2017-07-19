@@ -4,44 +4,85 @@
 'use strict';
 angular.module('basic.services', ['ui.bootstrap'])
   .service('createModel', ['$uibModal', function ($uibModal) {
-    this.open = function (obj,idx) {
+    this.open = function (type, index) {
       return $uibModal.open({
         backdrop: 'static',
         templateUrl: 'views/layer/createModel.html',
         size: 'size',
         controller: ['$cookies', '$scope', '$filter', '$uibModalInstance', '$http',
           function ($cookies, $scope, $filter, $uibModalInstance, $http) {
-            
-            $scope.title = $filter('translate')(obj.title);
-            $scope.content = $filter('translate')(obj.content);
-            $scope.url = idx;
-            console.log('222222',idx);
-            if(idx ==='notebook'){
-              $scope.UISref = false;
-            }else{
-              $scope.UISref = true;
-            }
-            $scope.userName = $cookies.get("username");
-            let menuType='app';
-            $scope.go = function () {
-              // if($scope.model.name !== undefined && $scope.model.name !== null) {
-              //   //check in DB APP
-              //   console.log("here!!!:", '/api/' & menuType & '/' & $scope.model.name);
-              //   $http.get('/api/' & menuType & '/' & $scope.model.name).success(function(data){
-              //       console.log("Check App in DB:", data.result);
-              //   });
-              // };
-              $uibModalInstance.dismiss();
-            };
+            $scope.title = $filter('translate')('modelType_0'+index);
+            $scope.content = $filter('translate')('modelType_0'+index);
+
+            // $scope.title = $filter('translate')(obj.title);
+            // $scope.content = $filter('translate')(obj.content);
+            // $scope.url = idx;
+            // console.log('222222',idx);
+            // if(idx ==='notebook'){
+            //   $scope.UISref = false;
+            // }else{
+            //   $scope.UISref = true;
+            // }
+            // $scope.userName = $cookies.get("username");
+            // let menuType='app';
+
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
             }
             $scope.create = function () {
               if(!$scope.UISref){
-                $uibModalInstance.close($scope.model.name)
+                $uibModalInstance.close($scope.model.name);
               }else{
                 $uibModalInstance.dismiss();
               }
+            }
+          }]
+      }).result;
+    };
+  }])
+  .service('createApp', ['$uibModal', function ($uibModal) {
+    this.open = () => {
+      return $uibModal.open({
+        backdrop: 'static',
+        templateUrl: 'views/layer/createModel.html',
+        size: 'size',
+        controller: [ '$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', '$http',
+          ($rootScope, $location, $scope, $filter, $uibModalInstance, $http) => {           
+            $scope.title = 'Title';//$filter('translate')(obj.title)
+            $scope.content = 'Content';//$filter('translate')(obj.content);
+            $scope.url = 'app';
+            $scope.cancel = function () {
+              $uibModalInstance.dismiss();
+            };
+            
+            $scope.create = function () {                         
+              if($scope.model.name !== undefined && $scope.model.name !== null) {
+                //check in DB APP   
+                            
+                $http.get('/api/app/' + $scope.model.name).success((data) => {
+                    console.log('Check App in DB:', data);
+                    if (data.result !== null){                                            
+                      $scope.model.name = '';  
+                      $scope.model.nameTip = 'Warning!'; 
+                    } else {
+                      console.log('Check App in DB:', $scope.model.name);
+                      $http.get('/api/appFile/'+$scope.model.name).success((data) => {
+                        if (data.result = 'success'){
+                          console.log('2222:', $scope.model.name);
+                          $http.post('/api/app/' + $scope.model.name, 
+                            { APP_NAME: $scope.model.name, USER_NAME: $rootScope.getUsername()})
+                            .success((data) => {
+                              console.log('$scope.model.name :', $scope.model.name );
+                              $location.path('/app/new/'+$scope.model.name);
+                              $uibModalInstance.dismiss();
+                            })
+                        }
+
+                      })
+                      .catch(err=>{console.log(err)});                     
+                    }                    
+                });
+              };                       
             }
           }]
       }).result;
@@ -63,19 +104,18 @@ angular.module('basic.services', ['ui.bootstrap'])
                 let savaData = {
                   MODEL_NAME: $location.path().split(/[\s/]+/).pop(),
                   MODEL_INFO: data.modelInfo,
-                  USER_ID: $cookies.get("username"),
-                  TYPE_MENU_ID: "01",
-                  VIEW_MENU_ID: "01",
+                  USER_ID: $cookies.get('username'),
+                  TYPE_MENU_ID: '01',
+                  VIEW_MENU_ID: '01',
                   UPDATED_TIME: date.getTime(),
                   FILE_PATH: data.dataFileName,
                   NOTEBOOK_PATH: data.notebookPath,
                   COMMENT: 'Lets try it!',
                 }
-                console.log("Data to DB savaData:", savaData);
                 $http.post('/api/model/new', savaData).success(function (data) {
-                  console.log("DataProcessingCtrl save:", data.msg);
+                  console.log('DataProcessingCtrl save:', data.msg);
                 });
-                $location.path("/explore");
+                $location.path('/explore');
               });
               $uibModalInstance.dismiss();
             };
@@ -86,7 +126,7 @@ angular.module('basic.services', ['ui.bootstrap'])
       }).result;
     };
   }])
-  .service('createApp', ['$uibModal', function ($uibModal) {
+  .service('createAppModel', ['$uibModal', function ($uibModal) {
     this.open = function (obj,pic,idx) {
       return $uibModal.open({
         backdrop: 'static',
@@ -136,33 +176,33 @@ angular.module('basic.services', ['ui.bootstrap'])
               targetModelOptions: targetNameList,
               prereqModelOptions: [[]],
             };
-            $scope.makePrereqOptions = target => {
-              $scope.data.prereqModel = [];
-              $scope.data.prereqModelOptions =[[]];
-              opts = makeOptions(modelNameList, [target]);
-              $scope.data.prereqModelOptions[0] = opts;
-            }
             function makeOptions(tmp, prereqModelTmp){
               return tmp.filter( option => {
                 return !prereqModelTmp.includes(option);
               } );
             }
+            $scope.makePrereqOptions = target => {
+              $scope.data.prereqModel = [];
+              $scope.data.prereqModelOptions =[[]];
+              opts = makeOptions(modelNameList, [target]);
+              $scope.data.prereqModelOptions[0] = opts;
+            };
             $scope.action = index => {
               let vartmp = $scope.data.prereqModelOptions;
               if (index === $scope.data.prereqModelOptions.length - 1 && $scope.data.prereqModelOptions.length !== modelNameList.length-1) {                
-                let tmp = makeOptions(opts, Object.values($scope.data.prereqModel))
+                let tmp = makeOptions(opts, Object.values($scope.data.prereqModel));
                 $scope.data.prereqModelOptions[index+1] = tmp;
               }else {
                 $scope.data.prereqModelOptions.splice(index,1);
                 $scope.data.prereqModelOptions.map(arr => { 
-                  if (!arr.includes($scope.data.prereqModel[index])) {arr.push($scope.data.prereqModel[index])}
+                  if (!arr.includes($scope.data.prereqModel[index])) {arr.push($scope.data.prereqModel[index]);}
                 });
                 $scope.data.prereqModel.splice(index,1);
               }
-            }
+            };
             $scope.cancel = () => {
               $uibModalInstance.dismiss();
-            }
+            };
             $scope.save = () => {
               let savaData = {
                     MAKEFILE_ID: $scope.makeFileName,
@@ -172,10 +212,10 @@ angular.module('basic.services', ['ui.bootstrap'])
                     PREREQUISITES: Object.values($scope.data.prereqModel).join(' ')
                   };
               $http.post('/api/appMakeFile/new', savaData).success((data)=> {
-                console.log("MAKEFILE save:", data.msg);
+                console.log('MAKEFILE save:', data.msg);
                 $uibModalInstance.close(data.msg);
               });
-            }
+            };
           }]
       })
       .result;
@@ -201,7 +241,7 @@ angular.module('basic.services', ['ui.bootstrap'])
               changestatus:'周一',
               status:[{name:'周一'},{name:'周二'},{name:'周三'},{name:'周四'},{name:'周五'},{name:'周六'},{name:'周日'}]
             };
-            console.log("1111",$scope.weeks)
+            console.log('1111',$scope.weeks);
             //每月设置
             $scope.months = {
               changestatus:'1',
@@ -231,11 +271,10 @@ angular.module('basic.services', ['ui.bootstrap'])
 
             //初始值
             $scope.grids.changestatus='每天';
-
             $scope.isWeekOk=false;
             $scope.isMonthOk=false;
             $scope.$watch('grids.changestatus', function (n, o) {
-              if (n == o) {
+              if (n === o) {
                 return;
               }
               if (n === '每天') {
@@ -246,23 +285,14 @@ angular.module('basic.services', ['ui.bootstrap'])
                 $scope.isWeekOk=true;
                 $scope.isMonthOk=false;
               }
-
               if (n === '每月') {
                 $scope.isWeekOk=false;
                 $scope.isMonthOk=true;
               }
-
-
-
-            })
-
-
-
-
-
+            });
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
-            }
+            };
             $scope.save = function () {
               $uibModalInstance.dismiss();
             }
@@ -281,7 +311,7 @@ angular.module('basic.services', ['ui.bootstrap'])
           function ($cookies, $scope, $filter, $uibModalInstance, $http,$location,$sce) {
 
             $scope.notebookPath = '';
-            var ipyPath = '';
+            let ipyPath = '';
             $scope.init = function () {
 
               $http.get('/api/expert/pathNoteBook', {
@@ -293,8 +323,8 @@ angular.module('basic.services', ['ui.bootstrap'])
                 ipyPath = response.data.jpyPath;
                 $scope.notebookPath = $sce.trustAsResourceUrl(ipyPath);
                 // $http.get('/api/jupyter/save').success(function (data) {
-                var date = new Date();
-                var savaData = {
+                let date = new Date();
+                let savaData = {
                   MODEL_NAME: $location.path().split(/[\s/]+/).pop(),
                   USER_ID: $cookies.get("username"),
                   TYPE_MENU_ID: "01",

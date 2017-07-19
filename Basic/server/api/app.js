@@ -29,4 +29,19 @@ router.get('/:appName', function(req, res){
   }
 });
 
+router.post('/:appName', function(req, res){
+    let appName = req.body.APP_NAME;
+    let userName = req.body.USER_NAME;
+    console.log("appName",appName);
+    sequelize.transaction(t => {
+        return App.create({
+            APP_ID: t.id, 
+            APP_NAME: appName,
+            USER_NAME: userName, 
+            isNewRecord:true})
+            .then(() => {res.send({ msg:"Success!!!!" });})
+            .catch(err =>{console.log( "err",err );});
+    }) 
+});
+
 module.exports = router; 
