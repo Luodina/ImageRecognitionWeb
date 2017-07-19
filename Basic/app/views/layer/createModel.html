@@ -7,6 +7,12 @@
   <input class="modal-body-name" ng-model='model.name'>
 </div>
 <div class="modal-footer">
-  <span class="modal-footer-btn" ui-sref="{{url}}({mode: 'new', name: model.name})" ng-click="cancel()">{{'web_common_015'| translate}}</span>
+  <button class="modal-footer-btn" 
+        ui-sref="{{url}}({mode: 'new', name: model.name})" 
+        ng-click="cancel()"
+        ng-disabled="!(model.name !== undefined && model.name !== null)"
+        >
+    {{'web_common_015'| translate}}
+    </button>
 </div>
 
