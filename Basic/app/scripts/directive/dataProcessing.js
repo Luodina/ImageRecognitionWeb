@@ -18,8 +18,9 @@ angular.module('basic')
       $scope.model = dataModel.model;
       $scope.notebook = dataModel.notebook;
       $scope.mode = dataModel.mode;
-      if ($scope.mode !== 'new'){
+      if ($scope.mode !== 'new'&& $scope.notebook.outputs){
         //1.get highCorr
+        console.log("$scope.notebook.outputs.length---------------->",$scope.notebook.outputs.length)
         var highCorrRes = $scope.notebook.outputs[2];
         if(highCorrRes){
           var data =highCorrRes["text/plain"][0]=="'"?highCorrRes["text/plain"]:highCorrRes["text/plain"][0];
@@ -28,7 +29,14 @@ angular.module('basic')
             $scope.dataHighCorr = JSON.parse(data).highCorr;
           }
           //which one checked  "deleteCols="petal width (cm)"
-          var highCorrSource=$scope.notebook.sources[3][1];
+          //var highCorrSource=$scope.notebook.sources[3][1];
+          var highCorrSource=null;
+          if(typeof($scope.notebook.sources[3])=='string'){
+            var arr = $scope.notebook.sources[3].split("\n")
+            highCorrSource = arr[1]
+          }else{
+            highCorrSource = $scope.notebook.sources[5][4];
+          }
           var corrChecked =highCorrSource.substring(12,highCorrSource.length-2).split(",");
           if($scope.dataHighCorr){
             for(var i =0;i<$scope.dataHighCorr.length;i++){
@@ -68,7 +76,7 @@ angular.module('basic')
             var arr = $scope.notebook.sources[5].split("\n")
             imputerSource = arr[4]
           }else{
-            $scope.notebook.sources[5][4];
+            imputerSource = $scope.notebook.sources[5][4];
           }
           var imputerChecked =imputerSource.substring(10,imputerSource.length);
           var imputerJson = eval('('+imputerChecked+')');
