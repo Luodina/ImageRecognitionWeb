@@ -35,7 +35,7 @@ angular.module('basic')
             var arr = $scope.notebook.sources[3].split("\n")
             highCorrSource = arr[1]
           }else{
-            highCorrSource = $scope.notebook.sources[5][4];
+            highCorrSource = $scope.notebook.sources[3][1];
           }
           var corrChecked =highCorrSource.substring(12,highCorrSource.length-2).split(",");
           if($scope.dataHighCorr){
