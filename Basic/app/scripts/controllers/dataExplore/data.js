@@ -8,8 +8,8 @@ angular.module('basic')
     function ( $location, $rootScope, $scope, $http, $filter, Upload, Notification, $timeout,$window,openPreview) {
     $scope.tab=0;
       //左边导航自动变化
-      var left_by_block = function(){
-        var thisheight = $(window).height()-$(".header").height();
+      let left_by_block = function(){
+        let thisheight = $(window).height()-$(".header").height();
         $('.exploreModelLeft').height(thisheight);
       };
       $(window).resize(function(){
