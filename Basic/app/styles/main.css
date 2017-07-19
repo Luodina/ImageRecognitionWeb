@@ -63,12 +63,34 @@ table {
   border-spacing: 0;
 }
 
-input {
-  border: none;
-}
-
 input:focus, textarea:focus {
   outline: 0;
+}
+
+.addBgPic {
+  display: inline-block;
+  height: 14px;
+  width: 14px;
+  cursor: pointer;
+  background: url("../images/add_bg_btn.png") no-repeat;
+}
+
+.addSmPic {
+  display: inline-block;
+  height: 13px;
+  width: 13px;
+  cursor: pointer;
+  background: url("../images/add_sm_btn.png") no-repeat;
+}
+
+.closeModelBtn {
+  display: inline-block;
+  height: 19px;
+  width: 18px;
+  vertical-align: middle;
+  cursor: pointer;
+  background: url("../images/btn_close.png") no-repeat;
+  margin-top: 6px;
 }
 
 body {
@@ -161,7 +183,7 @@ body .modal-body .modal-body-name {
   text-align: center;
   margin-left: 32%;
   margin-top: 30px;
-  border: solid 1px #333;
+  border: solid 1px #eaeaea;
   height: 30px;
 }
 
@@ -277,7 +299,7 @@ body .modal-body .createTaskPlan .head_main_set .zx_area_drop {
   overflow: auto;
 }
 
-body .modal-body .createTaskPlan .head_week, body .modal-body .createTaskPlan .head_hour, body .modal-body .createTaskPlan .head_month {
+body .modal-body .createTaskPlan .head_week, body .modal-body .createTaskPlan .head_month {
   margin-left: 20px;
 }
 
@@ -543,7 +565,7 @@ body .dataExploreModel {
 }
 
 body .dataExploreModel .exploreModelLeft {
-  width: 15%;
+  width: 216px;
   padding: 0;
   background: #ecf1ff;
   overflow-y: auto;

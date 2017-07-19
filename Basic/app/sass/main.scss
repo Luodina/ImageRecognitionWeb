@@ -11,7 +11,7 @@ a{ color:inherit;}
 textarea{resize:none;overflow:auto;}
 a{-webkit-touch-callout:none;-webkit-user-select:none;text-decoration:none}
 table{border-collapse: collapse;border-spacing: 0;}
-input{ border:none;}
+//input{ border:none;}
 input:focus,textarea:focus{outline:0}
 
 //数据应用大标题添加按钮
@@ -87,7 +87,6 @@ body {
   }
 
   //window modal
-
   .modal-header {
     background: #f2f2f2;
     .modal-header-title {
@@ -151,7 +150,7 @@ body {
         }
       }
       .head_main_set .zx_area_drop{overflow:auto;}
-      .head_week,.head_hour,.head_month{margin-left:20px;}
+      .head_week,.head_month{margin-left:20px;}
       .block_cion{float:left;margin-right:10px;margin-left:10px;line-height:30px;}
 
     }

@@ -11,6 +11,7 @@ angular.module('basic.services', ['ui.bootstrap'])
         size: 'size',
         controller: ['$cookies', '$scope', '$filter', '$uibModalInstance', '$http',
           function ($cookies, $scope, $filter, $uibModalInstance, $http) {
+            
             $scope.title = $filter('translate')(obj.title);
             $scope.content = $filter('translate')(obj.content);
             $scope.url = idx;
@@ -21,6 +22,17 @@ angular.module('basic.services', ['ui.bootstrap'])
               $scope.UISref = true;
             }
             $scope.userName = $cookies.get("username");
+            let menuType='app';
+            $scope.go = function () {
+              // if($scope.model.name !== undefined && $scope.model.name !== null) {
+              //   //check in DB APP
+              //   console.log("here!!!:", '/api/' & menuType & '/' & $scope.model.name);
+              //   $http.get('/api/' & menuType & '/' & $scope.model.name).success(function(data){
+              //       console.log("Check App in DB:", data.result);
+              //   });
+              // };
+              $uibModalInstance.dismiss();
+            };
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
             }
@@ -101,44 +113,57 @@ angular.module('basic.services', ['ui.bootstrap'])
             $scope.create = function () {
               $uibModalInstance.dismiss();
               $location.path("/"+$scope.urlcontent.url+'/new/'+$scope.urlcontent.name);
+              $location.path("/"+$scope.k+'/new/'+$scope.modal.name);
             }
           }]
       }).result;
     };
   }])
   .service('createArrange', ['$uibModal', function ($uibModal) {
-    this.open = (ipynbNameList, appName, makeFileName) => {
+    this.open = (targetNameList, modelNameList, appName, makeFileName) => {
       return $uibModal.open({
         backdrop: 'static',
         templateUrl: 'views/layer/createArrange.html',
         size: 'size',
         controller: ['$cookies', '$scope', '$filter', '$uibModalInstance', '$http',
           ($cookies, $scope, $filter, $uibModalInstance, $http) => {
+            let opts = [];
             $scope.appName = appName;
-            $scope.makeFileName = makeFileName;
+            $scope.makeFileName = makeFileName; 
             $scope.data = {
               targetModel: null,
-              prereqModel:null,
-              availableOptions: ipynbNameList
-            };//
-            $scope.list = [{value: ''}];
-            // 点击+或x的事件
-            $scope.action = (index) => {
-              console.log(index, $scope.list.length)
-              if (index == $scope.list.length - 1) {
-                $scope.list.push({value: ''});
+              prereqModel: [],
+              targetModelOptions: targetNameList,
+              prereqModelOptions: [[]],
+            };
+            $scope.makePrereqOptions = target => {
+              $scope.data.prereqModel = [];
+              $scope.data.prereqModelOptions =[[]];
+              opts = makeOptions(modelNameList, [target]);
+              $scope.data.prereqModelOptions[0] = opts;
+            }
+            function makeOptions(tmp, prereqModelTmp){
+              return tmp.filter( option => {
+                return !prereqModelTmp.includes(option);
+              } );
+            }
+            $scope.action = index => {
+              let vartmp = $scope.data.prereqModelOptions;
+              if (index === $scope.data.prereqModelOptions.length - 1 && $scope.data.prereqModelOptions.length !== modelNameList.length-1) {                
+                let tmp = makeOptions(opts, Object.values($scope.data.prereqModel))
+                $scope.data.prereqModelOptions[index+1] = tmp;
               }else {
-                $scope.list.splice(index, 1)
+                $scope.data.prereqModelOptions.splice(index,1);
+                $scope.data.prereqModelOptions.map(arr => { 
+                  if (!arr.includes($scope.data.prereqModel[index])) {arr.push($scope.data.prereqModel[index])}
+                });
+                $scope.data.prereqModel.splice(index,1);
               }
             }
-            // 右侧option 值发生变化的事件
-            $scope.change = (value, index) => {
-              $scope.list[index].value = value;
-            }
-            $scope.cancel = function () {
+            $scope.cancel = () => {
               $uibModalInstance.dismiss();
             }
-            $scope.save = function () {
+            $scope.save = () => {
               let savaData = {
                     MAKEFILE_ID: $scope.makeFileName,
                     USER_ID: $cookies.get("username"),
@@ -168,7 +193,7 @@ angular.module('basic.services', ['ui.bootstrap'])
             //计划设置1
             $scope.grids = {
               changestatus:'每周',
-              status:[{name:'不选'},{name:'每月'},{name:'每周'}]
+              status:[{name:'每天'},{name:'每月'},{name:'每周'}]
             };
 
             //每周设置
@@ -205,7 +230,7 @@ angular.module('basic.services', ['ui.bootstrap'])
             };
 
             //初始值
-            $scope.grids.changestatus='不选';
+            $scope.grids.changestatus='每天';
 
             $scope.isWeekOk=false;
             $scope.isMonthOk=false;
@@ -213,7 +238,7 @@ angular.module('basic.services', ['ui.bootstrap'])
               if (n == o) {
                 return;
               }
-              if (n === '不选') {
+              if (n === '每天') {
                 $scope.isWeekOk=false;
                 $scope.isMonthOk=false;
               }
