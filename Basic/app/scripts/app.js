@@ -26,8 +26,8 @@ angular
     'ui.router',
     'basic.routers',
     'basic.resource',
-    'basic.services'
-    // 'ui.router.state.events'
+    'basic.services',
+     'ui.router.state.events'
   ])
   .constant('GLOBAL', {
     host_jupyter: './api/dataSource',
@@ -63,6 +63,12 @@ angular
     });
   }])
   .run(['$rootScope', '$location', '$state', '$http', '$cookies', function ($rootScope, $location, $state, $http, $cookies) {
+    $rootScope.$on('$stateChangeStart', function (event,toState) {
+      console.log('toState', toState.name);
+      $rootScope.active = toState.name;
+    })
+
+
     // $rootScope.iflogin=false;
     //   $rootScope.$on('$stateChangeStart', function (event,toState) {
     //     console.log(toState.name);

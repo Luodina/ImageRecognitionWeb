@@ -55,19 +55,22 @@ body {
     .navbar-au {
       background: #4874ff;
       font-size: 14px;
-      margin-bottom: 0;
+      margin-bottom: 0;border-radius:0px;
       .logo {
         color: #ffffff;
       }
       .navbar-head {
         color: #fff;
         .nav-top > a {
-          display: inline-block;
-          padding: 0 15px;
-          height: 50px;
-          line-height: 50px;
+          display:block;
+          padding: 0 20px;
+          height: 52px;
+          line-height: 52px;
           text-decoration: none;
-          color: #ffffff;
+          color: #ffffff;float:left;
+        }
+        .nav-top > .active{
+          background:#3d63d9;
         }
         .nav-top > a:hover {
           background: #3d63d9;
@@ -556,6 +559,7 @@ body {
 
 .header_area_select .open .xl_bg{-webkit-transform:rotate(-45deg)!important;-moz-transform:rotate(-45deg)!important;transform:rotate(-45deg)!important;
   top: 12px!important;}
+.container-fluid{padding-left:0;padding-right:0;}
 
 
 
