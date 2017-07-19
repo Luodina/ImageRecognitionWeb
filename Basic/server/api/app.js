@@ -13,4 +13,20 @@ router.get('/getAppList', (req, res)=>{
     .catch(err => { console.log("err",err);});    
 });
 
+router.get('/:appName', function(req, res){
+  let appName = req.params.appName;
+  console.log("req.params.appName",req.params.appName, "appName",appName); 
+  if (appName !== null){
+    App.findOne({
+        where: { APP_NAME: appName},
+        raw: true
+    })
+    .then(app => {  
+      console.log("app is:",app); 
+      res.send({result: app});
+    })
+    .catch(err =>{console.log("err",err);});
+  }
+});
+
 module.exports = router; 

@@ -10,17 +10,19 @@
     </tr>
     <tr style="margin: 0;">
       <td style="width: 50%;padding:0;margin: 0;">
-        <select name="repeatSelect" id="repeatSelect" ng-model="data.targetModel">
-          <option ng-repeat="option in data.availableOptions" value="{{option}}">{{option}}</option>
+        <select name="repeatSelect" id="repeatSelect" ng-model="data.targetModel" ng-change="makePrereqOptions(data.targetModel)">
+          <option ng-repeat="option in data.targetModelOptions" value="{{option}}">{{option}}</option>
         </select>
       </td>
       <td style="width: 50%;padding:0;margin: 0;">
-        <div ng-repeat="item in list track by $index">
+        <div ng-repeat="listOptions in data.prereqModelOptions track by $index">
           <span>{{$index + 1}}</span>
           <select style="width: 200px;background: #fff;" ng-model="data.prereqModel[$index]">
-            <option ng-repeat="option in data.availableOptions" value="{{option}}">{{option}}</option>
+            <option ng-repeat="option in listOptions" value="{{option}}">{{option}}</option>
           </select>
-          <span style="display: inline-block;padding: 2px 5px;border: solid 1px #333;" ng-click="action($index)">{{$index < list.length -1? 'x': '+'}}</span>
+          <span style="display: inline-block;padding: 2px 5px;border: solid 1px #333;" ng-click="action($index)">
+            {{($index < data.prereqModelOptions.length -1) || (listOptions.length === 1 && $index === data.prereqModelOptions.length -1) ? 'x': '+'}}
+          </span>
         </div>
       </td>
     </tr>

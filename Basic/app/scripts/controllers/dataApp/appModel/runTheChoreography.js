@@ -4,6 +4,7 @@ angular.module('basic')
   .controller('ChoreographyCtrl',['makefileList','$http','$location','$scope','createArrange',
   (makefileList, $http, $location, $scope, createArrange) => {
     let modelNameList =[];
+    let targetList =[];
     $scope.makeFileList =[];
     $scope.appName = $location.path().split(/[\s/]+/).pop();
     $http.get('/api/model/modelList/' + $scope.appName)
@@ -23,9 +24,10 @@ angular.module('basic')
               let tmp = item.PREREQUISITES;
               item.PREREQUISITES = tmp.split(' ');
             }
+            targetList.push(item.TARGET);
             $scope.makeFileList.push({ MAKEFILE_ID: item.MAKEFILE_ID,
-                                          TARGET : item.TARGET,
-                                    PREREQUISITES: item.PREREQUISITES});
+                                           TARGET : item.TARGET,
+                                     PREREQUISITES: item.PREREQUISITES});
           });  
         }
         console.log('$scope.makeFileList', $scope.makeFileList);
@@ -39,16 +41,24 @@ angular.module('basic')
           tmp ? num = parseInt(tmp.MAKEFILE_ID):''; 
         }      
         return num + 1;
-    }    
+    }   
+
+    function targetNameList(modelNameList, targetList){
+      return modelNameList.filter( function( el ) {
+        return !targetList.includes( el );
+      } );
+    }
+    
     $scope.openAddArrange = () => {
-      createArrange.open(modelNameList, $scope.appName, newMakeFileName()).then(function(msg){
+      createArrange.open(targetNameList(modelNameList, targetList), modelNameList, $scope.appName, newMakeFileName()).then((msg) => {
         if (msg === 'success') { 
           $scope.makeFileList = [];
           $scope.init();
         }
       })
       .catch(err =>{console.log('err',err);});
-    };    
+    };  
+
     $scope.makeFile = () => {        
         let content = '';
         $scope.makeFileList.forEach((appMakeFile)=> {

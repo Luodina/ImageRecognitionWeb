@@ -52,7 +52,7 @@ router.get('/:modelName', function(req, res){
     })
     .then(model => {  
       console.log("model is:",model); 
-      res.send({model: model});
+      res.send({result: model});
     })
     .catch(err =>{console.log("err",err);});
   }
