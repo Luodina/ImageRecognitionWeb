@@ -1,7 +1,7 @@
 'use strict';
 angular.module('basic')
-  .controller('DataAppCtrl',['createModel','$rootScope','$scope','$filter','appList',
-    (createModel, $rootScope, $scope, $filter, appList) => {
+  .controller('DataAppCtrl',['createApp','$rootScope','$scope','$filter','appList',
+    (createApp, $rootScope, $scope, $filter, appList) => {
     $scope.projectType=['web_common_data_app_02', 'web_common_data_app_03', 'web_common_data_app_04'];
     $scope.listAllApp=[[]];
     var handleSuccess = function(data, status) {
@@ -30,6 +30,7 @@ angular.module('basic')
         handleSuccess(res);
       });
     $scope.newApp = function () {
-      createModel.open({'title': 'web_common_data_app_layer_01', 'content':'web_common_data_app_layer_02'}, 'appInfo');
+      createApp.open();
+      //createModel.open({'title': 'web_common_data_app_layer_01', 'content':'web_common_data_app_layer_02'}, 'appInfo');
     };
   }]);

@@ -14,7 +14,7 @@ angular.module('basic.routers', ['ui.router'])
       },
       {
         name: 'appInfo',
-        url: '/appInfo/{mode}/{name}',
+        url: '/app/{mode}/{name}',
         templateUrl: "views/dataApp/appInfo.html",
         controller: 'AppInfoCtrl'
       },

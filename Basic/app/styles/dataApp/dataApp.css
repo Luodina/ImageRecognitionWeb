@@ -312,6 +312,19 @@ body .dataApp .dataRight .fileContent .filePart .file .content li.newModel {
 
 body .dataApp .dataRight .fileContent .filePart .file .content li.newModel .app_set_main {
   border: 1px solid #eaeaea;
+  position: relative;
+}
+
+body .dataApp .dataRight .fileContent .filePart .file .content li.newModel .app_set_main .add_btn {
+  background: url("../../images/add_btn.png") no-repeat;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -20px;
+  margin-top: -20px;
+  cursor: pointer;
 }
 
 body .dataApp .dataRight .resultContent {

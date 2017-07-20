@@ -12,7 +12,7 @@
         <uib-tab-heading>
           <i class="text"></i>&nbsp;&nbsp;{{ "modelType_0" + $index | translate}}
           <span class="icon">{{(listAllProject[$index] === undefined ||listAllProject[$index] === null) ? "0" : listAllProject[$index].length}}</span>
-          <i ng-click="newProject($index)" class="addSmPic" style="margin-top: -5px;"></i>
+          <i ng-if = "$index !== 0" ng-click="newProject($index)" class="addSmPic" style="margin-top: -5px;"></i>
         </uib-tab-heading>
         <div class="dataExplore-container-main" ng-repeat="item in listAllProject[$index]" ui-sref="data({mode:item.mode, name: item.MODEL_NAME})">
           <div class="date_set_main">

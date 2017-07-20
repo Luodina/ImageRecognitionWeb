@@ -5,11 +5,11 @@
 <div class="modal-body">
   <div class="modal-body-title">{{'web_common_019'| translate}}{{content| translate}}</div>
   <input class="modal-body-name" ng-model='model.name'>
+  <div>{{model.nameTip}}</div>
 </div>
 <div class="modal-footer">
   <button class="modal-footer-btn" 
-        ui-sref="{{url}}({mode: 'new', name: model.name})" 
-        ng-click="cancel()"
+        ng-click="create()"
         ng-disabled="!(model.name !== undefined && model.name !== null)"
         >
     {{'web_common_015'| translate}}
