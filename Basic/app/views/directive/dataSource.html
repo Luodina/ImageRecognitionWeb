@@ -4,10 +4,20 @@
 </div>
 <div class="dataFileImport">
   <input type="radio" ng-model="bigData" value="iptTwo">&nbsp;&nbsp;{{'web_common_data_explore_006' | translate}}
-  <input ngf-select type="file" ng-model="file" class="chooseFile">
+  <div class="file_border">
+    <input type="file" id="file" ng-model="file" class="chooseFile" onchange="handleFile()" >
+    <input type="text" readonly="true" ng-model="file"  value="" id="fileName">
+  </div>
   <span class="fileUpload" ng-click="upload()">{{'web_common_data_explore_007' | translate}}</span>
 </div>
 <div class="dataSourcePreview">
   <span class="dataSource-preview" ng-click="run(fileName)">{{'web_common_data_explore_008' | translate}}</span>
 </div>
 <div ng-bind-html="result" style="padding-top: 30px;"></div>
+<script type="text/javascript">
+  var file = document.getElementById("file");
+  var fileName = document.getElementById("fileName");
+  function handleFile(){
+    fileName.value = file.value;
+  }
+</script>

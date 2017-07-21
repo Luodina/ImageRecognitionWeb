@@ -59,29 +59,29 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'modelType_05':'目标检测',
     'modelType_06':'专家模式',
 
-    'modelType_1_00':'类别型变量数:',
-    'modelType_1_01':'变量数(列数):',
-    'modelType_1_02':'空值比例:',
-    'modelType_1_03':'数值型变量数:',
-    'modelType_1_04':'行数:',
-    'modelType_1_05':'上次执行时间:',
+    'modelType_01_00':'类别型变量数:',
+    'modelType_01_01':'变量数(列数):',
+    'modelType_01_02':'空值比例:',
+    'modelType_01_03':'数值型变量数:',
+    'modelType_01_04':'行数:',
+    'modelType_01_05':'上次执行时间:',
 
-    'modelType_2_00':'N-gram:',
-    'modelType_2_01':'词汇数:',
-    'modelType_2_02':'特征数:',
-    'modelType_2_03':'权值:',
+    'modelType_02_00':'N-gram:',
+    'modelType_02_01':'词汇数:',
+    'modelType_02_02':'特征数:',
+    'modelType_02_03':'权值:',
 
-    'modelType_3_00':'准确率:',
-    'modelType_3_01':'召回率:',
-    'modelType_3_02':'F1 值:',
+    'modelType_03_00':'准确率:',
+    'modelType_03_01':'召回率:',
+    'modelType_03_02':'F1 值:',
 
-    'modelType_4_00':'分组数:',
-    'modelType_4_01':'数据标签:',
+    'modelType_04_00':'分组数:',
+    'modelType_04_01':'数据标签:',
 
-    'modelType_5_00':'N-gram:',
-    'modelType_5_01':'词汇数:',
-    'modelType_5_02':'特征数:',
-    'modelType_5_03':'权值:',
+    'modelType_05_00':'N-gram:',
+    'modelType_05_01':'词汇数:',
+    'modelType_05_02':'特征数:',
+    'modelType_05_03':'权值:',
 
     'web_common_data_app_01': '数据应用搜索',
     'web_common_data_app_02': '我的数据应用',
@@ -92,12 +92,16 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_app_07': '运行编排',
     'web_common_data_app_08': '运行结果',
     'web_common_data_app_09': '应用概览',
+    'web_common_data_app_result_00': '任务: 流失用户预警',
+    'web_common_data_app_result_01': '任务: 客户分群',
 
     'web_common_data_app_layer_01': '创建我的数据应用',
     'web_common_data_app_layer_02': '新的数据应用',
     'web_common_data_app_layer_03': '创建',
     'web_common_data_app_layer_04': '创建分析框架',
     'web_common_data_app_layer_05': '名字',
+
+
 
 
   });

@@ -23,8 +23,8 @@ angular.module('basic')
     };
 
     projectList.get({}, function (res) {handleSuccess(res);});
-    $scope.createModel = () => {
-      createAppModel.open();
+    $scope.createModel = appName => {
+      createAppModel.open(appName);
     };
   }])
   .directive('file', () => {
