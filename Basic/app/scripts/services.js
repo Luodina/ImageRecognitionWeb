@@ -32,29 +32,31 @@ angular.module('basic.services', ['ui.bootstrap'])
         templateUrl: 'views/layer/createModel.html',
         size: 'size',
         controller: [ '$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', '$http',
-          ($rootScope, $location, $scope, $filter, $uibModalInstance, $http) => {           
-            $scope.title = 'Title';//$filter('translate')(obj.title)
-            $scope.content = 'Content';//$filter('translate')(obj.content);
+          ($rootScope, $location, $scope, $filter, $uibModalInstance, $http) => {
+            //$scope.title = 'Title';//$filter('translate')(obj.title)
+            $scope.title = $filter('translate')('web_common_data_app_layer_01')
+            //$scope.content = 'Content';//$filter('translate')(obj.content);
+            $scope.content = $filter('translate')('web_common_data_app_layer_02');
             $scope.url = 'app';
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
             };
-            
-            $scope.create = function () {                         
+
+            $scope.create = function () {
               if($scope.model.name !== undefined && $scope.model.name !== null) {
-                //check in DB APP   
-                            
+                //check in DB APP
+
                 $http.get('/api/app/' + $scope.model.name).success((data) => {
                     console.log('Check App in DB:', data);
-                    if (data.result !== null){                                            
-                      $scope.model.name = '';  
-                      $scope.model.nameTip = 'Warning!'; 
+                    if (data.result !== null){
+                      $scope.model.name = '';
+                      $scope.model.nameTip = 'Warning!';
                     } else {
                       console.log('Check App in DB:', $scope.model.name);
                       $http.get('/api/appFile/'+$scope.model.name).success((data) => {
                         if (data.result = 'success'){
                           console.log('2222:', $scope.model.name);
-                          $http.post('/api/app/' + $scope.model.name, 
+                          $http.post('/api/app/' + $scope.model.name,
                             { APP_NAME: $scope.model.name, USER_NAME: $rootScope.getUsername()})
                             .success((data) => {
                               console.log('$scope.model.name :', $scope.model.name );
@@ -64,10 +66,10 @@ angular.module('basic.services', ['ui.bootstrap'])
                         }
 
                       })
-                      .catch(err=>{console.log(err)});                     
-                    }                    
+                      .catch(err=>{console.log(err)});
+                    }
                 });
-              };                       
+              };
             }
           }]
       }).result;
@@ -157,7 +159,7 @@ angular.module('basic.services', ['ui.bootstrap'])
           ($cookies, $scope, $filter, $uibModalInstance, $http) => {
             let opts = [];
             $scope.appName = appName;
-            $scope.makeFileName = makeFileName; 
+            $scope.makeFileName = makeFileName;
             $scope.data = {
               targetModel: null,
               prereqModel: [],
@@ -177,12 +179,12 @@ angular.module('basic.services', ['ui.bootstrap'])
             };
             $scope.action = index => {
               let vartmp = $scope.data.prereqModelOptions;
-              if (index === $scope.data.prereqModelOptions.length - 1 && $scope.data.prereqModelOptions.length !== modelNameList.length-1) {                
+              if (index === $scope.data.prereqModelOptions.length - 1 && $scope.data.prereqModelOptions.length !== modelNameList.length-1) {
                 let tmp = makeOptions(opts, Object.values($scope.data.prereqModel));
                 $scope.data.prereqModelOptions[index+1] = tmp;
               }else {
                 $scope.data.prereqModelOptions.splice(index,1);
-                $scope.data.prereqModelOptions.map(arr => { 
+                $scope.data.prereqModelOptions.map(arr => {
                   if (!arr.includes($scope.data.prereqModel[index])) {arr.push($scope.data.prereqModel[index]);}
                 });
                 $scope.data.prereqModel.splice(index,1);
