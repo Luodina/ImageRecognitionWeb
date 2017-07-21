@@ -215,14 +215,16 @@ angular.module('basic.services', ['ui.bootstrap'])
     };
   }])
   .service('createTaskPlan', ['$uibModal', function ($uibModal) {
-    this.open = function () {
+    this.open = function (createOrEdit,editSchedule) {
       return $uibModal.open({
         backdrop: 'static',
         templateUrl: 'views/layer/createTaskPlan.html',
         size: 'size',
         controller: ['$cookies', '$scope', '$filter', '$uibModalInstance', '$http',
           function ($cookies, $scope, $filter, $uibModalInstance, $http) {
-
+          console.log("-------------.....------------",createOrEdit)
+            $scope.schedule=null;
+            createOrEdit =='edit'?$scope.schedule=editSchedule:$scope.schedule;
             //计划设置1
             $scope.grids = {
               changestatus:'每周',
@@ -283,11 +285,43 @@ angular.module('basic.services', ['ui.bootstrap'])
                 $scope.isMonthOk=true;
               }
             });
+            // if edit,the schedule_name can not change
+            if(createOrEdit =='edit'&&editSchedule){
+              $scope.hours.changestatus = editSchedule.HOUR;
+               $scope.minutes.changestatus = editSchedule.MINUTE;
+               if(editSchedule.DATE){
+                 $scope.grids.changestatus="每月";
+                 $scope.isWeekOk=false;
+                 $scope.isMonthOk=true;
+                 $scope.months.changestatus=editSchedule.DATE;
+               }else if(editSchedule.DAYOFWEEK){
+                 $scope.grids.changestatus="每周";
+                 $scope.isWeekOk=true;
+                 $scope.isMonthOk=false;
+                 editSchedule.DAYOFWEEK == 1 ? editSchedule.DAYOFWEEK ="周一" : editSchedule.DAYOFWEEK == 2 ? editSchedule.DAYOFWEEK ="周二" : editSchedule.DAYOFWEEK == 3 ? editSchedule.DAYOFWEEK ="周三" : editSchedule.DAYOFWEEK == 4 ? editSchedule.DAYOFWEEK ="周四" : editSchedule.DAYOFWEEK == 5 ? editSchedule.DAYOFWEEK ="周五" : editSchedule.DAYOFWEEK == 6 ? editSchedule.DAYOFWEEK ="周六" : editSchedule.DAYOFWEEK == 7 ? editSchedule.DAYOFWEEK ="周日" :editSchedule.DAYOFWEEK;
+                 $scope.weeks.changestatus=editSchedule.DAYOFWEEK;
+               }else {
+                 $scope.isWeekOk=false;
+                 $scope.isMonthOk=false;
+               }
+               $scope.schedule.name = editSchedule.SCHEDULE_NAME;
+               $scope.schedule.command = editSchedule.COMMAND;
+             }
+
+
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
             };
             $scope.save = function () {
-              $uibModalInstance.dismiss();
+              console.log("on save ===============..",$scope.schedule,$scope.weeks.changestatus,$scope.grids.changestatus);
+              $scope.schedule.appId="App2";
+              $scope.schedule.choice=$scope.grids.changestatus;
+              $scope.schedule.date=parseInt($scope.months.changestatus);
+              $scope.schedule.hour= parseInt($scope.hours.changestatus);
+              $scope.schedule.minute =parseInt($scope.minutes.changestatus);
+              $scope.schedule.dayOfWeek = $scope.weeks.changestatus;
+              $scope.schedule.state ="RUNNING"
+              $uibModalInstance.close($scope.schedule);
             }
           }]
       })
