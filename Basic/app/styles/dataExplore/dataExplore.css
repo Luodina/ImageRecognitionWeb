@@ -63,6 +63,7 @@
 
 .dataExplore-container .tab-default .nav-tabs li .nav-link .text {
   border: none;
+  font-style: normal;
 }
 
 .dataExplore-container .tab-default .nav-tabs li .nav-link .text:active {

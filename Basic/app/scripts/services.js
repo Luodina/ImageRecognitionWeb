@@ -135,6 +135,9 @@ angular.module('basic.services', ['ui.bootstrap'])
               $uibModalInstance.dismiss();
             }
             $scope.changeStyle = function(idx){
+              angular.forEach($scope.items, function (item, i) {
+                item.isActive = false;
+              });
               $scope.items[idx].isActive=true;
               $scope.urlcontent = $scope.items[idx];
               console.log('312312',$scope.urlcontent);
