@@ -47,29 +47,29 @@ angular.module('basic.services', ['ui.bootstrap'])
         templateUrl: 'views/layer/createModel.html',
         size: 'size',
         controller: [ '$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', '$http',
-          ($rootScope, $location, $scope, $filter, $uibModalInstance, $http) => {           
+          ($rootScope, $location, $scope, $filter, $uibModalInstance, $http) => {
             $scope.title = 'Title';//$filter('translate')(obj.title)
             $scope.content = 'Content';//$filter('translate')(obj.content);
             $scope.url = 'app';
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
             };
-            
-            $scope.create = function () {                         
+
+            $scope.create = function () {
               if($scope.model.name !== undefined && $scope.model.name !== null) {
-                //check in DB APP   
-                            
+                //check in DB APP
+
                 $http.get('/api/app/' + $scope.model.name).success((data) => {
                     console.log('Check App in DB:', data);
-                    if (data.result !== null){                                            
-                      $scope.model.name = '';  
-                      $scope.model.nameTip = 'Warning!'; 
+                    if (data.result !== null){
+                      $scope.model.name = '';
+                      $scope.model.nameTip = 'Warning!';
                     } else {
                       console.log('Check App in DB:', $scope.model.name);
                       $http.get('/api/appFile/'+$scope.model.name).success((data) => {
                         if (data.result = 'success'){
                           console.log('2222:', $scope.model.name);
-                          $http.post('/api/app/' + $scope.model.name, 
+                          $http.post('/api/app/' + $scope.model.name,
                             { APP_NAME: $scope.model.name, USER_NAME: $rootScope.getUsername()})
                             .success((data) => {
                               console.log('$scope.model.name :', $scope.model.name );
@@ -79,10 +79,10 @@ angular.module('basic.services', ['ui.bootstrap'])
                         }
 
                       })
-                      .catch(err=>{console.log(err)});                     
-                    }                    
+                      .catch(err=>{console.log(err)});
+                    }
                 });
-              };                       
+              };
             }
           }]
       }).result;
@@ -135,18 +135,20 @@ angular.module('basic.services', ['ui.bootstrap'])
         controller: ['$scope', '$uibModalInstance', '$filter', '$state', '$location',
           function ($scope, $uibModalInstance, $filter, $state, $location) {
             $scope.items = [
-              {img:'pic1',content:'modelType_01',url:'data',name:'data'},
-              {img:'pic2',content:'modelType_02',url:'t1',name:'data2'},
-              {img:'pic3',content:'modelType_03',url:'t2',name:'data3'},
-              {img:'pic4',content:'modelType_04',url:'t3',name:'data4'},
-              {img:'pic5',content:'modelType_05',url:'t4',name:'data5'},
-              {img:'pic6',content:'modelType_06',url:'notebook',name:'notebook'}
+              {img:'pic1',content:'modelType_01',url:'data',name:'data',isActive:false},
+              {img:'pic2',content:'modelType_02',url:'t1',name:'data2',isActive:false},
+              {img:'pic3',content:'modelType_03',url:'t2',name:'data3',isActive:false},
+              {img:'pic4',content:'modelType_04',url:'t3',name:'data4',isActive:false},
+              {img:'pic5',content:'modelType_05',url:'t4',name:'data5',isActive:false},
+              {img:'pic6',content:'modelType_06',url:'notebook',name:'notebook',isActive:false}
             ]
+            $scope.items[0].isActive=true;
             $scope.urlcontent = $scope.items[0];
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
             }
             $scope.changeStyle = function(idx){
+              $scope.items[idx].isActive=true;
               $scope.urlcontent = $scope.items[idx];
               console.log('312312',$scope.urlcontent);
             }
@@ -169,7 +171,7 @@ angular.module('basic.services', ['ui.bootstrap'])
           ($cookies, $scope, $filter, $uibModalInstance, $http) => {
             let opts = [];
             $scope.appName = appName;
-            $scope.makeFileName = makeFileName; 
+            $scope.makeFileName = makeFileName;
             $scope.data = {
               targetModel: null,
               prereqModel: [],
@@ -189,12 +191,12 @@ angular.module('basic.services', ['ui.bootstrap'])
             };
             $scope.action = index => {
               let vartmp = $scope.data.prereqModelOptions;
-              if (index === $scope.data.prereqModelOptions.length - 1 && $scope.data.prereqModelOptions.length !== modelNameList.length-1) {                
+              if (index === $scope.data.prereqModelOptions.length - 1 && $scope.data.prereqModelOptions.length !== modelNameList.length-1) {
                 let tmp = makeOptions(opts, Object.values($scope.data.prereqModel));
                 $scope.data.prereqModelOptions[index+1] = tmp;
               }else {
                 $scope.data.prereqModelOptions.splice(index,1);
-                $scope.data.prereqModelOptions.map(arr => { 
+                $scope.data.prereqModelOptions.map(arr => {
                   if (!arr.includes($scope.data.prereqModel[index])) {arr.push($scope.data.prereqModel[index]);}
                 });
                 $scope.data.prereqModel.splice(index,1);
