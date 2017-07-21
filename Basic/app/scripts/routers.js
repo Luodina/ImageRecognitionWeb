@@ -26,7 +26,7 @@ angular.module('basic.routers', ['ui.router'])
       },
       {
         name: 'data',
-        url: '/data/{mode}/{name}',
+        url: '/{appNm}/{type}/{mode}/{modelNm}',
         templateUrl: 'views/dataExplore/data.html',
         controller: 'DataCtrl'
       },
