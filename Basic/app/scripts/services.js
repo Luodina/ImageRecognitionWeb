@@ -122,6 +122,7 @@ angular.module('basic.services', ['ui.bootstrap'])
         controller: ['$scope', '$uibModalInstance', '$filter', '$state', '$location',
           function ($scope, $uibModalInstance, $filter, $state, $location) {
             $scope.items = [
+<<<<<<< HEAD
               {img:'pic1',content:'modelType_01',url:'data',name:'data',isActive:false},
               {img:'pic2',content:'modelType_02',url:'t1',name:'data2',isActive:false},
               {img:'pic3',content:'modelType_03',url:'t2',name:'data3',isActive:false},
@@ -131,14 +132,32 @@ angular.module('basic.services', ['ui.bootstrap'])
             ]
             $scope.items[0].isActive=true;
             $scope.urlcontent = $scope.items[0];
+=======
+              {img:'pic1',content:'modelType_01',url:'data',name:'data'},
+              {img:'pic2',content:'modelType_02',url:'t1',name:'data2'},
+              {img:'pic3',content:'modelType_03',url:'t2',name:'data3'},
+              {img:'pic4',content:'modelType_04',url:'t3',name:'data4'},
+              {img:'pic5',content:'modelType_05',url:'t4',name:'data5'},
+              {img:'pic6',content:'modelType_06',url:'notebook',name:'notebook'}
+            ];
+            $scope.model = {
+              name: null, 
+              type:null
+            }
+>>>>>>> 16e9f21d726181d0d795070d5328ea0490fca612
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
-            }
+            };
             $scope.changeStyle = function(idx){
+<<<<<<< HEAD
               $scope.items[idx].isActive=true;
               $scope.urlcontent = $scope.items[idx];
               console.log('312312',$scope.urlcontent);
             }
+=======
+              $scope.model.type = idx;
+            };
+>>>>>>> 16e9f21d726181d0d795070d5328ea0490fca612
             $scope.create = function () {
               if($scope.model.name !== undefined && $scope.model.name !== null) {
                 $uibModalInstance.dismiss();
