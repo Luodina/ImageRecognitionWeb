@@ -1,19 +1,42 @@
 <div class="title">demo1</div>
-<div class="content">
-  <div class="contentTitle">
-    <span>历次执行结果</span>
-  </div>
-  <div class="contentData">
+<div>
+  <div class="dataExplore-container">
+    <uib-tabset class="tab-default tab-jia-default" active="grid.active" style="border:0px;">
+      <uib-tab ng-repeat="itemType in projectType"  index="$index">
+        <uib-tab-heading>
+          <i class="faa faa-edit"></i>&nbsp;&nbsp;{{ "web_common_data_app_result_0" + $index | translate}}
+        </uib-tab-heading>
+        <div style="margin:0 15px;">
+          <table class="table" style="font-size: 12px;padding: 0 20px;">
+            <tr class="title" style="background-color: #f1f1f1;font-size: 12px;">
+              <td>状态</td>
+              <td>时间</td>
+              <td style="float: right">结果</td>
+            </tr>
+            <tr class="content">
+              <td>qq</td>
+              <td>eee</td>
+              <td style="color: #4874ff;float: right;border: none">查看</td>
+            </tr>
+          </table>
+        </div>
+        <div class="page-style" style="float: right">
+          <div uib-pagination
+               ng-model="grid.page"
+               total-items="grid.total"
+               items-per-page="grid.size"
+               class="pagination-sm"
+               boundary-links="false"
+               max-size="12"
+               rotate="true"
+               previous-text="上一页"
+               next-text="下一页"
+               first-text="首页"
+               last-text="末页">
+          </div>
+        </div>
+      </uib-tab>
+    </uib-tabset>
   </div>
 </div>
-<div class="content">
-  <div class="contentTitle">
-    <span>运行结果</span>
-  </div>
-  <div class="contentBody">
-    <span>2017.05.20  18:30</span>
-    <span>R2:  0.0236</span>
-    <span>p-vale:0.2201</span>
-    <a href="#">下载</a>
-  </div>
-</div>
+

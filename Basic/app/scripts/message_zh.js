@@ -92,12 +92,16 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_app_07': '运行编排',
     'web_common_data_app_08': '运行结果',
     'web_common_data_app_09': '应用概览',
+    'web_common_data_app_result_00': '任务: 流失用户预警',
+    'web_common_data_app_result_01': '任务: 客户分群',
 
     'web_common_data_app_layer_01': '创建我的数据应用',
     'web_common_data_app_layer_02': '新的数据应用',
     'web_common_data_app_layer_03': '创建',
     'web_common_data_app_layer_04': '创建分析框架',
     'web_common_data_app_layer_05': '名字',
+
+
 
 
   });
