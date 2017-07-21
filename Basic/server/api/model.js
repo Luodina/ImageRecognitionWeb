@@ -37,7 +37,7 @@ router.post('/new', function(req, res){
             NOTEBOOK_PATH: notebookPath,
             COMMENT:comment,
             isNewRecord:true})
-            .then(() => {res.send({ msg:"Success!!!!" });})
+            .then(() => {res.send({ msg:'success' });})
             .catch(err =>{console.log( "err",err );});
     }) 
 });

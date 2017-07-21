@@ -1,6 +1,4 @@
-/**
- * Created by JiYi on 17/7/5.
- */
+
 'use strict';
 angular.module('basic.services', ['ui.bootstrap'])
   .service('createModel', ['$uibModal', function ($uibModal) {
@@ -14,12 +12,23 @@ angular.module('basic.services', ['ui.bootstrap'])
             $scope.title = $filter('translate')('modelType_0'+index);
             $scope.content = $filter('translate')('modelType_0'+index);
 
-            $scope.cancel = function () {
+            $scope.cancel = () => {
               $uibModalInstance.dismiss();
             }
-            $scope.create = function () {
-              $location.path('/explore/0' + index +'/new/'+$scope.model.name);
-              $uibModalInstance.dismiss();
+            $scope.create = () => {
+              if($scope.model.name !== undefined && $scope.model.name !== null) {
+                //check in DB APP
+                $http.get('/api/model/' + $scope.model.name).success((data) => {
+                  if (data.result !== null){
+                    $scope.model.name = '';
+                    $scope.model.nameTip = 'Warning!';
+                  } else {                   
+                    $location.path('/explore/0' + index +'/new/'+$scope.model.name);
+                    $uibModalInstance.dismiss();
+                  }
+                })
+                .catch(err=>{console.log(err)});
+              }
             }
           }]
       }).result;
@@ -45,26 +54,19 @@ angular.module('basic.services', ['ui.bootstrap'])
             $scope.create = function () {
               if($scope.model.name !== undefined && $scope.model.name !== null) {
                 //check in DB APP
-
                 $http.get('/api/app/' + $scope.model.name).success((data) => {
-                    console.log('Check App in DB:', data);
                     if (data.result !== null){
                       $scope.model.name = '';
                       $scope.model.nameTip = 'Warning!';
                     } else {
-                      console.log('Check App in DB:', $scope.model.name);
                       $http.get('/api/appFile/'+$scope.model.name).success((data) => {
                         if (data.result = 'success'){
-                          console.log('2222:', $scope.model.name);
-                          $http.post('/api/app/' + $scope.model.name,
-                            { APP_NAME: $scope.model.name, USER_NAME: $rootScope.getUsername()})
-                            .success((data) => {
-                              console.log('$scope.model.name :', $scope.model.name );
-                              $location.path('/app/new/'+$scope.model.name);
-                              $uibModalInstance.dismiss();
-                            })
+                          $http.post('/api/app/' + $scope.model.name, {APP_NAME: $scope.model.name, USER_NAME: $rootScope.getUsername()})
+                          .success((data) => {
+                            $location.path('/app/new/'+$scope.model.name);
+                            $uibModalInstance.dismiss();
+                          })
                         }
-
                       })
                       .catch(err=>{console.log(err)});
                     }
@@ -81,7 +83,6 @@ angular.module('basic.services', ['ui.bootstrap'])
         backdrop: 'static',
         templateUrl: 'views/layer/savePreview.html',
         size: 'size',
-        //controllerUrl: 'scripts/layer/savePreview.js',
         controller: ['$scope', '$filter', '$uibModalInstance', '$location', '$cookies',
           function ($scope, $filter, $uibModalInstance, $location, $cookies) {
             $scope.resultPreview = resultPreview;
@@ -97,12 +98,13 @@ angular.module('basic.services', ['ui.bootstrap'])
                   UPDATED_TIME: date.getTime(),
                   FILE_PATH: data.dataFileName,
                   NOTEBOOK_PATH: data.notebookPath,
-                  COMMENT: 'Lets try it!',
+                  COMMENT: 'Lets try it!',  
                 }
                 $http.post('/api/model/new', savaData).success(function (data) {
-                  console.log('DataProcessingCtrl save:', data.msg);
-                });
-                $location.path('/explore');
+                  $location.path('/explore');
+                  console.log('MAKEFILE save:', data.msg);
+                  $uibModalInstance.close(data.msg);
+                });  
               });
               $uibModalInstance.dismiss();
             };

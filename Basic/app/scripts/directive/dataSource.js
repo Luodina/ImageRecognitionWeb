@@ -1,13 +1,9 @@
-/**
- * Controller
- */
+
 "use strict";
 angular.module('basic')
   .controller('DataSourceCtrl',['$rootScope', '$location','$sce','$filter', '$scope','$http','Upload', 'Notification', '$timeout',
     function ($rootScope, $location, $sce, $filter, $scope, $http, Upload, Notification, $timeout) {
     $scope.name = $filter('translate')('web_common_data_explore_001');
-
-    // $scope.isNew = false;
     $scope.$on('model',function(el, dataModel){
       $scope.model = dataModel.model;
       $scope.notebook = dataModel.notebook;
@@ -63,6 +59,7 @@ angular.module('basic')
     };
 
     $scope.run = function(){
+      console.log($scope.fileName,$scope.htmlFileName )
       if($scope.file!== undefined && $scope.file !== "") {
         $scope.runFile($scope.fileName, $scope.htmlFileName );
       }

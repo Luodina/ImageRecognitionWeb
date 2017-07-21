@@ -1,7 +1,7 @@
 'use strict';
 angular.module('basic')
-  .controller('DataExploreCtrl',['$http','createModel','$rootScope','$scope','$filter','projectList','createExpertModule',
-    ($http, createModel, $rootScope, $scope, $filter, projectList,createExpertModule) => {
+  .controller('DataExploreCtrl',['cdmSource','$http','createModel','$rootScope','$scope','$filter','projectList','createExpertModule',
+    (cdmSource, $http, createModel, $rootScope, $scope, $filter, projectList,createExpertModule) => {
     $scope.projectType= ['modelType_00', 'modelType_01', 'modelType_02', 'modelType_03','modelType_04', 'modelType_05','modelType_06'];
     $scope.listAllProject=[[]];
     let handleSuccess = (data, status)=> {
@@ -36,13 +36,7 @@ angular.module('basic')
       }
     };
     projectList.get({}, function (res) {handleSuccess(res);});
-
-    $http.get('/api/cdm/all')
-    .success( data => {
-      console.log('Here gooooood!');
-    })
-    .catch( err => {console.log('err:',err);});
-
+    
     $scope.newProject = (index) => {
       // var arr = [
       //   {'title':'modelType_00','content':'web_common_data_explore_020'},
@@ -57,9 +51,12 @@ angular.module('basic')
       // createModel.open(arr[index],arr2[index]).then(function (name) {
       //   createExpertModule.open(name);
       // });
-      createModel.open(index).then(function (name) {
-       
-      });
+      createModel.open(index).then((msg) => {
+        if (msg === 'success') { 
+          projectList.get({}, function (res) {handleSuccess(res);});
+        }
+      })
+      .catch(err =>{console.log('err',err);});
     };
 }]);
 
