@@ -4,37 +4,22 @@
 'use strict';
 angular.module('basic.services', ['ui.bootstrap'])
   .service('createModel', ['$uibModal', function ($uibModal) {
-    this.open = function (type, index) {
+    this.open = function (index) {
       return $uibModal.open({
         backdrop: 'static',
         templateUrl: 'views/layer/createModel.html',
         size: 'size',
-        controller: ['$cookies', '$scope', '$filter', '$uibModalInstance', '$http',
-          function ($cookies, $scope, $filter, $uibModalInstance, $http) {
+        controller: ['$location','$cookies', '$scope', '$filter', '$uibModalInstance', '$http',
+          function ($location, $cookies, $scope, $filter, $uibModalInstance, $http) {
             $scope.title = $filter('translate')('modelType_0'+index);
             $scope.content = $filter('translate')('modelType_0'+index);
-
-            // $scope.title = $filter('translate')(obj.title);
-            // $scope.content = $filter('translate')(obj.content);
-            // $scope.url = idx;
-            // console.log('222222',idx);
-            // if(idx ==='notebook'){
-            //   $scope.UISref = false;
-            // }else{
-            //   $scope.UISref = true;
-            // }
-            // $scope.userName = $cookies.get("username");
-            // let menuType='app';
 
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
             }
             $scope.create = function () {
-              if(!$scope.UISref){
-                $uibModalInstance.close($scope.model.name);
-              }else{
-                $uibModalInstance.dismiss();
-              }
+              $location.path('/explore/0' + index +'/new/'+$scope.model.name);
+              $uibModalInstance.dismiss();
             }
           }]
       }).result;
@@ -48,8 +33,10 @@ angular.module('basic.services', ['ui.bootstrap'])
         size: 'size',
         controller: [ '$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', '$http',
           ($rootScope, $location, $scope, $filter, $uibModalInstance, $http) => {
-            $scope.title = 'Title';//$filter('translate')(obj.title)
-            $scope.content = 'Content';//$filter('translate')(obj.content);
+            //$scope.title = 'Title';//$filter('translate')(obj.title)
+            $scope.title = $filter('translate')('web_common_data_app_layer_01')
+            //$scope.content = 'Content';//$filter('translate')(obj.content);
+            $scope.content = $filter('translate')('web_common_data_app_layer_02');
             $scope.url = 'app';
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
@@ -127,10 +114,10 @@ angular.module('basic.services', ['ui.bootstrap'])
     };
   }])
   .service('createAppModel', ['$uibModal', function ($uibModal) {
-    this.open = function (obj,pic,idx) {
+    this.open = function (appName) {
       return $uibModal.open({
         backdrop: 'static',
-        templateUrl: 'views/layer/createApp.html',
+        templateUrl: 'views/layer/createAppModel.html',
         size: 'size',
         controller: ['$scope', '$uibModalInstance', '$filter', '$state', '$location',
           function ($scope, $uibModalInstance, $filter, $state, $location) {
@@ -153,10 +140,11 @@ angular.module('basic.services', ['ui.bootstrap'])
               console.log('312312',$scope.urlcontent);
             }
             $scope.create = function () {
-              $uibModalInstance.dismiss();
-              $location.path("/"+$scope.urlcontent.url+'/new/'+$scope.urlcontent.name);
-              $location.path("/"+$scope.k+'/new/'+$scope.modal.name);
-            }
+              if($scope.model.name !== undefined && $scope.model.name !== null) {
+                $uibModalInstance.dismiss();
+                $location.path('/'+ appName +'/0'+ $scope.model.type + '/new/' + $scope.model.name);
+              }
+            };
           }]
       }).result;
     };

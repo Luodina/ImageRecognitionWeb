@@ -29,8 +29,9 @@ angular.module('basic')
         console.log('appList',res);
         handleSuccess(res);
       });
-    $scope.newApp = function () {
-      createApp.open();
-      //createModel.open({'title': 'web_common_data_app_layer_01', 'content':'web_common_data_app_layer_02'}, 'appInfo');
-    };
+      
+      $scope.newApp = function () {
+        createApp.open();
+        //createModel.open({'title': 'web_common_data_app_layer_01', 'content':'web_common_data_app_layer_02'}, 'appInfo');
+      };
   }]);
