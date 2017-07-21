@@ -2,12 +2,12 @@
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('APP_MAKESCHEDULE', {
     ID: {
-      type: DataTypes.INTEGER(11),
+      type: DataTypes.CHAR(255),
       allowNull: false,
       primaryKey: true
     },
     APP_ID: {
-      type: DataTypes.INTEGER(11),
+      type: DataTypes.CHAR(255),
       allowNull: true
     },
     SCHEDULE_NAME: {
@@ -53,6 +53,6 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     createdAt: false,
     updatedAt: false,
-    tableName: 'APP_MAKEFILE'
+    tableName: 'APP_SCHEDULE'
   });
 };
