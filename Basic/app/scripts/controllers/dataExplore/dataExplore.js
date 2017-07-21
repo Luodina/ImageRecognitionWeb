@@ -1,7 +1,7 @@
 'use strict';
 angular.module('basic')
-  .controller('DataExploreCtrl',['createModel','$rootScope','$scope','$filter','projectList','createExpertModule',
-    (createModel, $rootScope, $scope, $filter, projectList,createExpertModule) => {
+  .controller('DataExploreCtrl',['$http','createModel','$rootScope','$scope','$filter','projectList','createExpertModule',
+    ($http, createModel, $rootScope, $scope, $filter, projectList,createExpertModule) => {
     $scope.projectType= ['modelType_00', 'modelType_01', 'modelType_02', 'modelType_03','modelType_04', 'modelType_05','modelType_06'];
     $scope.listAllProject=[[]];
     let handleSuccess = (data, status)=> {
@@ -36,19 +36,29 @@ angular.module('basic')
       }
     };
     projectList.get({}, function (res) {handleSuccess(res);});
+
+    $http.get('/api/cdm/all')
+    .success( data => {
+      console.log('Here gooooood!');
+    })
+    .catch( err => {console.log('err:',err);});
+
     $scope.newProject = (index) => {
-      var arr = [
-        {'title':'modelType_00','content':'web_common_data_explore_020'},
-        {'title':'modelType_01','content':'modelType_01'},
-        {'title':'modelType_02','content':'modelType_02'},
-        {'title':'modelType_03','content':'modelType_03'},
-        {'title':'modelType_04','content':'modelType_04'},
-        {'title':'modelType_05','content':'modelType_05'},
-        {'title':'modelType_06','content':'modelType_06'}
-      ];
-      var arr2 = ['test','data','test','test','test','test','notebook'];
-      createModel.open(arr[index],arr2[index]).then(function (name) {
-        createExpertModule.open(name);
+      // var arr = [
+      //   {'title':'modelType_00','content':'web_common_data_explore_020'},
+      //   {'title':'modelType_01','content':'modelType_01'},
+      //   {'title':'modelType_02','content':'modelType_02'},
+      //   {'title':'modelType_03','content':'modelType_03'},
+      //   {'title':'modelType_04','content':'modelType_04'},
+      //   {'title':'modelType_05','content':'modelType_05'},
+      //   {'title':'modelType_06','content':'modelType_06'}
+      // ];
+      // var arr2 = ['test','data','test','test','test','test','notebook'];
+      // createModel.open(arr[index],arr2[index]).then(function (name) {
+      //   createExpertModule.open(name);
+      // });
+      createModel.open(index).then(function (name) {
+       
       });
     };
 }]);
