@@ -93,6 +93,9 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_app_07': 'Run the choreography',
     'web_common_data_app_08': 'Operation result',
     'web_common_data_app_09': 'Application preview',
+    'web_common_data_app_result_00': 'Task: Loss of user warning',
+    'web_common_data_app_result_01': 'Task: Customer clustering',
+
 
 
     'web_common_data_app_layer_01': 'Create my data application',
