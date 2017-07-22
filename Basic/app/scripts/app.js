@@ -30,6 +30,7 @@ angular
      'ui.router.state.events'
   ])
   .constant('GLOBAL', {
+    host_cdm:'./api/cdm',
     host_jupyter: './api/dataSource',
     host_user: './api/user',
     host_model: './api/model',

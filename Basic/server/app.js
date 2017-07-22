@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import config from './config';
 import path from 'path';
 import favicon from 'serve-favicon';
+import proxy from 'http-proxy-middleware';
 
 let app = express();
 let env = config.env || 'dev';
@@ -23,6 +24,8 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 
 //rest api
+
+                                  
 app.use('/api/jupyter', require('./api/dataSource'));
 app.use('/api/user', require('./api/user'));
 app.use('/api/model', require('./api/model'));
@@ -31,6 +34,8 @@ app.use('/api/expert', require('./api/expert'));
 app.use('/api/appMakeFile', require('./api/appMakeFile'));
 app.use('/api/testSchedule', require('./api/testSchedule'));
 app.use('/api/appFile', require('./api/appFile'));
+//app.use('/queryDS/all', proxy('http://10.20.51.3:5000/queryDS/all'));
+app.use('/queryDS/all', proxy('http://10.20.51.3:5000'));
 //
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, '../',config[env].dist,'/404.html'));// load the single view file (angular will handle the page changes on the front-end)

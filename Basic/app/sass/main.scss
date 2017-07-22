@@ -40,7 +40,6 @@ input:focus,textarea:focus{outline:0}
   background: url("../images/btn_close.png") no-repeat;margin-top:6px;
 }
 
-
 body {
   padding: 0;
   margin: 0;
@@ -101,6 +100,20 @@ body {
     }
   }
   .modal-body {
+    .previewResult{
+      .dataframe{
+        thead th{
+          border:solid 1px #999;
+        }
+        tbody th{
+          border:solid 1px #999;
+        }
+        tbody td{
+          padding: 0 5px;
+          border:solid 1px #999;
+        }
+      }
+    }
     .modal-body-title {
       text-align: center;
       color: #4847ef;
@@ -476,6 +489,22 @@ body {
                 color: #4748ff;
                 border: solid 1px #4748ff;
                 border-radius: 2px;
+              }
+            }
+            .previewResult{
+              width:100%;
+              margin-top: 30px;
+              .dataframe{
+                thead th{
+                  border:solid 1px #999;
+                }
+                tbody th{
+                  border:solid 1px #999;
+                }
+                tbody td{
+                  padding:0 5px;
+                  border:solid 1px #999;
+                }
               }
             }
           }

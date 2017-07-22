@@ -23,13 +23,13 @@ angular.module('basic')
     let modelMode= $location.path().split(/[\s/]+/)[3];
     let modelName = $location.path().split(/[\s/]+/)[4];
     let userName = $rootScope.getUsername();
-    console.log('projectType',projectType,'modelType', modelType, 'modelMode', modelMode, 'modelName', modelName);
-    let initNotebook = (fileName, notebookPath, projectName, userName) => {
+    let initNotebook = (fileName, notebookPath, projectName, userName, modelMode,projectType) => {
       console.log('Lets init it :)', 'fileName', fileName, 'notebookPath', notebookPath, 'projectName', projectName, 'userName', userName);
-      return $http.post('/api/jupyter/init/', { fileName, notebookPath, projectName, userName })
+      return $http.post('/api/jupyter/init/', { fileName, notebookPath, projectName, userName, modelMode, projectType})
       .success( data => {
+        console.log('data:',data);
         if (data.msg !== 'success') {
-          $location.path('/explore');
+          //$location.path('/explore');
           console.log('Error with Notebook init!');
         }
       })
@@ -38,15 +38,12 @@ angular.module('basic')
     $scope.init = () => {
       $http.get('/api/model/' + modelName).success(data => {
         $scope.modelDB = data.model;
-        //if model exists in DB
         if ($scope.modelDB !== null && $scope.modelDB !== undefined) {
-          //if try to create new with the same name as in DB
           if (modelMode === 'new') {
             $location.path('/explore');
             console.log('modelName:', modelName, ' already exist!');
           }
-          //if model opened by owner
-          initNotebook($scope.modelDB.FILE_PATH, $scope.modelDB.NOTEBOOK_PATH, $scope.modelDB.MODEL_NAME, $scope.modelDB.USER_ID)
+          initNotebook($scope.modelDB.FILE_PATH, $scope.modelDB.NOTEBOOK_PATH, $scope.modelDB.MODEL_NAME, $scope.modelDB.USER_ID,modelMode, projectType)
           .then(data => {
             if ($scope.modelDB.USER_ID  === userName) {
               if (modelType !== 'update') {
@@ -64,7 +61,7 @@ angular.module('basic')
           })
           .catch(err =>{console.log('err',err);});
         } else {
-          initNotebook(null, null, modelName, userName);
+          initNotebook(null, null, modelName, userName,modelMode, projectType);
           $scope.$broadcast('model',{ notebook:{}, model:{}, mode: 'new' });
         }
       })

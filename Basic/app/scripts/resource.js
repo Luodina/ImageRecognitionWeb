@@ -14,5 +14,11 @@ angular.module('basic.resource', ['ngResource'])
     let makefileList = $resource(GLOBAL.host_makefile+'/getMakeFileList/:appName', {appName:'@appName'}, {
     });
     return makefileList;
-  }]);
+  }])
+  .factory('cdmSource', ['$resource', 'GLOBAL',function ($resource,GLOBAL) {
+    let all = $resource(GLOBAL.host_cdm+'/queryDS/all', {}, {
+    });
+    return all;
+  }])
+  ;
 
