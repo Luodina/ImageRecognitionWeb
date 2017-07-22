@@ -91,6 +91,7 @@ body {
   //window modal
   .modal-header {
     background: #f2f2f2;
+    min-height: 50px;
     .modal-header-title {
       color: #333;
       font-size: 14px;
@@ -177,6 +178,16 @@ body {
     .email_set{margin-left:80px;}
     .email_set p{float:left;fon-size:14px;line-height:30px;margin-right:15px;}
     .email_set input{width:78%;}
+    select{
+      width:20%;
+    }
+    .pic{
+      display: inline-block;
+      float: right;
+      width: 80%;
+      min-height: 50px;
+      border:solid 1px #999;
+    }
   }
   .modal-footer {
     background: #ecf1ff;

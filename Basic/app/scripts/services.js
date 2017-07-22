@@ -22,7 +22,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                   if (data.result !== null){
                     $scope.model.name = '';
                     $scope.model.nameTip = 'Warning!';
-                  } else {                   
+                  } else {
                     $location.path('/explore/0' + index +'/new/'+$scope.model.name);
                     $uibModalInstance.dismiss();
                   }
@@ -98,13 +98,13 @@ angular.module('basic.services', ['ui.bootstrap'])
                   UPDATED_TIME: date.getTime(),
                   FILE_PATH: data.dataFileName,
                   NOTEBOOK_PATH: data.notebookPath,
-                  COMMENT: 'Lets try it!',  
+                  COMMENT: 'Lets try it!',
                 }
                 $http.post('/api/model/new', savaData).success(function (data) {
                   $location.path('/explore');
                   console.log('MAKEFILE save:', data.msg);
                   $uibModalInstance.close(data.msg);
-                });  
+                });
               });
               $uibModalInstance.dismiss();
             };
@@ -372,6 +372,21 @@ angular.module('basic.services', ['ui.bootstrap'])
             };
             $scope.init();
 
+            $scope.cancel = function () {
+              $uibModalInstance.dismiss();
+            }
+          }]
+      }).result;
+    };
+  }])
+  .service('appOperResult',['$uibModal', function ($uibModal) {
+    this.open = function () {
+      return $uibModal.open({
+        backdrop: 'static',
+        templateUrl: 'views/layer/appOperResult.html',
+        size: 'size',
+        controller: ['$cookies', '$scope', '$filter', '$uibModalInstance',
+          function ($cookies, $scope, $filter, $uibModalInstance) {
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
             }
