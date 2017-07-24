@@ -27,7 +27,7 @@ angular.module('basic')
             });
             //end create
           } else if (createOrEdit === "edit") {
-            $scope.updateScheduleByName(schedule.name, schedule.command, time, schedule.state);
+            $scope.updateScheduleByName(schedule.appId,schedule.name, schedule.command, time, schedule.state);
           }
 
 
@@ -103,8 +103,9 @@ angular.module('basic')
        * @param time
        * @param state
        */
-      $scope.updateScheduleByName = function (scheduleName, target, time, state) {
+      $scope.updateScheduleByName = function (appId,scheduleName, target, time, state) {
         $http.post('/api/testSchedule/updateScheduleByName', {
+          'APP_ID':appId,
           'SCHEDULE_NAME': scheduleName,
           'COMMAND': target,
           'TIME': time,

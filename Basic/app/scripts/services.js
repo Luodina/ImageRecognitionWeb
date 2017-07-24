@@ -22,7 +22,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                   if (data.result !== null){
                     $scope.model.name = '';
                     $scope.model.nameTip = 'Warning!';
-                  } else { 
+                  } else {
                     $location.path('/explore/0' + index +'/new/'+$scope.model.name);
                     $uibModalInstance.dismiss();
                   }
@@ -107,14 +107,9 @@ angular.module('basic.services', ['ui.bootstrap'])
                   UPDATED_TIME: date.getTime(),
                   FILE_PATH: data.dataFileName,
                   NOTEBOOK_PATH: data.notebookPath,
-<<<<<<< HEAD
-                  COMMENT: 'Lets try it!', 
-                  APP_ID: appName
-                }
-=======
                   COMMENT: 'Lets try it!',
+                  APP_ID: appName
                 };
->>>>>>> e6e6cb19a1fc516e117dd329209a9a428a1739ca
                 $http.post('/api/model/new', savaData).success(function (data) {
                   $location.path('/explore');
                   console.log('Jupyter save:', data.msg);
@@ -153,7 +148,7 @@ angular.module('basic.services', ['ui.bootstrap'])
               $uibModalInstance.dismiss();
             }
             $scope.changeStyle = function(idx){
-              
+
               angular.forEach($scope.items, function (item, i) {
                 item.isActive = false;
               });
@@ -311,6 +306,8 @@ angular.module('basic.services', ['ui.bootstrap'])
               editSchedule.HOUR?$scope.hours.changestatus = editSchedule.HOUR:$scope.hours.changestatus=0;
               editSchedule.HOUR?$scope.minutes.changestatus = editSchedule.MINUTE:$scope.minutes.changestatus=0;
               editSchedule.STATE =="RUNNING"?$scope.isPause=false:$scope.isPause=true;
+              editSchedule.APP_ID?$scope.schedule.appId=editSchedule.APP_ID:$scope.schedule;
+
               if(editSchedule.DATE){
                  $scope.grids.changestatus="每月";
                  $scope.isWeekOk=false;
