@@ -27,7 +27,7 @@ angular
     'basic.routers',
     'basic.resource',
     'basic.services',
-     'ui.router.state.events'
+    'ui.router.state.events'
   ])
   .constant('GLOBAL', {
     host_cdm:'',
