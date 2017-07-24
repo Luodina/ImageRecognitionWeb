@@ -4,7 +4,7 @@
 'use strict';
 angular.module('basic.routers', ['ui.router'])
   .config(function ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/home');
+    $urlRouterProvider.otherwise('/');
     var states = [
       { name: 'main', url: '/', templateUrl: 'views/main.html', controller: 'MainCtrl'},
       { name: 'home',
