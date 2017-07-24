@@ -4,18 +4,18 @@
 'use strict';
 angular.module('basic.routers', ['ui.router'])
   .config(function ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/home');
+    $urlRouterProvider.otherwise('/');
     var states = [
-      { name: 'main', url: '/', templateUrl: "views/main.html", controller: 'MainCtrl'},
+      { name: 'main', url: '/', templateUrl: 'views/main.html', controller: 'MainCtrl'},
       { name: 'home',
         url: '/home',
-        templateUrl: "views/dataApp/dataApp.html",
+        templateUrl: 'views/dataApp/dataApp.html',
         controller:'DataAppCtrl'
       },
       {
         name: 'appInfo',
         url: '/app/{mode}/{name}',
-        templateUrl: "views/dataApp/appInfo.html",
+        templateUrl: 'views/dataApp/appInfo.html',
         controller: 'AppInfoCtrl'
       },
       {
@@ -52,4 +52,4 @@ angular.module('basic.routers', ['ui.router'])
     states.forEach(function (state) {
       $stateProvider.state(state);
     });
-  })
+  });

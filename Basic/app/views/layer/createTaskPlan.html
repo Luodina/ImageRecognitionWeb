@@ -4,8 +4,9 @@
 </div>
 <div class="modal-body">
   <div class="createTaskPlan" style="margin-top: 10px;"><p class="diag_tit_set">计划名称</p>
-    <input ng-if="isEdit" ng-model='schedule.name' type="text" disabled>
-    <input ng-if="!isEdit" ng-model='schedule.name' type="text">
+    <!--<input ng-if="isEdit" ng-model='schedule.name' type="text" disabled>-->
+    <!--<input ng-if="!isEdit" ng-model='schedule.name' type="text">-->
+    <input ng-model="schedule.name" type="text">
   </div>
   <div class="createTaskPlan"><p class="diag_tit_set">计划命令</p><input  ng-model='schedule.command' type="text"></div>
   <div class="createTaskPlan"><p class="diag_tit_set">计划设置</p>

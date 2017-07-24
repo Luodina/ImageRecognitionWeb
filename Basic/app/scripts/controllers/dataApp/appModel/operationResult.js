@@ -1,9 +1,12 @@
 
 "use strict";
 angular.module('basic')
-  .controller('ResultCtrl',['$rootScope','$filter','$scope',
-  ($rootScope,$filter, $scope) => {
+  .controller('ResultCtrl',['appOperResult','$rootScope','$filter','$scope',
+  (appOperResult,$rootScope,$filter, $scope) => {
     $scope.projectType=['web_common_data_app_result_00', 'web_common_data_app_result_01'];
+    $scope.view =() => {
+      appOperResult.open()
+    }
 
   }])
   .directive('result', () => {
