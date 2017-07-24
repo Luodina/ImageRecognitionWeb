@@ -224,9 +224,10 @@ angular.module('basic.services', ['ui.bootstrap'])
         size: 'size',
         controller: ['$cookies', '$scope', '$filter', '$uibModalInstance', '$http',
           function ($cookies, $scope, $filter, $uibModalInstance, $http) {
-          console.log("-------------.....------------",createOrEdit)
             $scope.schedule=null;
             createOrEdit =='edit'?$scope.schedule=editSchedule:$scope.schedule;
+            createOrEdit =='edit'?$scope.isEdit=true:$scope.isEdit=false;
+            $scope.isPause=false;
             //计划设置1
             $scope.grids = {
               changestatus:'每周',
@@ -289,9 +290,10 @@ angular.module('basic.services', ['ui.bootstrap'])
             });
             // if edit,the schedule_name can not change
             if(createOrEdit =='edit'&&editSchedule){
-              $scope.hours.changestatus = editSchedule.HOUR;
-               $scope.minutes.changestatus = editSchedule.MINUTE;
-               if(editSchedule.DATE){
+              editSchedule.HOUR?$scope.hours.changestatus = editSchedule.HOUR:$scope.hours.changestatus=0;
+              editSchedule.HOUR?$scope.minutes.changestatus = editSchedule.MINUTE:$scope.minutes.changestatus=0;
+              editSchedule.STATE =="RUNNING"?$scope.isPause=false:$scope.isPause=true;
+              if(editSchedule.DATE){
                  $scope.grids.changestatus="每月";
                  $scope.isWeekOk=false;
                  $scope.isMonthOk=true;
@@ -315,14 +317,21 @@ angular.module('basic.services', ['ui.bootstrap'])
               $uibModalInstance.dismiss();
             };
             $scope.save = function () {
-              console.log("on save ===============..",$scope.schedule,$scope.weeks.changestatus,$scope.grids.changestatus);
-              $scope.schedule.appId="App2";
+              if($scope.grids.changestatus=="每周"){
+                $scope.months.changestatus=null;
+              }else if($scope.grids.changestatus=="每月"){
+                $scope.weeks.changestatus=null
+              }else if($scope.grids.changestatus=="每天"){
+                $scope.months.changestatus = null;
+                $scope.weeks.changestatus = null;
+              }
               $scope.schedule.choice=$scope.grids.changestatus;
               $scope.schedule.date=parseInt($scope.months.changestatus);
               $scope.schedule.hour= parseInt($scope.hours.changestatus);
               $scope.schedule.minute =parseInt($scope.minutes.changestatus);
               $scope.schedule.dayOfWeek = $scope.weeks.changestatus;
-              $scope.schedule.state ="RUNNING"
+              $scope.isPause==false?$scope.schedule.state ="RUNNING":$scope.schedule.state ="SUSPEND";
+              console.log("on save >>>>$scope.isPause,$scope.schedule",$scope.isPause,$scope.schedule);
               $uibModalInstance.close($scope.schedule);
             }
           }]

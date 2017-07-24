@@ -11,10 +11,10 @@ angular.module('basic')
           if (schedule.choice == "每周") {
             schedule.dayOfWeek == "周一" ? schedule.dayOfWeek = 1 : schedule.dayOfWeek == "周二" ? schedule.dayOfWeek = 2 : schedule.dayOfWeek == "周三" ? schedule.dayOfWeek = 3 : schedule.dayOfWeek == "周四" ? schedule.dayOfWeek = 4 : schedule.dayOfWeek == "周五" ? schedule.dayOfWeek = 5 : schedule.dayOfWeek == "周六" ? schedule.dayOfWeek = 6 : schedule.dayOfWeek == "周日" ? schedule.dayOfWeek = 0 :schedule.dayOfWeek= 0;
             time.dayOfWeek = parseInt(schedule.dayOfWeek);
-            console.log("dayOfWeek--------->",time.dayOfWeek)
           } else if (schedule.choice == "每月") {
             time.date = schedule.date;
           }
+          schedule.appId = $scope.appName;
           if (createOrEdit === "create") {
             //the scheduleName is unique
             $scope.getScheduleByName(schedule.name, function (data) {
@@ -27,13 +27,18 @@ angular.module('basic')
             });
             //end create
           } else if (createOrEdit === "edit") {
-            console.log("current scope schedule**************");
             $scope.updateScheduleByName(schedule.name, schedule.command, time, schedule.state);
           }
 
 
         })
       }
+
+      // get app_name
+      var location = window.location.href;
+      var appIndex = location.lastIndexOf("/");
+      $scope.appName =location.substring(appIndex+1);
+
 
 
       /**
@@ -50,8 +55,8 @@ angular.module('basic')
 
         })
       };
-      $scope.getScheduleById("App2");
-
+      // get schedule list by appName
+      $scope.getScheduleById($scope.appName);
       /**
        * get schedule count by scheduleName
        * @param scheduleName
