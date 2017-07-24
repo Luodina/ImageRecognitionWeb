@@ -68,6 +68,14 @@ angular
       console.log('toState', toState.name);
       $rootScope.active = toState.name;
     });
+
+
+    $rootScope.onePagShow=true;
+    $rootScope.twoPagShow=false;
+    $rootScope.change=function(){
+      $rootScope.onePagShow=false;
+      $rootScope.twoPagShow=true;
+    }
     // $rootScope.iflogin=false;
     //   $rootScope.$on('$stateChangeStart', function (event,toState) {
     //     console.log(toState.name);
@@ -121,5 +129,4 @@ angular
   //     }
   //   }
   // }])
-
 
