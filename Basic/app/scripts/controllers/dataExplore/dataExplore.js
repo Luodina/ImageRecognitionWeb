@@ -1,7 +1,7 @@
 'use strict';
 angular.module('basic')
-  .controller('DataExploreCtrl',['cdmSource','$http','createModel','$rootScope','$scope','$filter','projectList','createExpertModule',
-    (cdmSource, $http, createModel, $rootScope, $scope, $filter, projectList,createExpertModule) => {
+  .controller('DataExploreCtrl',['createAppModel','$http','createModel','$rootScope','$scope','$filter','projectList','createExpertModule',
+    (createAppModel, $http, createModel, $rootScope, $scope, $filter, projectList,createExpertModule) => {
     $scope.projectType= ['modelType_00', 'modelType_01', 'modelType_02', 'modelType_03','modelType_04', 'modelType_05','modelType_06'];
     $scope.listAllProject=[[]];
     let handleSuccess = (data, status)=> {
@@ -24,9 +24,9 @@ angular.module('basic')
                 model.MODEL_INFO = Object.values(objJSON);
               }
               if (model.USER_ID === $rootScope.getUsername()){
-                model.mode = 'update'
+                model.mode = 'update';
               }else{
-                model.mode = 'view'
+                model.mode = 'view';
               };
               $scope.listAllProject[parseInt(model.VIEW_MENU_ID)].push(model);
 
@@ -38,6 +38,9 @@ angular.module('basic')
     projectList.get({}, function (res) {handleSuccess(res);});
     
     $scope.newProject = (index) => {
+      if (index === 6 ) {
+        createAppModel.open();
+      }
       // var arr = [
       //   {'title':'modelType_00','content':'web_common_data_explore_020'},
       //   {'title':'modelType_01','content':'modelType_01'},
@@ -51,12 +54,14 @@ angular.module('basic')
       // createModel.open(arr[index],arr2[index]).then(function (name) {
       //   createExpertModule.open(name);
       // });
-      createModel.open(index).then((msg) => {
-        if (msg === 'success') { 
-          projectList.get({}, function (res) {handleSuccess(res);});
-        }
-      })
-      .catch(err =>{console.log('err',err);});
+      if (index === 1 ) {
+        createModel.open(index).then((msg) => {
+          if (msg === 'success') { 
+            projectList.get({}, function (res) {handleSuccess(res);});
+          }
+        })
+        .catch(err =>{console.log('err',err);});
+      }
     };
 }]);
 

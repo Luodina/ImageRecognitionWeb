@@ -7,19 +7,14 @@ let path = require('path');
 //let fs = require('fs');
 const fs = require('fs-extra')
 const config = require('./../config');
-let env = config.env || 'dev';
-const basePath = config[env].dataAppPath;
+const env = config.env || 'dev';
+const basePath = config[env].appPath;
 const templatePath = path.join(__dirname, '../../template/data_apply_demo');
-
-
 
 router.get('/:appName', function (req, res) {
   
     let appName = req.params.appName;
-    console.log('initAppFile');
-    console.log(appName);
     let destPath = path.join(basePath, appName);
-    console.log('destPath',destPath);
     fs.copy(templatePath, destPath)
       .then(() => {
         console.log('success!');

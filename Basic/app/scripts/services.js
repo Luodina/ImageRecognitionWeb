@@ -22,7 +22,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                   if (data.result !== null){
                     $scope.model.name = '';
                     $scope.model.nameTip = 'Warning!';
-                  } else {                   
+                  } else { 
                     $location.path('/explore/0' + index +'/new/'+$scope.model.name);
                     $uibModalInstance.dismiss();
                   }
@@ -43,7 +43,7 @@ angular.module('basic.services', ['ui.bootstrap'])
         controller: [ '$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', '$http',
           ($rootScope, $location, $scope, $filter, $uibModalInstance, $http) => {
             //$scope.title = 'Title';//$filter('translate')(obj.title)
-            $scope.title = $filter('translate')('web_common_data_app_layer_01')
+            $scope.title = $filter('translate')('web_common_data_app_layer_01');
             //$scope.content = 'Content';//$filter('translate')(obj.content);
             $scope.content = $filter('translate')('web_common_data_app_layer_02');
             $scope.url = 'app';
@@ -89,20 +89,30 @@ angular.module('basic.services', ['ui.bootstrap'])
             $scope.save = function () {
               $http.get('/api/jupyter/save').success(function (data) {
                 let date = new Date();
+                let projectType;
+                let appName;
+                 console.log('projectType:', data.projectType);
+                if ($location.path().split(/[\s/]+/).pop() === data.projectType){
+                  projectType = '01';
+                } else{
+                  projectType = '00';
+                  appName = data.projectType;
+                }
                 let savaData = {
                   MODEL_NAME: $location.path().split(/[\s/]+/).pop(),
                   MODEL_INFO: data.modelInfo,
                   USER_ID: $cookies.get('username'),
-                  TYPE_MENU_ID: '01',
-                  VIEW_MENU_ID: '01',
+                  TYPE_MENU_ID: projectType,
+                  VIEW_MENU_ID: data.modelType,
                   UPDATED_TIME: date.getTime(),
                   FILE_PATH: data.dataFileName,
                   NOTEBOOK_PATH: data.notebookPath,
-                  COMMENT: 'Lets try it!',  
+                  COMMENT: 'Lets try it!', 
+                  APP_ID: appName
                 }
                 $http.post('/api/model/new', savaData).success(function (data) {
                   $location.path('/explore');
-                  console.log('MAKEFILE save:', data.msg);
+                  console.log('Jupyter save:', data.msg);
                   $uibModalInstance.close(data.msg);
                 });  
               });
@@ -132,22 +142,25 @@ angular.module('basic.services', ['ui.bootstrap'])
               {img:'pic6',content:'modelType_06',url:'notebook',name:'notebook',isActive:false}
             ]
             $scope.items[0].isActive=true;
+            let type = 1;
             $scope.urlcontent = $scope.items[0];
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
             }
             $scope.changeStyle = function(idx){
+              
               angular.forEach($scope.items, function (item, i) {
                 item.isActive = false;
               });
               $scope.items[idx].isActive=true;
+              type = idx+1;
               $scope.urlcontent = $scope.items[idx];
               console.log('312312',$scope.urlcontent);
             }
             $scope.create = function () {
               if($scope.model.name !== undefined && $scope.model.name !== null) {
                 $uibModalInstance.dismiss();
-                $location.path('/'+ appName +'/0'+ $scope.model.type + '/new/' + $scope.model.name);
+                $location.path('/'+ appName +'/0'+ type + '/new/' + $scope.model.name);
               }
             };
           }]

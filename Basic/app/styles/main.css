@@ -167,6 +167,19 @@ body .modal-header .modal-header-close {
   float: right;
 }
 
+body .modal-body .previewResult .dataframe thead th {
+  border: solid 1px #999;
+}
+
+body .modal-body .previewResult .dataframe tbody th {
+  border: solid 1px #999;
+}
+
+body .modal-body .previewResult .dataframe tbody td {
+  padding: 0 5px;
+  border: solid 1px #999;
+}
+
 body .modal-body .modal-body-title {
   text-align: center;
   color: #4847ef;
@@ -732,6 +745,24 @@ body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePar
   color: #4748ff;
   border: solid 1px #4748ff;
   border-radius: 2px;
+}
+
+body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult {
+  width: 100%;
+  margin-top: 30px;
+}
+
+body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe thead th {
+  border: solid 1px #999;
+}
+
+body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe tbody th {
+  border: solid 1px #999;
+}
+
+body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe tbody td {
+  padding: 0 5px;
+  border: solid 1px #999;
 }
 
 body .dataExploreModel .exploreModelRight .dataReport .reportPart .title {

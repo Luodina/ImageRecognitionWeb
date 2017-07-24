@@ -1,17 +1,18 @@
 
 "use strict";
 angular.module('basic')
-  .controller('DataSourceCtrl',['$rootScope', '$location','$sce','$filter', '$scope','$http','Upload', 'Notification', '$timeout',
-    function ($rootScope, $location, $sce, $filter, $scope, $http, Upload, Notification, $timeout) {
+  .controller('DataSourceCtrl',['cdmSource','$rootScope', '$location','$sce','$filter', '$scope','$http','Upload', 'Notification', '$timeout',
+    function (cdmSource, $rootScope, $location, $sce, $filter, $scope, $http, Upload, Notification, $timeout) {
     $scope.name = $filter('translate')('web_common_data_explore_001');
     $scope.$on('model',function(el, dataModel){
+      //console.log('dataModel',dataModel);
       $scope.model = dataModel.model;
       $scope.notebook = dataModel.notebook;
       $scope.mode = dataModel.mode;
       //console.log('model in DS:', $scope.model.model, "notebook", $scope.model.notebook[1]['text/html'], "mode:", $scope.model.mode);
-      // console.log('model in DS:', $scope.model, dataModel[1]['text/html']);
+      //console.log('model in DS:', $scope.model, $scope.notebook, $scope.mode);
       if ($scope.mode !== 'new'){
-        $scope.result = $scope.notebook.outputs[1]['text/html']?  $scope.notebook.outputs[1]['text/html'] :"Result...";
+        $scope.result = $scope.notebook.outputs?  $scope.notebook.outputs[1]['text/html'] :"Result...";
       }
 
       //$scope.result = $scope.model.outputs[1]['text/html']? $scope.model.outputs[1]['text/html'] :"Result...";      // if (Object.keys($scope.model).length == 0) {
@@ -95,6 +96,15 @@ angular.module('basic')
       .catch(err =>{console.log("err",err);
       });
     };
+
+    let handleSuccesscdmSource = (data, status)=> {
+      console.log('handleSuccesscdmSource cdmSource',data);
+    }
+
+    cdmSource.query({}, function (res) {
+      console.log('cdmSource',res);
+      handleSuccesscdmSource(res);
+    });
     // $scope.init();
   }])
 .directive('source', function() {

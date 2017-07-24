@@ -23,6 +23,7 @@ router.post('/new', function(req, res){
     let filePath = req.body.FILE_PATH;
     let notebookPath = req.body.NOTEBOOK_PATH;
     let comment = req.body.COMMENT;
+    let appName = req.body.APP_ID;
     console.log("req.body", req.body);
     sequelize.transaction(t => {
         return Model.create({
@@ -36,6 +37,7 @@ router.post('/new', function(req, res){
             FILE_PATH: filePath,
             NOTEBOOK_PATH: notebookPath,
             COMMENT:comment,
+            APP_ID:appName,
             isNewRecord:true})
             .then(() => {res.send({ msg:'success' });})
             .catch(err =>{console.log( "err",err );});

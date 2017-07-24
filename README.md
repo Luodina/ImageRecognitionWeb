@@ -18,9 +18,13 @@
         
     （4）在命令行下执行：jupyter notebook，记住日志中生成的URL及token：http://localhost:8888/?token=0c7b170fd6c4751d04f44ef60329f4312e8f0a4b45e597a6
     （5）在OCAI目录下的server/config.js 中修改：
-              notebookUrl: 'http://localhost:8888',
-              notebookPath: "/Users/luodina",
-              token:"0c7b170fd6c4751d04f44ef60329f4312e8f0a4b45e597a6"
+                notebookUrl: 'http://127.0.0.1:8888/', // specify Notebook host
+                token:'56d721a9ae536e5a592868d1dac3e6129e332f158a2e44b8',
+                mariadb:'mariadb://ocai:Ocai@1234@10.1.236.82:3306/ocai',
+                appPath:'notebookApp', // create folder to save Application projects in project root dir /Basic/'new_appPath_dir'
+                modelPath:'notebookModel' // create folder to save Application projects in project root dir /Basic/'new_modelPath_dir'
+    Run Jupyter Notebook in root project dir /Basic/ 
+
 5.  [mysql配置]
      mysql数据库安装在10.1.236.82上，连接串为：mariadb://ocai:Ocai@1234@10.1.236.82:3306/ocai
      需要在server/config.js修改：mariadb:"mariadb://ocai:Ocai@1234@10.1.236.82:3306/ocai"

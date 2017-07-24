@@ -3,10 +3,8 @@ import { Session, ContentsManager} from '@jupyterlab/services';
 import { XMLHttpRequest } from 'xmlhttprequest';
 import { default as WebSocket } from 'ws';
 import { readFile, writeFile, existsSync, readFileSync, mkdir, createReadStream, createWriteStream } from 'fs';
-
 global.XMLHttpRequest = XMLHttpRequest;
 global.WebSocket = WebSocket;
-
 const express = require('express');
 const router = express.Router();
 const path = require('path');
@@ -15,36 +13,54 @@ const env = config.env || 'dev';
 
 const templatIpynbPath = path.join(__dirname, '../../template');
 const templatIpynbFile = '/dataProfile-V4.0.ipynb';
-let baseNotebookPath = config[env].notebookPath;;
-// const filePath = 'filePath=\n';
-// const htmlFilePath = 'htmlFilePath=\n';
+const modelPath = config[env].modelPath;
+const appPath = config[env].appPath;
+let baseNotebookPath;
+let baseNotebookDir;
+let projectType;
+let modelName;
+let userName;
+let type;
+function notebookPath(type){
+    if (type === 'explore'){
+        return path.join(__dirname, '../../' + modelPath);
+    } else {
+        return path.join(__dirname, '../../' + appPath);
+    }
+}
+function notebookDir(type){
+    if (type === 'explore'){
+        return 'notebookModel';
+    } else {
+        return 'notebookApp';
+    }
+}
+function notebookOpts(type){
+    return {
+        baseUrl: config[env].notebookUrl,
+        token: config[env].token,
+        kernelName: 'python',
+        path: notebookPath('app'),
+    };
+}
 
-const options = {
-    baseUrl: config[env].notebookUrl,
-    token: config[env].token,
-    kernelName: 'python',
-    path: baseNotebookPath,
-};
-let projectName;
 let outputs = Array(10);
 let source = Array(10);
 let sourceCodes = [];
 let mode;
 let dataFileName;
 let htmlFileName;
-
-
 let modelInfo;
 let mysession;
 let kernel;
 
-console.log('!!!!!!!!___________OPTIONS:', options);
-let contents = new ContentsManager(options);
+//console.log('!!!!!!!!___________OPTIONS:', options);
+//let contents = new ContentsManager(options);
 let multer = require('multer');
 let storage = multer.diskStorage({
     destination:
      function destination(req, destination, cb) {
-        cb(null, baseNotebookPath + '/' +  projectName);
+        cb(null, baseNotebookPath + '/' + projectType);
     },
 
     filename: function filename(req,file, cb) {
@@ -70,29 +86,22 @@ function ensureExists(path, mask, cb) {
     });
 }
 
-function getMode(f1, f2, user){
-    if (f1 !== undefined && f1 !== null && f2 !== undefined && f2 !== null && user !== undefined && user !== null) {
-        if (user === 'ocai'){
-            return 'update';
-        } else { return 'view';}
-    } else { return 'new';}
-}
 function init(){
     console.log('init');
     if (sourceCodes[0] !== undefined){
-        // console.log('!!!!!!!!STEP0___________CODE:', sourceCodes[0]);
+        console.log('!!!!!!!!STEP0___________CODE:', sourceCodes[0]);
         kernel.requestExecute({ code: sourceCodes[0]});
     }
 }
-function runNewSession(){
+function runNewSession(options){
     Session.listRunning(options).then(sessionModels => {
-
         let sessionNums = sessionModels.length;
         let existSession = false;
         console.log('sessionModels.length',sessionModels.length);
         for (let i = 0; i < sessionNums; i++) {
             let path = sessionModels[i].notebook.path;
             if (path === templatIpynbPath) {
+                console.log(sessionModels[i]);
                 Session.connectTo(sessionModels[i].id, options).then(session => {
                     kernel = session.kernel;
                     mysession = session;
@@ -143,69 +152,82 @@ function writeFilePromisified(filename,text) {
 
 router.post('/init', function (req, res) {
     let fileName = req.body.fileName;
-    let notebookPath = req.body.notebookPath;
-    projectName = req.body.projectName;
-    let userName = req.body.userName;
-    let projectType = req.body.projectType;
-    if (projectType !== 'explore') {
-        baseNotebookPath = config[env].dataAppPath+ '/' + projectType;//notebookPath;
+    //let notebookPath = req.body.notebookPath;
+    modelName = req.body.projectName;
+    userName = req.body.userName;
+    type = req.body.projectType;
+    mode = req.body.modelMode;
+    baseNotebookPath = notebookPath(type);
+    baseNotebookDir = notebookDir(type);
+    if (type === 'explore') {      
+        projectType = modelName;
+    } else{
+        projectType = type;    
     }
-    mode = req.body.modelMode;//getMode(fileName, notebookPath, userName);
-    console.log('/init: fileName ', fileName, 'projectName  ', projectName, 'userName', userName, 'projectType', projectType);
-    console.log('baseNotebookPath',baseNotebookPath);
+    let options = notebookOpts(type);
+    console.log('!!!!!!!!___________OPTIONS:', options);
+    let contents = new ContentsManager(options);   
+    console.log(`/init: fileName ${fileName}
+                        modelName ${modelName} 
+                        userName ${userName}
+                        projectType ${projectType}
+                        baseNotebookPath' ${baseNotebookPath}
+                        contents ${contents}`);
+    
     if (mode === 'new'){
-        ensureExists(baseNotebookPath + '/'+ projectName, '0744', function(err) {
+        ensureExists(baseNotebookPath + '/'+ projectType, '0744', function(err) {
             if (err) {
                 console.log('Cannot create folder: ',err);
-            } else {
-                console.log('Success!!!' , baseNotebookPath + '/'+ projectName + '/'+ projectName + '.ipynb', 'exists!');
+            } else {           
                 createReadStream(templatIpynbPath + templatIpynbFile)
-                .pipe(createWriteStream(baseNotebookPath + '/'+ projectName + '/'+ projectName + '.ipynb'));
-                    contents.get(projectName + '/'+ projectName + '.ipynb')
-                    .then(model =>{
-                        for(let i = 0; i<model.content.cells.length; i++){
-                            sourceCodes[i] =  model.content.cells[i].source;
-                        }
-                        runNewSession();
-                        res.status(200).send({ msg: 'success' });
-                    })
-                    .catch(err => {
-                        console.log('Content problem!', err);
-                    });
+                .pipe(createWriteStream(baseNotebookPath + '/'+ projectType + '/'+ modelName + '.ipynb'))
+                console.log('Success!!!' , baseNotebookPath + '/'+ projectType + '/'+ modelName + '.ipynb', 'exists!');
+                contents.get( baseNotebookDir + '/' + projectType + '/'+ modelName + '.ipynb')
+                .then(model =>{
+                    for(let i = 0; i<model.content.cells.length; i++){
+                        sourceCodes[i] =  model.content.cells[i].source;
+                    }
+                    runNewSession(options);
+                    res.status(200).send({ msg: 'success', outputs: outputs,sources:source });
+                })
+                .catch(err => {
+                    console.log('Content problem!', err);
+                })
+               
             }
         });
     }
     if (mode === 'update' || mode === 'view'){
-        if (existsSync(baseNotebookPath  + '/' + projectName  + '/' + projectName + '.ipynb')) {
-            readFilePromisified(baseNotebookPath  + '/'+ projectName + '/' + projectName + '.ipynb')
+        console.log('!!!!!!!!!!!!!File ', baseNotebookPath + '/' + projectType + '/'+ modelName + '.ipynb') ;
+        if (existsSync(baseNotebookPath  + '/' + projectType  + '/' + modelName + '.ipynb')) {
+            readFilePromisified(baseNotebookPath  + '/'+ projectType + '/' + modelName + '.ipynb')
             .then(text => {
                 let obj = JSON.parse(text);  //now it an object
                 for (let i = 0, len = obj.cells.length; i < len; i++) {
                     let tmpOutputs = obj.cells[i].outputs;
                     if (tmpOutputs !== undefined && tmpOutputs !== null){
-                      if (tmpOutputs.length !== 0) {
-                              if (tmpOutputs[0].data !== undefined && tmpOutputs[0].data !== null ){
-                                  outputs[i] = tmpOutputs[0].data ;
-                              }
-                      }
+                        if (tmpOutputs.length !== 0) {
+                            if (tmpOutputs[0].data !== undefined && tmpOutputs[0].data !== null ){
+                                outputs[i] = tmpOutputs[0].data;
+                            }
+                        }
                     }
-                    //source
-                  let tmpSource = obj.cells[i].source;
-                  if (tmpSource !== undefined && tmpSource !== null){
-                    if (tmpSource.length !== 0) {
-                      if (tmpSource!== undefined && tmpSource!== null ){
-                        source[i] = tmpSource ;
-                      }
+                    let tmpSource = obj.cells[i].source;
+                    if (tmpSource !== undefined && tmpSource !== null){
+                        if (tmpSource.length !== 0) {
+                            if (tmpSource!== undefined && tmpSource!== null ){
+                                source[i] = tmpSource;
+                            }
+                        }
                     }
-                  }
                 }
-                res.status(200).send({ msg: 'success'});
+                res.status(200).send({ msg: 'success', outputs: outputs, sources:source});
             })
             .catch(err => {
                 console.log(err);
             });
         } else {
-            console.log('File ', baseNotebookPath + '/' + projectName + '/'+ projectName + '.ipynb', ' does not exist!') ;
+            console.log('File ', baseNotebookPath + '/' + projectType + '/'+ modelName + '.ipynb', ' does not exist!') ;
         }
     }
 });
@@ -221,8 +243,8 @@ router.get('/report/:fn', function (req, res) {
         dataFileName = req.params.fn;
     }
 
-    if (existsSync(baseNotebookPath + '/'+ projectName + '/' + dataFileName.replace(/.csv/g, '_') + 'report.html')) {
-        let html = readFileSync(baseNotebookPath + '/'+ projectName + '/' + dataFileName.replace(/.csv/g, '_') + 'report.html', 'utf8');
+    if (existsSync(baseNotebookPath + '/'+ projectType + '/' + dataFileName.replace(/.csv/g, '_') + 'report.html')) {
+        let html = readFileSync(baseNotebookPath + '/'+ projectType + '/' + dataFileName.replace(/.csv/g, '_') + 'report.html', 'utf8');
         res.status(200).send({data: html });
     } else {
         res.status(200).send({data: '<div>!!!!!!!</div>' });
@@ -234,13 +256,13 @@ router.post('/step1', function (req, res) {
     let htmlFileName = req.body.htmlFileName;
 
     // notebookPath = templatFolderPath + '/'+ dataFileName + '.ipynb'
-    console.log('dataFileName ', dataFileName, 'htmlFileName', htmlFileName, '/'+ projectName + '/');
+    console.log('dataFileName ', dataFileName, 'htmlFileName', htmlFileName, '/'+ projectType + '/');
     // // Rename a file.
     // contents.rename(templatFolderPath + templatIpynbPath, notebookPath);
         if (sourceCodes[1] !== undefined){
             let code = sourceCodes[1];
-            code = code.replace(/filePath=/g, 'filePath=\'' + baseNotebookPath + '/'+ projectName + '/'+ dataFileName +'\'\n');
-            code = code.replace(/htmlFilePath=/g, 'htmlFilePath=\'' + baseNotebookPath + '/'+ projectName + '/'+htmlFileName + '\'\n');
+            code = code.replace(/filePath=/g, 'filePath=\'' + baseNotebookPath + '/'+ projectType + '/'+ dataFileName +'\'\n');
+            code = code.replace(/htmlFilePath=/g, 'htmlFilePath=\'' + baseNotebookPath + '/'+ projectType + '/'+htmlFileName + '\'\n');
             console.log('!!!!!!!!STEP1___________CODE:', code);
             source[1]=code;
             let future = kernel.requestExecute({ code: code});
@@ -377,8 +399,8 @@ router.get('/step6', function (req, res) {
 });
 
 router.get('/save', function (req, res) {
-    if (existsSync(baseNotebookPath + '/'+ projectName  + '/' + projectName + '.ipynb')) {
-        readFilePromisified(baseNotebookPath + '/'+ projectName + '/' + projectName + '.ipynb')
+    if (existsSync(baseNotebookPath + '/'+ projectType  + '/' + modelName + '.ipynb')) {
+        readFilePromisified(baseNotebookPath + '/'+ projectType + '/' + modelName + '.ipynb')
     //readFilePromisified(baseNotebookPath + notebookPath)
         .then(text => {
             console.log('outputs array', outputs);
@@ -402,7 +424,7 @@ router.get('/save', function (req, res) {
             }
             let json = JSON.stringify(obj); //convert it back to json
             console.log('json', json);
-            writeFilePromisified(baseNotebookPath +'/' +  projectName + '/' + projectName + '.ipynb', json)
+            writeFilePromisified(baseNotebookPath +'/' +  projectType + '/' + modelName + '.ipynb', json)
             .then(() => {
                 // get model info
 
@@ -410,9 +432,13 @@ router.get('/save', function (req, res) {
                 mysession.shutdown()
                 .then(() => {
                     console.log('session closed');
-                    console.log('modelInfo', modelInfo, 'dataFileName', dataFileName);
-                    res.status(200).send({ modelInfo: modelInfo, dataFileName:dataFileName, notebookPath: baseNotebookPath });
-                    //res.status(200).send({ msg:'success'});
+                    console.log('modelInfo', modelInfo, 'dataFileName', dataFileName, 'baseNotebookDir', baseNotebookDir,'type',type);
+                    res.status(200).send({ modelInfo: modelInfo, 
+                                           dataFileName:dataFileName,
+                                           notebookPath: baseNotebookDir, 
+                                           projectType: projectType,
+                                           modelType: '01'
+                                        });
                 })
                 .catch(err => {
                     console.log(err);
@@ -426,7 +452,7 @@ router.get('/save', function (req, res) {
             console.log(err);
         });
     } else {
-        console.log('File ', baseNotebookPath + '/'+ projectName + '/'+ projectName + '.ipynb', ' does not exist!') ;
+        console.log('File ', baseNotebookPath + '/'+ projectType + '/'+ modelName + '.ipynb', ' does not exist!') ;
     }
 });
 

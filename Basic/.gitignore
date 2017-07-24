@@ -16,3 +16,5 @@ log/
 *.log
 users.dat
 .tmp/
+/notebookModel
+/notebookApp
