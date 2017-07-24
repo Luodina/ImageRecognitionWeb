@@ -14,7 +14,7 @@ angular.module('basic.services', ['ui.bootstrap'])
 
             $scope.cancel = () => {
               $uibModalInstance.dismiss();
-            }
+            };
             $scope.create = () => {
               if($scope.model.name !== undefined && $scope.model.name !== null) {
                 //check in DB APP
@@ -65,14 +65,14 @@ angular.module('basic.services', ['ui.bootstrap'])
                           .success((data) => {
                             $location.path('/app/new/'+$scope.model.name);
                             $uibModalInstance.dismiss();
-                          })
+                          });
                         }
                       })
                       .catch(err=>{console.log(err)});
                     }
                 });
               };
-            }
+            };
           }]
       }).result;
     };
@@ -83,8 +83,8 @@ angular.module('basic.services', ['ui.bootstrap'])
         backdrop: 'static',
         templateUrl: 'views/layer/savePreview.html',
         size: 'size',
-        controller: ['$scope', '$filter', '$uibModalInstance', '$location', '$cookies',
-          function ($scope, $filter, $uibModalInstance, $location, $cookies) {
+        controller: ['$scope', '$uibModalInstance', '$location', '$cookies',
+          function ($scope, $uibModalInstance, $location, $cookies) {
             $scope.resultPreview = resultPreview;
             $scope.save = function () {
               $http.get('/api/jupyter/save').success(function (data) {
@@ -99,7 +99,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                   FILE_PATH: data.dataFileName,
                   NOTEBOOK_PATH: data.notebookPath,
                   COMMENT: 'Lets try it!',
-                }
+                };
                 $http.post('/api/model/new', savaData).success(function (data) {
                   $location.path('/explore');
                   console.log('MAKEFILE save:', data.msg);
@@ -299,10 +299,10 @@ angular.module('basic.services', ['ui.bootstrap'])
                  $scope.isMonthOk=true;
                  $scope.months.changestatus=editSchedule.DATE;
                }else if(editSchedule.DAYOFWEEK){
-                 $scope.grids.changestatus="每周";
+                 $scope.grids.changestatus='每周';
                  $scope.isWeekOk=true;
                  $scope.isMonthOk=false;
-                 editSchedule.DAYOFWEEK == 1 ? editSchedule.DAYOFWEEK ="周一" : editSchedule.DAYOFWEEK == 2 ? editSchedule.DAYOFWEEK ="周二" : editSchedule.DAYOFWEEK == 3 ? editSchedule.DAYOFWEEK ="周三" : editSchedule.DAYOFWEEK == 4 ? editSchedule.DAYOFWEEK ="周四" : editSchedule.DAYOFWEEK == 5 ? editSchedule.DAYOFWEEK ="周五" : editSchedule.DAYOFWEEK == 6 ? editSchedule.DAYOFWEEK ="周六" : editSchedule.DAYOFWEEK == 7 ? editSchedule.DAYOFWEEK ="周日" :editSchedule.DAYOFWEEK;
+                 editSchedule.DAYOFWEEK === 1 ? editSchedule.DAYOFWEEK ='周一' : editSchedule.DAYOFWEEK == 2 ? editSchedule.DAYOFWEEK ='周二': editSchedule.DAYOFWEEK == 3 ? editSchedule.DAYOFWEEK ="周三" : editSchedule.DAYOFWEEK == 4 ? editSchedule.DAYOFWEEK ='周四' : editSchedule.DAYOFWEEK == 5 ? editSchedule.DAYOFWEEK ='周五' : editSchedule.DAYOFWEEK == 6 ? editSchedule.DAYOFWEEK ='周六' : editSchedule.DAYOFWEEK == 7 ? editSchedule.DAYOFWEEK ='周日' :editSchedule.DAYOFWEEK;
                  $scope.weeks.changestatus=editSchedule.DAYOFWEEK;
                }else {
                  $scope.isWeekOk=false;
@@ -365,13 +365,13 @@ angular.module('basic.services', ['ui.bootstrap'])
                 let savaData = {
                   MODEL_NAME: $location.path().split(/[\s/]+/).pop(),
                   USER_ID: $cookies.get("username"),
-                  TYPE_MENU_ID: "01",
-                  VIEW_MENU_ID: "06",
+                  TYPE_MENU_ID: '01',
+                  VIEW_MENU_ID: '06',
                   UPDATED_TIME: date.getTime(),
                   NOTEBOOK_PATH: response.data.notebookPath,
                   COMMENT: 'Lets try it!'
                 };
-                console.log("Data to DB savaData:", savaData);
+                console.log('Data to DB savaData:', savaData);
                 $http.post('/api/model/new', savaData).success(function (data) {
                   console.log("Expert MODE save:", data.msg);
                 });

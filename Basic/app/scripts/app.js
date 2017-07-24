@@ -11,8 +11,8 @@ angular
     'ngTouch',
     'pascalprecht.translate',
     'ngFileUpload',
-    "isteven-multi-select",
-    "dndLists",
+    'isteven-multi-select',
+    'dndLists',
     'ui.bootstrap',
     'ui-notification',
     'angularSpinner',
@@ -47,7 +47,7 @@ angular
       $translateProvider.preferredLanguage(lang);
     }
   }])
-  .config(['NotificationProvider','usSpinnerConfigProvider', '$httpProvider', 'ChartJsProvider', function (NotificationProvider, usSpinnerConfigProvider, $httpProvider, ChartJsProvider) {
+  .config(['NotificationProvider','usSpinnerConfigProvider', 'ChartJsProvider', function (NotificationProvider, usSpinnerConfigProvider, ChartJsProvider) {
     NotificationProvider.setOptions({
       delay: 10000,
       startTop: 20,
@@ -63,13 +63,11 @@ angular
       chartColors: ['#4da9ff','#79d2a6','#ff9900','#ff704d','#669999','#4d0000']
     });
   }])
-  .run(['$rootScope', '$location', '$state', '$http', '$cookies', function ($rootScope, $location, $state, $http, $cookies) {
+  .run(['$rootScope', '$location', '$http', '$cookies', function ($rootScope, $location, $http, $cookies) {
     $rootScope.$on('$stateChangeStart', function (event,toState) {
       console.log('toState', toState.name);
       $rootScope.active = toState.name;
-    })
-
-
+    });
     // $rootScope.iflogin=false;
     //   $rootScope.$on('$stateChangeStart', function (event,toState) {
     //     console.log(toState.name);
@@ -87,23 +85,23 @@ angular
     //   })
 
     $rootScope.login = (username, password) => {
-      $http.post("/api/user/login/", {username, password}).success(function (user) {
+      $http.post('/api/user/login/', {username, password}).success(function (user) {
         if (user.status) {
-          console.log("LOGIN SUCCESS!");
-          $cookies.put("username", username);
-          $location.path("/home");
+          console.log('LOGIN SUCCESS!');
+          $cookies.put('username', username);
+          $location.path('/home');
           $rootScope.iflogin = true;
         } else {
-          console.log("LOGIN FAILED!please, use login name:ocai and pass:123456");
+          console.log('LOGIN FAILED!please, use login name:ocai and pass:123456');
         }
       }).error(function (err) {
         $rootScope.message = err;
       });
     };
     $rootScope.getUsername = () => {
-      return $cookies.get("username");
+      return $cookies.get('username');
     };
-  }])
+  }]);
   // .factory('dataFactory', ['$resource', '$http', function ($resource, $http) {
   //   return {
   //     getProjectList: () => {
