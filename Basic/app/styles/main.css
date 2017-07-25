@@ -156,6 +156,7 @@ body .login p {
 
 body .modal-header {
   background: #f2f2f2;
+  min-height: 50px;
 }
 
 body .modal-header .modal-header-title {
@@ -368,6 +369,18 @@ body .modal-body .email_set p {
 
 body .modal-body .email_set input {
   width: 78%;
+}
+
+body .modal-body select {
+  width: 20%;
+}
+
+body .modal-body .pic {
+  display: inline-block;
+  float: right;
+  width: 80%;
+  min-height: 50px;
+  border: solid 1px #999;
 }
 
 body .modal-footer {

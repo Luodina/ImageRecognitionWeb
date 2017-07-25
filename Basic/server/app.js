@@ -35,7 +35,7 @@ app.use('/api/appMakeFile', require('./api/appMakeFile'));
 app.use('/api/testSchedule', require('./api/testSchedule'));
 app.use('/api/appFile', require('./api/appFile'));
 //app.use('/queryDS/all', proxy('http://10.20.51.3:5000/queryDS/all'));
-app.use('/queryDS/all', proxy('http://10.20.51.3:5000'));
+app.use('/datasets', proxy('http://10.20.51.3:5000'));
 //
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, '../',config[env].dist,'/404.html'));// load the single view file (angular will handle the page changes on the front-end)

@@ -107,14 +107,10 @@ angular.module('basic.services', ['ui.bootstrap'])
                   UPDATED_TIME: date.getTime(),
                   FILE_PATH: data.dataFileName,
                   NOTEBOOK_PATH: data.notebookPath,
-<<<<<<< HEAD
                   COMMENT: 'Lets try it!', 
                   APP_ID: appName
                 }
-=======
-                  COMMENT: 'Lets try it!',
-                };
->>>>>>> e6e6cb19a1fc516e117dd329209a9a428a1739ca
+
                 $http.post('/api/model/new', savaData).success(function (data) {
                   $location.path('/explore');
                   console.log('Jupyter save:', data.msg);
