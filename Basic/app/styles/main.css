@@ -106,7 +106,9 @@ body .browsehappy {
 }
 
 body .header {
-  height: 50px;
+  height: 52px;
+  clear: both;
+  overflow: hidden;
 }
 
 body .header .navbar-au {
@@ -169,15 +171,32 @@ body .modal-header .modal-header-close {
 }
 
 body .modal-body .previewResult .dataframe thead th {
+  padding: 0 5px;
+  text-align: center;
+  border: solid 1px #999;
+}
+
+body .modal-body .previewResult .dataframe thead tr th:nth-child(1) {
+  padding: 0 15px;
+  text-align: center;
   border: solid 1px #999;
 }
 
 body .modal-body .previewResult .dataframe tbody th {
+  padding: 0 5px;
+  text-align: center;
+  border: solid 1px #999;
+}
+
+body .modal-body .previewResult .dataframe tbody tr th:nth-child(1) {
+  padding: 0 15px;
+  text-align: center;
   border: solid 1px #999;
 }
 
 body .modal-body .previewResult .dataframe tbody td {
   padding: 0 5px;
+  text-align: center;
   border: solid 1px #999;
 }
 
@@ -639,9 +658,9 @@ body .dataExploreModel .exploreModelLeft ul .active div.circle {
 }
 
 body .dataExploreModel .exploreModelRight {
-  width: 85%;
+  margin: 0;
+  float: left;
   padding: 0;
-  overflow-y: auto;
 }
 
 body .dataExploreModel .exploreModelRight .button {
@@ -665,8 +684,7 @@ body .dataExploreModel .exploreModelRight .button .bBtn:hover {
 
 body .dataExploreModel .exploreModelRight .dataSource {
   margin: 0;
-  padding-left: 30px;
-  min-height: 600px;
+  padding: 0 30px;
 }
 
 body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .title {
@@ -763,19 +781,41 @@ body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePar
 body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult {
   width: 100%;
   margin-top: 30px;
+  overflow-x: auto;
 }
 
 body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe thead th {
+  padding: 0 5px;
+  text-align: center;
+  border: solid 1px #999;
+}
+
+body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe thead tr th:nth-child(1) {
+  padding: 0 15px;
+  text-align: center;
   border: solid 1px #999;
 }
 
 body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe tbody th {
+  padding: 0 5px;
+  text-align: center;
+  border: solid 1px #999;
+}
+
+body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe tbody tr th:nth-child(1) {
+  padding: 0 15px;
+  text-align: center;
   border: solid 1px #999;
 }
 
 body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe tbody td {
   padding: 0 5px;
+  text-align: center;
   border: solid 1px #999;
+}
+
+body .dataExploreModel .exploreModelRight .dataReport .reportPart {
+  margin-left: 30px;
 }
 
 body .dataExploreModel .exploreModelRight .dataReport .reportPart .title {
@@ -789,8 +829,7 @@ body .dataExploreModel .exploreModelRight .dataReport .reportPart .title {
 
 body .dataExploreModel .exploreModelRight .dataProcess {
   margin: 0;
-  padding-left: 30px;
-  min-height: 600px;
+  padding: 0 30px;
 }
 
 body .dataExploreModel .exploreModelRight .dataProcess .processPart .title {

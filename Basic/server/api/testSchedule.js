@@ -5,15 +5,23 @@ let MakeSchedule = require('../model/APP_MAKESCHEDULE')(sequelize, Sequelize);
 let express = require('express');
 let router = express.Router();
 let moment = require('moment');
-let schedule = require('node-schedule');
 
+let schedule = require('node-schedule');
+const exec = require('child_process').exec;
+const config = require('./../config');
+const env = config.env || 'dev';
+const dataAppPath=config[env].appPath;
+
+// format schedule time
 function getTime(scheduleObj,callback){
   var time = {hour: scheduleObj.hour, minute: scheduleObj.minute};
   scheduleObj.DATE?time.date=scheduleObj.DATE:time;
   scheduleObj.DAYOFWEEK?time.dayOfWeek=scheduleObj.DAYOFWEEK:time;
   callback(time);
 }
-function newScheduleJob(scheduleName,time,command){
+
+// new scheduleJob
+function newScheduleJob(scheduleName,time,command,appName){
     schedule.scheduleJob(scheduleName,time,function () {
       //check the db,if the schedule state == RUNNING
       MakeSchedule.findOne({
@@ -23,9 +31,38 @@ function newScheduleJob(scheduleName,time,command){
         console.log("schedule -------------------",makeSchedule);
         if(makeSchedule.STATE && makeSchedule.STATE=="RUNNING"){
           console.log("makeSchedule Running ------------------->",command);
+          scheduleExecFile(appName,command,dataAppPath,function (data) {
+            console.log("schedule shell---->",data)
+
+          })
+
         }
       })
     });
+}
+
+
+// exec schedule shell
+function scheduleExecFile(appName,target,dataAppPath,callback) {
+  //const { execFile } = require('child_process');
+  // const child=execFile('./scheduleShell.sh', [appName,target,appFolderPath], (error, stdout, stderr) => {
+  //   if (error) {
+  //     throw error;
+  //     callback(error)
+  //   }
+  //   console.log(stdout);
+  //   callback(stdout)
+  // });
+  var appFolderPath=dataAppPath+"/"+appName;
+  var comms = "cd "+appFolderPath+" && make "+target;
+  console.log("--------------comms=>",comms)
+  exec(comms,[""],(error,stdout,stderr) =>{
+    if(error){
+      throw error;
+    }
+    console.log("shell exec--------->",stdout)
+    callback(stdout)
+  })
 }
 
 // check the schedule db  if
@@ -113,7 +150,7 @@ router.post('/createSchedule',(req, res) => {
             DAYOFWEEK: time.dayOfWeek,
             isNewRecord:true
         }).then(() => {
-          newScheduleJob(scheduleName,time,command);
+          newScheduleJob(scheduleName,time,command,appID);
           // schedule.scheduleJob(scheduleName,time,function () {
           //   //check the db,if the schedule state == RUNNING
           //   MakeSchedule.findOne({
@@ -137,6 +174,7 @@ router.post('/createSchedule',(req, res) => {
 
 //edit schedule by schedule_name
 router.post('/updateScheduleByName',(req, res) => {
+  let appId=req.body.APP_ID;
   let scheduleName = req.body.SCHEDULE_NAME;
   let state = req.body.STATE;
   let command = req.body.COMMAND;
@@ -164,7 +202,7 @@ router.post('/updateScheduleByName',(req, res) => {
         schedule.scheduledJobs[scheduleName].cancel();
         console.log("schedule list afte delte=====edit",schedule.scheduledJobs);
       }
-      newScheduleJob(scheduleName,time,command);
+      newScheduleJob(scheduleName,time,command,appId);
       //create the new chedule with the same name
       // schedule.scheduleJob(scheduleName,time,function () {
       //   //check the db,if the schedule state == RUNNING

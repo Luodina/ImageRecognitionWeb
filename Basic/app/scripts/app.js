@@ -27,7 +27,8 @@ angular
     'basic.routers',
     'basic.resource',
     'basic.services',
-     'ui.router.state.events'
+    'ui.router.state.events',
+    'angularFileUpload'
   ])
   .constant('GLOBAL', {
     host_cdm:'',
@@ -68,6 +69,14 @@ angular
       console.log('toState', toState.name);
       $rootScope.active = toState.name;
     });
+
+
+    $rootScope.onePagShow=true;
+    $rootScope.twoPagShow=false;
+    $rootScope.change=function(){
+      $rootScope.onePagShow=false;
+      $rootScope.twoPagShow=true;
+    }
     // $rootScope.iflogin=false;
     //   $rootScope.$on('$stateChangeStart', function (event,toState) {
     //     console.log(toState.name);
@@ -121,5 +130,4 @@ angular
   //     }
   //   }
   // }])
-
 

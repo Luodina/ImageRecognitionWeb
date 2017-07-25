@@ -1,7 +1,7 @@
 "use strict";
 angular.module('basic')
-  .controller('TaskPlanCtrl', ['$rootScope', '$filter', '$http', '$scope', 'createTaskPlan',
-    ($rootScope, $filter, $http, $scope, createTaskPlan) => {
+  .controller('TaskPlanCtrl', ['$location','$rootScope', '$filter', '$http', '$scope', 'createTaskPlan',
+    ($location,$rootScope, $filter, $http, $scope, createTaskPlan) => {
       // $scope.openTaskPlan = ()=>{
       //   createTaskPlan.open()
       // }
@@ -27,27 +27,22 @@ angular.module('basic')
             });
             //end create
           } else if (createOrEdit === "edit") {
-            $scope.updateScheduleByName(schedule.name, schedule.command, time, schedule.state);
+            $scope.updateScheduleByName(schedule.appId,schedule.name, schedule.command, time, schedule.state);
           }
-
 
         })
       }
 
       // get app_name
-      var location = window.location.href;
-      var appIndex = location.lastIndexOf("/");
-      $scope.appName =location.substring(appIndex+1);
-
-
-
+      $scope.appName = $location.path().split(/[\s/]+/).pop();
+      console.log("!!!!!!!!$scope.appName====>", $scope.appName)
       /**
        * get schedule list by app_id
        * @param app_id
        */
       $scope.getScheduleById = function (app_id) {
         $http.get('/api/testSchedule/getScheduleListById/' + app_id).success(function (data) {
-          console.log("schedule list====>", data);
+          console.log("schedule list====>", data.makeSchedule);
           $scope.scheduleList = data.makeSchedule;
           $scope.scheduleList.forEach(function (schedule) {
             schedule.DAYOFWEEK == 1 ? schedule.DAYOFWEEK ="周一" : schedule.DAYOFWEEK == 2 ? schedule.DAYOFWEEK ="周二" : schedule.DAYOFWEEK == 3 ? schedule.DAYOFWEEK ="周三" : schedule.DAYOFWEEK == 4 ? schedule.DAYOFWEEK ="周四" : schedule.DAYOFWEEK == 5 ? schedule.DAYOFWEEK ="周五" : schedule.DAYOFWEEK == 6 ? schedule.DAYOFWEEK ="周六" : schedule.DAYOFWEEK == 7 ? schedule.DAYOFWEEK ="周日" :schedule.DAYOFWEEK;
@@ -86,6 +81,9 @@ angular.module('basic')
           'STATE': state
         }).success(function (data) {
           console.log("createSchedule success====>", data)
+          console.log(" createScheduleschedule.appId====>",app_id);
+          $scope.scheduleList =[];
+          $scope.getScheduleById(app_id);
 
         }).error(function (error) {
           console.log("createSchedule error====X ", error)
@@ -103,14 +101,17 @@ angular.module('basic')
        * @param time
        * @param state
        */
-      $scope.updateScheduleByName = function (scheduleName, target, time, state) {
+      $scope.updateScheduleByName = function (appId,scheduleName, target, time, state) {
         $http.post('/api/testSchedule/updateScheduleByName', {
+          'APP_ID':appId,
           'SCHEDULE_NAME': scheduleName,
           'COMMAND': target,
           'TIME': time,
           'STATE': state
         }).success(function (data) {
           console.log("editSchedule success====>", data)
+          $scope.scheduleList =[];
+          $scope.getScheduleById(appId);
         }).error(function (error) {
           console.log("editSchedule error====X ", error)
         })
@@ -120,12 +121,14 @@ angular.module('basic')
        * delete schedule by scheduleName
        * @param scheduleName
        */
-      $scope.deleteSchedule = function (scheduleName) {
+      $scope.deleteSchedule = function (scheduleName,appId) {
         console.log("deleteSchedule", scheduleName);
         $http.post('/api/testSchedule/deleteScheduleByName', {
           'SCHEDULE_NAME': scheduleName
         }).success(function (data) {
-          console.log("delete schedule====>", data)
+          console.log("delete schedule====>", data);
+          $scope.scheduleList =[];
+          $scope.getScheduleById(appId);
         });
       }
 
@@ -145,7 +148,10 @@ angular.module('basic')
           'SCHEDULE_NAME': scheduleName,
           'STATE': state
         }).success(function (data) {
-          console.log("pause or running schedule====>", data)
+          console.log("pause or running schedule====>", data);
+          $scope.scheduleList =[];
+          $scope.getScheduleById(appId);
+
         });
       }
 
