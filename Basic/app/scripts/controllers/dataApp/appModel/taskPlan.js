@@ -110,6 +110,8 @@ angular.module('basic')
           'STATE': state
         }).success(function (data) {
           console.log("editSchedule success====>", data)
+          $scope.scheduleList =[];
+          $scope.getScheduleById(appId);
         }).error(function (error) {
           console.log("editSchedule error====X ", error)
         })
@@ -119,15 +121,14 @@ angular.module('basic')
        * delete schedule by scheduleName
        * @param scheduleName
        */
-      $scope.deleteSchedule = function (scheduleName) {
+      $scope.deleteSchedule = function (scheduleName,appId) {
         console.log("deleteSchedule", scheduleName);
         $http.post('/api/testSchedule/deleteScheduleByName', {
           'SCHEDULE_NAME': scheduleName
         }).success(function (data) {
           console.log("delete schedule====>", data);
-          console.log(" createScheduleschedule.appId====>",app_id);
           $scope.scheduleList =[];
-          $scope.getScheduleById(app_id);
+          $scope.getScheduleById(appId);
         });
       }
 
@@ -147,7 +148,10 @@ angular.module('basic')
           'SCHEDULE_NAME': scheduleName,
           'STATE': state
         }).success(function (data) {
-          console.log("pause or running schedule====>", data)
+          console.log("pause or running schedule====>", data);
+          $scope.scheduleList =[];
+          $scope.getScheduleById(appId);
+
         });
       }
 

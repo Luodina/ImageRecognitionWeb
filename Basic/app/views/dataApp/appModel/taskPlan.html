@@ -14,7 +14,7 @@
       <td style="vertical-align: middle;"ng-if="schedule.DAYOFWEEK">每周 {{schedule.DAYOFWEEK}} {{schedule.HOUR}}点{{schedule.MINUTE}}分</td>
       <td style="vertical-align: middle;"ng-if="!schedule.DAYOFWEEK && !schedule.DATE">每天 {{schedule.HOUR}}点{{schedule.MINUTE}}分</td>
       <td style="vertical-align: middle;">
-        <span class="btn" ng-click="deleteSchedule(schedule.SCHEDULE_NAME)">删除</span>
+        <span class="btn" ng-click="deleteSchedule(schedule.SCHEDULE_NAME,schedule.APP_ID)">删除</span>
         <span class="btn" ng-if="schedule.STATE=='SUSPEND'" ng-click="pauseSchedule(schedule.SCHEDULE_NAME,schedule.STATE)">
           运行
         </span>
