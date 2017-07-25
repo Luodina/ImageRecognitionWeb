@@ -1,9 +1,30 @@
 
 "use strict";
 angular.module('basic')
-  .controller('DataSourceCtrl',['cdmSource','$rootScope', '$location','$sce','$filter', '$scope','$http','Upload', 'Notification', '$timeout',
-    function (cdmSource, $rootScope, $location, $sce, $filter, $scope, $http, Upload, Notification, $timeout) {
+  .controller('DataSourceCtrl',['cdmSource','$rootScope', '$location','$sce','$filter', '$scope','$http','Upload', 'Notification', '$timeout','FileUploader',
+    function (cdmSource, $rootScope, $location, $sce, $filter, $scope, $http, Upload, Notification, $timeout,FileUploader) {
     $scope.name = $filter('translate')('web_common_data_explore_001');
+
+      var uploader = $rootScope.uploader = new FileUploader({
+        url: 'upload.php',
+        queueLimit: 1,     //文件个数
+        removeAfterUpload: true,
+        //filters:[
+        //  {
+        //    name:'filter',
+        //    fn:function(item){
+        //      this.clearqueue();
+        //      return true;
+        //    }
+        //  }
+        //]
+
+      });
+
+
+      $rootScope.clearItems = function(){    //重新选择文件时，清空队列，达到覆盖文件的效果
+        uploader.clearQueue();
+      }
     $scope.$on('model',function(el, dataModel){
       //console.log('dataModel',dataModel);
       $scope.model = dataModel.model;

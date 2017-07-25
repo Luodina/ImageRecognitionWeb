@@ -27,7 +27,8 @@ angular
     'basic.routers',
     'basic.resource',
     'basic.services',
-    'ui.router.state.events'
+    'ui.router.state.events',
+    'angularFileUpload'
   ])
   .constant('GLOBAL', {
     host_cdm:'',
