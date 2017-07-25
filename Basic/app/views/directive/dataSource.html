@@ -1,6 +1,15 @@
 <p class="title">{{ 'web_common_data_explore_004' | translate}}</p>
 <div class="dataSourceChoose">
   <input type="radio" ng-model="bigData" value="iptOne">&nbsp;&nbsp;{{'web_common_data_explore_005' | translate}}
+  <select class="form-control select">
+    <option>1</option>
+    <option>2</option>
+    <option>3</option>
+    <option>4</option>
+    <option>5</option>
+  </select>
+  &nbsp;&nbsp;{{'web_common_data_explore_005_02' | translate}}
+
 </div>
 <div class="dataFileImport">
   <input type="radio" ng-model="bigData" value="iptTwo">&nbsp;&nbsp;{{'web_common_data_explore_006' | translate}}
@@ -16,10 +25,3 @@
   <span class="dataSource-preview" ng-click="run(fileName)">{{'web_common_data_explore_008' | translate}}</span>
 </div>
 <div ng-bind-html="result" class="previewResult" style="overflow: scroll;"></div>
-<!--<script type="text/javascript">-->
-  <!--var file = document.getElementById("file");-->
-  <!--var fileName = document.getElementById("fileName");-->
-  <!--function handleFile(){-->
-    <!--fileName.value = file.value;-->
-  <!--}-->
-<!--</script>-->
