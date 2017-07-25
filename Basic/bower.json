@@ -31,7 +31,8 @@
     "angular-moment": "^1.0.1",
     "bootstrap-tokenfield": "bootstrap-tokenfield-ocsp#^0.12.2",
     "bootstrap-application-wizard": "bootstrap-application-wizard-ocsp#^1.0.4",
-    "angular-chart.js": "^1.1.1"
+    "angular-chart.js": "^1.1.1",
+    "angular-file-upload": "^2.5.0"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"
@@ -46,7 +47,7 @@
         "dist/js/bootstrap.js"
       ]
     },
-    "angular-ui-router":{
+    "angular-ui-router": {
       "main": [
         "release/angular-ui-router.min.js",
         "release/stateEvents.min.js"
