@@ -10,7 +10,7 @@ let schedule = require('node-schedule');
 const exec = require('child_process').exec;
 const config = require('./../config');
 const env = config.env || 'dev';
-const dataAppPath=config[env].modelPath;
+const dataAppPath=config[env].appPath;
 
 // format schedule time
 function getTime(scheduleObj,callback){
