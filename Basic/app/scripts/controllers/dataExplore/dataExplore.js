@@ -1,7 +1,7 @@
 'use strict';
 angular.module('basic')
-  .controller('DataExploreCtrl',['openNotebook','$http','createModel','$rootScope','$scope','$filter','projectList','createExpertModule',
-    (openNotebook, $http, createModel, $rootScope, $scope, $filter, projectList,createExpertModule) => {
+  .controller('DataExploreCtrl',['$location','templateList','openNotebook','$http','createModel','$rootScope','$scope','$filter','projectList','createExpertModule',
+    ($location, templateList, openNotebook, $http, createModel, $rootScope, $scope, $filter, projectList,createExpertModule) => {
     $scope.projectType= ['modelType_00', 'modelType_01', 'modelType_02', 'modelType_03','modelType_04', 'modelType_05','modelType_06'];
     $scope.listAllProject=[[]];
     let handleSuccess = (data, status)=> {
@@ -35,9 +35,20 @@ angular.module('basic')
         }, this);
       }
     };
+    $scope.openProject = (item) => {
+      console.log('item.VIEW_MENU_ID', item.VIEW_MENU_ID, 'item.mode', item.mode); 
+      if (item.VIEW_MENU_ID === '01'){
+        
+        $location.path('/explore/' + item.VIEW_MENU_ID +'/'+item.mode+'/'+item.MODEL_NAME);
+      }  
+      if (item.VIEW_MENU_ID === '06'){
+        $location.path('/notebook/'+item.mode+'/'+item.MODEL_NAME);
+      }     
+    };
     projectList.get({}, function (res) {handleSuccess(res);});
     $scope.newProject = (index) => {
-      let arrItem;
+       
+      let arrItem = [];
       if (index === 1 ) {
         arrItem = [
           {img:'pic1',content:'modelType_01',url:'data',name:'data',isActive:false},
@@ -56,18 +67,29 @@ angular.module('basic')
         .catch(err =>{console.log('err',err);});
       }
       if (index === 6 ) {
-        arrItem = [
-          {img:'pic1',content:'modelType_01',url:'data',name:'data',isActive:false},
-          {img:'pic2',content:'modelType_02',url:'t1',name:'data2',isActive:false},
-          {img:'add_btn',content:'', url:'', name:'', isActive:false},
-        ];
-        createExpertModule.open(arrItem).then((model)=>{
-          openNotebook.open(model.modelTemplate, model.modelName, 'explore').then((msg) => {
-            $scope.listAllProject=[[]];
-            projectList.get({}, function (res) {handleSuccess(res);});
+        arrItem = []; 
+        templateList.get({}, function (data) {
+          if (data !== null && data !== undefined ){
+            data.files.forEach(file => {  
+              if (file.split('.ipynb')[0] !== 'new'){
+                arrItem.push({content: file.split('.ipynb')[0], isActive:false});
+                console.log('arrItem',arrItem);
+              }
+            });
+            arrItem.push({content: 'new', img:'add_btn', isActive:false});
+            createExpertModule.open(arrItem).then((model)=>{
+              openNotebook.open(model.modelTemplate, model.modelName, 'explore').then((msg) => {
+                $scope.listAllProject=[[]];
+                projectList.get({}, function (res) {handleSuccess(res);});
+              }
+              );
+            });
+          }else{
+            console.log('HERE!');  
           }
-          );
+
         });
+
       }
     };
 }]);

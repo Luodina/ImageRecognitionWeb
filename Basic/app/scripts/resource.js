@@ -20,5 +20,10 @@ angular.module('basic.resource', ['ngResource'])
     });
     return cdmSource;
   }])
+  .factory('templateList', ['$resource', 'GLOBAL',function ($resource,GLOBAL) {
+    let templateList = $resource(GLOBAL.host_expert +'/notebook/templateList', {}, {
+    });
+    return templateList;
+  }])
   ;
 

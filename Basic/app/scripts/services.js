@@ -380,7 +380,7 @@ angular.module('basic.services', ['ui.bootstrap'])
             };
             $scope.create = function () {
               if($scope.model.name !== undefined && $scope.model.name !== null) {
-                $uibModalInstance.close({modelTemplate: $scope.urlcontent, modelName:$scope.model.name});
+                $uibModalInstance.close({modelTemplate: $scope.urlcontent.content, modelName:$scope.model.name});
               }
             };
           }]
@@ -403,6 +403,7 @@ angular.module('basic.services', ['ui.bootstrap'])
             $scope.init = function () {
               $http.get('/api/expert/pathNoteBook', {
                 params: {
+                  modelTemplate:modelTemplate,
                   modelName: modelName,
                   modelType: modelType
                 }

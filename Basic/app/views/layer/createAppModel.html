@@ -11,10 +11,10 @@
     <div class="chooseModel" >
       <div class="model1 lf" ng-repeat="item in items" ng-click="changeStyle($index)" ng-class="{'set_active':item.isActive}">
         <div >
-          <i ng-if = "!($index === items.length-1 && projectType === 'explore')" class="pic_cion"></i>
+          <i ng-if = "projectType !== 'explore'" class="pic_cion"></i>
           <p><img src="../../images/{{item.img}}.png"/></p>
           <p ng-if = "!($index === items.length-1 && projectType === 'explore')">{{item.content|translate}}</p>
-          <p ng-if = "!($index === items.length-1 && projectType === 'explore')" class="description">关于此框架的描述文本</p>
+          <p ng-if = "projectType !== 'explore'" class="description">关于此框架的描述文本</p>
         </div>
       </div>       
     </div>

@@ -19,8 +19,8 @@
           <i ng-if = "$index !== 0" ng-click="newProject($index)" class="addSmPic" style="margin-top: -5px;"></i>
         </uib-tab-heading>                    
         <div class="dataExplore-container-main" 
-             ng-repeat="item in listAllProject[$index]" 
-             ui-sref="data({appNm:'explore', type: '0' + $index, mode:item.mode, modelNm: item.MODEL_NAME})">
+             ng-repeat="item in listAllProject[$index]"
+             ng-click="openProject(item)" >
           <div class="date_set_main">
           <div class="main_header_data">{{item.MODEL_NAME}}</div>
           <div class="main_container_data">

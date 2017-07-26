@@ -8,7 +8,7 @@ let moment = require('moment');
 
 router.get('/getProjectList', function(req,res){    
     Model.findAll({raw: true})
-    .then(model=>{ res.send({model});})
+    .then(model=>{res.send({model});})
     .catch(err =>{console.log('err',err);});    
 });
 
