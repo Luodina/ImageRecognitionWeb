@@ -1,7 +1,6 @@
-
-"use strict";
+'use strict';
 angular.module('basic')
-  .controller('PreviewCtrl',['$rootScope','$filter', '$scope',
+  .controller('PreviewCtrl',['$scope',
   ($rootScope, $filter, $scope) => {
       $scope.isShow = true;
       $scope.isError = true;

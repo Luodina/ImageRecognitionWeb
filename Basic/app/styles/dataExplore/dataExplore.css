@@ -66,10 +66,6 @@
   font-style: normal;
 }
 
-.dataExplore-container .tab-default .nav-tabs li .nav-link .text:active {
-  border-bottom: solid 2px #4874ff;
-}
-
 .dataExplore-container .tab-default .nav-tabs li .nav-link .icon {
   margin: 0 10px;
   display: inline-block;
@@ -103,6 +99,10 @@
 .dataExplore-container .tab-default .nav-tabs li a:focus {
   outline: none;
   color: #4874ff;
+  border-bottom: solid 2px #4874ff;
+}
+
+.dataExplore-container .tab-default .nav-tabs li.active .nav-link {
   border-bottom: solid 2px #4874ff;
 }
 

@@ -1,4 +1,3 @@
-//
 'use strict';
 let sequelize = require('../sequelize');
 let Sequelize = require('sequelize');
@@ -8,7 +7,6 @@ let router = express.Router();
 
 router.get('/getMakeFileList/:appID', (req, res) => {   
   let appID = req.params.appID;
-  console.log("appID",appID); 
   if (appID !== null){
     MakeFile.findAll({
         where: { APP_ID: appID},
@@ -18,7 +16,7 @@ router.get('/getMakeFileList/:appID', (req, res) => {
     .then(appMakeFileList => {   
       res.send({appMakeFileList: appMakeFileList});
     })
-    .catch(err =>{console.log("err",err);});
+    .catch(err =>{console.log('err',err);});
   }
 });
 
@@ -30,7 +28,6 @@ router.post('/new', (req, res) => {
     let target = req.body.TARGET;
     let prerequisites = req.body.PREREQUISITES;
     let flag = req.body.FLAG;
-    console.log("req.body", req.body);
     sequelize.transaction(t => {
         return MakeFile.create({
             ID: t.id, 
@@ -42,7 +39,7 @@ router.post('/new', (req, res) => {
             FLAG: flag,
             isNewRecord:true})
             .then(() => {res.send({ msg:'success' });})
-            .catch(err =>{console.log("err", err);});
+            .catch(err =>{console.log('err', err);});
     }); 
 });
 

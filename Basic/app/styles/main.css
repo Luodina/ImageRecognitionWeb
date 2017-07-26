@@ -105,6 +105,79 @@ body .browsehappy {
   padding: 0.2em 0;
 }
 
+body #pagOne {
+  max-width: none;
+  max-height: none;
+  height: 100%;
+  width: 100%;
+  background: url(../images/homeBag.png) no-repeat;
+  background-size: cover;
+}
+
+body #pagOne .lf {
+  float: left;
+}
+
+body #pagOne .rt {
+  float: right;
+}
+
+body #pagOne .loginBtn1 {
+  display: inline-block;
+  position: relative;
+  top: 25px;
+  right: 150px;
+}
+
+body #pagOne .loginBtn1 .loginBtn1a {
+  color: #CDCCD0;
+}
+
+body #pagOne .homepag_nav {
+  height: 100px;
+  line-height: 100px;
+  position: relative;
+  top: 50px;
+}
+
+body #pagOne .homepag_nav span {
+  display: inline-block;
+}
+
+body #pagOne .homepag_nav .homepag_navimg {
+  display: inline-block;
+  width: 70px;
+  vertical-align: middle;
+  margin-left: 100px;
+}
+
+body #pagOne .homepag_nav .homepag_navli {
+  margin: 0 70px;
+}
+
+body #pagOne .homepag_nav .homepag_navli .homepag_navlia {
+  color: #efefef;
+}
+
+body #pagOne .homepag_content {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  top: 35%;
+  color: #ffffff;
+  letter-spacing: 15px;
+}
+
+body #pagOne .homepag_content .homepag_contenth1 {
+  font-size: 80px;
+}
+
+body #pagOne .homepag_content .homepag_contenth3 {
+  position: relative;
+  font-size: 20px;
+  top: 10px;
+}
+
 body .header {
   height: 52px;
   clear: both;
@@ -608,18 +681,13 @@ body .data-tab .contect-tabs .btn .btnStep-two:active {
 body .dataExploreModel {
   width: 100%;
   padding: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-flow: row;
-      flex-flow: row;
 }
 
 body .dataExploreModel .exploreModelLeft {
+  float: left;
   width: 216px;
   padding: 0;
   background: #ecf1ff;
-  overflow-y: auto;
 }
 
 body .dataExploreModel .exploreModelLeft ul {
@@ -660,7 +728,9 @@ body .dataExploreModel .exploreModelLeft ul .active div.circle {
 body .dataExploreModel .exploreModelRight {
   margin: 0;
   float: left;
+  margin-top: 10px;
   padding: 0;
+  overflow: auto;
 }
 
 body .dataExploreModel .exploreModelRight .button {
@@ -701,6 +771,17 @@ body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePar
   margin-top: 30px;
   font-size: 14px;
   color: #333;
+}
+
+body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataSourceChoose .select {
+  display: inline-block;
+  width: 20%;
+  height: 30px;
+  font-size: 14px;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
 }
 
 body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataFileImport {

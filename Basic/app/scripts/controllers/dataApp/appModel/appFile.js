@@ -1,11 +1,7 @@
-/**
- * Created by JiYi on 17/6/21.
- */
-
-"use strict";
+'use strict';
 angular.module('basic')
-  .controller('AppFileCtrl',['createAppModel','$location','$filter','$scope','projectList',
-  (createAppModel,$location,$filter,$scope,projectList) => {
+  .controller('AppFileCtrl',['openNotebook','createAppModel','$location','$scope','projectList',
+  (openNotebook,createAppModel,$location,$scope,projectList) => {
     $scope.appName = $location.path().split(/[\s/]+/).pop();
 
     $scope.listAllProject = [];
@@ -14,7 +10,7 @@ angular.module('basic')
       if (listAllProject !== null && listAllProject !== undefined ){
         listAllProject.forEach(model => {
           if (model.APP_ID !== null && model.APP_ID !== undefined ){
-            if (model.TYPE_MENU_ID ==="00" && model.APP_ID === $scope.appName){
+            if (model.TYPE_MENU_ID ==='00' && model.APP_ID === $scope.appName){
               $scope.listAllProject.push(model);
             }
           }
@@ -24,7 +20,18 @@ angular.module('basic')
 
     projectList.get({}, function (res) {handleSuccess(res);});
     $scope.createModel = appName => {
-      createAppModel.open(appName);
+      createAppModel.open(appName).then((model)=>{
+        console.error('model in AppFile: ' + model);
+        if (model.type===6) {
+          openNotebook.open(null, model.modelName, model.appName).then(() => {  
+            $scope.listAllProject = []; 
+            projectList.get({}, function (res) {handleSuccess(res);});                                     
+          });
+        }
+        if (model.type!==6) {                  
+          $location.path('/'+ model.appName +'/0'+ model.type + '/new/' + model.modelName);
+        }
+      });
     };
   }])
   .directive('file', () => {

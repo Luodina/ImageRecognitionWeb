@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('USER_INFO', {
     USER_ID: {
@@ -13,7 +13,7 @@ module.exports = function(sequelize, DataTypes) {
     PASSWORD: {
       type: DataTypes.CHAR(32),
       allowNull: false,
-      defaultValue: ""
+      defaultValue: ''
     },
     NOTEBOOK_SERVER_URL: {
       type: DataTypes.CHAR(64),

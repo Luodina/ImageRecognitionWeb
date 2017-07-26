@@ -128,14 +128,14 @@ router.get('/getMakeScheduleList', (req, res) => {
 // SELECT * from APP_MAKESCHEDULE where APP_ID = 1;
 router.get('/getScheduleListById/:appID',(req, res) => {
   let app_id = req.params.appID;
-  console.log('app_id',app_id);
+  //console.log('app_id',app_id);
   if (app_id !== null){
     MakeSchedule.findAll({
         where: { APP_ID: app_id},
         raw: true
     })
     .then(makeSchedule => {
-      console.log('makeSchedule is:',makeSchedule);
+      //console.log('makeSchedule is:',makeSchedule);
       res.send({makeSchedule});
     })
     .catch(err =>{console.log('err',err);});
@@ -144,14 +144,14 @@ router.get('/getScheduleListById/:appID',(req, res) => {
 
 router.get('/getScheduleListByName/:scheduleName',(req, res) => {
   let scheduleName = req.params.scheduleName;
-  console.log('scheduleName',scheduleName);
+  //console.log('scheduleName',scheduleName);
   if (scheduleName !== null){
     MakeSchedule.count({
       where: { SCHEDULE_NAME: scheduleName},
       raw: true
     })
       .then(makeSchedule => {
-        console.log('schedule count:',makeSchedule);
+        //console.log('schedule count:',makeSchedule);
         res.send({count: makeSchedule});
       })
       .catch(err =>{console.log('err',err);});
@@ -233,7 +233,7 @@ router.post('/updateScheduleByName',(req, res) => {
       //console.log("schedule.scheduledJobs===>>>>",schedule.scheduledJobs[schedule.name])
       if(schedule.scheduledJobs&& schedule.scheduledJobs[scheduleName]){
         schedule.scheduledJobs[scheduleName].cancel();
-        console.log("schedule list afte delte=====edit",schedule.scheduledJobs);
+        //console.log("schedule list afte delte=====edit",schedule.scheduledJobs);
       }
       newScheduleJob(scheduleName,time,command,appId);
       //create the new chedule with the same name
@@ -269,7 +269,7 @@ router.post('/deleteScheduleByName',(req,res) =>{
       //kill schedule
       if(schedule.scheduledJobs[scheduleName]){
         schedule.scheduledJobs[scheduleName].cancel();
-        console.log("schedule list afte delte=====",schedule.scheduledJobs);
+        //console.log("schedule list afte delte=====",schedule.scheduledJobs);
       }
       res.send({ msg:'success'});
     }).catch(err =>{res.send({err:err})});
