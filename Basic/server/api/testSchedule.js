@@ -2,22 +2,35 @@
 let sequelize = require('../sequelize');
 let Sequelize = require('sequelize');
 let MakeSchedule = require('../model/APP_MAKESCHEDULE')(sequelize, Sequelize);
+let AppResults = require('../model/APP_RESULTS')(sequelize, Sequelize);
 let express = require('express');
 let router = express.Router();
 let moment = require('moment');
-
+let sd = require('silly-datetime');
 let schedule = require('node-schedule');
+const path = require('path');
 const exec = require('child_process').exec;
 const config = require('./../config');
 const env = config.env || 'dev';
-const dataAppPath=config[env].appPath;
+const appPath=config[env].appPath;
 
-// format schedule time
+const dataAppPath=path.join(__dirname, '../../' + appPath);
+
+// format schedule time JSON
 function getTime(scheduleObj,callback){
   var time = {hour: scheduleObj.hour, minute: scheduleObj.minute};
   scheduleObj.DATE?time.date=scheduleObj.DATE:time;
   scheduleObj.DAYOFWEEK?time.dayOfWeek=scheduleObj.DAYOFWEEK:time;
   callback(time);
+}
+//get strTime for schedule time_folder , e.g 201707260830
+function getStrTime(hour,minute,cb) {
+
+  var nowDate = sd.format(new Date(), 'YYYYMMDD');
+  minute.length<1?minute="00"+minute:minute.length<2?minute="0"+minute:minute;
+  hour.length<1?hour="00"+hour:hour.length<2?hour="0"+hour:hour;
+  var nowTime = nowDate+hour+minute;
+  cb(nowTime);
 }
 
 // new scheduleJob
@@ -29,21 +42,24 @@ function newScheduleJob(scheduleName,time,command,appName){
         raw: true
       }).then(makeSchedule => {
         console.log("schedule -------------------",makeSchedule);
-        if(makeSchedule.STATE && makeSchedule.STATE=="RUNNING"){
-          console.log("makeSchedule Running ------------------->",command);
-          scheduleExecFile(appName,command,dataAppPath,function (data) {
-            console.log("schedule shell---->",data)
+        getStrTime(makeSchedule.HOUR,makeSchedule.MINUTE,function (schedule_time) {
+          if(makeSchedule.STATE && makeSchedule.STATE=="RUNNING"){
+            console.log("makeSchedule Running ------------------->",command);
+            scheduleExecFile(appName,command,scheduleName,dataAppPath,schedule_time,function (data) {
+              console.log("schedule shell---->",data)
 
-          })
+            })
 
-        }
+          }
+
+        });
       })
     });
 }
 
 
 // exec schedule shell
-function scheduleExecFile(appName,target,dataAppPath,callback) {
+function scheduleExecFile(appName,target,scheduleName,dataAppPath,schedule_time,callback) {
   //const { execFile } = require('child_process');
   // const child=execFile('./scheduleShell.sh', [appName,target,appFolderPath], (error, stdout, stderr) => {
   //   if (error) {
@@ -53,8 +69,25 @@ function scheduleExecFile(appName,target,dataAppPath,callback) {
   //   console.log(stdout);
   //   callback(stdout)
   // });
+
+  //save to db app_results
+  sequelize.transaction(t => {
+    return AppResults.create({
+      ID: t.id,
+      SCHEDULE_NAME:scheduleName,
+      APP_NAME:appName,
+      EXECUTE_TIME:schedule_time,
+      isNewRecord:true
+    }).then(() => {
+      console.log('******success app_results create*******');
+    }).catch(err =>{
+      console.log('err', err);
+    });
+  });
+
+  //execute
   var appFolderPath=dataAppPath+"/"+appName;
-  var comms = "cd "+appFolderPath+" && make "+target;
+  var comms = "cd "+appFolderPath+" && make "+target+" schedule_name="+scheduleName+" schedule_time="+schedule_time;
   console.log("--------------comms=>",comms)
   exec(comms,[""],(error,stdout,stderr) =>{
     if(error){
@@ -69,7 +102,7 @@ function scheduleExecFile(appName,target,dataAppPath,callback) {
 function sentinel() {
   MakeSchedule.findAll({ raw: true })
     .then(makeSchedule => {
-      console.log("schedule list>>",makeSchedule);
+      //console.log("schedule list>>",makeSchedule);
       makeSchedule.forEach(function (scheduleObj) {
         //console.log("-------------->>>>",schedule.scheduledJobs[scheduleObj.SCHEDULE_NAME])
         if(scheduleObj.STATE=="RUNNING"&&!schedule.scheduledJobs[scheduleObj.SCHEDULE_NAME]){
