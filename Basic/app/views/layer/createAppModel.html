@@ -10,15 +10,13 @@
     </div>
     <div class="chooseModel" >
       <div class="model1 lf" ng-repeat="item in items" ng-click="changeStyle($index)" ng-class="{'set_active':item.isActive}">
-        <div>
-          <i class="pic_cion"></i>
-        <p>
-          <img src="../../images/{{item.img}}.png"/>
-        </p>
-        <p>{{item.content|translate}}</p>
-        <p class="description">关于此框架的描述文本</p>
+        <div >
+          <i ng-if = "!($index === items.length-1 && projectType === 'explore')" class="pic_cion"></i>
+          <p><img src="../../images/{{item.img}}.png"/></p>
+          <p ng-if = "!($index === items.length-1 && projectType === 'explore')">{{item.content|translate}}</p>
+          <p ng-if = "!($index === items.length-1 && projectType === 'explore')" class="description">关于此框架的描述文本</p>
         </div>
-      </div>
+      </div>       
     </div>
   </div>
   <div class="footer">

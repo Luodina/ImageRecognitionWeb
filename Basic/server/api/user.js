@@ -1,4 +1,3 @@
-//
 'use strict';
 let sequelize = require('../sequelize');
 let Sequelize = require('sequelize');
@@ -9,8 +8,8 @@ let router = express.Router();
 router.post('/login', function(req, res){
   let username = req.body.username;
   let pass = req.body.password;
-  console.log("username",username); 
-  console.log("pass",pass); 
+  // console.log('username',username); 
+  // console.log('pass',pass); 
   if (username !== null && pass !== null ){
     User.findOne({
       attributes: ['USER_ID', 'USER_NAME', 'PASSWORD'],
@@ -19,18 +18,18 @@ router.post('/login', function(req, res){
       },
       raw: true
     }).then(function(user){  
-      console.log("users",user); 
+      //console.log('users',user); 
       if (user === null){
         res.send({status: false});
       }else{         
         if (user.PASSWORD === pass){
-          res.send({status: true})
+          res.send({status: true});
         }else{ 
-          res.send({status: false})
+          res.send({status: false});
         }      
-      };
+      }
     }).catch(err =>{
-      console.log("err",err);
+      console.log('err',err);
     });
   }else{
 

@@ -60,8 +60,8 @@ angular.module('basic')
     };  
 
     $scope.makeFile = () => {        
-        let content = '';
-        $scope.makeFileList.forEach((appMakeFile)=> {
+        let content = 'createDir:\r\n $(shell if [ -f reports/$(schedule_name)/$(schedule_time) ]; then echo "exist"; else mkdir -p reports/$(schedule_name)/$(schedule_time); fi;)';
+        $scope.makeFileList.forEach((appMakeFile)=> {          
           content = content + appMakeFile.TARGET + ':';
           appMakeFile.PREREQUISITES?content = content + appMakeFile.PREREQUISITES.join(' '):content;
           content = content + '\r\n';

@@ -180,7 +180,7 @@ router.post('/init', function (req, res) {
                 console.log('Cannot create folder: ',err);
             } else {           
                 createReadStream(templatIpynbPath + templatIpynbFile)
-                .pipe(createWriteStream(baseNotebookPath + '/'+ projectType + '/'+ modelName + '.ipynb'))
+                .pipe(createWriteStream(baseNotebookPath + '/'+ projectType + '/'+ modelName + '.ipynb'));
                 console.log('Success!!!' , baseNotebookPath + '/'+ projectType + '/'+ modelName + '.ipynb', 'exists!');
                 contents.get( baseNotebookDir + '/' + projectType + '/'+ modelName + '.ipynb')
                 .then(model =>{
@@ -192,7 +192,7 @@ router.post('/init', function (req, res) {
                 })
                 .catch(err => {
                     console.log('Content problem!', err);
-                })
+                });
                
             }
         });

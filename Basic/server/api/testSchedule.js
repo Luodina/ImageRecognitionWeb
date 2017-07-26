@@ -28,11 +28,11 @@ function newScheduleJob(scheduleName,time,command,appName){
         where: { SCHEDULE_NAME: scheduleName},
         raw: true
       }).then(makeSchedule => {
-        console.log("schedule -------------------",makeSchedule);
+        //console.log("schedule -------------------",makeSchedule);
         if(makeSchedule.STATE && makeSchedule.STATE=="RUNNING"){
-          console.log("makeSchedule Running ------------------->",command);
+          //console.log("makeSchedule Running ------------------->",command);
           scheduleExecFile(appName,command,dataAppPath,function (data) {
-            console.log("schedule shell---->",data)
+            //console.log("schedule shell---->",data)
 
           })
 
@@ -55,12 +55,12 @@ function scheduleExecFile(appName,target,dataAppPath,callback) {
   // });
   var appFolderPath=dataAppPath+"/"+appName;
   var comms = "cd "+appFolderPath+" && make "+target;
-  console.log("--------------comms=>",comms)
+  //console.log("--------------comms=>",comms)
   exec(comms,[""],(error,stdout,stderr) =>{
     if(error){
       throw error;
     }
-    console.log("shell exec--------->",stdout)
+    //console.log("shell exec--------->",stdout)
     callback(stdout)
   })
 }
@@ -69,7 +69,7 @@ function scheduleExecFile(appName,target,dataAppPath,callback) {
 function sentinel() {
   MakeSchedule.findAll({ raw: true })
     .then(makeSchedule => {
-      console.log("schedule list>>",makeSchedule);
+      //console.log("schedule list>>",makeSchedule);
       makeSchedule.forEach(function (scheduleObj) {
         //console.log("-------------->>>>",schedule.scheduledJobs[scheduleObj.SCHEDULE_NAME])
         if(scheduleObj.STATE=="RUNNING"&&!schedule.scheduledJobs[scheduleObj.SCHEDULE_NAME]){
@@ -95,14 +95,14 @@ router.get('/getMakeScheduleList', (req, res) => {
 // SELECT * from APP_MAKESCHEDULE where APP_ID = 1;
 router.get('/getScheduleListById/:appID',(req, res) => {
   let app_id = req.params.appID;
-  console.log('app_id',app_id);
+  //console.log('app_id',app_id);
   if (app_id !== null){
     MakeSchedule.findAll({
         where: { APP_ID: app_id},
         raw: true
     })
     .then(makeSchedule => {
-      console.log('makeSchedule is:',makeSchedule);
+      //console.log('makeSchedule is:',makeSchedule);
       res.send({makeSchedule});
     })
     .catch(err =>{console.log('err',err);});
@@ -111,14 +111,14 @@ router.get('/getScheduleListById/:appID',(req, res) => {
 
 router.get('/getScheduleListByName/:scheduleName',(req, res) => {
   let scheduleName = req.params.scheduleName;
-  console.log('scheduleName',scheduleName);
+  //console.log('scheduleName',scheduleName);
   if (scheduleName !== null){
     MakeSchedule.count({
       where: { SCHEDULE_NAME: scheduleName},
       raw: true
     })
       .then(makeSchedule => {
-        console.log('schedule count:',makeSchedule);
+        //console.log('schedule count:',makeSchedule);
         res.send({count: makeSchedule});
       })
       .catch(err =>{console.log('err',err);});
@@ -200,7 +200,7 @@ router.post('/updateScheduleByName',(req, res) => {
       //console.log("schedule.scheduledJobs===>>>>",schedule.scheduledJobs[schedule.name])
       if(schedule.scheduledJobs&& schedule.scheduledJobs[scheduleName]){
         schedule.scheduledJobs[scheduleName].cancel();
-        console.log("schedule list afte delte=====edit",schedule.scheduledJobs);
+        //console.log("schedule list afte delte=====edit",schedule.scheduledJobs);
       }
       newScheduleJob(scheduleName,time,command,appId);
       //create the new chedule with the same name
@@ -236,7 +236,7 @@ router.post('/deleteScheduleByName',(req,res) =>{
       //kill schedule
       if(schedule.scheduledJobs[scheduleName]){
         schedule.scheduledJobs[scheduleName].cancel();
-        console.log("schedule list afte delte=====",schedule.scheduledJobs);
+        //console.log("schedule list afte delte=====",schedule.scheduledJobs);
       }
       res.send({ msg:'success'});
     }).catch(err =>{res.send({err:err})});

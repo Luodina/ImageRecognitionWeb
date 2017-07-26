@@ -1,5 +1,4 @@
-//app.js
-"use strict";
+'use strict';
 import express from 'express';
 import bodyParser from 'body-parser';
 import config from './config';
@@ -12,7 +11,7 @@ let env = config.env || 'dev';
 
 if(env === 'dev') {
   app.use(require('connect-livereload')());
-  app.use("/fonts",express.static("app/bower_components/bootstrap/fonts"));
+  app.use('/fonts',express.static('app/bower_components/bootstrap/fonts'));
 }
 
 app.use(express.static(config[env].dist));
@@ -23,9 +22,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
 
-//rest api
-
-                                  
+//rest api                               
 app.use('/api/jupyter', require('./api/dataSource'));
 app.use('/api/user', require('./api/user'));
 app.use('/api/model', require('./api/model'));
@@ -42,7 +39,7 @@ app.get('*', function(req, res) {
 });
 
 app.listen(config[env].port, function () {
-  console.log('App listening on port ' + config[env].port + "!");
+  console.log('App listening on port ' + config[env].port + '!');
 });
 
 module.exports = app;

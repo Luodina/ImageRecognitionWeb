@@ -1,7 +1,7 @@
 'use strict';
 angular.module('basic')
-  .controller('DataExploreCtrl',['createAppModel','$http','createModel','$rootScope','$scope','$filter','projectList','createExpertModule',
-    (createAppModel, $http, createModel, $rootScope, $scope, $filter, projectList,createExpertModule) => {
+  .controller('DataExploreCtrl',['openNotebook','$http','createModel','$rootScope','$scope','$filter','projectList','createExpertModule',
+    (openNotebook, $http, createModel, $rootScope, $scope, $filter, projectList,createExpertModule) => {
     $scope.projectType= ['modelType_00', 'modelType_01', 'modelType_02', 'modelType_03','modelType_04', 'modelType_05','modelType_06'];
     $scope.listAllProject=[[]];
     let handleSuccess = (data, status)=> {
@@ -20,7 +20,7 @@ angular.module('basic')
                 $scope.listAllProject[parseInt(model.VIEW_MENU_ID)]=[];
               }
               if (model.MODEL_INFO !== null && model.MODEL_INFO !== undefined ){
-                let objJSON = eval("(function(){return " + model.MODEL_INFO + ";})()");
+                let objJSON = eval('(function(){return ' + model.MODEL_INFO + ';})()');
                 model.MODEL_INFO = Object.values(objJSON);
               }
               if (model.USER_ID === $rootScope.getUsername()){
@@ -36,31 +36,38 @@ angular.module('basic')
       }
     };
     projectList.get({}, function (res) {handleSuccess(res);});
-    
     $scope.newProject = (index) => {
-      if (index === 6 ) {
-        createAppModel.open();
-      }
-      // var arr = [
-      //   {'title':'modelType_00','content':'web_common_data_explore_020'},
-      //   {'title':'modelType_01','content':'modelType_01'},
-      //   {'title':'modelType_02','content':'modelType_02'},
-      //   {'title':'modelType_03','content':'modelType_03'},
-      //   {'title':'modelType_04','content':'modelType_04'},
-      //   {'title':'modelType_05','content':'modelType_05'},
-      //   {'title':'modelType_06','content':'modelType_06'}
-      // ];
-      // var arr2 = ['test','data','test','test','test','test','notebook'];
-      // createModel.open(arr[index],arr2[index]).then(function (name) {
-      //   createExpertModule.open(name);
-      // });
+      let arrItem;
       if (index === 1 ) {
-        createModel.open(index).then((msg) => {
-          if (msg === 'success') { 
+        arrItem = [
+          {img:'pic1',content:'modelType_01',url:'data',name:'data',isActive:false},
+          {img:'pic2',content:'modelType_02',url:'t1',name:'data2',isActive:false},
+          {img:'pic3',content:'modelType_03',url:'t2',name:'data3',isActive:false},
+          {img:'pic4',content:'modelType_04',url:'t3',name:'data4',isActive:false},
+          {img:'pic5',content:'modelType_05',url:'t4',name:'data5',isActive:false},
+          {img:'pic6',content:'modelType_06',url:'notebook',name:'notebook',isActive:false}
+        ];
+        createModel.open(index, arrItem).then((msg) => {
+          if (msg === 'success') {
+            $scope.listAllProject=[[]]; 
             projectList.get({}, function (res) {handleSuccess(res);});
           }
         })
         .catch(err =>{console.log('err',err);});
+      }
+      if (index === 6 ) {
+        arrItem = [
+          {img:'pic1',content:'modelType_01',url:'data',name:'data',isActive:false},
+          {img:'pic2',content:'modelType_02',url:'t1',name:'data2',isActive:false},
+          {img:'add_btn',content:'', url:'', name:'', isActive:false},
+        ];
+        createExpertModule.open(arrItem).then((model)=>{
+          openNotebook.open(model.modelTemplate, model.modelName, 'explore').then((msg) => {
+            $scope.listAllProject=[[]];
+            projectList.get({}, function (res) {handleSuccess(res);});
+          }
+          );
+        });
       }
     };
 }]);

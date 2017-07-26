@@ -1,21 +1,5 @@
-/**
- * Created by JiYi on 17/7/10.
- */
 'use strict';
-import { KernelMessage, Kernel, Session, ContentsManager} from '@jupyterlab/services';
-import { default as WebSocket } from 'ws';
-import { XMLHttpRequest } from "xmlhttprequest";
-import { readFile, writeFile, existsSync, readFileSync, mkdir, createReadStream, createWriteStream } from 'fs';
-let sequelize = require('../sequelize');
-let Sequelize = require('sequelize');
-let Model = require('../model/MODEL_INFO')(sequelize, Sequelize);
-let moment = require('moment');
-let _require = require('child_process');
-let exec = _require.exec;
-
-global.XMLHttpRequest = XMLHttpRequest;
-global.WebSocket = WebSocket;
-
+import {mkdir, createReadStream, createWriteStream } from 'fs';
 const express = require('express');
 const router = express.Router();
 const path = require('path');
@@ -23,29 +7,50 @@ const config = require('./../config');
 let env = config.env || 'dev';
 
 let templatIpynbPath = path.join(__dirname, '../../template');
-let baseNotebookPath = config[env].notebookPath;
+let baseNotebookPath;
 let baseNotebookUrl = config[env].notebookUrl;
-let filePath = "filePath=\n";
-let htmlFilePath = "htmlFilePath=\n";
 let templatIpynbFile = '/expert_blank.ipynb';
+const modelPath = config[env].modelPath;
+const appPath = config[env].appPath;
+
 //notebook
-
-router.get('/pathNoteBook', function (request, response) {
-  var modelName = request.query.modelName;
-
-  var dirName = path.join(baseNotebookPath, modelName);
-  mkdir(dirName, function (error) {
-    if (error) {
-      console.error('exec error: ' + error);
-      return;
+function notebookPath(type){
+    if (type === 'explore'){
+        return path.join(__dirname, '../../' + modelPath);
+    } else {
+        return path.join(__dirname, '../../' + appPath);
     }
-    var destUrl = baseNotebookUrl + 'notebooks/' + modelName + '/' + modelName + '.ipynb';
-    createReadStream(templatIpynbPath + templatIpynbFile).pipe(createWriteStream(baseNotebookPath + '/'+ modelName + '/'+ modelName + '.ipynb'));
-    response.send({
-      jpyPath: destUrl,
-      notebookPath:baseNotebookPath
-    });
-  });
+}
+function notebookDir(type){
+    if (type === 'explore'){
+        return 'notebookModel';
+    } else {
+        return 'notebookApp';
+    }
+}
+
+router.get('/pathNoteBook', function (req, res) {
+    let modelName = req.query.modelName; 
+    let type = req.query.modelType;
+    let projectType=type;
+    baseNotebookPath = notebookPath(type);
+    let dirName = path.join(baseNotebookPath, modelName);
+    let destUrl = baseNotebookUrl + 'notebooks/'+ notebookDir(type)+ '/' + projectType + '/' + modelName + '.ipynb';
+    if (type === 'explore'){
+        projectType = modelName;
+        mkdir(dirName, function (error) {
+        if (error) {
+            console.error('exec error: ' + error);
+            return;
+        }
+            let destUrl = baseNotebookUrl + 'notebooks/'+ notebookDir(type)+ '/' + projectType + '/' + modelName + '.ipynb';
+            createReadStream(templatIpynbPath + templatIpynbFile).pipe(createWriteStream(baseNotebookPath + '/'+ projectType + '/'+ modelName + '.ipynb'));
+            res.send({jpyPath: destUrl,notebookPath: notebookDir(type)});
+        });
+    }else{
+        createReadStream(templatIpynbPath + templatIpynbFile).pipe(createWriteStream(baseNotebookPath + '/'+ projectType + '/'+ modelName + '.ipynb'));
+        res.send({jpyPath: destUrl,notebookPath: notebookDir(type)});
+    }
 });
 
 module.exports = router;
