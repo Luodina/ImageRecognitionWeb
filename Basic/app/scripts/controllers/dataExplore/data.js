@@ -18,6 +18,18 @@ angular.module('basic')
     $(function(){
       left_by_block();
     });
+
+    //右边数据自动变化
+    let right_by_block = function(){
+      let thisheight = $(window).height()-$('.header').height()-20;
+      $('.exploreModelRight').height(thisheight);
+    };
+    $(window).resize(function(){
+      right_by_block();
+    });
+    $(function(){
+      right_by_block();
+    });
     let projectType = $location.path().split(/[\s/]+/)[1];
     let modelType = $location.path().split(/[\s/]+/)[2];
     let modelMode= $location.path().split(/[\s/]+/)[3];

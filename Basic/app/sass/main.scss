@@ -497,9 +497,9 @@ body {
     }
     .exploreModelRight {
       margin: 0;
-      float: left;
+      float: left;margin-top:10px;
       //width: 85%;
-      padding: 0;
+      padding: 0;overflow:auto;
       //overflow-y: auto;
       .button {
         margin: 40px 0 60px;
