@@ -3,8 +3,6 @@
 angular.module('basic')
   .controller('NotebookCtrl', ['$cookies', '$sce', '$location', '$rootScope', '$scope', '$http',
   function ($cookies, $sce, $location, $rootScope, $scope, $http) {
-  
-
   $scope.init = function () {
     var modelName = $location.path().split(/[\s/]+/).pop();
     console.log('modelName', modelName);

@@ -21,7 +21,7 @@ angular.module('basic')
     projectList.get({}, function (res) {handleSuccess(res);});
     $scope.createModel = appName => {
       createAppModel.open(appName).then((model)=>{
-        console.error('model in AppFile: ' + model);
+        console.log('model in AppFile: ',model.type, model.modelName, model.appName);
         if (model.type===6) {
           openNotebook.open(null, model.modelName, model.appName).then(() => {  
             $scope.listAllProject = []; 

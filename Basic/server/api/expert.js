@@ -31,12 +31,13 @@ function notebookDir(type){
 router.get('/pathNoteBook', function (req, res) {
     let modelName = req.query.modelName; 
     let type = req.query.modelType;
-    templatIpynbFile = req.query.modelTemplate + '.ipynb';
     let projectType=type;
     baseNotebookPath = notebookPath(type);
     let dirName = path.join(baseNotebookPath, modelName);
     let destUrl = baseNotebookUrl + 'notebooks/'+ notebookDir(type)+ '/' + projectType + '/' + modelName + '.ipynb';
     if (type === 'explore'){
+
+        templatIpynbFile = req.query.modelTemplate + '.ipynb';
         projectType = modelName;
         mkdir(dirName, function (error) {
             if (error) {
