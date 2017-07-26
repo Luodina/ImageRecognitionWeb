@@ -23,7 +23,7 @@ router.post('/new', function(req, res){
     let notebookPath = req.body.NOTEBOOK_PATH;
     let comment = req.body.COMMENT;
     let appName = req.body.APP_ID;
-    console.log('new model data:', req.body);
+    //console.log('new model data:', req.body);
     sequelize.transaction(t => {
         return Model.create({
             MODEL_ID: t.id, 

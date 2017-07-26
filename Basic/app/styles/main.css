@@ -728,7 +728,9 @@ body .dataExploreModel .exploreModelLeft ul .active div.circle {
 body .dataExploreModel .exploreModelRight {
   margin: 0;
   float: left;
+  margin-top: 10px;
   padding: 0;
+  overflow: auto;
 }
 
 body .dataExploreModel .exploreModelRight .button {
