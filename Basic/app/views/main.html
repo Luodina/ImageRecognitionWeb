@@ -1,21 +1,29 @@
-<div class="jumbotron login">
-  <h1>AURA</h1>
-  <p class="lead">
-    <!--<img src="images/yeoman.png" alt="AURA"><br>-->
-  </p>
-  <div class="container">
-    <div class="col-md-6 col-md-offset-3 bgcolor">
-      <div class="form-group">
-        <label class="pull-left">{{username | translate}}</label>
-        <input class="form-control" placeholder="{{username | translate}}" ng-model="user.name">
-      </div>
-      <div class="form-group">
-        <label class="pull-left">{{password | translate}}</label>
-        <input ng-class="styles" class="form-control" type="password" placeholder="{{password | translate}}" ng-model="user.pass">
-        <!--<div class="pull-left" style="color:red">{{message}}</div>-->
-      </div>
-      <div class="form-group" style="padding-top: 10px;">
-        <a class="btn btn-block btn-primary" ng-click="login()">{{signin | translate}}</a>
+<div class="loginPage" id="login">
+  <!--<div class="title">-->
+  <!--<img class="pic" src="../images/blueLog.png" alt="">-->
+  <!--<span class="titleText">已有账号?<span class="titleLogin">请登录</span></span>-->
+  <!--</div>-->
+  <div class="content">
+    <div class="contentModel">
+      <p class="conTitle">登录Arua账号</p>
+      <div class="conCont">
+        <div class="conOne">
+          <label>{{username | translate}}</label>
+          <!--<span class="textRgt">邮箱不能为空</span><br/>-->
+          <input class="ipt" type="text" placeholder="{{username | translate}}" ng-model="user.name">
+        </div>
+        <div class="conTwo">
+          <label>{{password | translate}}</label>
+          <!--<span class="textRgt">密码不能为空</span><br/>-->
+          <input class="ipt" type="text" placeholder="{{password | translate}}" ng-model="user.pass">
+        </div>
+        <p class="textConfirm">
+          <input type="checkbox">记住我
+        </p>
+        <button class="btn" ng-click="login()">{{signin| translate}}</button>
+        <p class="footer">
+          <span class="titleText">没有账号?<span class="titleLogin">立即注册</span></span>
+        </p>
       </div>
     </div>
   </div>

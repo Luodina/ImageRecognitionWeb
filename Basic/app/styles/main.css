@@ -217,16 +217,161 @@ body .header .navbar-au .navbar-head .nav-top > a:hover {
   background: #3d63d9;
 }
 
-body .login {
+body .loginPage {
+  padding: 0;
+  margin: 0;
+}
+
+body .loginPage .title {
+  background: #f4f4f4;
+  padding: 0 30px;
+}
+
+body .loginPage .title .pic {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+}
+
+body .loginPage .title .titleText {
+  padding-top: 0;
+  float: right;
+  display: inline-block;
+  line-height: 50px;
+  margin-right: 20px;
+  font-size: 16px;
+  color: #666;
+}
+
+body .loginPage .title .titleText .titleLogin {
+  color: #4874ff;
+}
+
+body .loginPage .title .titleText .titleLogin:hover {
+  color: #3c63d9;
+}
+
+body .loginPage .content {
+  margin-top: 40px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+body .loginPage .content .contentModel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 500px;
+}
+
+body .loginPage .content .contentModel .conTitle {
+  padding: 0;
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+  /*line-height: 24px;*/
+  /*height: 24px;*/
+  text-align: center;
+}
+
+body .loginPage .content .contentModel .conCont {
+  border: solid 1px #f2f2f2;
+  margin-top: 40px;
+  padding: 40px;
+}
+
+body .loginPage .content .contentModel .conCont .conOne {
+  padding-top: 0;
+}
+
+body .loginPage .content .contentModel .conCont .conOne label {
+  font-size: 14px;
+  color: #666;
+}
+
+body .loginPage .content .contentModel .conCont .conOne .textRgt {
+  font-size: 14px;
+  float: right;
+  color: red;
+}
+
+body .loginPage .content .contentModel .conCont .conOne .ipt {
+  /*padding-top: 10px;*/
+  display: inline-block;
+  width: 418px;
+  height: 38px;
+  background: #f7f8fa;
+  border: solid 1px #f9f9f9;
+}
+
+body .loginPage .content .contentModel .conCont .conTwo {
   margin-top: 30px;
 }
 
-body .login h1 {
-  margin-left: 40%;
+body .loginPage .content .contentModel .conCont .conTwo label {
+  font-size: 14px;
+  color: #666;
 }
 
-body .login p {
-  margin-left: 43%;
+body .loginPage .content .contentModel .conCont .conTwo .textRgt {
+  font-size: 14px;
+  float: right;
+  color: red;
+}
+
+body .loginPage .content .contentModel .conCont .conTwo .ipt {
+  /*padding-top: 10px;*/
+  display: inline-block;
+  width: 418px;
+  height: 38px;
+  background: #f7f8fa;
+  border: solid 1px #f9f9f9;
+}
+
+body .loginPage .content .contentModel .conCont .textConfirm {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666666;
+}
+
+body .loginPage .content .contentModel .conCont .btn {
+  margin-top: 40px;
+  width: 418px;
+  height: 38px;
+  border-radius: 2px;
+  border: 1px solid #4874ff;
+  background: #4874ff;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+body .loginPage .content .contentModel .conCont .btn:hover {
+  background: #3c63d9;
+}
+
+body .loginPage .content .contentModel .conCont .footer {
+  margin-top: 40px;
+  text-align: center;
+}
+
+body .loginPage .content .contentModel .conCont .footer .titleText {
+  padding-top: 40px;
+  float: inherit;
+  font-size: 16px;
+  color: #666;
+}
+
+body .loginPage .content .contentModel .conCont .footer .titleText .titleLogin {
+  color: #4874ff;
+}
+
+body .loginPage .content .contentModel .conCont .footer .titleText .titleLogin:hover {
+  color: #3c63d9;
 }
 
 body .modal-header {
