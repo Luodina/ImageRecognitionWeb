@@ -107,6 +107,40 @@ body {
     color: #000;
     padding: 0.2em 0;
   }
+
+  .header {
+    height: 52px;
+    clear: both;
+    overflow: hidden;
+    .navbar-au {
+      background: #4874ff;
+      font-size: 14px;
+      margin-bottom: 0;
+      border-radius: 0px;
+      .logo {
+        color: #ffffff;
+      }
+      .navbar-head {
+        color: #fff;
+        .nav-top > a {
+          display: block;
+          padding: 0 20px;
+          height: 52px;
+          line-height: 52px;
+          text-decoration: none;
+          color: #ffffff;
+          float: left;
+        }
+        .nav-top > .active {
+          background: #3d63d9;
+        }
+        .nav-top > a:hover {
+          background: #3d63d9;
+        }
+      }
+    }
+  }
+  //  login
   #pagOne {
     max-width: none;
     max-height: none;
@@ -167,39 +201,6 @@ body {
       }
     }
   }
-  .header {
-    height: 52px;
-    clear: both;
-    overflow: hidden;
-    .navbar-au {
-      background: #4874ff;
-      font-size: 14px;
-      margin-bottom: 0;
-      border-radius: 0px;
-      .logo {
-        color: #ffffff;
-      }
-      .navbar-head {
-        color: #fff;
-        .nav-top > a {
-          display: block;
-          padding: 0 20px;
-          height: 52px;
-          line-height: 52px;
-          text-decoration: none;
-          color: #ffffff;
-          float: left;
-        }
-        .nav-top > .active {
-          background: #3d63d9;
-        }
-        .nav-top > a:hover {
-          background: #3d63d9;
-        }
-      }
-    }
-  }
-  //  login
   .loginPage {
     padding: 0;
     margin: 0;
@@ -356,6 +357,9 @@ body {
     .previewResult {
       .dataframe {
         thead th {
+          font-size: 14px;
+          height: 40px;
+          color: #999;
           padding: 0 5px;
           text-align: center;
           border: solid 1px #999;
@@ -365,8 +369,15 @@ body {
           text-align: center;
           border: solid 1px #999;
         }
+        tbody tr:nth-child(odd) {
+          background: #f9f9f9;
+        }
+        tbody tr:nth-child(even) {
+          background: #ffffff;
+        }
         tbody th {
           padding: 0 5px;
+          height: 40px;
           text-align: center;
           border: solid 1px #999;
         }
@@ -675,71 +686,7 @@ body {
           background: #4847ff;
           color: #ffffff;
         }
-
       }
-
-      //dataProcess
-      .dataProcess-title {
-        font-size: 20px;
-        color: #333;
-        margin-top: 0;
-        margin-left: 0;
-      }
-      .dataProcess-stepOne {
-        .dataProcess-one {
-          padding: 0 20px;
-          height: 52px;
-          line-height: 52px;
-          background: #f4f4f4;
-          font-size: 14px;
-          color: #333;
-        }
-        .step {
-          width: 100%;
-          border: solid 1px #f4f4f4;
-          margin: 20px 0;
-        }
-      }
-      table, th, td {
-        //border: 1px solid grey;
-        border-collapse: collapse;
-        padding: 5px;
-        margin-left: 12px;
-      }
-      //.btn {
-      //  margin-top: 30px;
-      //  .btnStep {
-      //    display: inline-block;
-      //    padding: 5px 10px;
-      //    font-size: 14px;
-      //    background: #f4f4f4;
-      //    margin-right: 20px;
-      //    border:solid 1px #f4f4f4;
-      //  }
-      //  .btnStep-two {
-      //    display: inline-block;
-      //    padding: 5px 16px;
-      //    font-size: 14px;
-      //    background: #f4f4f4;
-      //    margin-right: 20px;
-      //  }
-      //  .btnStep:hover {
-      //    background: #4847ff;
-      //    color: #ffffff;
-      //  }
-      //  .btnStep:active {
-      //    background: #4847ff;
-      //    color: #ffffff;
-      //  }
-      //  .btnStep-two:hover {
-      //    background: #4847ff;
-      //    color: #ffffff;
-      //  }
-      //  .btnStep-two:active {
-      //    background: #4847ff;
-      //    color: #ffffff;
-      //  }
-      //}
     }
   }
 
