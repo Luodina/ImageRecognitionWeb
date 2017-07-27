@@ -5,26 +5,14 @@ angular.module('basic')
     function (cdmSource, $rootScope, $location, $sce, $filter, $scope, $http, Upload, Notification, $timeout,FileUploader) {
     $scope.name = $filter('translate')('web_common_data_explore_001');
 
-      var uploader = $rootScope.uploader = new FileUploader({
-        url: 'upload.php',
-        queueLimit: 1,     //文件个数
-        removeAfterUpload: true,
-        //filters:[
-        //  {
-        //    name:'filter',
-        //    fn:function(item){
-        //      this.clearqueue();
-        //      return true;
-        //    }
-        //  }
-        //]
-
-      });
-
-
-      $rootScope.clearItems = function(){    //重新选择文件时，清空队列，达到覆盖文件的效果
-        uploader.clearQueue();
-      }
+    let uploader = $rootScope.uploader = new FileUploader({
+      url: 'upload.php',
+      queueLimit: 1,     //文件个数
+      removeAfterUpload: true,
+    });
+    $rootScope.clearItems = function(){    //重新选择文件时，清空队列，达到覆盖文件的效果
+      uploader.clearQueue();
+    }
     $scope.$on('model',function(el, dataModel){
       //console.log('dataModel',dataModel);
       $scope.model = dataModel.model;
@@ -35,16 +23,6 @@ angular.module('basic')
       if ($scope.mode !== 'new'){
         $scope.result = $scope.notebook.outputs?  $scope.notebook.outputs[1]['text/html'] :"Result...";
       }
-
-      //$scope.result = $scope.model.outputs[1]['text/html']? $scope.model.outputs[1]['text/html'] :"Result...";      // if (Object.keys($scope.model).length == 0) {
-      //   $scope.isNew = true;
-
-      // }else{
-      //   var fn = getFileName($scope.model.FILE_PATH) + '_' + $rootScope.getUsername() + '.' + getFileExtension($scope.model.FILE_PATH);
-      //   console.log('$scope.model.FILE_PATH', $scope.model.FILE_PATH,'$scope.model.NOTEBOOK_PATH', $scope.model.NOTEBOOK_PATH)
-      // }
-      //$scope.init($scope.model.FILE_PATH, $scope.model.NOTEBOOK_PATH);
-
     });
 
     function getFileExtension(filename) {
@@ -97,17 +75,6 @@ angular.module('basic')
       });
     };
 
-    // $scope.init = function(fileName,notebookPath){
-    //   console.log("Let's init it :)", 'fileName', fileName, 'notebookPath', notebookPath);
-    //   $http.post('/api/jupyter/init/', {fileName, notebookPath})
-    //   .success(function(data){
-    //     console.log("data.msg",data.msg);
-    //     $scope.result = data.msg;
-    //   })
-    //   .catch(err =>{console.log("err",err);
-    //   });
-    // };
-
     $scope.save = function(){
       console.log("Let's save it :)");
       $http.get('/api/jupyter/save/')
@@ -117,11 +84,12 @@ angular.module('basic')
       .catch(err =>{console.log("err",err);
       });
     };
-
     let handleSuccesscdmSource = (data, status)=> {
       console.log('handleSuccesscdmSource cdmSource',data);
+      if(data!== undefined && data !== null) {
+        $scope.cmdDataset = data;
+      }
     }
-
     cdmSource.query({}, function (res) {
       console.log('cdmSource',res);
       handleSuccesscdmSource(res);

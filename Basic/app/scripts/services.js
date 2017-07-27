@@ -215,7 +215,7 @@ angular.module('basic.services', ['ui.bootstrap'])
               let savaData = {
                     MAKEFILE_ID: $scope.makeFileName,
                     USER_ID: $cookies.get('username'),
-                    APP_ID: $scope.appName,
+                    APP_ID: appName,
                     TARGET: $scope.data.targetModel,
                     PREREQUISITES: Object.values($scope.data.prereqModel).join(' ')
                   };
