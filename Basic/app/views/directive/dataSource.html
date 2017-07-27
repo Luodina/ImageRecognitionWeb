@@ -3,8 +3,8 @@
 
   <input type="radio" ng-model="bigData" value="iptOne" ng-value="1">
   &nbsp;&nbsp;{{'web_common_data_explore_005' | translate}}
-  <select class="form-control select" ng-disabled="bigData !==1" name="repeatSelect" id="repeatSelect" ng-model="cmdDataset" value = 'rr'>
-    <option ng-repeat="option in cmdDataset" value="{{option.DID}}">{{option.DID}}</option>
+  <select ng-disabled="bigData !==1" ng-model="cmdSource">
+    <option ng-repeat="option in cmdDataset track by $index" >{{option.DID}}</option>
   </select>
 
   <!--<input type="radio" ng-model="bigData" value="iptOne" ng-value="1">&nbsp;&nbsp;{{'web_common_data_explore_005' | translate}}
