@@ -25,6 +25,12 @@ angular.module('basic.routers', ['ui.router'])
         controller: 'DataExploreCtrl'
       },
       {
+        name: 'knowledgeMap',
+        url: '/map',
+        templateUrl: 'views/knowledgeMap/knowledgeMap.html',
+        controller: 'KnowledgeMapCtrl'
+      },
+      {
         name: 'data',
         url: '/{appNm}/{type}/{mode}/{modelNm}',
         templateUrl: 'views/dataExplore/data.html',
