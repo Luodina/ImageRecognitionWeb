@@ -20,7 +20,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                 $http.get('/api/model/' + $scope.model.name).success((data) => {
                   if (data.result !== null){
                     $scope.model.name = '';
-                    $scope.model.nameTip = 'Warning!';
+                    $scope.model.nameTip = 'Please use another name!';
                   } else {
                     $location.path('/explore/0' + index +'/new/'+$scope.model.name);
                     $uibModalInstance.dismiss();
@@ -56,7 +56,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                 $http.get('/api/app/' + $scope.model.name).success((data) => {
                     if (data.result !== null){
                       $scope.model.name = '';
-                      $scope.model.nameTip = 'Warning!';
+                      $scope.model.nameTip = 'Please use another name!!';
                     } else {
                       $http.get('/api/appFile/'+$scope.model.name).success((data) => {
                         if (data.result === 'success'){
@@ -408,15 +408,15 @@ angular.module('basic.services', ['ui.bootstrap'])
                   modelType: modelType
                 }
               }).then(function (response) {
-                if (modelType === 'explore') {    
+                if (modelType === 'explore') {
                     typeMenu = '01';
                     path = modelName;
-                } 
-                if (modelType !== 'explore') {    
+                }
+                if (modelType !== 'explore') {
                     appName = modelType;
                     typeMenu = '00';
                     path = modelType;
-                } 
+                }
                 ipyPath = response.data.jpyPath;
                 $scope.notebookPath = $sce.trustAsResourceUrl(ipyPath);
                 let date = new Date();
@@ -433,7 +433,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                 };
                 console.log('Data to DB savaData:', savaData);
                 $http.post('/api/model/new', savaData).success(function (data) {
-                  console.log('Expert MODE save:', data.msg);                 
+                  console.log('Expert MODE save:', data.msg);
                 });
               });
             };
