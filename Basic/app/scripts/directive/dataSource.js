@@ -4,23 +4,26 @@ angular.module('basic')
   .controller('DataSourceCtrl',['cdmSource','$rootScope', '$location','$sce','$filter', '$scope','$http','Upload', 'Notification', '$timeout','FileUploader',
     function (cdmSource, $rootScope, $location, $sce, $filter, $scope, $http, Upload, Notification, $timeout,FileUploader) {
     $scope.name = $filter('translate')('web_common_data_explore_001');
-    $scope.bigData =2;
+      $scope.bigData =false;
+      $scope.bigData =2;
     $scope.unablePreview =false;
       var uploader = $rootScope.uploader = new FileUploader({
         url: 'upload.php',
         queueLimit: 1,     //文件个数
-        removeAfterUpload: true,
-        //filters:[
-        //  {
-        //    name:'filter',
-        //    fn:function(item){
-        //      this.clearqueue();
-        //      return true;
-        //    }
-        //  }
-        //]
-
+        removeAfterUpload: true
       });
+      //
+      //var loadsecretskey= function () {
+      //  secretskey.get({
+      //    namespace: $rootScope.namespace,
+      //    region: $rootScope.region
+      //  }, function (res) {
+      //    //console.log('-------loadsecrets', res);
+      //    if (res.items) {
+      //      $scope.secretsitems = res.items;
+      //    }
+      //  })
+      //}
 
 
       $rootScope.clearItems = function(){    //重新选择文件时，清空队列，达到覆盖文件的效果
