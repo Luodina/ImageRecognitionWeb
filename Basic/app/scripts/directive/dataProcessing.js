@@ -370,6 +370,7 @@ angular.module('basic')
         console.log("dataScalar:", dataScalar);
         //’˝‘ÚªØ
         $http.post('/api/jupyter/step5/', {standardCols: dataScalar}).success(function (data) {
+          $scope.$emit("unablePreview", true);
           $timeout(function () {
             console.log("preview-------------->", data);
             $scope.resultPreview = $sce.trustAsHtml(data.result.content.data["text/html"]);

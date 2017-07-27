@@ -2,7 +2,7 @@
 html, body {
   -webkit-tap-highlight-color: transparent;
   color: #696969;
-  font: 12px "微软雅黑",Helvetica;
+  font: 12px "微软雅黑", Helvetica;
   margin: 0;
   padding: 0;
   width: 100%;
@@ -444,6 +444,13 @@ body .modal-body .modal-body-name {
   height: 30px;
 }
 
+body .modal-body .modal-body-warning {
+  margin-top: 10px;
+  text-align: center;
+  display: block;
+  color: red;
+}
+
 body .modal-body .createTaskPlan {
   margin-top: 30px;
   font-size: 14px;
@@ -764,13 +771,6 @@ body .data-tab .contect-tabs .dataProcess-stepOne .dataProcess-one {
   color: #333;
 }
 
-body .data-tab .contect-tabs .dataProcess-stepOne .dataProcess-one .oneImg {
-  display: inline-block;
-  width: 14px;
-  height: 16px;
-  padding-top: 20px;
-}
-
 body .data-tab .contect-tabs .dataProcess-stepOne .step {
   width: 100%;
   border: solid 1px #f4f4f4;
@@ -781,46 +781,6 @@ body .data-tab .contect-tabs table, body .data-tab .contect-tabs th, body .data-
   border-collapse: collapse;
   padding: 5px;
   margin-left: 12px;
-}
-
-body .data-tab .contect-tabs .btn {
-  margin-top: 30px;
-}
-
-body .data-tab .contect-tabs .btn .btnStep {
-  display: inline-block;
-  padding: 5px 10px;
-  font-size: 14px;
-  background: #f4f4f4;
-  margin-right: 20px;
-}
-
-body .data-tab .contect-tabs .btn .btnStep-two {
-  display: inline-block;
-  padding: 5px 16px;
-  font-size: 14px;
-  background: #f4f4f4;
-  margin-right: 20px;
-}
-
-body .data-tab .contect-tabs .btn .btnStep:hover {
-  background: #4847ff;
-  color: #ffffff;
-}
-
-body .data-tab .contect-tabs .btn .btnStep:active {
-  background: #4847ff;
-  color: #ffffff;
-}
-
-body .data-tab .contect-tabs .btn .btnStep-two:hover {
-  background: #4847ff;
-  color: #ffffff;
-}
-
-body .data-tab .contect-tabs .btn .btnStep-two:active {
-  background: #4847ff;
-  color: #ffffff;
 }
 
 body .dataExploreModel {
@@ -872,8 +832,6 @@ body .dataExploreModel .exploreModelLeft ul .active div.circle {
 
 body .dataExploreModel .exploreModelRight {
   margin: 0;
-  float: left;
-  margin-top: 10px;
   padding: 0;
   overflow: auto;
 }
@@ -887,14 +845,20 @@ body .dataExploreModel .exploreModelRight .button {
 body .dataExploreModel .exploreModelRight .button .bBtn {
   margin-right: 20px;
   display: inline-block;
-  padding: 3px 12px;
-  background: #f4f4f4;
-  border-radius: 2px;
+  padding: 5px 20px;
+  color: #ffffff;
+  background: #4874ff;
+  border: solid 1px #4874ff;
 }
 
-body .dataExploreModel .exploreModelRight .button .bBtn:hover {
-  background: #4874ff;
-  color: #fff;
+body .dataExploreModel .exploreModelRight .button .bBtnNext {
+  margin-right: 20px;
+  display: inline-block;
+  padding: 5px 20px;
+  color: #4874ff;
+  background: #fff;
+  border-radius: 2px;
+  border: solid 1px #4874ff;
 }
 
 body .dataExploreModel .exploreModelRight .dataSource {
@@ -972,17 +936,13 @@ body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePar
 }
 
 body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataFileImport .fileUpload {
+  color: #ffffff;
   display: inline-block;
-  padding: 4px 12px;
+  padding: 5px 20px;
   margin-left: 15px;
-  background: #f4f4f4;
-  border: solid 1px #999;
+  background: #4874ff;
   border-radius: 2px;
-}
-
-body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataFileImport .fileUpload:hover {
-  color: #4748ff;
-  border: solid 1px #4748ff;
+  border: 1px solid #4874ff;
 }
 
 body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataSourcePreview {
@@ -994,14 +954,9 @@ body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePar
 }
 
 body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataSourcePreview .dataSource-preview {
-  padding: 4px 12px;
+  border: 1px solid #f4f4f4;
+  padding: 5px 20px;
   background: #f4f4f4;
-}
-
-body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataSourcePreview .dataSource-preview:hover {
-  color: #4748ff;
-  border: solid 1px #4748ff;
-  border-radius: 2px;
 }
 
 body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult {
@@ -1011,6 +966,9 @@ body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePar
 }
 
 body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe thead th {
+  font-size: 14px;
+  height: 40px;
+  color: #999;
   padding: 0 5px;
   text-align: center;
   border: solid 1px #999;
@@ -1022,8 +980,17 @@ body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePar
   border: solid 1px #999;
 }
 
+body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe tbody tr:nth-child(odd) {
+  background: #f9f9f9;
+}
+
+body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe tbody tr:nth-child(even) {
+  background: #ffffff;
+}
+
 body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe tbody th {
   padding: 0 5px;
+  height: 40px;
   text-align: center;
   border: solid 1px #999;
 }
@@ -1080,12 +1047,6 @@ body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle
   background: #f4f4f4;
 }
 
-body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle p .oneImg {
-  padding-right: 20px;
-  display: inline-block;
-  line-height: 52px;
-}
-
 body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle table {
   margin-top: 10px;
 }
@@ -1099,22 +1060,16 @@ body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle
   padding: 0;
   margin: 0;
   margin-top: 30px;
-  font-size: 14px;
-  color: #333;
 }
 
 body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle .btn .btnStep {
+  display: inline-block;
+  font-size: 14px;
+  color: #333;
   margin-right: 20px;
   padding: 5px 25px;
   background: #f4f4f4;
-}
-
-body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle .btn .btnStep:hover {
-  background: #4874ff;
-}
-
-body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle .btn .btnStep:active {
-  background: #4874ff;
+  border: solid 1px #f4f4f4;
 }
 
 .header_area_select .open .xl_bg {

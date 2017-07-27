@@ -14,6 +14,7 @@ angular.module('basic')
           let tmp = $scope.model ? $scope.model.FILE_PATH : "";
           $http.get('/api/jupyter/report/' + tmp)
           .then(response => {
+            $scope.$emit("unableNext", true);
             $scope.rawHtml = $sce.trustAsHtml(response.data.data);
           })
           .catch(response => {
