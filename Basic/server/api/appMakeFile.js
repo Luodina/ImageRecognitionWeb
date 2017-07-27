@@ -8,18 +8,19 @@ const path = require('path');
 const config = require('./../config');
 const env = config.env || 'dev';
 const appPath = config[env].appPath;
-
-console.log('makeFilePath', makeFilePath);
+import {writeFile} from 'fs';
 function writeFilePromisified(filename,text) {
-  return new Promise(function (resolve, reject) {
-    (error, data) => {
-      if (error) {
-          reject(error);
-      } else {
-          resolve(data);
-      }
-    }}
-  );
+    return new Promise(
+        function (resolve, reject) {
+            writeFile(filename, text, { encoding: 'utf8' },
+                (error, data) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(data);
+                    }
+                });
+        });
 }
 router.get('/getMakeFileList/:appID', (req, res) => {   
   let appID = req.params.appID;
@@ -59,15 +60,20 @@ router.post('/new', (req, res) => {
     }); 
 });
 router.post('/create/makeFile', (req, res) => {
-  console.log(req.body.appName, req.body.content);
   let appName = req.body.appName;
   let content = req.body.content;
-  let makeFilePath = path.join(__dirname, '../../' + appPath + '/'+ appName +'/Makefile.user_rules');
-  writeFilePromisified(makeFilePath, content)
-  .then(() => {
-    res.send({ result:'success'});
-  })
-  .catch(err =>{console.log('err', err);});
+  let makeFilePath = path.join(__dirname, '../../' + appPath, appName ,'/Makefile.user_rules');
+  if (makeFilePath !== ''){
+    writeFilePromisified(makeFilePath, content)
+    .then(() => {
+      res.send({ result:'success'});
+    })
+    .catch(err =>{
+      res.send({ result:'failed'})
+      console.log('err', err);
+    });
+  }
+
 });
 
 

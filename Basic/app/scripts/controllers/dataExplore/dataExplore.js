@@ -72,8 +72,7 @@ angular.module('basic')
           if (data !== null && data !== undefined ){
             data.files.forEach(file => {  
               if (file.split('.ipynb')[0] !== 'new'){
-                arrItem.push({content: file.split('.ipynb')[0], isActive:false});
-                console.log('arrItem',arrItem);
+                arrItem.push({content: file.split('.ipynb')[0], img:'template',isActive:false});
               }
             });
             arrItem.push({content: 'new', img:'add_btn', isActive:false});

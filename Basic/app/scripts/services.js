@@ -115,9 +115,13 @@ angular.module('basic.services', ['ui.bootstrap'])
                   APP_ID: appName
                 };
                 $http.post('/api/model/new', savaData).success(function (data) {
-                  $location.path('/explore');
-                  console.log('Jupyter save:', data.msg);
-                  $uibModalInstance.close(data.msg);
+                  if (data.msg==='success'){
+                    if (projectType == '01') {$location.path('/explore');}
+                    if (projectType == '00') {$location.path('/app/update/'+ projectName);}
+                    console.log('Jupyter save:', data.msg);
+                    $uibModalInstance.close(data.msg);
+                  }
+
                 });
               });
               $uibModalInstance.dismiss();

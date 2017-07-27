@@ -105,6 +105,45 @@ body .browsehappy {
   padding: 0.2em 0;
 }
 
+body .header {
+  height: 52px;
+  clear: both;
+  overflow: hidden;
+}
+
+body .header .navbar-au {
+  background: #4874ff;
+  font-size: 14px;
+  margin-bottom: 0;
+  border-radius: 0px;
+}
+
+body .header .navbar-au .logo {
+  color: #ffffff;
+}
+
+body .header .navbar-au .navbar-head {
+  color: #fff;
+}
+
+body .header .navbar-au .navbar-head .nav-top > a {
+  display: block;
+  padding: 0 20px;
+  height: 52px;
+  line-height: 52px;
+  text-decoration: none;
+  color: #ffffff;
+  float: left;
+}
+
+body .header .navbar-au .navbar-head .nav-top > .active {
+  background: #3d63d9;
+}
+
+body .header .navbar-au .navbar-head .nav-top > a:hover {
+  background: #3d63d9;
+}
+
 body #pagOne {
   max-width: none;
   max-height: none;
@@ -176,45 +215,6 @@ body #pagOne .homepag_content .homepag_contenth3 {
   position: relative;
   font-size: 20px;
   top: 10px;
-}
-
-body .header {
-  height: 52px;
-  clear: both;
-  overflow: hidden;
-}
-
-body .header .navbar-au {
-  background: #4874ff;
-  font-size: 14px;
-  margin-bottom: 0;
-  border-radius: 0px;
-}
-
-body .header .navbar-au .logo {
-  color: #ffffff;
-}
-
-body .header .navbar-au .navbar-head {
-  color: #fff;
-}
-
-body .header .navbar-au .navbar-head .nav-top > a {
-  display: block;
-  padding: 0 20px;
-  height: 52px;
-  line-height: 52px;
-  text-decoration: none;
-  color: #ffffff;
-  float: left;
-}
-
-body .header .navbar-au .navbar-head .nav-top > .active {
-  background: #3d63d9;
-}
-
-body .header .navbar-au .navbar-head .nav-top > a:hover {
-  background: #3d63d9;
 }
 
 body .loginPage {
@@ -389,6 +389,9 @@ body .modal-header .modal-header-close {
 }
 
 body .modal-body .previewResult .dataframe thead th {
+  font-size: 14px;
+  height: 40px;
+  color: #999;
   padding: 0 5px;
   text-align: center;
   border: solid 1px #999;
@@ -400,8 +403,17 @@ body .modal-body .previewResult .dataframe thead tr th:nth-child(1) {
   border: solid 1px #999;
 }
 
+body .modal-body .previewResult .dataframe tbody tr:nth-child(odd) {
+  background: #f9f9f9;
+}
+
+body .modal-body .previewResult .dataframe tbody tr:nth-child(even) {
+  background: #ffffff;
+}
+
 body .modal-body .previewResult .dataframe tbody th {
   padding: 0 5px;
+  height: 40px;
   text-align: center;
   border: solid 1px #999;
 }
@@ -753,34 +765,6 @@ body .data-tab .contect-tabs .btn .btnStep:hover {
 body .data-tab .contect-tabs .btn .btnStep:active {
   background: #4847ff;
   color: #ffffff;
-}
-
-body .data-tab .contect-tabs .dataProcess-title {
-  font-size: 20px;
-  color: #333;
-  margin-top: 0;
-  margin-left: 0;
-}
-
-body .data-tab .contect-tabs .dataProcess-stepOne .dataProcess-one {
-  padding: 0 20px;
-  height: 52px;
-  line-height: 52px;
-  background: #f4f4f4;
-  font-size: 14px;
-  color: #333;
-}
-
-body .data-tab .contect-tabs .dataProcess-stepOne .step {
-  width: 100%;
-  border: solid 1px #f4f4f4;
-  margin: 20px 0;
-}
-
-body .data-tab .contect-tabs table, body .data-tab .contect-tabs th, body .data-tab .contect-tabs td {
-  border-collapse: collapse;
-  padding: 5px;
-  margin-left: 12px;
 }
 
 body .dataExploreModel {
