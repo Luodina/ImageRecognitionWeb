@@ -20,5 +20,14 @@ angular.module('basic')
         $rootScope.login($scope.user.name, $scope.user.pass);
       }
     }
+    //enter 进入页面
+    $scope.enterLogin = (e) => {
+      if (e.keyCode==13) {
+      //$state.go('dataExplore');
+      if($scope.user.pass !== undefined) {
+        $rootScope.login($scope.user.name, $scope.user.pass);
+      }
+      }
+    }
 
   }]);
