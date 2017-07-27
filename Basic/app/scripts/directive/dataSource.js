@@ -4,7 +4,7 @@ angular.module('basic')
   .controller('DataSourceCtrl',['cdmSource','$rootScope', '$location','$sce','$filter', '$scope','$http','Upload', 'Notification', '$timeout','FileUploader',
     function (cdmSource, $rootScope, $location, $sce, $filter, $scope, $http, Upload, Notification, $timeout,FileUploader) {
     $scope.name = $filter('translate')('web_common_data_explore_001');
-
+    $scope.bigData =2;
       var uploader = $rootScope.uploader = new FileUploader({
         url: 'upload.php',
         queueLimit: 1,     //文件个数
@@ -58,7 +58,12 @@ angular.module('basic')
     }
 
     $scope.upload = function(){
-      if($scope.file !== undefined && $scope.file !== "") {
+      if($scope.flie = false){
+        document.getElementById('fileUpload').style.background='#f4f4f4';
+        document.getElementById('fileUpload').style.color='#999';
+        document.getElementById('fileUpload').style.border='solid 1px #999';
+      }
+      if($scope.file) {
         $scope.uploadFile($scope.file);
       }
     };
@@ -70,6 +75,8 @@ angular.module('basic')
         url:'/api/jupyter/upload',
         data: { file: file}
       }).then(function (data) {
+
+        // $scope.flie = false;
         $timeout(function(){
           $scope.fileName = data.data.fileName;
           $scope.htmlFileName = getFileName(data.data.fileName) + "_report.html";
