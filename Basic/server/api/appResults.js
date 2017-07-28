@@ -75,54 +75,35 @@ const dataAppPath=path.join(__dirname, '../../' + appPath);
 // getResultsGroupByScheduleName('medical_records_analysis',function (resulst) {
 //   console.log('results-------->',resulst);
 // });
-//------------------------------------------------------------
-
-
-//SELECT SCHEDULE_NAME FROM APP_RESULTS WHERE APP_NAME='medical_records_analysis'  GROUP BY SCHEDULE_NAME;
-router.get('/getScheduleNames/:appName',(req, res) => {
-  let app_name = req.params.appName;
-  AppResults.findAll({
-    group:'SCHEDULE_NAME',
-    where:{APP_NAME:app_name},
-    raw: true
-  }).then(results => {
-    //console.log('groupby--------->>>>>',results)
-    res.send({results});
-  }).catch(err=>{
-    console.log('err',err);
-  });
-});
-
-//    SELECT * FROM APP_RESULTS WHERE SCHEDULE_NAME=schedule_name
-router.get('/getResultsList/:scheduleName',(req, res) => {
-  let schedule_name = req.params.scheduleName;
-  let resultArr=[];
-  AppResults.findAll({
-    where:{SCHEDULE_NAME:schedule_name}
-  }).then(results => {
-    results.forEach(function (result) {
-      let jsonObj ={
-        ID:result.ID,
-        SCHEDULE_NAME:result.SCHEDULE_NAME,
-        APP_NAME:result.APP_NAME,
-        EXECUTE_TIME:result.EXECUTE_TIME,
-        SCHEDULE_TARGET:result.SCHEDULE_TARGET,
-        EXECUTE_STATUS:result.EXECUTE_STATUS,
-        RESULTS_LIST:result.RESULTS_LIST
-      };
-      resultArr.push(jsonObj);
+//------------------------------------------------------------functions
+function viewReports(appName,scheduleName,time) {
+  let result=[];
+  let filePath =dataAppPath+'/'+appName+'/reports/'+scheduleName+'/'+time;
+  function finder(fp) {
+    let files=fs.readdirSync(fp);
+    files.forEach((val,index) => {
+      let fPath=path.join(fp,val);
+      let stats=fs.statSync(fPath);
+      if(stats.isDirectory()) finder(fPath);
+      if(stats.isFile()){
+        let index = val.indexOf('.');
+        let fileType=val.substr(index+1);
+        let content='';
+        if(fileType==='txt' || fileType==='out'){
+          content=fs.readFileSync(fPath,'utf-8');
+        }
+        let jsonObj ={name:val,path:fPath,fileType:fileType,content:content}
+        result.push(jsonObj);
+      }
     });
-    res.send({resultArr});
-  }).catch(err=>{
-    console.log('err',err);
-  });
-});
 
+  }
+  finder(filePath);
+  return result;
+}
 
-
-
-
-
+//medical_records_analysis/reports/plan-1/201707261519
+//viewReports('medical_records_analysis','plan-1','201707261519');
 
 //UPDATE `APP_RESULTS` SET `EXECUTE_STATUS`='SUCCESS' WHERE `ID`='32bdd11d-f3d1-46bf-9326-924003667c53';
 function updateStutus(id,stauts,cb) {
@@ -139,7 +120,6 @@ function updateStutus(id,stauts,cb) {
       cb('err');
     });
   });
-
 
   //
 }
@@ -201,7 +181,84 @@ function getAllResultsList() {
     })
     .catch(err =>{console.log('err',err);});
 }
-//setInterval(getAllResultsList,5000);
+setInterval(getAllResultsList,10000);
+
+
+//------------------------------------------------------------routers
+
+router.get('/getReportViews',(req, res) => {
+  let app_name = req.params.appName;
+  let schedule_name = req.params.appName;
+  let execute_time = req.params.executeTime;
+  if(app_name!==''&&schedule_name!==''&&execute_time!==''){
+    res.send({results:viewReports(app_name,schedule_name,execute_time)});
+  }else{
+    res.send({error:'get views failed!'});
+  }
+
+});
+
+
+router.get('/getScheduleNames/:appName',(req, res) => {
+  let app_name = req.params.appName;
+  AppResults.findAll({
+    group:'SCHEDULE_NAME',
+    where:{APP_NAME:app_name},
+    raw: true
+  }).then(results => {
+    //console.log('groupby--------->>>>>',results)
+    res.send({results});
+  }).catch(err=>{
+    console.log('err',err);
+  });
+});
+
+
+
+//SELECT SCHEDULE_NAME FROM APP_RESULTS WHERE APP_NAME='medical_records_analysis'  GROUP BY SCHEDULE_NAME;
+router.get('/getScheduleNames/:appName',(req, res) => {
+  let app_name = req.params.appName;
+  AppResults.findAll({
+    group:'SCHEDULE_NAME',
+    where:{APP_NAME:app_name},
+    raw: true
+  }).then(results => {
+    //console.log('groupby--------->>>>>',results)
+    res.send({results});
+  }).catch(err=>{
+    console.log('err',err);
+  });
+});
+
+//    SELECT * FROM APP_RESULTS WHERE SCHEDULE_NAME=schedule_name
+router.get('/getResultsList/:scheduleName',(req, res) => {
+  let schedule_name = req.params.scheduleName;
+  let resultArr=[];
+  AppResults.findAll({
+    where:{SCHEDULE_NAME:schedule_name}
+  }).then(results => {
+    results.forEach(function (result) {
+      let jsonObj ={
+        ID:result.ID,
+        SCHEDULE_NAME:result.SCHEDULE_NAME,
+        APP_NAME:result.APP_NAME,
+        EXECUTE_TIME:result.EXECUTE_TIME,
+        SCHEDULE_TARGET:result.SCHEDULE_TARGET,
+        EXECUTE_STATUS:result.EXECUTE_STATUS,
+        RESULTS_LIST:result.RESULTS_LIST
+      };
+      resultArr.push(jsonObj);
+    });
+    res.send({resultArr});
+  }).catch(err=>{
+    console.log('err',err);
+  });
+});
+
+
+
+
+
 
 module.exports = router;
 
