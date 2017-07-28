@@ -569,15 +569,32 @@ body {
     .email_set input {
       width: 78%;
     }
-    select {
-      width: 20%;
-    }
-    .pic {
-      display: inline-block;
-      float: right;
-      width: 80%;
-      min-height: 50px;
-      border: solid 1px #999;
+    .appResult {
+      position: relative;
+      font-size: 14px;
+      color: #333;
+      overflow-x:auto;
+      .list{
+        height: 300px;
+        .body-left{
+          width:25%;
+          clear: both;
+          overflow: hidden;
+          .left-content{
+            margin-top: 10px;
+            background: #f2f2f2;
+            word-wrap:break-word;
+          }
+        }
+      }
+      .body-right{
+          position: absolute;
+          left:28%;
+          top:0;
+          width: 72%;
+          border:solid 1px #f4f4f4;
+        }
+      }
     }
   }
   .modal-footer {
@@ -951,7 +968,7 @@ body {
       }
     }
   }
-}
+
 
 .header_area_select .open .xl_bg {
   -webkit-transform: rotate(-45deg) !important;

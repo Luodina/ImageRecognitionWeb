@@ -454,7 +454,7 @@ angular.module('basic.services', ['ui.bootstrap'])
       return $uibModal.open({
         backdrop: 'static',
         templateUrl: 'views/layer/appOperResult.html',
-        size: 'size',
+        size: 'lg',
         controller: ['$scope', '$uibModalInstance',
           function ($scope, $uibModalInstance) {
           $scope.viewList=list;
