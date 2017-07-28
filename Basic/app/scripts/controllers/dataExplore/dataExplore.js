@@ -36,18 +36,18 @@ angular.module('basic')
       }
     };
     $scope.openProject = (item) => {
-      console.log('item.VIEW_MENU_ID', item.VIEW_MENU_ID, 'item.mode', item.mode); 
+      console.log('item.VIEW_MENU_ID', item.VIEW_MENU_ID, 'item.mode', item.mode);
       if (item.VIEW_MENU_ID === '01'){
-        
+
         $location.path('/explore/' + item.VIEW_MENU_ID +'/'+item.mode+'/'+item.MODEL_NAME);
-      }  
+      }
       if (item.VIEW_MENU_ID === '06'){
         $location.path('/notebook/'+item.mode+'/'+item.MODEL_NAME);
-      }     
+      }
     };
     projectList.get({}, function (res) {handleSuccess(res);});
     $scope.newProject = (index) => {
-       
+
       let arrItem = [];
       if (index === 1 ) {
         arrItem = [
@@ -60,22 +60,27 @@ angular.module('basic')
         ];
         createModel.open(index, arrItem).then((msg) => {
           if (msg === 'success') {
-            $scope.listAllProject=[[]]; 
+            $scope.listAllProject=[[]];
             projectList.get({}, function (res) {handleSuccess(res);});
           }
         })
         .catch(err =>{console.log('err',err);});
       }
       if (index === 6 ) {
-        arrItem = []; 
+        arrItem = [];
         templateList.get({}, function (data) {
           if (data !== null && data !== undefined ){
-            data.files.forEach(file => {  
-              if (file.split('.ipynb')[0] !== 'new'){
-                arrItem.push({content: file.split('.ipynb')[0], img:'template',isActive:false});
-              }
+            var image_mapping = {
+              '分类预测': 'pic3',
+              '文本数据预处理': 'pic2',
+              '目标检测': 'pic5',
+              '自由模式': 'pic6'
+            };
+
+            data.files.filter(function(name){return !name.endsWith('.ipynb')}).forEach(file => {
+                arrItem.push({content: file, img: image_mapping[file],isActive:false});
             });
-            arrItem.push({content: 'new', img:'add_btn', isActive:false});
+            //arrItem.push({content: 'new', img:'add_btn', isActive:false});
             createExpertModule.open(arrItem).then((model)=>{
               openNotebook.open(model.modelTemplate, model.modelName, 'explore').then((msg) => {
                 $scope.listAllProject=[[]];
@@ -84,7 +89,7 @@ angular.module('basic')
               );
             });
           }else{
-            console.log('HERE!');  
+            console.log('HERE!');
           }
 
         });
