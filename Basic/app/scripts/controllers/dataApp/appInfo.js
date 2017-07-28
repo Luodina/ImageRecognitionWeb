@@ -21,7 +21,43 @@ angular.module('basic')
       $(".zx_set_btn").on("click",function(){
         $(this).toggleClass("zx_set_btn_rotate");
         $(".dataLeft").toggleClass("sider_zx");
-      })
+      });
+
+      //图片预加载
+      var images = new Array()
+      function preload() {
+        for (var i = 0; i < arguments.length; i++) {
+          images[i] = new Image()
+          images[i].src = arguments[i]
+        }
+      };
+
+      preload(
+        "images/logo.jpg",
+        "images/zx_set.png",
+        "images/zx_set_hover.png",
+        "images/zx_set_active.png",
+        "images/zx_set_active_hover.png",
+        "images/yywj_nor.png",
+        "images/yywj_active.png",
+        "images/rwjh_nor.png",
+        "images/rwjh_active.png",
+        "images/yybp_nor.png",
+        "images/yybp_active.png",
+        "images/yyjg_nor.png",
+        "images/yyjg_active.png",
+        "images/yygl_nor.png",
+        "images/yygl_active.png",
+        "images/add_btn.png",
+        "images/pic1.png",
+        "images/pic2.png",
+        "images/pic3.png",
+        "images/pic4.png",
+        "images/pic5.png",
+        "images/pic6.png",
+        "images/pic_cion.png",
+        "images/delete.png"
+      );
 
       $scope.clicked=function(num){
         $scope.tab = num;

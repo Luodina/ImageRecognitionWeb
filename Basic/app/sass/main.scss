@@ -588,7 +588,7 @@ body {
       display: inline-block;
       padding: 5px 20px;
       border-radius: 5px;
-      background: #4847ff;
+      background: #4847ff;cursor:pointer;
     }
     .modal-footer-btn:hover {
       background: #3d63d9;
@@ -1050,6 +1050,13 @@ body {
 }
 
 .data_select{border:1px solid #eaeaea;height:28px;width:200px;margin-left:10px;}
+
+.create_select{border:1px solid #eaeaea;height:28px;width:100px!important;margin-top:10px;}
+.arr_select{border:1px solid #eaeaea;height:28px;width:200px!important;margin-top:10px;}
+.set_btn{display: inline-block;padding: 2px 5px;border: solid 1px #eaeaea;vertical-align:bottom;width:28px;height:28px;line-height:24px;font-size:16px;text-align:center;
+cursor:pointer;}
+.add_open{border: solid 1px #4874ff;padding: 5px 15px;cursor:pointer;}
+.save_make{background:#4874ff;padding: 5px 15px;cursor:pointer;}
 
 
 

@@ -19,7 +19,7 @@ angular.module('basic')
       if($scope.user.pass !== undefined) {
         $rootScope.login($scope.user.name, $scope.user.pass);
       }
-    }
+    };
     //enter 进入页面
     $scope.enterLogin = (e) => {
       if (e.keyCode==13) {
@@ -28,6 +28,19 @@ angular.module('basic')
         $rootScope.login($scope.user.name, $scope.user.pass);
       }
       }
-    }
+    };
+    //图片预加载
+    var images = new Array()
+    function preload() {
+      for (var i = 0; i < arguments.length; i++) {
+        images[i] = new Image()
+        images[i].src = arguments[i]
+      }
+    };
+
+    preload(
+      "images/homeBag.png",
+      "images/logo.png"
+    );
 
   }]);
