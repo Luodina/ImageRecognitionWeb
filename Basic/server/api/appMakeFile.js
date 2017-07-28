@@ -4,7 +4,24 @@ let Sequelize = require('sequelize');
 let MakeFile = require('../model/APP_MAKEFILE')(sequelize, Sequelize);
 let express = require('express');
 let router = express.Router();
-
+const path = require('path');
+const config = require('./../config');
+const env = config.env || 'dev';
+const appPath = config[env].appPath;
+import {writeFile} from 'fs';
+function writeFilePromisified(filename,text) {
+    return new Promise(
+        function (resolve, reject) {
+            writeFile(filename, text, { encoding: 'utf8' },
+                (error, data) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(data);
+                    }
+                });
+        });
+}
 router.get('/getMakeFileList/:appID', (req, res) => {   
   let appID = req.params.appID;
   if (appID !== null){
@@ -42,5 +59,22 @@ router.post('/new', (req, res) => {
             .catch(err =>{console.log('err', err);});
     }); 
 });
+router.post('/create/makeFile', (req, res) => {
+  let appName = req.body.appName;
+  let content = req.body.content;
+  let makeFilePath = path.join(__dirname, '../../' + appPath, appName ,'/Makefile.user_rules');
+  if (makeFilePath !== ''){
+    writeFilePromisified(makeFilePath, content)
+    .then(() => {
+      res.send({ result:'success'});
+    })
+    .catch(err =>{
+      res.send({ result:'failed'})
+      console.log('err', err);
+    });
+  }
+
+});
+
 
 module.exports = router;

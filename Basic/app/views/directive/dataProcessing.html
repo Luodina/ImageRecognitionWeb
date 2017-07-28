@@ -1,8 +1,7 @@
 <p class="title">{{ 'web_common_data_explore_004' | translate}}</p>
 <div class="dataProcess-stepOne commonStyle" id="divCorr" style="display: block">
-  <p class="dataProcess-one">{{ 'web_common_data_explore_009' | translate}}<span class="pull-right glyphicon glyphicon-chevron-up oneImg"
-                                                           ng-click="pulldownlistone()"></span></p>
-  <table>
+  <p class="dataProcess-one">{{ 'web_common_data_explore_009' | translate}}</p>
+  <table class="table">
     <tr ng-repeat="item in dataHighCorr">
       <td>相关性: {{item.corrValue}}</td>
       <td>
@@ -16,16 +15,13 @@
     </tr>
   </table>
   <div class="btn">
-    <span class="btnStep"
-          ng-click="apply(dataHighCorr, false, false)">{{ 'web_common_data_explore_012' | translate}}</span>
+    <button class="btnStep" id="previewFirst" ng-click="apply(dataHighCorr, false, false)">{{ 'web_common_data_explore_012' | translate}}</button>
   </div>
 </div>
 <div class="dataProcess-stepOne commonStyle" id="divImputer" style="display: none">
-  <p class="dataProcess-one">{{ 'web_common_data_explore_010' | translate}}
-    <i class="pull-right glyphicon glyphicon-chevron-up oneImg" ng-click="pulldownlisttwo()"></i>
-  </p>
+  <p class="dataProcess-one">{{ 'web_common_data_explore_010' | translate}}</p>
   <div class="step" ng-show="isShowImputer">
-    <table>
+    <table class="table">
       <tr ng-repeat="item in dataImputer">
         <td>变量名: {{item.varName}}</td>
         <td>空值比例: {{item.imputerRatio}}</td>
@@ -40,26 +36,18 @@
             <option value='most_frequent'>most_frequent</option>
           </select>
         </td>
-        <td>
-          <div>
-            {{item.varName}} = {{item.status}}
-          </div>
-        </td>
       </tr>
     </table>
     <div class="btn">
-      <span class="btnStep"
-            ng-click="apply(false, dataImputer, false)">{{ 'web_common_data_explore_012' | translate}}</span>
+      <button class="btnStep"
+            ng-click="apply(false, dataImputer, false)">{{ 'web_common_data_explore_012' | translate}}</button>
     </div>
   </div>
-
 </div>
 <div class="dataProcess-stepOne commonStyle" id="divScalar" style="display: none">
-  <p class="dataProcess-one">{{ 'web_common_data_explore_011' | translate}}
-    <i class="pull-right glyphicon glyphicon-chevron-up oneImg" ng-click="pulldownlistthree()"></i>
-  </p>
+  <p class="dataProcess-one">{{ 'web_common_data_explore_011' | translate}}</p>
   <div class="step" ng-show="isShowScalar">
-    <table>
+    <table class="table">
       <tr ng-repeat="item in dataScalar">
         <td>变量名: {{item.varName}}</td>
         <td>标准差: {{item.stdValue}}</td>
@@ -76,12 +64,13 @@
       </tr>
     </table>
     <div class="btn">
-      <span class="btnStep"
-            ng-click="apply(false,false,dataScalar)">{{ 'web_common_data_explore_012' | translate}}</span>
+      <button class="btnStep"
+            ng-click="apply(false,false,dataScalar)">{{ 'web_common_data_explore_012' | translate}}</button>
     </div>
   </div>
+  <div class="btn" style="margin-top: 20px;padding: 0">
+    <button class="btnStep" ng-click="preview()">{{ 'web_common_017' | translate}}</button>
+  </div>
 </div>
-<div class="btn" style="margin-top: 20px;padding: 0">
-  <span class="btnStep" ng-click="preview()" style="padding: 5px 25px;background: #f2f2f2;">{{ 'web_common_017' | translate}}</span>
-</div>
+
 

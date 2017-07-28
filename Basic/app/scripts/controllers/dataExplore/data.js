@@ -6,6 +6,8 @@
 angular.module('basic')
   .controller('DataCtrl',['$location', '$rootScope', '$scope','$http',
   ( $location, $rootScope, $scope, $http ) => {
+    $scope.unableNext = false;
+    $scope.unablePreview = false;
     $scope.tab=0;
     //左边导航自动变化
     let left_by_block = function(){
@@ -77,14 +79,26 @@ angular.module('basic')
       .catch(err =>{console.log('err',err);});
     };
     $scope.init();
+    $scope.$on('unableNext',function(event, data) {
+      $scope.unableNext = data;
+    });
+    $scope.$on('unablePreview', function(event, data) {
+      $scope.unablePreview = data;
+    });
     $scope.clicked= num => {
       console.log('num',num);
       $scope.tab = num;
       if(num===2){
+        document.getElementById('secondNext').style.background='#fff';
+        document.getElementById('secondNext').style.color='#4874ff';
+        document.getElementById('secondNext').style.border='solid 1px #4874ff';
         $scope.tab = 2;
         $scope.$broadcast('tab',num);
       }
       if(num===1){
+        document.getElementById('firstNext').style.background='#fff';
+        document.getElementById('firstNext').style.color='#4874ff';
+        document.getElementById('firstNext').style.border='solid 1px #4874ff';
         $scope.tab = 1;
         $scope.$broadcast('tab',num);
       }
@@ -93,4 +107,5 @@ angular.module('basic')
         $scope.$broadcast('tab',num);
       }
     };
+
   }]);

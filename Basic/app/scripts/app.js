@@ -70,28 +70,13 @@ angular
       $rootScope.active = toState.name;
     });
 
-
-    $rootScope.onePagShow=true;
-    $rootScope.twoPagShow=false;
-    $rootScope.change=function(){
-      $rootScope.onePagShow=false;
-      $rootScope.twoPagShow=true;
-    }
-    // $rootScope.iflogin=false;
-    //   $rootScope.$on('$stateChangeStart', function (event,toState) {
-    //     console.log(toState.name);
-    //     if(!$rootScope.iflogin){
-    //       // console.log('lalallalal')
-    //       $location.path("/");
-    //     }else{
-    //       console.log('ifloginok')
-    //     }
-    //     if(toState && toState.name === 'main'){
-    //       $('#navbar-nav').css('visibility','hidden');
-    //     }else{
-    //       $('#navbar-nav').css('visibility','visible');
-    //     }
-    //   })
+      $rootScope.$on('$stateChangeStart', function (event,toState) {
+        if(toState && toState.name === 'main'){
+          $('#pageTitle').css('display','none');
+        }else{
+          $('#pageTitle').css('display','block');
+        }
+      })
 
     $rootScope.login = (username, password) => {
       $http.post('/api/user/login/', {username, password}).success(function (user) {
@@ -111,23 +96,5 @@ angular
       return $cookies.get('username');
     };
   }]);
-  // .factory('dataFactory', ['$resource', '$http', function ($resource, $http) {
-  //   return {
-  //     getProjectList: () => {
-  //       return $http.get('/api/model/getProjectList').success(function (data) {
-  //         console.log("getProjectList", data);
-  //       });
-  //     },
-  //     getAppList: () => {
-  //       return $http.get('/api/app/getAppList').success(function (data) {
-  //         console.log("getAppList", data);
-  //       });
-  //     },
-  //     getMakeFileList: (appName) => {
-  //       return $http.get('/api/appMakeFile/getMakeFileList/' + appName).success(function (data) {
-  //         console.log("getAppList", data);
-  //       });
-  //     }
-  //   }
-  // }])
+  
 

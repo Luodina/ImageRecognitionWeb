@@ -1,0 +1,11 @@
+<div class="title">Dataset list </div>
+<div>
+  <table class="contentTitle table">
+    <tr>
+        <th ng-repeat="title in titles">{{title}}</th>
+    </tr>
+    <tr class="content" ng-repeat="item in datasets">
+        <td style="vertical-align: middle;" ng-repeat="title in titles">{{item[title]}}</td>
+    </tr>
+  </table>
+</div>

@@ -68,6 +68,14 @@ angular.module('basic')
           content = content +'\tjupyter notebook --execute ' + appMakeFile.TARGET  + ' --output-dir=reports\r\n';
         }); 
         console.log('content', content); 
+        $http.post('/api/appMakeFile/create/makeFile', {appName:$scope.appName, content:content}).success((data)=> {
+          console.log(data);
+          if (data.result === 'success'){
+            console.log('success');
+          }
+        })
+        .catch(err =>{console.log('err',err);});
+        console.log('HERE!'); 
     };
   }])
   .directive('choreography', () => {

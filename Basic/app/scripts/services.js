@@ -20,7 +20,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                 $http.get('/api/model/' + $scope.model.name).success((data) => {
                   if (data.result !== null){
                     $scope.model.name = '';
-                    $scope.model.nameTip = 'Warning!';
+                    $scope.model.nameTip = 'Please use another name!';
                   } else {
                     $location.path('/explore/0' + index +'/new/'+$scope.model.name);
                     $uibModalInstance.dismiss();
@@ -56,7 +56,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                 $http.get('/api/app/' + $scope.model.name).success((data) => {
                     if (data.result !== null){
                       $scope.model.name = '';
-                      $scope.model.nameTip = 'Warning!';
+                      $scope.model.nameTip = 'Please use another name!!';
                     } else {
                       $http.get('/api/appFile/'+$scope.model.name).success((data) => {
                         if (data.result === 'success'){
@@ -115,9 +115,13 @@ angular.module('basic.services', ['ui.bootstrap'])
                   APP_ID: appName
                 };
                 $http.post('/api/model/new', savaData).success(function (data) {
-                  $location.path('/explore');
-                  console.log('Jupyter save:', data.msg);
-                  $uibModalInstance.close(data.msg);
+                  if (data.msg==='success'){
+                    if (projectType == '01') {$location.path('/explore');}
+                    if (projectType == '00') {$location.path('/app/update/'+ projectName);}
+                    console.log('Jupyter save:', data.msg);
+                    $uibModalInstance.close(data.msg);
+                  }
+
                 });
               });
               $uibModalInstance.dismiss();
@@ -215,7 +219,7 @@ angular.module('basic.services', ['ui.bootstrap'])
               let savaData = {
                     MAKEFILE_ID: $scope.makeFileName,
                     USER_ID: $cookies.get('username'),
-                    APP_ID: $scope.appName,
+                    APP_ID: appName,
                     TARGET: $scope.data.targetModel,
                     PREREQUISITES: Object.values($scope.data.prereqModel).join(' ')
                   };
@@ -408,15 +412,15 @@ angular.module('basic.services', ['ui.bootstrap'])
                   modelType: modelType
                 }
               }).then(function (response) {
-                if (modelType === 'explore') {    
+                if (modelType === 'explore') {
                     typeMenu = '01';
                     path = modelName;
-                } 
-                if (modelType !== 'explore') {    
+                }
+                if (modelType !== 'explore') {
                     appName = modelType;
                     typeMenu = '00';
                     path = modelType;
-                } 
+                }
                 ipyPath = response.data.jpyPath;
                 $scope.notebookPath = $sce.trustAsResourceUrl(ipyPath);
                 let date = new Date();
@@ -433,7 +437,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                 };
                 console.log('Data to DB savaData:', savaData);
                 $http.post('/api/model/new', savaData).success(function (data) {
-                  console.log('Expert MODE save:', data.msg);                 
+                  console.log('Expert MODE save:', data.msg);
                 });
               });
             };

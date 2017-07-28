@@ -2,16 +2,16 @@
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('APP_MAKEFILE', {
     ID: {
-      type: DataTypes.INTEGER(11),
+      type: DataTypes.CHAR(32),
       allowNull: false,
       primaryKey: true
     },
     USER_ID: {
-      type: DataTypes.INTEGER(11),
+      type: DataTypes.CHAR(32),
       allowNull: true
     },
     APP_ID: {
-      type: DataTypes.INTEGER(11),
+      type: DataTypes.CHAR(256),
       allowNull: true
     },
     MAKEFILE_ID: {

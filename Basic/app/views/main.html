@@ -1,22 +1,54 @@
-<div class="jumbotron login">
-  <h1>AURA</h1>
-  <p class="lead">
-    <!--<img src="images/yeoman.png" alt="AURA"><br>-->
-  </p>
-  <div class="container">
-    <div class="col-md-6 col-md-offset-3 bgcolor">
-      <div class="form-group">
-        <label class="pull-left">{{username | translate}}</label>
-        <input class="form-control" placeholder="{{username | translate}}" ng-model="user.name">
+<div id="pagOne">
+  <div class="title">
+  <span class="rt loginBtn1">
+   <a class="loginBtn1a" ng-click="change()">登录</a>
+  </span>
+  </div>
+  <div class="homepag_nav">
+  <span class="lf">
+    <img class="homepag_navimg" src="images/logo.png">
+  </span>
+    <ul>
+      <li class="rt homepag_navli "><a class="homepag_navlia" href="#">Aura解决方案</a></li>
+      <li class="rt homepag_navli"><a class="homepag_navlia" href="#">Aura产品</a></li>
+      <li class="rt homepag_navli"><a class="homepag_navlia" href="#">什么是Aura</a></li>
+    </ul>
+  </div>
+  <!--content-->
+  <div class="homepag_content">
+    <h1 class="homepag_contenth1">数据处理更加简便</h1>
+    <h3 class="homepag_contenth3">普惠数据智能 极速商业洞见</h3>
+  </div>
+</div>
+<div class="loginPage" id="login" style="display: none;">
+  <div class="title">
+    <img class="pic" src="../images/blueLog.png" alt="">
+    <span class="titleText">已有账号?<span class="titleLogin">请登录</span></span>
+  </div>
+  <div class="content">
+    <div class="contentModel">
+      <p class="conTitle">登录Aura账号</p>
+      <form class="main_form" name="frm">
+      <div class="conCont">
+        <div class="conOne">
+          <label>{{username | translate}}</label>
+          <!--<span class="textRgt">邮箱不能为空</span><br/>-->
+          <input class="ipt" autocomplete="off" type="text" placeholder="{{username | translate}}" ng-model="user.name" tabindex="1">
+        </div>
+        <div class="conTwo">
+          <label>{{password | translate}}</label>
+          <!--<span class="textRgt">密码不能为空</span><br/>-->
+          <input class="ipt" type="password" autocomplete="off" placeholder="{{password | translate}}" ng-model="user.pass" tabindex="2" ng-keydown="enterLogin($event)" >
+        </div>
+        <p class="textConfirm">
+          <input type="checkbox">记住我
+        </p>
+        <button class="btn" ng-click="login()">{{signin| translate}}</button>
+        <p class="footer">
+          <span class="titleText">没有账号?<span class="titleLogin">立即注册</span></span>
+        </p>
       </div>
-      <div class="form-group">
-        <label class="pull-left">{{password | translate}}</label>
-        <input ng-class="styles" class="form-control" type="password" placeholder="{{password | translate}}" ng-model="user.pass">
-        <!--<div class="pull-left" style="color:red">{{message}}</div>-->
-      </div>
-      <div class="form-group" style="padding-top: 10px;">
-        <a class="btn btn-block btn-primary" ng-click="login()">{{signin | translate}}</a>
-      </div>
+      </form>
     </div>
   </div>
 </div>
