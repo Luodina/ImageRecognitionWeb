@@ -160,7 +160,7 @@ body {
       top: 25px;
       right: 150px;
       .loginBtn1a {
-        color: #CDCCD0;
+        color: #CDCCD0;cursor:pointer;
       }
     }
     .homepag_nav {
@@ -197,7 +197,7 @@ body {
       .homepag_contenth3 {
         position: relative;
         font-size: 20px;
-        top: 10px;
+        top: 28px;
       }
     }
   }
@@ -1046,6 +1046,7 @@ body {
   }
 }
 
+.data_select{border:1px solid #eaeaea;height:28px;width:200px;margin-left:10px;}
 
 
 
