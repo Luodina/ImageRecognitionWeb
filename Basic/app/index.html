@@ -52,10 +52,12 @@
           <a ui-sref-active="active" ui-sref="home">{{'web_common_001' | translate}}</a>
           <a ng-class="{true: 'active'}[active == 'dataExplore']" ui-sref="dataExplore">{{'web_common_002' |
             translate}}</a>
-          <a ng-class="{true: 'active'}[active == 'taskSchedule']" ui-sref="taskSchedule">{{'web_common_003' |
+          <!--<a ng-class="{true: 'active'}[active == 'taskSchedule']" ui-sref="taskSchedule">{{'web_common_003' |-->
+            <!--translate}}</a>-->
+          <a ng-class="{true: 'active'}[active == 'knowledgeMap']" ui-sref="knowledgeMap">{{'web_common_004' |
             translate}}</a>
-          <a ng-class="{'active':knowledgeMap}" ui-sref="knowledgeMap">{{'web_common_004' | translate}}</a>
-          <a ng-class="{'active':settings}" ui-sref="settings">{{'web_common_005' | translate}}</a>
+          <a ng-class="{true: 'active'}[active == 'settings']" ui-sref="settings">{{'web_common_005' |
+            translate}}</a>
         </div>
       </div>
       <!--</div>-->

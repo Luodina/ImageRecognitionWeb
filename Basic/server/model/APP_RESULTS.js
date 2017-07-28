@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('APP_RESULTS', {
     ID: {
@@ -18,6 +18,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.CHAR(32),
       allowNull: true
     },
+    SCHEDULE_TARGET:{
+      type: DataTypes.CHAR(32),
+      allowNull: true
+    },
     EXECUTE_STATUS: {
       type: DataTypes.CHAR(32),
       allowNull: true
@@ -32,4 +36,4 @@ module.exports = function(sequelize, DataTypes) {
     updatedAt: false,
     tableName: 'APP_RESULTS'
   });
-}
+};

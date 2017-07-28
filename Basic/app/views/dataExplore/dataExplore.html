@@ -12,13 +12,13 @@
     <uib-tabset class="tab-default" active="grid.active" >
       <uib-tab ng-repeat="itemType in projectType" index="$index">
         <uib-tab-heading>
-          <i class="text">&nbsp;&nbsp;{{ "modelType_0" + $index | translate}}</i>
+          <p class="oper_tit">{{ "modelType_0" + $index | translate}}</p>
           <span class="icon">
             {{(listAllProject[$index] === undefined ||listAllProject[$index] === null) ? "0" : listAllProject[$index].length}}
           </span>
           <i ng-if = "$index !== 0" ng-click="newProject($index)" class="addSmPic" style="margin-top: -5px;"></i>
-        </uib-tab-heading>                    
-        <div class="dataExplore-container-main" 
+        </uib-tab-heading>
+        <div class="dataExplore-container-main"
              ng-repeat="item in listAllProject[$index]"
              ng-click="openProject(item)" >
           <div class="date_set_main">

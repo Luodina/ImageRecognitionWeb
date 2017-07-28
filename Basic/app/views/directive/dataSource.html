@@ -3,8 +3,8 @@
 
   <input type="radio" ng-model="bigData" value="iptOne" ng-value="1">
   &nbsp;&nbsp;{{'web_common_data_explore_005' | translate}}
-  <select ng-disabled="bigData !==1" ng-model="cmdSource">
-    <option ng-repeat="option in cmdDataset track by $index" >{{option.DID}}</option>
+  <select ng-disabled="bigData !==1" ng-model="cmdSource" class="data_select">
+    <option ng-repeat="option in cmdDataset track by $index" >{{option.datasetname}}</option>
   </select>
 
   <!--<input type="radio" ng-model="bigData" value="iptOne" ng-value="1">&nbsp;&nbsp;{{'web_common_data_explore_005' | translate}}
@@ -12,7 +12,7 @@
   <div class="data_bg header_area_select data_source" >
     <div uib-dropdown="" on-toggle="toggled(open)" class="dropdown open">
       <a href="javascript:void(0);" class="per_block dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="true">
-       
+
         <span class="header_per_tit">123213</span>
         <span class="xl_bg"></span>
       </a>

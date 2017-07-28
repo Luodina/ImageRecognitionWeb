@@ -160,7 +160,7 @@ body {
       top: 25px;
       right: 150px;
       .loginBtn1a {
-        color: #CDCCD0;
+        color: #CDCCD0;cursor:pointer;
       }
     }
     .homepag_nav {
@@ -197,7 +197,7 @@ body {
       .homepag_contenth3 {
         position: relative;
         font-size: 20px;
-        top: 10px;
+        top: 28px;
       }
     }
   }
@@ -542,7 +542,7 @@ body {
       width: 154px;
     }
     .pause_set i {
-      background: url(../../images/WechatIMG2.png) no-repeat;
+      background: url(../images/WechatIMG2.png) no-repeat;
       width: 14px;
       height: 14px;
       display: block;
@@ -555,7 +555,7 @@ body {
       font-size: 14px;
     }
     .pause_set.active i {
-      background: url(../../images/WechatIMG1.png) no-repeat;
+      background: url(../images/WechatIMG1.png) no-repeat;
     }
     .email_set {
       margin-left: 80px;
@@ -588,7 +588,7 @@ body {
       display: inline-block;
       padding: 5px 20px;
       border-radius: 5px;
-      background: #4847ff;
+      background: #4847ff;cursor:pointer;
     }
     .modal-footer-btn:hover {
       background: #3d63d9;
@@ -924,7 +924,7 @@ body {
               line-height: 52px;
               background: #f4f4f4;
             }
-            .table tbody tr td{
+            .table>tbody>tr>td{
               border-top: none;
               border-bottom: 1px solid #ddd;
               vertical-align: middle;
@@ -939,6 +939,9 @@ body {
                 color: #333;
                 margin-right: 20px;
                 padding: 5px 25px;
+                //width:90px;
+                //height: 30px;
+                text-align: center;
                 background: #f4f4f4;
                 border: solid 1px #f4f4f4;
               }
@@ -1046,6 +1049,14 @@ body {
   }
 }
 
+.data_select{border:1px solid #eaeaea;height:28px;width:200px;margin-left:10px;}
+
+.create_select{border:1px solid #eaeaea;height:28px;width:100px!important;margin-top:10px;}
+.arr_select{border:1px solid #eaeaea;height:28px;width:200px!important;margin-top:10px;}
+.set_btn{display: inline-block;padding: 2px 5px;border: solid 1px #eaeaea;vertical-align:bottom;width:28px;height:28px;line-height:24px;font-size:16px;text-align:center;
+cursor:pointer;}
+.add_open{border: solid 1px #4874ff;padding: 5px 15px;cursor:pointer;}
+.save_make{background:#4874ff;padding: 5px 15px;cursor:pointer;}
 
 
 

@@ -1,7 +1,7 @@
 <div class="title">{{appName}}</div>
 <div class="content">
   <div style="margin-top: 30px;font-size: 14px;color: #4874ff;" >
-    <span style="border: solid 1px #4874ff;padding: 5px 15px;" ng-click = "openAddArrange()">添加编排</span>
+    <span class="add_open" ng-click = "openAddArrange()">添加编排</span>
   </div>
   <div ng-repeat="item in makeFileList track by $index">
     <div style="margin-top: 20px;border:solid 1px #f2f2f2;">
@@ -29,6 +29,6 @@
     </div>
   </div>
   <div ng-if = "makeFileList.length !== 0"style="margin-top: 30px;font-size: 14px;color: #ffffff;">
-    <span style="background:#4874ff;padding: 5px 15px;" ng-click = "makeFile()">保存编排</span>
+    <span class="save_make" ng-click = "makeFile()">保存编排</span>
   </div>
 </div>

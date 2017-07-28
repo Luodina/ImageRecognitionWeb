@@ -4,19 +4,19 @@
     <uib-tabset class="tab-default tab-jia-default" active="grid.active" style="border:0px;">
       <uib-tab ng-repeat="itemType in projectType"  index="$index">
         <uib-tab-heading>
-          <i class="faa faa-edit"></i>&nbsp;&nbsp;{{ "web_common_data_app_result_0" + $index | translate}}
+         <p class="oper_tit">{{ "web_common_data_app_result_0" + $index | translate}}</p>
         </uib-tab-heading>
-        <div style="margin:0 15px;">
-          <table class="table" style="font-size: 12px;padding: 0 20px;">
-            <tr class="title" style="background-color: #f1f1f1;font-size: 12px;">
+        <div>
+          <table class="table table_jia_set">
+            <tr class="title">
               <td>状态</td>
               <td>时间</td>
-              <td style="float: right">结果</td>
+              <td class="table_set_last">结果</td>
             </tr>
             <tr class="content">
               <td>qq</td>
               <td>eee</td>
-              <td style="color: #4874ff;float: right;border: none" ng-click="view()">查看</td>
+              <td class="con_set_last" ng-click="view()">查看</td>
             </tr>
           </table>
         </div>
