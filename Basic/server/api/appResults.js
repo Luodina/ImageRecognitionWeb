@@ -10,6 +10,8 @@ const config = require('./../config');
 const env = config.env || 'dev';
 const appPath=config[env].appPath;
 const dataAppPath=path.join(__dirname, '../../' + appPath);
+const port=config[env].port;
+
 
 
 //------------------------------------------------------------functions
@@ -31,6 +33,9 @@ function viewReports(appName,scheduleName,time) {
         if(fileType==='txt' || fileType==='out'){
           content=fs.readFileSync(fPath,'utf-8');
         }
+
+        fPath='http://localhost:'+port+'/api/appResults/'+appName+'/files/'+scheduleName+'/'+time+'/'+val;
+
         let jsonObj ={name:val,path:fPath,fileType:fileType,content:content};
         result.push(jsonObj);
       }
@@ -180,6 +185,58 @@ router.get('/getResultsList/:scheduleName',(req, res) => {
   }).catch(err=>{
     console.log('err',err);
   });
+});
+
+
+router.get('/:appName/files/:scheduleName/:runnum/:file',(req, res) => {
+  let appName = req.params.appName;
+  let scheduleName = req.params.scheduleName;
+  let runnum = req.params.runnum;
+  let file = req.params.file;
+  var extname = path.extname(file);
+  var contentType = 'text/html';
+  switch (extname) {
+    case '.js':
+      contentType = 'text/javascript';
+      break;
+    case '.css':
+      contentType = 'text/css';
+      break;
+    case '.json':
+      contentType = 'application/json';
+      break;
+    case '.png':
+      contentType = 'image/png';
+      break;
+    case '.jpg':
+      contentType = 'image/jpg';
+      break;
+    case '.wav':
+      contentType = 'audio/wav';
+    case 'txt':
+      contentType = 'text/xml';
+    case 'out':
+      contentType = 'text/xml';
+      break;
+  }
+  let filePath = 'notebookApp/' + appName + '/reports/' + scheduleName + '/' + runnum + '/' + file;
+  fs.readFile(filePath, function(error, content) {
+    if (error) {
+      if(error.code === 'ENOENT'){
+        res.writeHead(404, { 'Content-Type': contentType });
+      }
+      else {
+        res.writeHead(500);
+        res.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
+        res.end();
+      }
+    }
+    else {
+      res.writeHead(200, { 'Content-Type': contentType });
+      res.end(content, 'utf-8');
+    }
+  });
+
 });
 
 

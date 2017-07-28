@@ -459,32 +459,7 @@ angular.module('basic.services', ['ui.bootstrap'])
           function ($scope, $uibModalInstance) {
           $scope.viewList=list;
           $scope.changeView = function (item) {
-            console.log('item---item--->',item);
-
-
-
-            if(item.fileType==='html'){
-              //let showArea = document.getElementById('showArea');
-              //let iframe = document.createElement('iframe');
-              //iframe.setAttribute('src',item.path);
-              //showArea.appendChild(iframe);
-              document.getElementById('ifm').style.display='block';
-              document.getElementById('ifm').setAttribute('src',item.path);
-              document.getElementById('txt').style.display='none';
-              document.getElementById('img').style.display='none';
-            }else if(item.fileType==='txt' || item.fileType ==='out'){
-              document.getElementById('txt').style.display='block';
-              document.getElementById('txt').innerText=item.content;
-              document.getElementById('img').style.display='none';
-              document.getElementById('ifm').style.display='none';
-
-            }else if(item.fileType==='jpg'){
-              document.getElementById('img').style.display='block';
-              document.getElementById('img').setAttribute('src',item.path);
-              document.getElementById('ifm').style.display='none';
-              document.getElementById('txt').style.display='none';
-            }
-
+             document.getElementById('ifm').setAttribute('src',item.path);
           }
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
