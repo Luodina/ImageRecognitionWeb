@@ -60,12 +60,12 @@ angular.module('basic')
     };  
 
     $scope.makeFile = () => {        
-        let content = 'createDir:\r\n $(shell if [ -f reports/$(schedule_name)/$(schedule_time) ]; then echo "exist"; else mkdir -p reports/$(schedule_name)/$(schedule_time); fi;)';
+        let content = 'createDir:\r\n $(shell if [ -f reports/$(schedule_name)/$(schedule_time) ]; then echo "exist"; else mkdir -p reports/$(schedule_name)/$(schedule_time); fi;)\r\n';
         $scope.makeFileList.forEach((appMakeFile)=> {          
           content = content + appMakeFile.TARGET + ':';
           appMakeFile.PREREQUISITES?content = content + appMakeFile.PREREQUISITES.join(' '):content;
           content = content + '\r\n';
-          content = content +'\tjupyter notebook --execute ' + appMakeFile.TARGET  + ' --output-dir=reports\r\n';
+          content = content +'\tjupyter nbconvert --execute ' + appMakeFile.TARGET  + ' --output-dir=reports/$(schedule_name)/$(schedule_time)\r\n';
         }); 
         console.log('content', content); 
         $http.post('/api/appMakeFile/create/makeFile', {appName:$scope.appName, content:content}).success((data)=> {
