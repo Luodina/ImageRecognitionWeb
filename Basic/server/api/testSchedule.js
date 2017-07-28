@@ -5,7 +5,6 @@ let MakeSchedule = require('../model/APP_MAKESCHEDULE')(sequelize, Sequelize);
 let AppResults = require('../model/APP_RESULTS')(sequelize, Sequelize);
 let express = require('express');
 let router = express.Router();
-let moment = require('moment');
 let sd = require('silly-datetime');
 let schedule = require('node-schedule');
 const path = require('path');
@@ -18,7 +17,7 @@ const dataAppPath=path.join(__dirname, '../../' + appPath);
 
 // format schedule time JSON
 function getTime(scheduleObj,callback){
-  var time = {hour: scheduleObj.hour, minute: scheduleObj.minute};
+  let time = {hour: scheduleObj.hour, minute: scheduleObj.minute};
   scheduleObj.DATE?time.date=scheduleObj.DATE:time;
   scheduleObj.DAYOFWEEK?time.dayOfWeek=scheduleObj.DAYOFWEEK:time;
   callback(time);
@@ -26,37 +25,12 @@ function getTime(scheduleObj,callback){
 //get strTime for schedule time_folder , e.g 201707260830
 function getStrTime(hour,minute,cb) {
 
-  var nowDate = sd.format(new Date(), 'YYYYMMDD');
-  minute.length<1?minute="00"+minute:minute.length<2?minute="0"+minute:minute;
-  hour.length<1?hour="00"+hour:hour.length<2?hour="0"+hour:hour;
-  var nowTime = nowDate+hour+minute;
+  let nowDate = sd.format(new Date(), 'YYYYMMDD');
+  minute.length<1?minute='00'+minute:minute.length<2?minute='0'+minute:minute;
+  hour.length<1?hour='00'+hour:hour.length<2?hour='0'+hour:hour;
+  let nowTime = nowDate+hour+minute;
   cb(nowTime);
 }
-
-// new scheduleJob
-function newScheduleJob(scheduleName,time,command,appName){
-    schedule.scheduleJob(scheduleName,time,function () {
-      //check the db,if the schedule state == RUNNING
-      MakeSchedule.findOne({
-        where: { SCHEDULE_NAME: scheduleName},
-        raw: true
-      }).then(makeSchedule => {
-        console.log("schedule -------------------",makeSchedule);
-        getStrTime(makeSchedule.HOUR,makeSchedule.MINUTE,function (schedule_time) {
-          if(makeSchedule.STATE && makeSchedule.STATE=="RUNNING"){
-            console.log("makeSchedule Running ------------------->",command);
-            scheduleExecFile(appName,command,scheduleName,dataAppPath,schedule_time,function (data) {
-              console.log("schedule shell---->",data)
-
-            })
-
-          }
-
-        });
-      })
-    });
-}
-
 
 // exec schedule shell
 function scheduleExecFile(appName,target,scheduleName,dataAppPath,schedule_time,callback) {
@@ -77,26 +51,58 @@ function scheduleExecFile(appName,target,scheduleName,dataAppPath,schedule_time,
       SCHEDULE_NAME:scheduleName,
       APP_NAME:appName,
       EXECUTE_TIME:schedule_time,
+      SCHEDULE_TARGET:target,
       isNewRecord:true
     }).then(() => {
       console.log('******success app_results create*******');
+      callback('success');
     }).catch(err =>{
       console.log('err', err);
     });
   });
 
   //execute
-  var appFolderPath=dataAppPath+"/"+appName;
-  var comms = "cd "+appFolderPath+" && make "+target+" schedule_name="+scheduleName+" schedule_time="+schedule_time;
-  console.log("--------------comms=>",comms)
-  exec(comms,[""],(error,stdout,stderr) =>{
+  let appFolderPath=dataAppPath+'/'+appName;
+  let errFile=appFolderPath+'/reports/'+scheduleName+'/'+schedule_time+'/error.out';
+  //let comms = 'cd '+appFolderPath+' && make '+target+' schedule_name='+scheduleName+' schedule_time='+schedule_time;
+  let comms = 'cd '+appFolderPath+' && mkdir -p reports/'+scheduleName+'/'+schedule_time +' && touch '+errFile+' && make '+target+' 2> '+errFile+' schedule_name='+scheduleName+' schedule_time='+schedule_time;
+  //let comms = 'cd '+appFolderPath+' && make '+target+' 2> '+errFile+' schedule_name='+scheduleName+' schedule_time='+schedule_time;
+
+  console.log('--------------comms=>',comms);
+  exec(comms,[''],(error,stdout) =>{
     if(error){
-      throw error;
+      callback(error);
     }
-    console.log("shell exec--------->",stdout)
-    callback(stdout)
-  })
+    console.log('shell exec--------->',stdout);
+    callback(stdout);
+  });
 }
+
+// new scheduleJob
+function newScheduleJob(scheduleName,time,command,appName){
+    schedule.scheduleJob(scheduleName,time,function () {
+      //check the db,if the schedule state == RUNNING
+      MakeSchedule.findOne({
+        where: { SCHEDULE_NAME: scheduleName},
+        raw: true
+      }).then(makeSchedule => {
+        console.log('schedule -------------------',makeSchedule);
+        getStrTime(makeSchedule.HOUR,makeSchedule.MINUTE,function (schedule_time) {
+          if(makeSchedule.STATE && makeSchedule.STATE==='RUNNING'){
+            console.log('makeSchedule Running ------------------->',command);
+            scheduleExecFile(appName,command,scheduleName,dataAppPath,schedule_time,function (data) {
+              console.log('schedule shell---->',data);
+
+            });
+
+          }
+
+        });
+      });
+    });
+}
+
+
 
 // check the schedule db  if
 function sentinel() {
@@ -105,12 +111,12 @@ function sentinel() {
       //console.log("schedule list>>",makeSchedule);
       makeSchedule.forEach(function (scheduleObj) {
         //console.log("-------------->>>>",schedule.scheduledJobs[scheduleObj.SCHEDULE_NAME])
-        if(scheduleObj.STATE=="RUNNING"&&!schedule.scheduledJobs[scheduleObj.SCHEDULE_NAME]){
+        if(scheduleObj.STATE==='RUNNING'&&!schedule.scheduledJobs[scheduleObj.SCHEDULE_NAME]){
           getTime(scheduleObj,function (time) {
             newScheduleJob(scheduleObj.SCHEDULE_NAME,time);
-          })
+          });
         }
-      })
+      });
     })
     .catch(err =>{console.log('err',err);});
 
@@ -222,7 +228,7 @@ router.post('/updateScheduleByName',(req, res) => {
     YEAR: time.year,
     DAYOFWEEK: time.dayOfWeek,
     STATE:state
-  }
+  };
   sequelize.transaction(t => {
     return MakeSchedule.update(
       param,{
@@ -272,7 +278,7 @@ router.post('/deleteScheduleByName',(req,res) =>{
         //console.log("schedule list afte delte=====",schedule.scheduledJobs);
       }
       res.send({ msg:'success'});
-    }).catch(err =>{res.send({err:err})});
+    }).catch(err =>{res.send({err:err});});
 
   });
 });
@@ -281,14 +287,14 @@ router.post('/deleteScheduleByName',(req,res) =>{
 router.post('/updateStateByName',(req,res) =>{
   let state = req.body.STATE;
   let scheduleName = req.body.SCHEDULE_NAME;
-  let param = {STATE:state}
+  let param = {STATE:state};
   sequelize.transaction(t => {
     return MakeSchedule.update(
       param,{
         where:{SCHEDULE_NAME:scheduleName}
       }
     ).then(() => {res.send({ msg:'updateState Success!!!!' });})
-      .catch(err =>{res.send({err:err})});
+      .catch(err =>{res.send({err:err});});
   });
 });
 
