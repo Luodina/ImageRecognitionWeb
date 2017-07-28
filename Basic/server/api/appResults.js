@@ -127,7 +127,7 @@ setInterval(getAllResultsList,10000);
 
 router.get('/getReportViews',(req, res) => {
   let app_name = req.params.appName;
-  let schedule_name = req.params.appName;
+  let schedule_name = req.params.scheduleName;
   let execute_time = req.params.executeTime;
   if(app_name!==''&&schedule_name!==''&&execute_time!==''){
     res.send({results:viewReports(app_name,schedule_name,execute_time)});
