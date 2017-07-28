@@ -542,7 +542,7 @@ body {
       width: 154px;
     }
     .pause_set i {
-      background: url(../../images/WechatIMG2.png) no-repeat;
+      background: url(../images/WechatIMG2.png) no-repeat;
       width: 14px;
       height: 14px;
       display: block;
@@ -555,7 +555,7 @@ body {
       font-size: 14px;
     }
     .pause_set.active i {
-      background: url(../../images/WechatIMG1.png) no-repeat;
+      background: url(../images/WechatIMG1.png) no-repeat;
     }
     .email_set {
       margin-left: 80px;
@@ -924,7 +924,7 @@ body {
               line-height: 52px;
               background: #f4f4f4;
             }
-            .table tbody tr td{
+            .table>tbody>tr>td{
               border-top: none;
               border-bottom: 1px solid #ddd;
               vertical-align: middle;
@@ -939,6 +939,9 @@ body {
                 color: #333;
                 margin-right: 20px;
                 padding: 5px 25px;
+                //width:90px;
+                //height: 30px;
+                text-align: center;
                 background: #f4f4f4;
                 border: solid 1px #f4f4f4;
               }
