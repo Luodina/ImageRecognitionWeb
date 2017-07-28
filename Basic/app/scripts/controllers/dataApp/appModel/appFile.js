@@ -23,15 +23,19 @@ angular.module('basic')
       createAppModel.open(appName).then((model)=>{
         console.log('model in AppFile: ',model.type, model.modelName, model.appName);
         if (model.type===6) {
-          openNotebook.open(null, model.modelName, model.appName).then(() => {  
-            $scope.listAllProject = []; 
-            projectList.get({}, function (res) {handleSuccess(res);});                                     
+          openNotebook.open(null, model.modelName, model.appName).then(() => {
+            $scope.listAllProject = [];
+            projectList.get({}, function (res) {handleSuccess(res);});
           });
         }
-        if (model.type!==6) {                  
+        if (model.type!==6) {
           $location.path('/'+ model.appName +'/0'+ model.type + '/new/' + model.modelName);
         }
       });
+    };
+
+    $scope.openProject = (item) => {
+      $location.path('app/notebook/'+ item.APP_ID +'/'+item.MODEL_NAME);
     };
   }])
   .directive('file', () => {

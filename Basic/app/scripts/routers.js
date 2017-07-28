@@ -19,6 +19,12 @@ angular.module('basic.routers', ['ui.router'])
         controller: 'AppInfoCtrl'
       },
       {
+        name: 'notebookApp',
+        url: '/app/notebook/{mode}/{name}',
+        templateUrl: 'views/dataExplore/expertModule.html',
+        controller: 'NotebookCtrl'
+      },
+      {
         name: 'dataExplore',
         url: '/explore',
         templateUrl: 'views/dataExplore/dataExplore.html',
