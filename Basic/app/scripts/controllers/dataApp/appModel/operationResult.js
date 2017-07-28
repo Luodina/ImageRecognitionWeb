@@ -28,9 +28,25 @@ angular.module('basic')
       });
 
 
+    $scope.getViewList = function (item) {
 
-    $scope.view =() => {
-      appOperResult.open()
+
+      };
+
+
+    $scope.view =(item) => {
+      console.log(".... list====>", item);
+      $http.post('/api/appResults/getViews', {
+        'appName': item.APP_NAME,
+        'scheduleName':item.SCHEDULE_NAME,
+        'executeTime':item.EXECUTE_TIME
+      }).success(function (data) {
+        console.log("item0000000 item0000000====>", data);
+        $scope.vlist= data.results;
+        console.log(".-----... $scope.vlist====>", $scope.vlist);
+        appOperResult.open($scope.vlist);
+
+      });
     }
   }])
   .directive('result', () => {

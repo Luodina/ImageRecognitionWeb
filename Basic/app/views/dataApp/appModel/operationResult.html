@@ -17,7 +17,7 @@
                 ng-repeat="item in projectType[$index].resList">
               <td>{{item.EXECUTE_STATUS}}</td>
               <td>{{item.EXECUTE_TIME}}</td>
-              <td class="con_set_last" ng-click="view()">查看</td>
+              <td class="con_set_last" ng-click="view(item)">查看</td>
             </tr>
           </table>
         </div>

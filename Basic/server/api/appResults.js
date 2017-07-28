@@ -125,14 +125,18 @@ setInterval(getAllResultsList,10000);
 
 //------------------------------------------------------------routers
 
-router.get('/getReportViews',(req, res) => {
-  let app_name = req.params.appName;
-  let schedule_name = req.params.scheduleName;
-  let execute_time = req.params.executeTime;
+router.post('/getViews',(req, res) => {
+  console.log('groupby--------->>>>>',req.body);
+
+  let app_name = req.body.appName;
+  let schedule_name = req.body.scheduleName;
+  let execute_time = req.body.executeTime;
   if(app_name!==''&&schedule_name!==''&&execute_time!==''){
-    res.send({results:viewReports(app_name,schedule_name,execute_time)});
+    let tmp = viewReports(app_name,schedule_name,execute_time);
+    console.log('heyyyyyy',tmp);
+    res.send({results:tmp});
   }else{
-    res.send({error:'get views failed!'});
+    res.send({results:'get views failed!'});
   }
 
 });

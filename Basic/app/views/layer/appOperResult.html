@@ -4,10 +4,15 @@
 </div>
 <div class="modal-body">
   <div style="overflow-x:scroll;">
-    <select style="width: 20%">
-      <option value=""></option>
-    </select>
-    <div class="pic"></div>
+    <div ng-repeat="view in viewList" ng-model="viewList">
+      <div ng-click="changeView(view)">{{view.name}}</div>
+    </div>
+    <div class="pic" id="showArea" >
+      <iframe id="ifm" style="display: none;"></iframe>
+      <img id="img" src="" style="display: none;"/>
+      <span id="txt" style="display: none;"></span>
+
+    </div>
   </div>
 </div>
 
