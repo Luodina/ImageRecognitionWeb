@@ -10,17 +10,17 @@
     </tr>
     <tr style="margin: 0;">
       <td style="width: 50%;padding:0;margin: 0;">
-        <select name="repeatSelect" id="repeatSelect" ng-model="data.targetModel" ng-change="makePrereqOptions(data.targetModel)">
+        <select class="create_select" name="repeatSelect" id="repeatSelect" ng-model="data.targetModel" ng-change="makePrereqOptions(data.targetModel)">
           <option ng-repeat="option in data.targetModelOptions" value="{{option}}">{{option}}</option>
         </select>
       </td>
       <td style="width: 50%;padding:0;margin: 0;">
         <div ng-repeat="listOptions in data.prereqModelOptions track by $index">
           <span>{{$index + 1}}</span>
-          <select style="width: 200px;background: #fff;" ng-model="data.prereqModel[$index]">
+          <select class="arr_select" ng-model="data.prereqModel[$index]">
             <option ng-repeat="option in listOptions" value="{{option}}">{{option}}</option>
           </select>
-          <span style="display: inline-block;padding: 2px 5px;border: solid 1px #333;" ng-click="action($index)">
+          <span class="set_btn" ng-click="action($index)">
             {{($index < data.prereqModelOptions.length -1) || (listOptions.length === 1 && $index === data.prereqModelOptions.length -1) ? 'x': '+'}}
           </span>
         </div>

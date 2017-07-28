@@ -11,6 +11,15 @@ angular.module('basic')
         listAllProject.forEach(model => {
           if (model.APP_ID !== null && model.APP_ID !== undefined ){
             if (model.TYPE_MENU_ID ==='00' && model.APP_ID === $scope.appName){
+              let showName = model.MODEL_NAME;
+              if(model.APP_ID=='医保控费'){
+                var x=showName.indexOf('-');
+                for(var i=0;i<1;i++){
+                  x=showName.indexOf('-',x+1);
+                }
+                model.SHOW_NAME=showName.substring(x+1,showName.length);
+              }
+
               $scope.listAllProject.push(model);
             }
           }
