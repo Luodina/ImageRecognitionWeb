@@ -1,5 +1,6 @@
 'use strict';
-import {mkdir,readdir, createReadStream, createWriteStream } from 'fs';
+import {mkdir,readdir, createReadStream, createWriteStream} from 'fs';
+import {copySync,moveSync} from 'fs-extra';
 const express = require('express');
 const router = express.Router();
 const path = require('path');
@@ -29,7 +30,7 @@ function notebookDir(type){
     }
 }
 router.get('/pathNoteBook', function (req, res) {
-    let modelName = req.query.modelName; 
+    let modelName = req.query.modelName;
     let type = req.query.modelType;
     let projectType=type;
     baseNotebookPath = notebookPath(type);
@@ -37,6 +38,7 @@ router.get('/pathNoteBook', function (req, res) {
     let destUrl = baseNotebookUrl + 'notebooks/'+ notebookDir(type)+ '/' + projectType + '/' + modelName + '.ipynb';
     if (type === 'explore'){
 
+        let templateDir = req.query.modelTemplate;
         templatIpynbFile = req.query.modelTemplate + '.ipynb';
         projectType = modelName;
         mkdir(dirName, function (error) {
@@ -45,7 +47,8 @@ router.get('/pathNoteBook', function (req, res) {
                 return;
             }
             let destUrl = baseNotebookUrl + 'notebooks/'+ notebookDir(type)+ '/' + projectType + '/' + modelName + '.ipynb';
-            createReadStream(templatIpynbPath + templatIpynbFile).pipe(createWriteStream(baseNotebookPath + '/'+ projectType + '/'+ modelName + '.ipynb'));
+            copySync(templatIpynbPath + templateDir, baseNotebookPath +'/'+ projectType);
+            moveSync(baseNotebookPath +'/'+ projectType+ '/notebook.ipynb', baseNotebookPath +'/'+ projectType+ '/' + modelName+  '.ipynb' );
             res.send({jpyPath: destUrl,notebookPath: notebookDir(type)});
         });
     }else{
@@ -61,7 +64,7 @@ router.get('/notebook/templateList', function (req, res) {
         }
         res.send({files: files});
     });
-     
+
 });
 router.get('/notebook/open/:modelName/:projectType', function (req, res) {
     let destUrl;
@@ -69,9 +72,9 @@ router.get('/notebook/open/:modelName/:projectType', function (req, res) {
     let modelName = req.params.modelName;
     console.error('projectType: ' ,projectType);
     if (projectType === 'explore') {
-        destUrl = baseNotebookUrl + 'notebooks/'+ notebookDir(projectType)+ '/' + modelName + '/' + modelName + '.ipynb'; 
+        destUrl = baseNotebookUrl + 'notebooks/'+ notebookDir(projectType)+ '/' + modelName + '/' + modelName + '.ipynb';
     }else{
-        destUrl = baseNotebookUrl + 'notebooks/'+ notebookDir(projectType)+ '/' + projectType + '/' + modelName + '.ipynb'; 
+        destUrl = baseNotebookUrl + 'notebooks/'+ notebookDir(projectType)+ '/' + projectType + '/' + modelName + '.ipynb';
     }
     console.error('destUrl: ' ,destUrl);
     res.send({jpyPath: destUrl});
