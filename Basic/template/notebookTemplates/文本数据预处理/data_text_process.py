@@ -116,7 +116,7 @@ class DataProcess(object):
         
         self.df = None
         if file_path != None:
-            self.df = pd.read_csv(file_path)
+            self.df = pd.read_csv(file_path, low_memory=False)
         #文本特征
         self.tf = text_feat
         #结构化数据特征
