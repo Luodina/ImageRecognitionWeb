@@ -25,7 +25,6 @@ router.get('/:appName', function (req, res) {
 router.get('/:appName/overview', function (req, res) {
   let appName = req.params.appName;
   let filePath = path.join(basePath, appName, 'README.md');
-  console.log(filePath);
   let contentType = 'text/html';
 
   // TODO combine logic from app results .
@@ -41,7 +40,6 @@ router.get('/:appName/overview', function (req, res) {
       }
     }
     else {
-      console.log(content);
       res.writeHead(200);
       res.end(content, 'utf8');
     }
