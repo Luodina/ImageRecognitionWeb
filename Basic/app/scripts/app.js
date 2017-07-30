@@ -28,7 +28,8 @@ angular
     'basic.resource',
     'basic.services',
     'ui.router.state.events',
-    'angularFileUpload'
+    'angularFileUpload',
+    'hc.marked'
   ])
   .constant('GLOBAL', {
     host_cdm:'',
@@ -96,5 +97,5 @@ angular
       return $cookies.get('username');
     };
   }]);
-  
+
 

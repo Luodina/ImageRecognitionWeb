@@ -185,6 +185,36 @@ body .dataApp .dataRight .previewContent .previewPart .preview .content .content
   line-height: 54px;
 }
 
+body .dataApp .dataRight .previewContent .previewPart .preview .content .markdown h1 {
+  margin-top: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+body .dataApp .dataRight .previewContent .previewPart .preview .content .markdown h2 {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #333;
+}
+
+body .dataApp .dataRight .previewContent .previewPart .preview .content .markdown h3 {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #333;
+}
+
+body .dataApp .dataRight .previewContent .previewPart .preview .content .markdown h4 {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #333;
+}
+
+body .dataApp .dataRight .previewContent .previewPart .preview .content .markdown h5 {
+  margin-top: 24px;
+  font-size: 14px;
+  color: #666;
+}
+
 body .dataApp .dataRight .previewContent .previewPart .preview .content .ower {
   padding: 0 20px;
 }
