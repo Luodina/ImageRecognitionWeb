@@ -271,7 +271,9 @@ body .dataApp .dataRight .fileContent .filePart .file .content li .app_set_main 
 body .dataApp .dataRight .fileContent .filePart .file .content li .app_set_main .body {
   height: 170px;
   padding-left: 20px;
+  padding-right: 20px;
   padding-top: 20px;
+  line-height: 25px;
   color: #333;
 }
 
@@ -389,11 +391,11 @@ body .dataApp .dataRight .taskPlanContent .taskPlanPart .task .content {
 }
 
 body .dataApp .dataRight .taskPlanContent .taskPlanPart .task .content .contentTitle {
-  border: solid 1px #f4f4f4;
+  border: solid 1px #eaeaea;
 }
 
 body .dataApp .dataRight .taskPlanContent .taskPlanPart .task .content .contentTitle .title {
-  background: #f2f2f2;
+  background: #f4f4f4;
   height: 52px;
   font-size: 14px;
 }

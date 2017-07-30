@@ -170,6 +170,7 @@ body #pagOne .loginBtn1 {
 
 body #pagOne .loginBtn1 .loginBtn1a {
   color: #CDCCD0;
+  cursor: pointer;
 }
 
 body #pagOne .homepag_nav {
@@ -214,7 +215,7 @@ body #pagOne .homepag_content .homepag_contenth1 {
 body #pagOne .homepag_content .homepag_contenth3 {
   position: relative;
   font-size: 20px;
-  top: 10px;
+  top: 28px;
 }
 
 body .loginPage {
@@ -306,6 +307,7 @@ body .loginPage .content .contentModel .conCont .conOne .ipt {
   height: 38px;
   background: #f7f8fa;
   border: solid 1px #f9f9f9;
+  padding: 0 5px;
 }
 
 body .loginPage .content .contentModel .conCont .conTwo {
@@ -330,6 +332,7 @@ body .loginPage .content .contentModel .conCont .conTwo .ipt {
   height: 38px;
   background: #f7f8fa;
   border: solid 1px #f9f9f9;
+  padding: 0 5px;
 }
 
 body .loginPage .content .contentModel .conCont .textConfirm {
@@ -594,7 +597,7 @@ body .modal-body .pause_set {
 }
 
 body .modal-body .pause_set i {
-  background: url(../../images/WechatIMG2.png) no-repeat;
+  background: url(../images/WechatIMG2.png) no-repeat;
   width: 14px;
   height: 14px;
   display: block;
@@ -609,7 +612,7 @@ body .modal-body .pause_set p {
 }
 
 body .modal-body .pause_set.active i {
-  background: url(../../images/WechatIMG1.png) no-repeat;
+  background: url(../images/WechatIMG1.png) no-repeat;
 }
 
 body .modal-body .email_set {
@@ -627,129 +630,149 @@ body .modal-body .email_set input {
   width: 78%;
 }
 
-body .modal-body select {
-  width: 20%;
+body .modal-body .appResult {
+  position: relative;
+  font-size: 14px;
+  color: #333;
 }
 
-body .modal-body .pic {
-  display: inline-block;
-  float: right;
-  width: 80%;
-  min-height: 50px;
-  border: solid 1px #999;
+body .modal-body .appResult .list {
+  height: 300px;
+  overflow-y: auto;
 }
 
-body .modal-footer {
+body .modal-body .appResult .list .body-left {
+  width: 25%;
+}
+
+body .modal-body .appResult .list .body-left .left-content {
+  margin-top: 10px;
+  background: #f2f2f2;
+  word-wrap: break-word;
+}
+
+body .modal-body .appResult .body-right {
+  position: absolute;
+  left: 28%;
+  top: 0;
+  z-index: 99;
+  width: 72%;
+  height: 300px;
+  border: solid 1px #f4f4f4;
+}
+
+.modal-footer {
   background: #ecf1ff;
 }
 
-body .modal-footer .modal-footer-btn {
+.modal-footer .modal-footer-btn {
   float: right;
   color: #fff;
   display: inline-block;
   padding: 5px 20px;
   border-radius: 5px;
   background: #4847ff;
+  cursor: pointer;
 }
 
-body .modal-footer .modal-footer-btn:hover {
+.modal-footer .modal-footer-btn:hover {
   background: #3d63d9;
   color: #ffffff;
 }
 
-body .data-tab button {
+.data-tab button {
   margin-top: 30px;
   margin-left: 20px;
 }
 
-body .data-tab .nav-tabs {
+.data-tab .nav-tabs {
   float: left;
   background: #ecf1ff;
   min-height: 800px;
   font-size: 14px;
 }
 
-body .data-tab .contect-tabs {
+.data-tab .contect-tabs {
   width: 80%;
   float: left;
   margin-left: 30px;
   margin-top: 40px;
 }
 
-body .data-tab .contect-tabs .dataSource-title {
+.data-tab .contect-tabs .dataSource-title {
   font-size: 20px;
   color: #333;
 }
 
-body .data-tab .contect-tabs .dataSource-chooseOne {
+.data-tab .contect-tabs .dataSource-chooseOne {
   margin-top: 30px;
   font-size: 14px;
   color: #333333;
 }
 
-body .data-tab .contect-tabs .dataSource-chooseOne input {
+.data-tab .contect-tabs .dataSource-chooseOne input {
   margin-right: 10px;
 }
 
-body .data-tab .contect-tabs .dataSource-chooseTwo {
+.data-tab .contect-tabs .dataSource-chooseTwo {
   margin-top: 30px;
   font-size: 14px;
   color: #333333;
 }
 
-body .data-tab .contect-tabs .dataSource-chooseTwo input {
+.data-tab .contect-tabs .dataSource-chooseTwo input {
   margin-right: 10px;
 }
 
-body .data-tab .contect-tabs .dataSource-chooseTwo .dataSource-file {
+.data-tab .contect-tabs .dataSource-chooseTwo .dataSource-file {
   display: inline-block;
 }
 
-body .data-tab .contect-tabs .dataSource-chooseTwo .dataSource-upload {
+.data-tab .contect-tabs .dataSource-chooseTwo .dataSource-upload {
   display: inline-block;
   font-size: 14px;
   padding: 2px 10px;
   background: #f4f4f4;
 }
 
-body .data-tab .contect-tabs .button {
+.data-tab .contect-tabs .button {
   width: 100%;
 }
 
-body .data-tab .contect-tabs .dataSource-btn {
+.data-tab .contect-tabs .dataSource-btn {
   margin-top: 30px;
   margin-bottom: 30px;
 }
 
-body .data-tab .contect-tabs .dataSource-btn .dataSource-preview {
+.data-tab .contect-tabs .dataSource-btn .dataSource-preview {
   font-size: 14px;
   padding: 5px 12px;
   background: #f4f4f4;
 }
 
-body .data-tab .contect-tabs .dataSource-btn .dataSource-preview:hover {
+.data-tab .contect-tabs .dataSource-btn .dataSource-preview:hover {
   background: #4847ff;
   color: #ffffff;
 }
 
-body .data-tab .contect-tabs .dataSource-btn .dataSource-preview:active {
+.data-tab .contect-tabs .dataSource-btn .dataSource-preview:active {
   background: #4847ff;
   color: #ffffff;
 }
 
-body .data-tab .contect-tabs .content {
+.data-tab .contect-tabs .content {
   margin-top: 15px;
   width: 800px;
   height: 300px;
   border: 1px solid #f4f4f4;
 }
 
-body .data-tab .contect-tabs .btn {
+.data-tab .contect-tabs .btn {
   margin-top: 40px;
   overflow: hidden;
 }
 
-body .data-tab .contect-tabs .btn .btnStep {
+.data-tab .contect-tabs .btn .btnStep {
   text-decoration: none;
   display: inline-block;
   padding: 5px 10px;
@@ -757,29 +780,29 @@ body .data-tab .contect-tabs .btn .btnStep {
   background: #f4f4f4;
 }
 
-body .data-tab .contect-tabs .btn .btnStep:hover {
+.data-tab .contect-tabs .btn .btnStep:hover {
   background: #4847ff;
   color: #ffffff;
 }
 
-body .data-tab .contect-tabs .btn .btnStep:active {
+.data-tab .contect-tabs .btn .btnStep:active {
   background: #4847ff;
   color: #ffffff;
 }
 
-body .dataExploreModel {
+.dataExploreModel {
   width: 100%;
   padding: 0;
 }
 
-body .dataExploreModel .exploreModelLeft {
+.dataExploreModel .exploreModelLeft {
   float: left;
   width: 216px;
   padding: 0;
   background: #ecf1ff;
 }
 
-body .dataExploreModel .exploreModelLeft ul {
+.dataExploreModel .exploreModelLeft ul {
   list-style: none;
   padding: 0px;
   margin-left: 50px;
@@ -790,14 +813,14 @@ body .dataExploreModel .exploreModelLeft ul {
   border-left: 3px solid #ccc;
 }
 
-body .dataExploreModel .exploreModelLeft ul li {
+.dataExploreModel .exploreModelLeft ul li {
   padding-top: 40px;
   font-size: 14px;
   color: #333;
   position: relative;
 }
 
-body .dataExploreModel .exploreModelLeft ul li .circle {
+.dataExploreModel .exploreModelLeft ul li .circle {
   width: 14px;
   height: 14px;
   border-radius: 7px;
@@ -806,27 +829,27 @@ body .dataExploreModel .exploreModelLeft ul li .circle {
   left: -20px;
 }
 
-body .dataExploreModel .exploreModelLeft ul .active {
+.dataExploreModel .exploreModelLeft ul .active {
   color: #4847ff;
 }
 
-body .dataExploreModel .exploreModelLeft ul .active div.circle {
+.dataExploreModel .exploreModelLeft ul .active div.circle {
   background: #4874ff !important;
 }
 
-body .dataExploreModel .exploreModelRight {
+.dataExploreModel .exploreModelRight {
   margin: 0;
   padding: 0;
   overflow: auto;
 }
 
-body .dataExploreModel .exploreModelRight .button {
+.dataExploreModel .exploreModelRight .button {
   margin: 40px 0 60px;
   color: #333;
   font-size: 14px;
 }
 
-body .dataExploreModel .exploreModelRight .button .bBtn {
+.dataExploreModel .exploreModelRight .button .bBtn {
   margin-right: 20px;
   display: inline-block;
   padding: 5px 20px;
@@ -835,7 +858,7 @@ body .dataExploreModel .exploreModelRight .button .bBtn {
   border: solid 1px #4874ff;
 }
 
-body .dataExploreModel .exploreModelRight .button .bBtnNext {
+.dataExploreModel .exploreModelRight .button .bBtnNext {
   margin-right: 20px;
   display: inline-block;
   padding: 5px 20px;
@@ -845,12 +868,12 @@ body .dataExploreModel .exploreModelRight .button .bBtnNext {
   border: solid 1px #4874ff;
 }
 
-body .dataExploreModel .exploreModelRight .dataSource {
+.dataExploreModel .exploreModelRight .dataSource {
   margin: 0;
   padding: 0 30px;
 }
 
-body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .title {
+.dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .title {
   margin: 0;
   padding-top: 40px;
   line-height: 20px;
@@ -858,7 +881,7 @@ body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePar
   color: #333;
 }
 
-body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataSourceChoose {
+.dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataSourceChoose {
   padding: 0;
   margin: 0;
   margin-top: 30px;
@@ -866,7 +889,7 @@ body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePar
   color: #333;
 }
 
-body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataSourceChoose .select {
+.dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataSourceChoose .select {
   display: inline-block;
   width: 20%;
   height: 30px;
@@ -877,7 +900,7 @@ body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePar
   border: 1px solid #ccc;
 }
 
-body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataFileImport {
+.dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataFileImport {
   padding: 0;
   margin: 0;
   margin-top: 30px;
@@ -885,7 +908,7 @@ body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePar
   color: #333;
 }
 
-body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataFileImport .file_border {
+.dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataFileImport .file_border {
   border: 1px solid #eaeaea;
   width: 280px;
   height: 30px;
@@ -895,7 +918,7 @@ body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePar
   position: relative;
 }
 
-body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataFileImport .file_border #fileName {
+.dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataFileImport .file_border #fileName {
   position: absolute;
   top: 0;
   z-index: 2;
@@ -905,7 +928,7 @@ body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePar
   border: 0;
 }
 
-body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataFileImport .file_border .chooseFile {
+.dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataFileImport .file_border .chooseFile {
   display: inline-block;
   margin-left: 3px;
   opacity: 0;
@@ -919,7 +942,7 @@ body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePar
   z-index: 3;
 }
 
-body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataFileImport .fileUpload {
+.dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataFileImport .fileUpload {
   color: #ffffff;
   display: inline-block;
   padding: 5px 20px;
@@ -929,7 +952,7 @@ body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePar
   border: 1px solid #4874ff;
 }
 
-body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataSourcePreview {
+.dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataSourcePreview {
   padding: 0;
   margin: 0;
   margin-top: 30px;
@@ -937,19 +960,19 @@ body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePar
   color: #333;
 }
 
-body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataSourcePreview .dataSource-preview {
+.dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .dataSourcePreview .dataSource-preview {
   border: 1px solid #f4f4f4;
   padding: 5px 20px;
   background: #f4f4f4;
 }
 
-body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult {
+.dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult {
   width: 100%;
   margin-top: 30px;
   overflow-x: auto;
 }
 
-body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe thead th {
+.dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe thead th {
   font-size: 14px;
   height: 40px;
   color: #999;
@@ -958,44 +981,44 @@ body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePar
   border: solid 1px #999;
 }
 
-body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe thead tr th:nth-child(1) {
+.dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe thead tr th:nth-child(1) {
   padding: 0 15px;
   text-align: center;
   border: solid 1px #999;
 }
 
-body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe tbody tr:nth-child(odd) {
+.dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe tbody tr:nth-child(odd) {
   background: #f9f9f9;
 }
 
-body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe tbody tr:nth-child(even) {
+.dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe tbody tr:nth-child(even) {
   background: #ffffff;
 }
 
-body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe tbody th {
+.dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe tbody th {
   padding: 0 5px;
   height: 40px;
   text-align: center;
   border: solid 1px #999;
 }
 
-body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe tbody tr th:nth-child(1) {
+.dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe tbody tr th:nth-child(1) {
   padding: 0 15px;
   text-align: center;
   border: solid 1px #999;
 }
 
-body .dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe tbody td {
+.dataExploreModel .exploreModelRight .dataSource .dataSourcePart .sourcePart .previewResult .dataframe tbody td {
   padding: 0 5px;
   text-align: center;
   border: solid 1px #999;
 }
 
-body .dataExploreModel .exploreModelRight .dataReport .reportPart {
+.dataExploreModel .exploreModelRight .dataReport .reportPart {
   margin-left: 30px;
 }
 
-body .dataExploreModel .exploreModelRight .dataReport .reportPart .title {
+.dataExploreModel .exploreModelRight .dataReport .reportPart .title {
   margin: 0;
   padding-top: 40px;
   padding-bottom: 30px;
@@ -1004,12 +1027,12 @@ body .dataExploreModel .exploreModelRight .dataReport .reportPart .title {
   color: #333;
 }
 
-body .dataExploreModel .exploreModelRight .dataProcess {
+.dataExploreModel .exploreModelRight .dataProcess {
   margin: 0;
   padding: 0 30px;
 }
 
-body .dataExploreModel .exploreModelRight .dataProcess .processPart .title {
+.dataExploreModel .exploreModelRight .dataProcess .processPart .title {
   margin: 0;
   padding-top: 40px;
   line-height: 20px;
@@ -1017,11 +1040,11 @@ body .dataExploreModel .exploreModelRight .dataProcess .processPart .title {
   color: #333;
 }
 
-body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle {
+.dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle {
   margin-top: 30px;
 }
 
-body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle p {
+.dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle p {
   margin: 0;
   padding-left: 20px;
   color: #333;
@@ -1031,27 +1054,25 @@ body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle
   background: #f4f4f4;
 }
 
-body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle table {
-  margin-top: 10px;
+.dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle .table > tbody > tr > td {
+  border-top: none;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
 }
 
-body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle table tr td {
-  padding-left: 20px;
-  padding-right: 30px;
-}
-
-body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle .btn {
+.dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle .btn {
   padding: 0;
   margin: 0;
   margin-top: 30px;
 }
 
-body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle .btn .btnStep {
+.dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle .btn .btnStep {
   display: inline-block;
   font-size: 14px;
   color: #333;
   margin-right: 20px;
   padding: 5px 25px;
+  text-align: center;
   background: #f4f4f4;
   border: solid 1px #f4f4f4;
 }
@@ -1065,4 +1086,139 @@ body .dataExploreModel .exploreModelRight .dataProcess .processPart .commonStyle
 .container-fluid {
   padding-left: 0;
   padding-right: 0;
+}
+
+.main_drop_set {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 16px;
+  margin-right: 6px;
+}
+
+.main_drop_set .data_source {
+  border: solid 1px #eaeaea;
+  float: left;
+  width: 200px;
+  height: 30px;
+  line-height: 30px;
+}
+
+.main_drop_set .data_source .per_block {
+  padding: 0 10px;
+  text-decoration: none;
+  color: #838383;
+  display: block;
+  width: 200px;
+}
+
+.main_drop_set .data_source .per_block .xl_bg {
+  position: absolute;
+  right: 8px;
+  top: 9px;
+  width: 6px;
+  height: 6px;
+  border: solid #a7a7a7;
+  border-width: 1px 1px 0 0;
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
+  transition: all 0.3s;
+}
+
+.main_drop_set .zx_area_drop {
+  width: 200px;
+  min-width: 200px;
+  top: 29px;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  border: 1px solid #eaeaea;
+  border-top: 0;
+  left: -1px;
+  max-height: 100px;
+  overflow: auto;
+}
+
+.main_drop_set .zx_area_drop li {
+  width: 198px;
+  text-align: center;
+  padding-left: 0;
+  border: 0;
+  color: #333;
+  font-size: 14px;
+}
+
+.main_drop_set .zx_area_drop li a {
+  height: 28px !important;
+  line-height: 28px !important;
+  padding: 0;
+}
+
+.main_drop_set .zx_area_drop li a span {
+  width: 180px;
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  overflow: hidden;
+  font-size: 14px;
+  text-align: left;
+  text-indent: 11px;
+}
+
+.main_drop_set .zx_area_drop li a span.colored {
+  color: #4874ff;
+  background: #ecf1ff;
+}
+
+.main_drop_set .zx_area_drop li a:hover {
+  background: #ecf1ff;
+  color: #4874ff;
+}
+
+.data_select {
+  border: 1px solid #eaeaea;
+  height: 28px;
+  width: 200px;
+  margin-left: 10px;
+}
+
+.create_select {
+  border: 1px solid #eaeaea;
+  height: 28px;
+  width: 100px !important;
+  margin-top: 10px;
+}
+
+.arr_select {
+  border: 1px solid #eaeaea;
+  height: 28px;
+  width: 200px !important;
+  margin-top: 10px;
+}
+
+.set_btn {
+  display: inline-block;
+  padding: 2px 5px;
+  border: solid 1px #eaeaea;
+  vertical-align: bottom;
+  width: 28px;
+  height: 28px;
+  line-height: 24px;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.add_open {
+  border: solid 1px #4874ff;
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+.save_make {
+  background: #4874ff;
+  padding: 5px 15px;
+  cursor: pointer;
 }
