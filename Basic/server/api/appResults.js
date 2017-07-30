@@ -34,7 +34,7 @@ function viewReports(appName,scheduleName,time) {
           content=fs.readFileSync(fPath,'utf-8');
         }
 
-        fPath='http://localhost:'+port+'/api/appResults/'+appName+'/files/'+scheduleName+'/'+time+'/'+val;
+        fPath='/api/appResults/'+appName+'/files/'+scheduleName+'/'+time+'/'+val;
 
         let jsonObj ={name:val,path:fPath,fileType:fileType,content:content};
         result.push(jsonObj);
