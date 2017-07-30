@@ -137,8 +137,8 @@ angular.module('basic')
        * @param scheduleName
        * @param state :pause or running
        */
-      $scope.pauseSchedule = function (scheduleName, state) {
-        console.log("pauseSchedule", scheduleName, state);
+      $scope.pauseSchedule = function (scheduleName, state,appId) {
+        console.log("pauseSchedule", scheduleName, state,appId);
         if (state == "RUNNING") {
           state = "SUSPEND"
         } else if (state == "SUSPEND") {
