@@ -18,3 +18,4 @@ users.dat
 .tmp/
 /notebookModel
 /notebookApp
+__pycache__

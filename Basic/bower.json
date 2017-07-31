@@ -33,6 +33,7 @@
     "bootstrap-application-wizard": "bootstrap-application-wizard-ocsp#^1.0.4",
     "angular-chart.js": "^1.1.1",
     "angular-file-upload": "^2.5.0",
+    "angular-marked": "^1.2.2",
     "silly-datetime": "^0.1.2"
   },
   "devDependencies": {

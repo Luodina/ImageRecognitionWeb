@@ -24,6 +24,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_017': '预览',
     'web_common_018': '保存',
     'web_common_019': '开启我的',
+    'web_common_020': '数据字典',
 
 
     'web_common_data_explore_001': '数据选择',

@@ -89,7 +89,7 @@ function ensureExists(path, mask, cb) {
 function init(){
     console.log('init');
     if (sourceCodes[0] !== undefined){
-        console.log('!!!!!!!!STEP0___________CODE:', sourceCodes[0]);
+        //console.log('!!!!!!!!STEP0___________CODE:', sourceCodes[0]);
         kernel.requestExecute({ code: sourceCodes[0]});
     }
 }
@@ -159,26 +159,27 @@ router.post('/init', function (req, res) {
     mode = req.body.modelMode;
     baseNotebookPath = notebookPath(type);
     baseNotebookDir = notebookDir(type);
-    if (type === 'explore') {      
+    if (type === 'explore') {
         projectType = modelName;
     } else{
-        projectType = type;    
+        projectType = type;
     }
     let options = notebookOpts(type);
+    options.path = baseNotebookDir + '/' + modelName + '/' + modelName + '.ipynb';
     console.log('!!!!!!!!___________OPTIONS:', options);
-    let contents = new ContentsManager(options);   
+    let contents = new ContentsManager(options);
     console.log(`/init: fileName ${fileName}
                         modelName ${modelName} 
                         userName ${userName}
                         projectType ${projectType}
                         baseNotebookPath' ${baseNotebookPath}
                         contents ${contents}`);
-    
+
     if (mode === 'new'){
         ensureExists(baseNotebookPath + '/'+ projectType, '0744', function(err) {
             if (err) {
                 console.log('Cannot create folder: ',err);
-            } else {           
+            } else {
                 createReadStream(templatIpynbPath + templatIpynbFile)
                 .pipe(createWriteStream(baseNotebookPath + '/'+ projectType + '/'+ modelName + '.ipynb'));
                 console.log('Success!!!' , baseNotebookPath + '/'+ projectType + '/'+ modelName + '.ipynb', 'exists!');
@@ -193,7 +194,7 @@ router.post('/init', function (req, res) {
                 .catch(err => {
                     console.log('Content problem!', err);
                 });
-               
+
             }
         });
     }
@@ -261,8 +262,8 @@ router.post('/step1', function (req, res) {
     // contents.rename(templatFolderPath + templatIpynbPath, notebookPath);
         if (sourceCodes[1] !== undefined){
             let code = sourceCodes[1];
-            code = code.replace(/filePath=/g, 'filePath=\'' + baseNotebookPath + '/'+ projectType + '/'+ dataFileName +'\'\n');
-            code = code.replace(/htmlFilePath=/g, 'htmlFilePath=\'' + baseNotebookPath + '/'+ projectType + '/'+htmlFileName + '\'\n');
+            code = code.replace(/filePath=/g, 'filePath=\'' +dataFileName+ '\'\n');
+            code = code.replace(/htmlFilePath=/g, 'htmlFilePath=\''+htmlFileName+ '\'\n');
             console.log('!!!!!!!!STEP1___________CODE:', code);
             source[1]=code;
             let future = kernel.requestExecute({ code: code});
@@ -433,9 +434,9 @@ router.get('/save', function (req, res) {
                 .then(() => {
                     console.log('session closed');
                     console.log('modelInfo', modelInfo, 'dataFileName', dataFileName, 'baseNotebookDir', baseNotebookDir,'type',type);
-                    res.status(200).send({ modelInfo: modelInfo, 
+                    res.status(200).send({ modelInfo: modelInfo,
                                            dataFileName:dataFileName,
-                                           notebookPath: baseNotebookDir, 
+                                           notebookPath: baseNotebookDir,
                                            projectType: projectType,
                                            modelType: '01'
                                         });

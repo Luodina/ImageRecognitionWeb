@@ -74,7 +74,8 @@ angular.module('basic')
               '分类预测': 'pic3',
               '文本数据预处理': 'pic2',
               '目标检测': 'pic5',
-              '自由模式': 'pic6'
+              '自由模式': 'pic6',
+              '文本聚类分析': 'pic4'
             };
 
             data.files.filter(function(name){return !name.endsWith('.ipynb')}).forEach(file => {

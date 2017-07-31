@@ -16,7 +16,7 @@ angular.module('basic.resource', ['ngResource'])
     return makefileList;
   }])
   .factory('cdmSource', ['$resource', 'GLOBAL',function ($resource,GLOBAL) {
-    let cdmSource = $resource(GLOBAL.host_cdm +'/datasets', {}, {
+    let cdmSource = $resource(GLOBAL.host_cdm +'/datasets/queryDS/all', {}, {
     });
     return cdmSource;
   }])
