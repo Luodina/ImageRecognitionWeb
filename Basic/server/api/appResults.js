@@ -10,7 +10,6 @@ const config = require('./../config');
 const env = config.env || 'dev';
 const appPath=config[env].appPath;
 const dataAppPath=path.join(__dirname, '../../' + appPath);
-const port=config[env].port;
 
 
 
@@ -19,27 +18,30 @@ function viewReports(appName,scheduleName,time) {
   let result=[];
   let filePath =dataAppPath+'/'+appName+'/reports/'+scheduleName+'/'+time;
   function finder(fp) {
-    let files=fs.readdirSync(fp);
-    files.forEach((val,index) => {
-      let fPath=path.join(fp,val);
-      let stats=fs.statSync(fPath);
-      if(stats.isDirectory()){
-        finder(fPath);
-      }
-      if(stats.isFile()){
-        let index = val.indexOf('.');
-        let fileType=val.substr(index+1);
-        let content='';
-        if(fileType==='txt' || fileType==='out'){
-          content=fs.readFileSync(fPath,'utf-8');
+    if(fs.existsSync(filePath)){
+      let files=fs.readdirSync(fp);
+      files.forEach((val) => {
+        let fPath=path.join(fp,val);
+        let stats=fs.statSync(fPath);
+        if(stats.isDirectory()){
+          finder(fPath);
         }
+        if(stats.isFile()){
+          let index = val.indexOf('.');
+          let fileType=val.substr(index+1);
+          let content='';
+          if(fileType==='txt' || fileType==='out'){
+            content=fs.readFileSync(fPath,'utf-8');
+          }
 
-        fPath='/api/appResults/'+appName+'/files/'+scheduleName+'/'+time+'/'+val;
+          fPath='/api/appResults/'+appName+'/files/'+scheduleName+'/'+time+'/'+val;
 
-        let jsonObj ={name:val,path:fPath,fileType:fileType,content:content};
-        result.push(jsonObj);
-      }
-    });
+          let jsonObj ={name:val,path:fPath,fileType:fileType,content:content};
+          result.push(jsonObj);
+        }
+      });
+    }
+
 
   }
   finder(filePath);
@@ -193,8 +195,8 @@ router.get('/:appName/files/:scheduleName/:runnum/:file',(req, res) => {
   let scheduleName = req.params.scheduleName;
   let runnum = req.params.runnum;
   let file = req.params.file;
-  var extname = path.extname(file);
-  var contentType = 'text/html';
+  let extname = path.extname(file);
+  let contentType = 'text/html';
   switch (extname) {
     case '.js':
       contentType = 'text/javascript';
@@ -213,8 +215,10 @@ router.get('/:appName/files/:scheduleName/:runnum/:file',(req, res) => {
       break;
     case '.wav':
       contentType = 'audio/wav';
+      break;
     case 'txt':
       contentType = 'text/xml';
+      break;
     case 'out':
       contentType = 'text/xml';
       break;
