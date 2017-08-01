@@ -1,6 +1,6 @@
 'use strict';
-import {mkdir,readdir, createReadStream, createWriteStream} from 'fs';
-import {copySync,moveSync} from 'fs-extra';
+import {mkdir,rmdir,readdir, createReadStream, createWriteStream} from 'fs';
+import {copySync,moveSync,removeSync} from 'fs-extra';
 const express = require('express');
 const router = express.Router();
 const path = require('path');
@@ -55,6 +55,34 @@ router.get('/pathNoteBook', function (req, res) {
         createReadStream(templatIpynbPath + templatIpynbFile).pipe(createWriteStream(baseNotebookPath + '/'+ projectType + '/'+ modelName + '.ipynb'));
         res.send({jpyPath: destUrl,notebookPath: notebookDir(type)});
     }
+});
+
+router.get('/delete:modelName',function (req,res) {
+  let modelName = req.query.modelName;
+  let type = req.query.modelType;
+  let projectType=type;
+  baseNotebookPath = notebookPath(type);
+  let dirName = path.join(baseNotebookPath, modelName);
+  let destUrl = baseNotebookUrl + 'notebooks/'+ notebookDir(type)+ '/' + projectType + '/' + modelName + '.ipynb';
+  if (type === 'explore'){
+
+    let templateDir = req.query.modelTemplate;
+    templatIpynbFile = req.query.modelTemplate + '.ipynb';
+    projectType = modelName;
+    rmdir(dirName, function (error) {
+      if (error) {
+        console.error('exec error: ' + error);
+        return;
+      }
+      let destUrl = baseNotebookUrl + 'notebooks/'+ notebookDir(type)+ '/' + projectType + '/' + modelName + '.ipynb';
+      copySync(templatIpynbPath + templateDir, baseNotebookPath +'/'+ projectType);
+      removeSync(baseNotebookPath +'/'+ projectType+ '/notebook.ipynb', baseNotebookPath +'/'+ projectType+ '/' + modelName+  '.ipynb' );
+      res.send({jpyPath: destUrl,notebookPath: notebookDir(type)});
+    });
+  }else{
+    // createReadStream(templatIpynbPath + templatIpynbFile).pipe(createWriteStream(baseNotebookPath + '/'+ projectType + '/'+ modelName + '.ipynb'));
+    res.send({jpyPath: destUrl,notebookPath: notebookDir(type)});
+  }
 });
 router.get('/notebook/templateList', function (req, res) {
     readdir(templatIpynbPath, (error, files) => {

@@ -467,4 +467,27 @@ angular.module('basic.services', ['ui.bootstrap'])
           }]
       }).result;
     };
+  }])
+  .service('deletePage',['$uibModal','$http', function ($uibModal,$http) {
+    this.open = function () {
+      return $uibModal.open({
+        backdrop: 'static',
+        templateUrl: 'views/layer/deletePage.html',
+        size: 'size',
+        controller: ['$scope', '$uibModalInstance',
+          function ($scope, $uibModalInstance) {
+            $scope.cancel = () => {
+              $uibModalInstance.dismiss();
+            };
+            $scope.ok =() => {
+              $http.get('/api/expert/delete').success((data)=>{
+                console.log('is ok now',data);
+                $uibModalInstance.dismiss();
+              })
+              // console.log('is ok now',data);
+              // $uibModalInstance.dismiss();
+            }
+          }]
+      }).result;
+    };
   }]);
