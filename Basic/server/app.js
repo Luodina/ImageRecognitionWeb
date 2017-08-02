@@ -17,6 +17,14 @@ if(env === 'dev') {
 app.use(express.static(config[env].dist));
 app.use(favicon(path.join(__dirname, '../', config[env].dist, '/favicon.ico')));
 
+//proxy notebook request, has to above bodyparser to enable proxy post request
+app.use('/lab', proxy({
+  headers: {'Authorization': 'token ' + config[env].token},
+  target:config[env].notebookUrl,
+  logLevel: 'debug',
+  changeOrigin:true,
+  ws:true}));
+
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
