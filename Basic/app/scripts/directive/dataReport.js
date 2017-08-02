@@ -6,7 +6,6 @@ angular.module('basic')
   .controller('DataReportCtrl',['$rootScope', '$scope','$http', '$sce', function ($rootScope, $scope, $http, $sce) {
     $scope.msg = "DataReportCtrl";
     $scope.$on('model',(el, dataModel) => {
-      console.log("dataModel in report",dataModel);
       $scope.mode = dataModel.mode;
       $scope.model = dataModel.model;
       $scope.$on('tab',function(el, num){

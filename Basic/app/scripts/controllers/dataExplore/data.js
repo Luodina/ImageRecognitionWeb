@@ -1,51 +1,42 @@
-
-/**
- * Controller
- */
 'use strict';
 angular.module('basic')
-  .controller('DataCtrl',['$location', '$rootScope', '$scope','$http',
-  ( $location, $rootScope, $scope, $http ) => {
+  .controller('DataCtrl',['Notification','$location', '$rootScope', '$scope','$http',
+  ( Notification, $location, $rootScope, $scope, $http ) => {
     $scope.unableNext = false;
     $scope.unablePreview = false;
     $scope.tab=0;
-    //左边导航自动变化
-    let left_by_block = function(){
+    let left_by_block = () => {
       let thisheight = $(window).height()-$('.header').height();
       $('.exploreModelLeft').height(thisheight);
     };
-    $(window).resize(function(){
-      left_by_block();
-    });
-    $(function(){
-      left_by_block();
-    });
-
-    //右边数据自动变化
-    let right_by_block = function(){
+    $(window).resize(() => {left_by_block();});
+    $(() => {left_by_block();});
+    let right_by_block = () => {
       let thisheight = $(window).height()-$('.header').height()-20;
       $('.exploreModelRight').height(thisheight);
     };
-    $(window).resize(function(){
-      right_by_block();
-    });
-    $(function(){
-      right_by_block();
-    });
+    $(window).resize(() => {right_by_block();});
+    $(() => {right_by_block();});
     let projectType = $location.path().split(/[\s/]+/)[1];
-    let modelType = $location.path().split(/[\s/]+/)[2];
+    // let modelType = $location.path().split(/[\s/]+/)[2];
     let modelMode= $location.path().split(/[\s/]+/)[3];
     let modelName = $location.path().split(/[\s/]+/)[4];
     let userName = $rootScope.getUsername();
     let initNotebook = (fileName, notebookPath, projectName, userName, modelMode,projectType) => {
       return $http.post('/api/jupyter/init/', { fileName, notebookPath, projectName, userName, modelMode, projectType})
       .success( data => {
+        if (data.msg === 'success') {
+          //console.log('data.msg',data.msg);
+        }
         if (data.msg !== 'success') {
-          $location.path('/explore');
-          console.log('Error with Notebook init!');
+          Notification.error('Jupyter Notebook Initialization Error');
+          console.log('data.msg',data.msg);
         }
       })
-      .catch( err => {console.log('err in initNotebook():',err);});
+      .catch( err => {
+        Notification.error('An unexpected error occurred in initNotebook() function', err);
+        console.log('err in initNotebook():',err);
+      });
     };
     $scope.init = () => {
       $http.get('/api/model/' + modelName).success(data => {
@@ -58,35 +49,42 @@ angular.module('basic')
           .then(data => {
             if ($scope.modelDB.USER_ID === userName) {
               if (modelMode !== 'update') {
-                $location.path('/explore');
+                //$location.path('/explore');
+                Notification.error('Error! Please, Check mode!');
                 console.log('Error! Please, Check mode!');
               }
               $scope.$broadcast('model',{ notebook: data.data, model:$scope.modelDB, mode: 'update'});
             } else {
               if (modelMode !== 'view') {
-                $location.path('/explore');
+                //$location.path('/explore');
+                Notification.error('Error! Please, Check mode!');
                 console.log('Error! Please, Check mode!');
               }
               $scope.$broadcast('model',{ notebook: data.data, model:{}, mode: 'view' });
             }
           })
-          .catch(err =>{console.log('err',err);});
+          .catch(err =>{
+            Notification.error('An unexpected error occurred in initNotebook() call', err);
+            console.log('err in initNotebook():',err);
+          });
         } else {
           initNotebook(null, null, modelName, userName,modelMode, projectType);
           $scope.$broadcast('model',{ notebook:{}, model:{}, mode: 'new' });
         }
       })
-      .catch(err =>{console.log('err',err);});
+      .catch(err =>{
+        Notification.error('An unexpected error occurred in init', err);
+        console.log('err in init:',err);
+      });
     };
     $scope.init();
-    $scope.$on('unableNext',function(event, data) {
+    $scope.$on('unableNext', (event, data)  => {
       $scope.unableNext = data;
     });
-    $scope.$on('unablePreview', function(event, data) {
+    $scope.$on('unablePreview', (event, data)  => {
       $scope.unablePreview = data;
     });
-    $scope.clicked= num => {
-      console.log('num',num);
+    $scope.clicked = num => {
       $scope.tab = num;
       if(num===2){
         document.getElementById('secondNext').style.background='#fff';
@@ -107,5 +105,4 @@ angular.module('basic')
         $scope.$broadcast('tab',num);
       }
     };
-
   }]);

@@ -2,7 +2,7 @@
 let Sequelize = require('sequelize');
 let config = require('./config');
 let env = config.env || 'dev';
-let sequelize = new Sequelize(config[env].mariadb);
+let sequelize = new Sequelize(config[env].mariadb, {logging: false});
 
 sequelize.authenticate()
   .then(() => {

@@ -39,7 +39,10 @@ router.post('/new', function(req, res){
             APP_ID:appName,
             isNewRecord:true})
             .then(() => {res.send({ msg:'success' });})
-            .catch(err =>{console.log('err',err );});
+            .catch(err =>{
+              res.send({ msg: err.name});
+              console.log('err',err );
+            });
     });
 });
 
@@ -52,9 +55,12 @@ router.get('/:modelName', function(req, res){
     })
     .then(model => {  
       console.log('model is:',model); 
-      res.send({result: model});
+      res.send({result: model, msg:'success' });
     })
-    .catch(err =>{console.log('err',err);});
+    .catch(err =>{
+      console.log('err',err);
+      res.send({result: null, msg: err.name});
+    });
   }
 });
 
@@ -68,7 +74,10 @@ router.get('/modelList/:appName', function(req, res){
     .then(modelList => {  
       res.send({ modelList: modelList});
     })
-    .catch(err =>{console.log('err',err);});
+    .catch(err =>{
+      console.log('err',err);
+      res.send({result: null, msg: err.name});
+    });
   }
 });
 

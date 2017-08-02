@@ -58,10 +58,10 @@ angular.module('basic')
           {img:'pic5',content:'modelType_05',url:'t4',name:'data5',isActive:false},
           {img:'pic6',content:'modelType_06',url:'notebook',name:'notebook',isActive:false}
         ];
-        createModel.open(index, arrItem).then((msg) => {
+        createModel.open(index, arrItem).then(msg => {
           if (msg === 'success') {
             $scope.listAllProject=[[]];
-            projectList.get({}, function (res) {handleSuccess(res);});
+            projectList.get({}, res => {handleSuccess(res);});
           }
         })
         .catch(err =>{console.log('err',err);});
