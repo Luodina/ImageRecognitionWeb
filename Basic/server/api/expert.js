@@ -9,7 +9,7 @@ let env = config.env || 'dev';
 
 let templatIpynbPath = path.join(__dirname, '../../template/notebookTemplates/');
 let baseNotebookPath;
-let baseNotebookUrl = config[env].notebookUrl;
+let baseNotebookUrl = "/lab/";
 let templatIpynbFile = 'new.ipynb';
 const modelPath = config[env].modelPath;
 const appPath = config[env].appPath;
