@@ -14,14 +14,14 @@ angular.module('basic')
       document.getElementById('pagOne').style.display='none';
       document.getElementById('login').style.display='block';
     }
-    $scope.register =()=>{
-      document.getElementById('login').style.display='none';
-      document.getElementById('register').style.display='block';
-    }
-    $scope.logintwo =()=>{
-      document.getElementById('login').style.display='block';
-      document.getElementById('register').style.display='none';
-    }
+    //$scope.register =()=>{
+    //  document.getElementById('login').style.display='none';
+    //  document.getElementById('register').style.display='block';
+    //}
+    //$scope.logintwo =()=>{
+    //  document.getElementById('login').style.display='block';
+    //  document.getElementById('register').style.display='none';
+    //}
     $scope.login = () => {
       //$state.go('dataExplore');
       if($scope.user.pass !== undefined) {
