@@ -23,7 +23,7 @@
 <div class="loginPage" id="login" style="display: none;">
   <div class="title">
     <img class="pic" src="../images/blueLog.png" alt="">
-    <span class="titleText">已有账号?<span class="titleLogin">请登录</span></span>
+    <!--<span class="titleText">已有账号?<span class="titleLogin">请登录</span></span>-->
   </div>
   <div class="content">
     <div class="contentModel">
@@ -45,8 +45,55 @@
         </p>
         <button class="btn" ng-click="login()">{{signin| translate}}</button>
         <p class="footer">
-          <span class="titleText">没有账号?<span class="titleLogin">立即注册</span></span>
+          <span class="titleText">没有账号?<span class="titleLogin"  ng-click="register()" >立即注册</span></span>
         </p>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="loginPage" id="register" style="display: none;">
+  <div class="title">
+    <img class="pic" src="../images/blueLog.png" alt="">
+    <span class="titleText">已有账号?<span class="titleLogin" ng-click="logintwo()">请登录</span></span>
+  </div>
+  <div class="content">
+    <form class="contentModel">
+      <p class="conTitle">注册Arua账号</p >
+      <form class="main_form" name="regfrm">
+      <div class="conCont">
+        <div class="conOne">
+          <label>用户名</label>
+          <span class="textRgt" ng-if="regfrm.regusername.$dirty && regfrm.regusername.$invalid">用户名不能为空</span><br/>
+          <input class="ipt"  name="regusername" autocomplete="off" type="text" ng-model="user.name" tabindex="1" required>
+          <!--<input class="ipt" type="text"  name="username" autocomplete="off" abindex="1" required>-->
+        </div>
+        <div class="conTwo">
+          <label>邮箱</label>
+          <span class="textRgt">邮箱不能为空</span><br/>
+          <ul ng-if="regfrm.email.$dirty && regfrm.email.$invalid">
+            <li ng-if="regfrm.email.$error.email">无效的邮箱格式</li>
+            <li ng-if="regfrm.email.$error.required">此项为必填项</li>
+          </ul>
+
+          <input class="ipt" name="email" type="email" >
+        </div>
+        <div class="conTwo">
+          <label>密码</label>
+          <span class="textRgt">密码不能为空</span><br/>
+          <input class="ipt" type="text">
+        </div>
+        <div class="conTwo">
+          <label>确认密码</label>
+          <span class="textRgt">确认密码不能为空</span><br/>
+          <input class="ipt" type="text">
+        </div>
+        <p class="textConfirm">
+          <input type="checkbox">我已阅读并接受 {Aura 服务协议}
+        </p >
+        <button class="btn">注册</button>
       </div>
       </form>
     </div>
