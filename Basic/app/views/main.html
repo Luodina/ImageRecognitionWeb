@@ -32,13 +32,13 @@
       <div class="conCont">
         <div class="conOne">
           <label>{{username | translate}}</label>
-          <!--<span class="textRgt">邮箱不能为空</span><br/>-->
-          <input class="ipt" autocomplete="off" type="text" placeholder="{{username | translate}}" ng-model="user.name" tabindex="1">
+          <span class="textRgt" ng-if="frm.username.$dirty && frm.username.$invalid">用户名不能为空</span><br/>
+          <input class="ipt"  name="username" autocomplete="off" type="text" placeholder="{{username | translate}}" ng-model="user.name" tabindex="1" required>
         </div>
         <div class="conTwo">
           <label>{{password | translate}}</label>
-          <!--<span class="textRgt">密码不能为空</span><br/>-->
-          <input class="ipt" type="password" autocomplete="off" placeholder="{{password | translate}}" ng-model="user.pass" tabindex="2" ng-keydown="enterLogin($event)" >
+          <span class="textRgt" ng-if="frm.password.$dirty && frm.password.$invalid">密码不能为空</span><br/>
+          <input class="ipt" name="password" type="password" autocomplete="off" placeholder="{{password | translate}}" ng-model="user.pass" tabindex="2" ng-keydown="enterLogin($event)" required>
         </div>
         <p class="textConfirm">
           <input type="checkbox">记住我

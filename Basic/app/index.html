@@ -59,8 +59,27 @@
           <a ng-class="{true: 'active'}[active == 'settings']" ui-sref="settings">{{'web_common_005' |
             translate}}</a>
         </div>
+
+        <div class="navbar-right">
+          <span class="help_tit">帮助</span>
+          <div class="data_bg header_area_select head_index">
+            <div uib-dropdown="" on-toggle="toggled(open)" class="dropdown open">
+              <a href="javascript:void(0);" class="per_block dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="true">
+                <span class="header_per_tit" title="angyan0103">angyan0103</span>
+                <span class="xl_bg"></span>
+              </a>
+              <ul class="dropdown-menu index_area_drop" uib-dropdown-menu="" aria-labelledby="user-menu">
+                <li><a href="javascript:void(0);"><span>修改密码</span></a></li>
+                <li class="zx_active"><a href="javascript:void(0);" ng-click="logout()"><span>退出账户</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
       <!--</div>-->
+
+
+
     </div>
   </div>
 </div>

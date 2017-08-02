@@ -65,7 +65,7 @@ angular
       chartColors: ['#4da9ff','#79d2a6','#ff9900','#ff704d','#669999','#4d0000']
     });
   }])
-  .run(['$rootScope', '$location', '$http', '$cookies', function ($rootScope, $location, $http, $cookies) {
+  .run(['$rootScope', '$location', '$http', '$cookies','$state', function ($rootScope, $location, $http, $cookies,$state) {
     $rootScope.$on('$stateChangeStart', function (event,toState) {
       console.log('toState', toState.name);
       $rootScope.active = toState.name;
@@ -77,7 +77,12 @@ angular
         }else{
           $('#pageTitle').css('display','block');
         }
-      })
+      });
+
+    //退出
+    $rootScope.logout = function () {
+      $location.path('/');
+    };
 
     $rootScope.login = (username, password) => {
       $http.post('/api/user/login/', {username, password}).success(function (user) {
