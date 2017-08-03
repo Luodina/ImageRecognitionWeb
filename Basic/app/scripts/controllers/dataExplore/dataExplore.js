@@ -45,8 +45,8 @@ angular.module('basic')
         $location.path('/notebook/'+item.mode+'/'+item.MODEL_NAME);
       }
     };
-    $scope.delete = () => {
-      deletePage.open();
+    $scope.delete = (item) => {
+      deletePage.open(item);
     }
     projectList.get({}, function (res) {handleSuccess(res);});
     $scope.newProject = (index) => {
