@@ -29,7 +29,8 @@ angular
     'basic.services',
     'ui.router.state.events',
     'angularFileUpload',
-    'hc.marked'
+    'hc.marked',
+    'ipCookie'
   ])
   .constant('GLOBAL', {
     host_cdm:'',
@@ -69,6 +70,7 @@ angular
     $rootScope.$on('$stateChangeStart', function (event,toState) {
       console.log('toState', toState.name);
       $rootScope.active = toState.name;
+      $rootScope.username=$cookies.get("username");
     });
 
       $rootScope.$on('$stateChangeStart', function (event,toState) {
@@ -91,6 +93,7 @@ angular
           $cookies.put('username', username);
           $location.path('/home');
           $rootScope.iflogin = true;
+          $rootScope.username=$cookies.get("username");
         } else {
           console.log('LOGIN FAILED!please, use login name:ocai and pass:123456');
         }

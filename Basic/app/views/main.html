@@ -41,7 +41,7 @@
           <input class="ipt" name="password" type="password" autocomplete="off" placeholder="{{password | translate}}" ng-model="user.pass" tabindex="2" ng-keydown="enterLogin($event)" required>
         </div>
         <p class="textConfirm">
-          <input type="checkbox">记住我
+          <input type="checkbox" ng-click="saveCookie()">记住我
         </p>
         <button class="btn" ng-click="login()">{{signin| translate}}</button>
         <p class="footer">

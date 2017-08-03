@@ -34,7 +34,8 @@
     "angular-chart.js": "^1.1.1",
     "angular-file-upload": "^2.5.0",
     "angular-marked": "^1.2.2",
-    "silly-datetime": "^0.1.2"
+    "silly-datetime": "^0.1.2",
+    "angular-cookie": "^4.1.0"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"
