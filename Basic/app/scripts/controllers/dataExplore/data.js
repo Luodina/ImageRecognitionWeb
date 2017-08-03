@@ -25,16 +25,18 @@ angular.module('basic')
     let initNotebook = (fileName, notebookPath, projectName, userName, modelMode,projectType) => {
       return $http.post('/api/jupyter/init/', { fileName, notebookPath, projectName, userName, modelMode, projectType})
       .success( data => {
-        if (data.msg === 'success') {
-          //console.log('data.msg',data.msg);
-        }
-        if (data.msg !== 'success') {
-          Notification.error('Jupyter Notebook Initialization Error');
-          console.log('data.msg',data.msg);
+        if (data !== null && data !== undefined) {
+          if (data.msg !== 'success') {
+            Notification.error(data.msg);
+            console.log('data.msg',data.msg);
+          }
+        } else {
+          Notification.error('An unexpected error occurred in initNotebook() function');
+          console.log('err in initNotebook():');  
         }
       })
       .catch( err => {
-        Notification.error('An unexpected error occurred in initNotebook() function', err);
+        Notification.error('An unexpected error occurred in initNotebook() function', err.xhr.statusText);
         console.log('err in initNotebook():',err);
       });
     };
@@ -64,7 +66,7 @@ angular.module('basic')
             }
           })
           .catch(err =>{
-            Notification.error('An unexpected error occurred in initNotebook() call', err);
+            Notification.error('An unexpected error occurred in initNotebook() call', err.xhr.statusText);
             console.log('err in initNotebook():',err);
           });
         } else {
@@ -73,7 +75,7 @@ angular.module('basic')
         }
       })
       .catch(err =>{
-        Notification.error('An unexpected error occurred in init', err);
+        Notification.error('An unexpected error occurred in init', err.xhr.statusText);
         console.log('err in init:',err);
       });
     };

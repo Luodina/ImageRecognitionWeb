@@ -83,6 +83,7 @@ function ensureExists(path, mask, cb) {
     });
 }
 function init(){
+    console.log("here")
     if (sourceCodes[0] !== undefined){
         let future = kernel.requestExecute({ code: sourceCodes[0]});
         future.onIOPub = msg => {
@@ -90,6 +91,7 @@ function init(){
                 console.log(`ERROR:'${msg.content.evalue}
                              CODE: ${sourceCodes[0]}`);
                 res.status(200).send({ msg: msg.content.evalue});
+                
             }
         };
     }
@@ -165,12 +167,12 @@ router.post('/init', function (req, res) {
     options.path = baseNotebookDir + '/' + modelName + '/' + modelName + '.ipynb';
     console.log('Jupyter Notebook options:', options);
     let contents = new ContentsManager(options);
-    // console.log(`fileName ${fileName}
-    //             modelName ${modelName} 
-    //             userName ${userName}
-    //             projectType ${projectType}
-    //             baseNotebookPath' ${baseNotebookPath}
-    //             contents ${contents}`);
+    console.log(`fileName ${fileName}
+                modelName ${modelName} 
+                userName ${userName}
+                projectType ${projectType}
+                baseNotebookPath' ${baseNotebookPath}
+                contents ${contents}`);
     if (mode === 'new'){
         ensureExists(baseNotebookPath + '/'+ projectType, '0744', err => {
             if (err) {
@@ -194,14 +196,14 @@ router.post('/init', function (req, res) {
                     res.status(200).send({ msg: 'success', outputs: outputs, sources:source });
                 })
                 .catch(err => {
-                    console.log('Content problem!', err.xhr.statusText);
-                    res.status(200).send({ msg: err.xhr.statusText});
+                    console.log('Content problem!', err.xhr.responseText,  err);
+                    res.status(200).send({ msg: err.xhr.responseText});
                 });
 
             }
         });
     }
-    if (mode === 'update' || mode === 'view'){
+    if (mode === 'update' || mode === 'view'){   
         if (existsSync(baseNotebookPath  + '/' + projectType  + '/' + modelName + '.ipynb')) {
             readFilePromisified(baseNotebookPath  + '/'+ projectType + '/' + modelName + '.ipynb')
             .then(text => {
@@ -231,8 +233,8 @@ router.post('/init', function (req, res) {
                 res.status(200).send({ msg: err.xhr.statusText});
             });
         } else {
-            console.log('File ', baseNotebookPath + '/' + projectType + '/'+ modelName + '.ipynb', ' does not exist!', err.xhr.statusText);
-            res.status(200).send({ msg: err.xhr.statusText});
+            console.log('File ', baseNotebookPath + '/' + projectType + '/'+ modelName + '.ipynb', ' does not exist!');
+            res.status(200).send({ msg: '/' + projectType + '/'+ modelName + '.ipynb does not exist!'});
         }
     }
 });
@@ -256,23 +258,26 @@ router.get('/report/:fn', function (req, res) {
 router.post('/step1', function (req, res) {
     let dataFileName = req.body.fileName;
     let htmlFileName = req.body.htmlFileName;
-    let code = sourceCodes[1];
-    code = code.replace(/filePath=/g, 'filePath=\'' +dataFileName+ '\'\n');
-    code = code.replace(/htmlFilePath=/g, 'htmlFilePath=\''+htmlFileName+ '\'\n');
-    source[1]=code;
-    let future = kernel.requestExecute({ code: code});
-    future.onIOPub = msg => {
-        if (msg.header.msg_type === 'error') {
-            console.log(`ERROR:'${msg.content.evalue}
-                         CODE: ${code}`);
-            res.status(200).send({ result: msg.content.evalue, msg:'error'});
-        }
-        if (msg.header.msg_type === 'execute_result') {
-            outputs[1]=msg.content;
-            res.send({ result: msg, msg:'success'});
-        }
-    };
-    
+    if (sourceCodes[1] !== undefined && sourceCodes[1] !== undefined ){
+        let code = sourceCodes[1];
+        code = code.replace(/filePath=/g, 'filePath=\'' +dataFileName+ '\'\n');
+        code = code.replace(/htmlFilePath=/g, 'htmlFilePath=\''+htmlFileName+ '\'\n');
+        source[1]=code;
+        let future = kernel.requestExecute({ code: code});
+        future.onIOPub = msg => {
+            if (msg.header.msg_type === 'error') {
+                console.log(`ERROR:'${msg.content.evalue}
+                            CODE: ${code}`);
+                res.status(200).send({ result: msg.content.evalue, msg:'error'});
+            }
+            if (msg.header.msg_type === 'execute_result') {
+                outputs[1]=msg.content;
+                res.send({ result: msg, msg:'success'});
+            }
+        };
+    } else {
+        res.status(200).send({ result: 'cell[0] in .ipynb cannot be NULL or undefined', msg:'error'});
+    }
 });
 router.get('/step2', function (req, res) {
     let future = kernel.requestExecute({code: sourceCodes[2]});

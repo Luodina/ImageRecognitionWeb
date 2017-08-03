@@ -54,7 +54,6 @@ router.get('/:modelName', function(req, res){
         raw: true
     })
     .then(model => {  
-      console.log('model is:',model); 
       res.send({result: model, msg:'success' });
     })
     .catch(err =>{
