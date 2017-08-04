@@ -60,7 +60,8 @@ angular.module('basic.services', ['ui.bootstrap'])
                     } else {
                       $http.get('/api/appFile/'+$scope.model.name).success((data) => {
                         if (data.result === 'success'){
-                          $http.post('/api/app/' + $scope.model.name, {APP_NAME: $scope.model.name, USER_NAME: $rootScope.getUsername()})
+                          $http.post('/api/app/' + $scope.model.name,
+                            {APP_NAME: $scope.model.name, USER_NAME: $rootScope.getUsername()})
                           .success((data) => {
                             if (data.result === 'success'){
                               $location.path('/app/new/'+$scope.model.name);
@@ -482,6 +483,49 @@ angular.module('basic.services', ['ui.bootstrap'])
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
             };
+          }]
+      }).result;
+    };
+  }])
+  .service('deletePage',['$uibModal','$http', function ($uibModal,$http) {
+    this.open = function (item) {
+      return $uibModal.open({
+        backdrop: 'static',
+        templateUrl: 'views/layer/deletePage.html',
+        size: 'size',
+        controller: ['$scope', '$uibModalInstance',
+          function ($scope, $uibModalInstance) {
+            $scope.cancel = () => {
+              $uibModalInstance.dismiss();
+            };
+            console.log('Del.item', item )
+            $scope.ok = () => {
+              //del from DB
+              console.log('Del.item in ok', item.MODEL_ID )
+              $http.put('/api/model/delete',{item:item.MODEL_ID})
+              .success((data)=>{
+                console.log('is ok now',data.msg);
+                // alert(data.msg);
+              }).catch(err => {
+                // console.log('is not ok now',err);
+              })
+
+              $http.get('/api/expert/delete',{
+                params:{
+                  modelNm:item.MODEL_NAME,
+                  appNm:item.APP_NAME
+                }
+              }).success((data)=>{
+                //if data is null or undefined???
+                console.log('is ok now',data.path);
+                // alert(data.path);
+                $uibModalInstance.dismiss();
+                window.location.reload();
+              }).catch(err => {
+                console.log('is not ok now',err);
+              })
+              // console.log('is ok now',data);
+            }
           }]
       }).result;
     };

@@ -10,7 +10,8 @@
     </tr>
     <tr style="margin: 0;">
       <td style="width: 50%;padding:0;margin: 0;">
-        <select class="create_select" name="repeatSelect" id="repeatSelect" ng-model="data.targetModel" ng-change="makePrereqOptions(data.targetModel)">
+        <select class="create_select" name="repeatSelect" id="repeatSelect" ng-model="data.targetModel"
+                ng-change="makePrereqOptions(data.targetModel)">
           <option ng-repeat="option in data.targetModelOptions" value="{{option}}">{{option}}</option>
         </select>
       </td>

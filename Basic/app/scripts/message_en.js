@@ -105,5 +105,10 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_app_layer_04': 'Create an analysis framework',
     'web_common_data_app_layer_05': 'Name',
 
+    'web_common_data_delete_layer_00': 'Delete message',
+    'web_common_data_delete_layer_01': 'Are you sure you want to delete this information?',
+    'web_common_data_delete_layer_02': 'confirm',
+    'web_common_data_delete_layer_03': 'cancle'
+
   });
 }]);

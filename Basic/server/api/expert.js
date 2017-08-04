@@ -1,6 +1,7 @@
 'use strict';
 import {mkdir,readdir, createReadStream, createWriteStream} from 'fs';
 import {copySync,moveSync} from 'fs-extra';
+const fs = require('fs');
 const express = require('express');
 const router = express.Router();
 const path = require('path');
@@ -29,6 +30,23 @@ function notebookDir(type){
         return 'notebookApp';
     }
 }
+
+function deleteall(path) {
+  var files = [];
+  if (fs.existsSync(path)) {
+    files = fs.readdirSync(path);
+    files.forEach(function (file, index) {
+      var curPath = path + "/" + file;
+      if (fs.statSync(curPath).isDirectory()) { // recurse
+        deleteall(curPath);
+      } else {
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(path);
+  }
+}
+
 router.get('/pathNoteBook', function (req, res) {
     let modelName = req.query.modelName;
     let type = req.query.modelType;
@@ -37,7 +55,6 @@ router.get('/pathNoteBook', function (req, res) {
     let dirName = path.join(baseNotebookPath, modelName);
     let destUrl = baseNotebookUrl + 'notebooks/'+ notebookDir(type)+ '/' + projectType + '/' + modelName + '.ipynb';
     if (type === 'explore'){
-
         let templateDir = req.query.modelTemplate;
         templatIpynbFile = req.query.modelTemplate + '.ipynb';
         projectType = modelName;
@@ -56,6 +73,21 @@ router.get('/pathNoteBook', function (req, res) {
         res.send({jpyPath: destUrl,notebookPath: notebookDir(type)});
     }
 });
+
+router.get('/delete',function (req,res) {
+  let modelNm = req.query.modelNm;
+  let appNm = req.query.appNm;
+  console.log('!!!!!!!!!!!!!!',modelNm)
+  baseNotebookPath = path.join(__dirname, '../../' + modelPath+ '/' + modelNm);
+  // if (appNm !== null){
+  //   baseNotebookPath = path.join(__dirname, '../../' + appPath + '/' + appNm);
+  // }
+
+  console.log('deletedelete===' + baseNotebookPath);
+  deleteall(baseNotebookPath);
+  res.send({path: baseNotebookPath});
+});
+
 router.get('/notebook/templateList', function (req, res) {
     readdir(templatIpynbPath, (error, files) => {
         if (error) {
