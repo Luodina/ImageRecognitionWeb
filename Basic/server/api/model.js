@@ -6,10 +6,10 @@ let express = require('express');
 let router = express.Router();
 let moment = require('moment');
 
-router.get('/getProjectList', function(req,res){    
+router.get('/getProjectList', function(req,res){
     Model.findAll({raw: true})
     .then(model=>{res.send({model});})
-    .catch(err =>{console.log('err',err);});    
+    .catch(err =>{console.log('err',err);});
 });
 
 router.post('/new', function(req, res){
@@ -26,11 +26,11 @@ router.post('/new', function(req, res){
     //console.log('new model data:', req.body);
     sequelize.transaction(t => {
         return Model.create({
-            MODEL_ID: t.id, 
+            MODEL_ID: t.id,
             MODEL_NAME: modelName,
-            MODEL_INFO: modelInfo, 
+            MODEL_INFO: modelInfo,
             USER_ID: userName,
-            TYPE_MENU_ID: typeMenuID, 
+            TYPE_MENU_ID: typeMenuID,
             VIEW_MENU_ID: viewMenuID,
             UPDATED_TIME: time,
             FILE_PATH: filePath,
@@ -53,7 +53,7 @@ router.get('/:modelName', function(req, res){
         where: { MODEL_NAME: modelName},
         raw: true
     })
-    .then(model => {  
+    .then(model => {
       res.send({result: model, msg:'success' });
     })
     .catch(err =>{
@@ -64,19 +64,35 @@ router.get('/:modelName', function(req, res){
 });
 
 router.get('/modelList/:appName', function(req, res){
-  let appName = req.params.appName; 
+  let appName = req.params.appName;
   if (appName !== null){
     Model.findAll({
         where: { APP_ID: appName},
         raw: true
     })
-    .then(modelList => {  
+    .then(modelList => {
       res.send({ modelList: modelList});
     })
     .catch(err =>{
       console.log('err',err);
       res.send({result: null, msg: err.name});
     });
+  }
+});
+
+router.put('/delete', function(req, res){
+  let item = req.body.item;
+  if (item !== null){
+    Model.destroy({
+        where: { MODEL_ID: item}
+      })
+      .then(() => {
+        res.send({ msg: 'success'});
+      })
+      .catch(err =>{
+        console.log('err',err);
+        res.send({ msg: 'failed'});
+      });
   }
 });
 

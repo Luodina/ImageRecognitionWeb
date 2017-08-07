@@ -1,8 +1,8 @@
 'use strict';
 angular.module('basic')
-  .controller('AppFileCtrl',['openNotebook','createAppModel','$location','$scope','projectList',
-  (openNotebook,createAppModel,$location,$scope,projectList) => {
-    $scope.appName = $location.path().split(/[\s/]+/).pop();
+  .controller('AppFileCtrl',['openNotebook','createAppModel','$location','$scope','projectList','deletePage',
+    (openNotebook,createAppModel,$location,$scope,projectList,deletePage) => {
+      $scope.appName = $location.path().split(/[\s/]+/).pop();
 
     $scope.listAllProject = [];
     let handleSuccess = data => {
@@ -46,6 +46,9 @@ angular.module('basic')
     $scope.openProject = (item) => {
       $location.path('app/notebook/'+ item.APP_ID +'/'+item.MODEL_NAME);
     };
+      $scope.delete = () => {
+        deletePage.open();
+      }
   }])
   .directive('file', () => {
     return {
