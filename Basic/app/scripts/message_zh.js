@@ -109,7 +109,5 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_delete_layer_03': '取消'
 
 
-
-
   });
 }]);
