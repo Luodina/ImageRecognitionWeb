@@ -60,8 +60,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                     } else {
                       $http.get('/api/appFile/'+$scope.model.name).success((data) => {
                         if (data.result === 'success'){
-                          $http.post('/api/app/' + $scope.model.name,
-                            {APP_NAME: $scope.model.name, USER_NAME: $rootScope.getUsername()})
+                          $http.post('/api/app/' + $scope.model.name, {APP_NAME: $scope.model.name, USER_NAME: $rootScope.getUsername()})
                           .success((data) => {
                             if (data.result === 'success'){
                               $location.path('/app/new/'+$scope.model.name);
@@ -503,10 +502,10 @@ angular.module('basic.services', ['ui.bootstrap'])
               //del from DB
               console.log('Del.item in ok', item.MODEL_ID )
               $http.put('/api/model/delete',{item:item.MODEL_ID})
-              .success((data)=>{
-                console.log('is ok now',data.msg);
-                // alert(data.msg);
-              }).catch(err => {
+                .success((data)=>{
+                  console.log('is ok now',data.msg);
+                  // alert(data.msg);
+                }).catch(err => {
                 // console.log('is not ok now',err);
               })
 
@@ -530,3 +529,4 @@ angular.module('basic.services', ['ui.bootstrap'])
       }).result;
     };
   }]);
+

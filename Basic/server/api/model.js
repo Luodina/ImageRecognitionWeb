@@ -39,12 +39,11 @@ router.post('/new', function(req, res){
             APP_ID:appName,
             isNewRecord:true})
             .then(() => {res.send({ msg:'success' });})
-          .catch(err =>{
-            res.send({ msg: err.name});
-            console.log('err',err );
-          });
+            .catch(err =>{
+              res.send({ msg: err.name});
+              console.log('err',err );
+            });
     });
-  
 });
 
 router.get('/:modelName', function(req, res){
@@ -54,7 +53,7 @@ router.get('/:modelName', function(req, res){
         where: { MODEL_NAME: modelName},
         raw: true
     })
-    .then(model => {  
+    .then(model => {
       res.send({result: model, msg:'success' });
     })
     .catch(err =>{
@@ -96,4 +95,5 @@ router.put('/delete', function(req, res){
       });
   }
 });
-module.exports = router;
+
+module.exports = router; 
