@@ -18,6 +18,8 @@ angular.module('basic')
                   x=showName.indexOf('-',x+1);
                 }
                 model.SHOW_NAME=showName.substring(x+1,showName.length);
+              }else{
+                model.SHOW_NAME=showName;
               }
 
               $scope.listAllProject.push(model);
