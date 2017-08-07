@@ -1,7 +1,7 @@
 'use strict';
 angular.module('basic')
-  .controller('DataExploreCtrl',['$location','templateList','openNotebook','$http','createModel','$rootScope','$scope','$filter','projectList','createExpertModule','deletePage',
-    ($location, templateList, openNotebook, $http, createModel, $rootScope, $scope, $filter, projectList,createExpertModule,deletePage) => {
+  .controller('DataExploreCtrl',['$location','templateList','openNotebook','$http','createModel','$rootScope','$scope','$filter','projectList','createExpertModule',
+    ($location, templateList, openNotebook, $http, createModel, $rootScope, $scope, $filter, projectList,createExpertModule) => {
     $scope.projectType= ['modelType_00', 'modelType_01', 'modelType_02', 'modelType_03','modelType_04', 'modelType_05','modelType_06'];
     $scope.listAllProject=[[]];
     let handleSuccess = (data, status)=> {
@@ -45,9 +45,6 @@ angular.module('basic')
         $location.path('/notebook/'+item.mode+'/'+item.MODEL_NAME);
       }
     };
-    $scope.delete = (item) => {
-      deletePage.open(item);
-    }
     projectList.get({}, function (res) {handleSuccess(res);});
     $scope.newProject = (index) => {
 

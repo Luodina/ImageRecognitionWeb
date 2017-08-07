@@ -103,11 +103,6 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_app_layer_04': '创建分析框架',
     'web_common_data_app_layer_05': '名字',
 
-    'web_common_data_delete_layer_00': '删除信息',
-    'web_common_data_delete_layer_01': '确认要删除此信息吗',
-    'web_common_data_delete_layer_02': '确认',
-    'web_common_data_delete_layer_03': '取消'
-
 
 
 

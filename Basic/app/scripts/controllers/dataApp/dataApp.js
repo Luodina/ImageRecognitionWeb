@@ -1,7 +1,7 @@
 'use strict';
 angular.module('basic')
-  .controller('DataAppCtrl',['createApp','$rootScope','$scope','$filter','appList','deletePage',
-    (createApp, $rootScope, $scope, $filter, appList,deletePage) => {
+  .controller('DataAppCtrl',['createApp','$rootScope','$scope','$filter','appList',
+    (createApp, $rootScope, $scope, $filter, appList) => {
     $scope.projectType=['web_common_data_app_02', 'web_common_data_app_03', 'web_common_data_app_04'];
     $scope.listAllApp=[[]];
     var handleSuccess = function(data, status) {
@@ -24,15 +24,12 @@ angular.module('basic')
         console.log("$scope.listAllApp", $scope.listAllApp)
       }
     };
-      $scope.delete = () => {
-        deletePage.open();
-      }
     //dataFactory.getAppList().success(handleSuccess);
       appList.get({}, function (res) {
         console.log('appList',res);
         handleSuccess(res);
       });
-
+      
       $scope.newApp = function () {
         createApp.open();
         //createModel.open({'title': 'web_common_data_app_layer_01', 'content':'web_common_data_app_layer_02'}, 'appInfo');

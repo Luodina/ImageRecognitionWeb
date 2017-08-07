@@ -3,8 +3,8 @@ module.exports = {
   dev: {
     dist: 'app',
     port: 9000,
-    notebookUrl: 'http://127.0.0.1:8889/',
-    token:'03817402cc6c7f7d57a3ac991b097171ad0469710ab8aa6f',
+    notebookUrl: 'http://127.0.0.1:8888/',
+    token:'2c7d731a48d567e4f46b2c835dc7b2035aea421356a20fd1',
     mariadb:'mariadb://ocai:Ocai@1234@10.1.236.82:3306/ocai',
     appPath:'notebookApp',
     modelPath:'notebookModel'
@@ -13,11 +13,11 @@ module.exports = {
     dist: 'app',
     port: 9000,
     notebookUrl: 'http://127.0.0.1:8888/',
-    token:'56d721a9ae536e5a592868d1dac3e6129e332f158a2e44b8',
+    token:'2c7d731a48d567e4f46b2c835dc7b2035aea421356a20fd1',
     mariadb:'mariadb://ocai:Ocai@1234@10.1.236.82:3306/ocai',
     appPath:'notebookApp',
     modelPath:'notebookModel'
   },
   env: 'dev',
-  trans: 'zh'
+  trans: 'zh',
 };
