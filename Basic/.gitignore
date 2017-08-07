@@ -3,6 +3,7 @@
 /build-server
 /.sass-cache
 /app/bower_components
+/app/styles
 /.idea
 npm-debug.log
 /uploads
