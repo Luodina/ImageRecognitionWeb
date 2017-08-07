@@ -3,8 +3,8 @@ module.exports = {
   dev: {
     dist: 'app',
     port: 9000,
-    notebookUrl: 'http://127.0.0.1:8889/',
-    token:'03817402cc6c7f7d57a3ac991b097171ad0469710ab8aa6f',
+    notebookUrl: 'http://127.0.0.1:8888/',
+    token:'9fc42582c7754bdd244cf7e3a72cafe77d3bb9207a11dbd4',
     mariadb:'mariadb://ocai:Ocai@1234@10.1.236.82:3306/ocai',
     appPath:'notebookApp',
     modelPath:'notebookModel'
