@@ -96,13 +96,18 @@ angular.module('basic')
               });
               //arrItem.push({content: 'new', img:'add_btn', isActive:false});
               createExpertModule.open(arrItem).then((model)=> {
-                openNotebook.open(model.modelTemplate, model.modelName, 'explore').then((msg) => {
-                    $scope.listAllProject = [[]];
-                    projectList.get({}, function (res) {
-                      handleSuccess(res);
-                    });
-                  }
-                );
+                //url: '/expert/{mode}/{modelNm}',
+                  // openNotebook.open(model.modelTemplate, model.modelName, 'explore').then((msg) => {
+                //     $scope.listAllProject = [[]];
+                //     projectList.get({}, function (res) {
+                //       handleSuccess(res);
+                //     });
+                //   }
+                // );
+                $location.path('/expert/new/'+ model.modelName).search({
+                  modelTemplate:model.modelTemplate,
+                  type: 'explore'
+                });
               });
             } else {
               console.log('HERE!');
