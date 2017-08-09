@@ -25,6 +25,12 @@ angular.module('basic.routers', ['ui.router'])
         controller: 'NotebookCtrl'
       },
       {
+        name: 'expertApp',
+        url: '/app/expert/{mode}/{name}',
+        templateUrl: 'views/dataExplore/expertPart.html',
+        controller: 'ExpertCtrl'
+      },
+      {
         name: 'dataExplore',
         url: '/explore',
         templateUrl: 'views/dataExplore/dataExplore.html',
@@ -47,6 +53,12 @@ angular.module('basic.routers', ['ui.router'])
         url: '/notebook/{mode}/{name}',
         templateUrl: 'views/dataExplore/expertModule.html',
         controller: 'NotebookCtrl'
+      },
+      {
+        name: 'expert',
+        url: '/expert/{mode}/{modelNm}',
+        templateUrl: 'views/dataExplore/expertPart.html',
+        controller: 'ExpertCtrl'
       },
       {
         name: 'console.taskSchedule',
