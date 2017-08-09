@@ -38,9 +38,9 @@ angular.module('basic')
           //   $scope.listAllProject = [];
           //   projectList.get({}, function (res) {handleSuccess(res);});
           // });
-          $location.path('/app/expert/new/'+ model.appName).search({
+          $location.path('/app/expert/new/'+ model.modelName).search({
             type: model.appName,
-            modelName: model.modelName
+            appName: model.appName
           });
         }
         if (model.type!==6) {
