@@ -1,11 +1,15 @@
 'use strict';
 
 /**
- * Main Controller
+ * Controller of the LoginCtrl
  */
 
 angular.module('basic')
-  .controller('MainCtrl',['$scope', '$state','$filter','$location', '$rootScope', 'hotkeys','ipCookie', function ($scope,$state,$filter, $location, $rootScope, hotkeys,ipCookie) {
+  .controller('LoginCtrl', ['$scope', '$state', '$filter', '$location', '$rootScope', 'hotkeys', 'ipCookie', function ($scope, $state, $filter, $location, $rootScope, hotkeys, ipCookie) {
+    $scope.homeIndex = () => {
+      $state.go('index');
+    };
+
 
     $scope.expires = 7;
     $scope.expirationUnit = 'days';
@@ -21,8 +25,14 @@ angular.module('basic')
       $scope.messageStyle = 'success';
       // key, value, options
       console.log('saving cookie...');
-      ipCookie('username', $scope.usermessage.username, { expires: $scope.expires, expirationUnit: $scope.expirationUnit });
-      ipCookie('userpass', $scope.usermessage.password, { expires: $scope.expires, expirationUnit: $scope.expirationUnit });
+      ipCookie('username', $scope.usermessage.username, {
+        expires: $scope.expires,
+        expirationUnit: $scope.expirationUnit
+      });
+      ipCookie('userpass', $scope.usermessage.password, {
+        expires: $scope.expires,
+        expirationUnit: $scope.expirationUnit
+      });
       console.log('new cookie value...');
       console.log(ipCookie('username'));
       console.log(ipCookie('userpass'));
@@ -44,38 +54,36 @@ angular.module('basic')
     $scope.username = $filter('translate')('web_common_010');
     $scope.password = $filter('translate')('web_common_011');
     $scope.signin = $filter('translate')('web_common_012');
-    $scope.change =()=>{
-      document.getElementById('pagOne').style.display='none';
-      document.getElementById('login').style.display='block';
-    }
+
 
     $scope.me = false
-    $scope.mark= function (res) {
-      if(res == 1){
+    $scope.mark = function (res) {
+      if (res == 1) {
         $scope.me = false
-      }else{
+      } else {
         $scope.me = true
       }
     };
 
     $scope.login = () => {
       //$state.go('dataExplore');
-      if($scope.usermessage.password !== undefined) {
+      if ($scope.usermessage.password !== undefined) {
         $rootScope.login($scope.usermessage.username, $scope.usermessage.password);
 
       }
     };
     //enter 进入页面
     $scope.enterLogin = (e) => {
-      if (e.keyCode==13) {
-      //$state.go('dataExplore');
-        if($scope.usermessage.password !== undefined) {
+      if (e.keyCode == 13) {
+        //$state.go('dataExplore');
+        if ($scope.usermessage.password !== undefined) {
           $rootScope.login($scope.usermessage.username, $scope.usermessage.password);
-      }
+        }
       }
     };
     //图片预加载
     var images = new Array()
+
     function preload() {
       for (var i = 0; i < arguments.length; i++) {
         images[i] = new Image()

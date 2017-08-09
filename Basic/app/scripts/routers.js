@@ -6,11 +6,23 @@ angular.module('basic.routers', ['ui.router'])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
     var states = [
-      { name: 'main', url: '/', templateUrl: 'views/main.html', controller: 'MainCtrl'},
-      { name: 'home',
+      {
+        name: 'index',
+        url: '/',
+        templateUrl: 'views/homeIndex.html',
+        controller: 'HomeCtrl'
+      },
+      {
+        name: 'login',
+        url: '/login',
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl'
+      },
+      {
+        name: 'home',
         url: '/home',
         templateUrl: 'views/dataApp/dataApp.html',
-        controller:'DataAppCtrl'
+        controller: 'DataAppCtrl'
       },
       {
         name: 'appInfo',
@@ -70,7 +82,8 @@ angular.module('basic.routers', ['ui.router'])
         name: 'console.settings',
         url: '/settings',
         templateUrl: 'views/settings.html',
-        controller: 'SettingsCtrl'}
+        controller: 'SettingsCtrl'
+      }
     ];
     // Loop over the state definitions and register them
     states.forEach(function (state) {
