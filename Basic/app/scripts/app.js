@@ -89,6 +89,7 @@ angular
 
     $rootScope.login = (username, password) => {
       $http.post('/api/user/login/', {username, password}).success(function (user) {
+        $rootScope.error_name = false;
         if (user.status) {
           console.log('LOGIN SUCCESS!');
           $cookies.put('username', username);
@@ -96,7 +97,8 @@ angular
           $rootScope.iflogin = true;
           $rootScope.username = $cookies.get("username");
         } else {
-          console.log('LOGIN FAILED!please, use login name:ocai and pass:123456');
+          $rootScope.error_name = true;
+          //console.log('LOGIN FAILED!please, use login name:ocai and pass:123456');
         }
       }).error(function (err) {
         $rootScope.message = err;
