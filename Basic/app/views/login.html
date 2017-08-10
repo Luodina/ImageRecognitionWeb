@@ -8,6 +8,7 @@
       <p class="conTitle">登录Aura账号</p>
       <form class="main_form" name="frm">
         <div class="conCont">
+          <p class="error_tit" ng-if="error_name">用户名或者密码有误，请重新输入。</p>
           <div class="conOne">
             <label>{{username | translate}}</label>
             <span class="textRgt" ng-if="frm.username.$dirty && frm.username.$invalid">用户名不能为空</span><br/>
