@@ -9,8 +9,8 @@ angular.module('basic')
         if (listAllProject !== null && listAllProject !== undefined) {
           listAllProject.forEach(model => {
             if (model.TYPE_MENU_ID === "01") {
-              if (model.USER_ID !== null && model.USER_ID !== undefined) {
-                if (model.USER_ID === $rootScope.getUsername()) {
+              if (model.USER_NAME !== null && model.USER_NAME !== undefined) {
+                if (model.USER_NAME === $rootScope.getUsername()) {
                   model.mode = 'update'
                   $scope.listAllProject[0].push(model);
                 }
@@ -24,7 +24,7 @@ angular.module('basic')
                   let objJSON = eval('(function(){return ' + model.MODEL_INFO + ';})()');
                   model.MODEL_INFO = Object.values(objJSON);
                 }
-                if (model.USER_ID === $rootScope.getUsername()) {
+                if (model.USER_NAME === $rootScope.getUsername()) {
                   model.mode = 'update';
                 } else {
                   model.mode = 'view';

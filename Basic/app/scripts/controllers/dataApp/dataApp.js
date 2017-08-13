@@ -25,8 +25,8 @@ angular.module('basic')
           console.log("$scope.listAllApp", $scope.listAllApp)
         }
       };
-      $scope.delete = () => {
-        deletePage.open();
+      $scope.delete = item => {
+        deletePage.open(item);
       }
       //dataFactory.getAppList().success(handleSuccess);
       appList.get({}, function (res) {

@@ -108,12 +108,12 @@ angular.module('basic.services', ['ui.bootstrap'])
                     let savaData = {
                       MODEL_NAME: $location.path().split(/[\s/]+/).pop(),
                       MODEL_INFO: data.modelInfo,
-                      USER_ID: $cookies.get('username'),
+                      USER_NAME: $cookies.get('username'),
                       TYPE_MENU_ID: projectType,
                       VIEW_MENU_ID: data.modelType,
                       UPDATED_TIME: date.getTime(),
                       FILE_PATH: $location.path().split(/[\s/]+/).pop() + '.ipynb',
-                      NOTEBOOK_PATH: projectName,
+                      NOTEBOOK_PATH: data.notebookPath + '/' + projectName,
                       COMMENT: 'Lets try it!',
                       APP_ID: appName
                     };
@@ -236,7 +236,7 @@ angular.module('basic.services', ['ui.bootstrap'])
             $scope.save = () => {
               let savaData = {
                     MAKEFILE_ID: $scope.makeFileName,
-                    USER_ID: $cookies.get('username'),
+                    USER_NAME: $cookies.get('username'),
                     APP_ID: appName,
                     TARGET: $scope.data.targetModel,
                     PREREQUISITES: Object.values($scope.data.prereqModel).join(' ')
@@ -444,7 +444,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                 let date = new Date();
                 let savaData = {
                   MODEL_NAME: modelName,
-                  USER_ID: $cookies.get('username'),
+                  USER_NAME: $cookies.get('username'),
                   TYPE_MENU_ID: typeMenu,
                   VIEW_MENU_ID: '06',
                   UPDATED_TIME: date.getTime(),
@@ -486,7 +486,7 @@ angular.module('basic.services', ['ui.bootstrap'])
       }).result;
     };
   }])
-  .service('deletePage',['$uibModal','$http', function ($uibModal,$http) {
+  .service('deletePage',['$rootScope','$uibModal','$http', function ($rootScope,$uibModal,$http) {
     this.open = function (item) {
       return $uibModal.open({
         backdrop: 'static',
@@ -497,34 +497,54 @@ angular.module('basic.services', ['ui.bootstrap'])
             $scope.cancel = () => {
               $uibModalInstance.dismiss();
             };
-            console.log('Del.item', item )
-            $scope.ok = () => {
-              //del from DB
-              console.log('Del.item in ok', item.MODEL_ID )
-              $http.put('/api/model/delete',{item:item.MODEL_ID})
-                .success((data)=>{
-                  console.log('is ok now',data.msg);
-                  // alert(data.msg);
-                }).catch(err => {
-                // console.log('is not ok now',err);
-              })
+            let itemID, type, path, user;
+            if (item !== null && item !== undefined){
+              user = $rootScope.getUsername();
+              $scope.isOwner = (item.USER_NAME === user);
+              if (item.MODEL_ID !== null && item.MODEL_ID !== undefined ) {
+                type = 'model';
+                if (item.APP_ID !== null) {
+                  path = item.NOTEBOOKPATH + "/" + item.MODEL_NAME;
+                } else {
 
-              $http.get('/api/expert/delete',{
-                params:{
-                  modelNm:item.MODEL_NAME,
-                  appNm:item.APP_NAME
+                  path = item.NOTEBOOKPATH + "/" + item.APP_ID + "/"+ item.MODEL_NAME + ".ipynb";
+                }     
+              } else {
+                path = item.NOTEBOOKPATH + "/" + item.APP_ID;
+                itemID = item.APP_NAME ;
+                type = 'app' 
+              }
+            }else{
+              console.log('Del item === null && item === undefined');  
+            } 
+            $scope.ok = () => {
+              $http.put(`/api/${type}/delete`,{item:itemID, user: user})
+              .success(data=>{
+                if (data.msg === 'success'){
+                  console.log('del folder item',item)                   
+                  // del folder
+                  $http.put('/api/expert/delete',{
+                    item:item,
+                    type:type,
+                    path:path
+                  }).success(data=>{
+                    if (data !== null && data !== undefined){
+                      if (data.result === 'success'){
+                        $uibModalInstance.dismiss();
+                        window.location.reload();
+                      }
+                    } else {
+                      console.log('Del data === null && data === undefined');  
+                    }
+                  }).catch(err => {
+                    console.log('is not ok now',err);
+                  }) 
                 }
-              }).success((data)=>{
-                //if data is null or undefined???
-                console.log('is ok now',data.path);
-                // alert(data.path);
-                $uibModalInstance.dismiss();
-                window.location.reload();
-              }).catch(err => {
-                console.log('is not ok now',err);
               })
-              // console.log('is ok now',data);
-            }
+              .catch(err => {
+                console.log('error',data.msg);
+              })
+            };
           }]
       }).result;
     };

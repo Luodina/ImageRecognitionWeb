@@ -40,7 +40,7 @@ router.get('/getMakeFileList/:appID', (req, res) => {
 // create new makeFileID
 router.post('/new', (req, res) => {
     let makeFile = req.body.MAKEFILE_ID;
-    let userName = req.body.USER_ID;
+    let userName = req.body.USER_NAME;
     let appID = req.body.APP_ID;
     let target = req.body.TARGET;
     let prerequisites = req.body.PREREQUISITES;
@@ -49,7 +49,7 @@ router.post('/new', (req, res) => {
         return MakeFile.create({
             ID: t.id, 
             MAKEFILE_ID: makeFile, 
-            USER_ID: userName,
+            USER_NAME: userName,
             APP_ID: appID, 
             TARGET: target,
             PREREQUISITES: prerequisites,

@@ -6,7 +6,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    USER_ID: {
+    USER_NAME: {
       type: DataTypes.CHAR(32),
       allowNull: true
     },

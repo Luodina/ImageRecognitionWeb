@@ -25,9 +25,9 @@ function notebookPath(type){
 }
 function notebookDir(type){
   if (type === 'explore'){
-    return 'notebookModel';
+    return modelPath;
   } else {
-    return 'notebookApp';
+    return appPath;
   }
 }
 
@@ -74,18 +74,15 @@ router.get('/pathNoteBook', function (req, res) {
   }
 });
 
-router.get('/delete',function (req,res) {
-  let modelNm = req.query.modelNm;
-  let appNm = req.query.appNm;
-  console.log('!!!!!!!!!!!!!!',modelNm)
-  baseNotebookPath = path.join(__dirname, '../../' + modelPath+ '/' + modelNm);
-  // if (appNm !== null){
-  //   baseNotebookPath = path.join(__dirname, '../../' + appPath + '/' + appNm);
-  // }
+router.put('/delete',function (req,res) {
+  let item = req.body.item;
+  let type = req.body.type;
+  let baseNotebookPath = path.join(__dirname, '../../' + req.body.path);
+  console.log('req.body', req.body,'item',item,'type',type);
 
-  console.log('deletedelete===' + baseNotebookPath);
   deleteall(baseNotebookPath);
-  res.send({path: baseNotebookPath});
+  res.send({result:'success'});
+  
 });
 
 router.get('/notebook/templateList', function (req, res) {

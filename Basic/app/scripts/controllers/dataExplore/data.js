@@ -47,9 +47,9 @@ angular.module('basic')
           if (modelMode === 'new') {
             $location.path('/explore');
           }
-          initNotebook($scope.modelDB.FILE_PATH, $scope.modelDB.NOTEBOOK_PATH, $scope.modelDB.MODEL_NAME, $scope.modelDB.USER_ID,modelMode, projectType)
+          initNotebook($scope.modelDB.FILE_PATH, $scope.modelDB.NOTEBOOK_PATH, $scope.modelDB.MODEL_NAME, $scope.modelDB.USER_NAME,modelMode, projectType)
           .then(data => {
-            if ($scope.modelDB.USER_ID === userName) {
+            if ($scope.modelDB.USER_NAME === userName) {
               if (modelMode !== 'update') {
                 //$location.path('/explore');
                 Notification.error('Error! Please, Check mode!');

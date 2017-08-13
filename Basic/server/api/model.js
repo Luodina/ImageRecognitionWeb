@@ -15,7 +15,7 @@ router.get('/getProjectList', function(req,res){
 router.post('/new', function(req, res){
     let modelName = req.body.MODEL_NAME;
     let modelInfo = req.body.MODEL_INFO;
-    let userName = req.body.USER_ID;
+    let userName = req.body.USER_NAME;
     let typeMenuID = req.body.TYPE_MENU_ID;
     let viewMenuID = req.body.VIEW_MENU_ID;
     let time = moment(req.body.UPDATED_TIME).format('YYYY-MM-DD');
@@ -29,7 +29,7 @@ router.post('/new', function(req, res){
             MODEL_ID: t.id,
             MODEL_NAME: modelName,
             MODEL_INFO: modelInfo,
-            USER_ID: userName,
+            USER_NAME: userName,
             TYPE_MENU_ID: typeMenuID,
             VIEW_MENU_ID: viewMenuID,
             UPDATED_TIME: time,

@@ -1,9 +1,15 @@
 'use strict';
-let sequelize = require('../sequelize');
-let Sequelize = require('sequelize');
-let App = require('../model/APP_INFO')(sequelize, Sequelize);
-let express = require('express');
-let router = express.Router();
+const sequelize = require('../sequelize');
+const Sequelize = require('sequelize');
+const App = require('../model/APP_INFO')(sequelize, Sequelize);
+const Model = require('../model/MODEL_INFO')(sequelize, Sequelize);
+const MakeFile = require('../model/APP_MAKEFILE')(sequelize, Sequelize);
+const AppSchedule = require('../model/APP_MAKESCHEDULE')(sequelize, Sequelize);
+const AppResults = require('../model/APP_RESULTS')(sequelize, Sequelize);
+
+const express = require('express');
+const router = express.Router();
+
 
 router.get('/getAppList', (req,res)=>{    
     App.findAll({ raw: true })
@@ -41,4 +47,24 @@ router.post('/:appName', function(req, res){
     });
 });
 
+router.put('/delete', function(req, res){
+    Model.belongsTo(App);
+    MakeFile.belongsTo(App);
+    AppSchedule.belongsTo(App);
+    AppResults.belongsTo(App);
+    let item = req.body.item;
+    let user = req.body.user;
+    if (item !== null){
+        let q= "DELETE FROM APP_INFO WHERE APP_INFO.APP_NAME = '"+ item +"' AND APP_INFO.USER_NAME = '" + user +"'";
+        sequelize.query(q,{type: sequelize.QueryTypes.DELETE})
+        .then((result) => {
+            console.log('result', result);
+            res.send({ result:result, msg: 'success'});
+        })
+        .catch(err =>{
+            console.log('err',err);
+            res.send({ msg: 'failed'});
+        });
+    }
+});
 module.exports = router; 

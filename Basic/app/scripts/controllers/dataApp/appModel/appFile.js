@@ -1,7 +1,7 @@
 'use strict';
 angular.module('basic')
-  .controller('AppFileCtrl',['openNotebook','createAppModel','$location','$scope','projectList','deletePage',
-    (openNotebook,createAppModel,$location,$scope,projectList,deletePage) => {
+  .controller('AppFileCtrl',['deletePage','openNotebook','createAppModel','$location','$scope','projectList',
+    (deletePage,openNotebook,createAppModel,$location,$scope,projectList) => {
       $scope.appName = $location.path().split(/[\s/]+/).pop();
 
     $scope.listAllProject = [];
@@ -12,6 +12,7 @@ angular.module('basic')
           if (model.APP_ID !== null && model.APP_ID !== undefined ){
             if (model.TYPE_MENU_ID ==='00' && model.APP_ID === $scope.appName){
               let showName = model.MODEL_NAME;
+              model.SHOW_NAME=model.MODEL_NAME;
               if(model.APP_ID=='医保控费'){
                 var x=showName.indexOf('-');
                 for(var i=0;i<1;i++){
@@ -27,7 +28,7 @@ angular.module('basic')
       }
     };
 
-    projectList.get({}, function (res) {handleSuccess(res);});
+    projectList.get({}, res => {handleSuccess(res);});
     $scope.createModel = appName => {
       createAppModel.open(appName).then((model)=>{
         console.log('model in AppFile: ',model.type, model.modelName, model.appName);
@@ -42,8 +43,10 @@ angular.module('basic')
         }
       });
     };
-
-    $scope.openProject = (item) => {
+    $scope.delModel = item =>{
+      deletePage.open(item);  
+    }
+    $scope.openProject = item => {
       $location.path('app/notebook/'+ item.APP_ID +'/'+item.MODEL_NAME);
     };
       $scope.delete = () => {

@@ -6,7 +6,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    USER_ID: {
+    USER_NAME: {
       type: DataTypes.CHAR(32),
       allowNull: false
     },
@@ -24,29 +24,27 @@ module.exports = function(sequelize, DataTypes) {
     },
     NOTEBOOK_PATH: {
       type: DataTypes.CHAR(64),
-      allowNull: true
+      allowNull: false
     },
-
     MODEL_INFO: {
       type: DataTypes.CHAR(256),
-      allowNull: true
+      allowNull: false
     },
     APP_ID: {
       type: DataTypes.CHAR(256),
       allowNull: true
     },
-
     UPDATED_TIME: {
       type: DataTypes.DATE(),
       allowNull: false
     },
     COMMENT: {
       type: DataTypes.CHAR(256),
-      allowNull: true
+      allowNull: false
     },
     FILE_PATH: {
       type: DataTypes.CHAR(11),
-      allowNull: true
+      allowNull: false
     },
   }, {
     createdAt: false,

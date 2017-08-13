@@ -15,6 +15,8 @@ const templatIpynbPath = path.join(__dirname, '../../template');
 const templatIpynbFile = '/dataProfile-V4.0.ipynb';
 const modelPath = config[env].modelPath;
 const appPath = config[env].appPath;
+console.log('modelPath', modelPath);
+console.log('appPath', appPath);
 let baseNotebookPath;
 let baseNotebookDir;
 let projectType;
@@ -30,9 +32,9 @@ function notebookPath(type){
 }
 function notebookDir(type){
     if (type === 'explore'){
-        return 'notebookModel';
+        return modelPath;
     } else {
-        return 'notebookApp';
+        return appPath;
     }
 }
 function notebookOpts(type){
