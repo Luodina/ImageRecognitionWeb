@@ -29,7 +29,7 @@ router.post('/new', function(req, res){
             MODEL_ID: t.id,
             MODEL_NAME: modelName,
             MODEL_INFO: modelInfo,
-            USER_ID: userName,
+            USER_NAME: userName,
             TYPE_MENU_ID: typeMenuID,
             VIEW_MENU_ID: viewMenuID,
             UPDATED_TIME: time,
@@ -96,4 +96,4 @@ router.put('/delete', function(req, res){
   }
 });
 
-module.exports = router; 
+module.exports = router;

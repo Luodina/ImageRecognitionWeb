@@ -44,7 +44,7 @@ angular.module('basic')
           $location.path('/explore/' + item.VIEW_MENU_ID + '/' + item.mode + '/' + item.MODEL_NAME);
         }
         if (item.VIEW_MENU_ID === '06') {
-          $location.path('/notebook/' + item.mode + '/' + item.MODEL_NAME);
+          $location.path('/expert/' + item.mode + '/' + item.MODEL_NAME);
         }
       };
       $scope.delete = (item) => {
@@ -66,13 +66,13 @@ angular.module('basic')
             {img: 'pic6', content: 'modelType_06', url: 'notebook', name: 'notebook', isActive: false}
           ];
           createModel.open(index, arrItem).then(msg => {
-              if (msg === 'success') {
-                $scope.listAllProject = [[]];
-                projectList.get({}, res => {
-                  handleSuccess(res);
-                });
-              }
-            })
+            if (msg === 'success') {
+              $scope.listAllProject = [[]];
+              projectList.get({}, res => {
+                handleSuccess(res);
+              });
+            }
+          })
             .catch(err => {
               console.log('err', err);
             });
@@ -97,7 +97,7 @@ angular.module('basic')
               //arrItem.push({content: 'new', img:'add_btn', isActive:false});
               createExpertModule.open(arrItem).then((model)=> {
                 //url: '/expert/{mode}/{modelNm}',
-                  // openNotebook.open(model.modelTemplate, model.modelName, 'explore').then((msg) => {
+                // openNotebook.open(model.modelTemplate, model.modelName, 'explore').then((msg) => {
                 //     $scope.listAllProject = [[]];
                 //     projectList.get({}, function (res) {
                 //       handleSuccess(res);
