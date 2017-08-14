@@ -28,7 +28,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     MODEL_INFO: {
       type: DataTypes.CHAR(256),
-      allowNull: false
+      allowNull: true
     },
     APP_ID: {
       type: DataTypes.CHAR(256),
@@ -44,7 +44,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     FILE_PATH: {
       type: DataTypes.CHAR(11),
-      allowNull: false
+      allowNull: true
     },
   }, {
     createdAt: false,
