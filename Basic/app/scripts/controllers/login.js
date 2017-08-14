@@ -56,14 +56,7 @@ angular.module('basic')
     $scope.signin = $filter('translate')('web_common_012');
 
 
-    $scope.me = false
-    $scope.mark = function (res) {
-      if (res == 1) {
-        $scope.me = false
-      } else {
-        $scope.me = true
-      }
-    };
+    $scope.isForget = false;
 
     $scope.login = () => {
       //$state.go('dataExplore');

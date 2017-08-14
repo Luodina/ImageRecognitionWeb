@@ -1139,21 +1139,20 @@ div.ng-invalid.ng-touched.ui-select-container span.ui-select-toggle{
   border-color: #4874ff !important;
 }
 
-.yes-me{
+.active .no-me{
   background:url("../images/check_active.png") no-repeat;
 }
 .no-me{
   background:url("../images/check_nor.png") no-repeat;
 }
+.login_forget{margin-top:20px;font-size:14px;width:100px;cursor:pointer;}
 .ta-cd{
   width: 14px;
   height: 14px;
   margin:0;
   padding:0;
-  display:inline-block;
-  vertical-align: middle;
-  margin-right:8px;
-  cursor: pointer;
+  margin-right:8px;float:left;
+  cursor: pointer;margin-top:3px;
 }
 .mgt{margin-top:30px;font-size:14px;}
 .error_tit{text-align:center;font-size:14px;color:#f00;}
