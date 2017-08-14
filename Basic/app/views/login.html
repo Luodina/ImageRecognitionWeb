@@ -19,13 +19,9 @@
             <span class="textRgt" ng-if="frm.password.$dirty && frm.password.$invalid">密码不能为空</span><br/>
             <input class="ipt" name="password" type="password" autocomplete="off" ng-model="usermessage.password" tabindex="2" ng-keydown="enterLogin($event)" required>
           </div>
-          <!--<p class="textConfirm">-->
-          <!--<input type="checkbox" ng-click="saveCookie()">记住我-->
-          <!--</p>-->
-          <div class="mgt rem-me">
-            <span ng-if="!me" class="ta-cd no-me " ng-click="mark(2)"></span>
-            <span ng-if="me" class="ta-cd yes-me" ng-click="mark(1)"></span>
-            记住用户名
+
+          <div class="login_forget"  ng-class="{'active': isForget}" ng-click="isForget=!isForget">
+            <i class="ta-cd no-me"></i><p>记住用户名</p>
           </div>
 
           <button class="btn" ng-click="frm.$valid && login()">{{signin| translate}}</button>

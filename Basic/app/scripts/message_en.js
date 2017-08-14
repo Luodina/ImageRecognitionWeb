@@ -25,6 +25,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_018': 'Save',
     'web_common_019': 'Open my',
     'web_common_020': 'Data Dictionary',
+    'web_common_021': 'Copy',
 
     'web_common_data_explore_001': 'Data Source',
     'web_common_data_explore_002': 'Data Report',
@@ -104,10 +105,13 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_app_layer_03': 'Create',
     'web_common_data_app_layer_04': 'Create an analysis framework',
     'web_common_data_app_layer_05': 'Name',
-    
+
     'web_common_data_delete_layer_00': 'Delete message',
     'web_common_data_delete_layer_01': 'Are you sure you want to delete this information?',
     'web_common_data_delete_layer_02': 'confirm',
-    'web_common_data_delete_layer_03': 'cancle'
+    'web_common_data_delete_layer_03': 'cancle',
+
+    'web_common_copy_layer_01': 'Copy the file'
+
   });
 }]);

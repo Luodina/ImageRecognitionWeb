@@ -25,6 +25,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_018': '保存',
     'web_common_019': '开启我的',
     'web_common_020': '数据字典',
+    'web_common_021': '复制',
 
 
     'web_common_data_explore_001': '数据选择',
@@ -106,7 +107,9 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_delete_layer_00': '删除信息',
     'web_common_data_delete_layer_01': '确认要删除此信息吗',
     'web_common_data_delete_layer_02': '确认',
-    'web_common_data_delete_layer_03': '取消'
+    'web_common_data_delete_layer_03': '取消',
+
+    'web_common_copy_layer_01': '复制文件'
 
 
   });

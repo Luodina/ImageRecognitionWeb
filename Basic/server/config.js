@@ -23,5 +23,5 @@ module.exports = {
     logLevel:'debug' // 'debug' or 'info'
   },
   env: 'dev',
-  trans: 'zh',
+  trans: 'zh'
 };

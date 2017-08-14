@@ -54,17 +54,7 @@ angular.module('basic')
     $scope.username = $filter('translate')('web_common_010');
     $scope.password = $filter('translate')('web_common_011');
     $scope.signin = $filter('translate')('web_common_012');
-
-
-    $scope.me = false
-    $scope.mark = function (res) {
-      if (res == 1) {
-        $scope.me = false
-      } else {
-        $scope.me = true
-      }
-    };
-
+    $scope.isForget = false;
     $scope.login = () => {
       //$state.go('dataExplore');
       if ($scope.usermessage.password !== undefined) {
