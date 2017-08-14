@@ -5,7 +5,7 @@ angular.module('basic')
   function ($cookies, $sce, $location, $rootScope, $scope, $http) {
   $scope.init = function () {
     var path_list = $location.path().split(/[\s/]+/);
-    console.log(path_list);
+    console.log('path_list',path_list);
     var modelName = path_list.pop();
     var project = path_list.pop();
     var type = path_list[1];

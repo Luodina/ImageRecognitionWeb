@@ -247,7 +247,7 @@ body {
       .pic {
         display: inline-block;
         width: 50px;
-        height: 50px;
+        height: 50px;cursor:pointer;
       }
 
       .titleText {
@@ -297,7 +297,7 @@ body {
             padding-top: 0;
             label {
               font-size: 14px;
-              color: #666;
+              color: #666;font-weight:normal;
             }
 
             .textRgt {
@@ -309,17 +309,20 @@ body {
             .ipt {
               /*padding-top: 10px;*/
               display: inline-block;
-              width: 418px;
+              width: 410px;
               height: 38px;
               background: #f7f8fa;
-              border: solid 1px #f9f9f9;padding:0 5px;
+              border: solid 1px #eaeaea;padding:0 10px;font-size:14px;
             }
           }
+
+
+
           .conTwo {
             margin-top: 30px;
             label {
               font-size: 14px;
-              color: #666;
+              color: #666;font-weight:normal;
             }
 
             .textRgt {
@@ -330,12 +333,13 @@ body {
             .ipt {
               /*padding-top: 10px;*/
               display: inline-block;
-              width: 418px;
+              width: 410px;
               height: 38px;
               background: #f7f8fa;
-              border: solid 1px #f9f9f9;padding:0 5px;
+              border: solid 1px #eaeaea;padding:0 10px;font-size:14px;
             }
           }
+
           .textConfirm {
             margin-top: 20px;
             font-size: 14px;
@@ -1121,7 +1125,38 @@ cursor:pointer;}
 }
 
 
+.conTwo .ipt:focus{
+  border-color: #4874ff !important;
+}
 
+.conOne .ipt:focus{
+  border-color: #4874ff !important;
+}
+
+input.ng-invalid.ng-touched,
+div.ng-invalid.ng-touched div.tokenfield,
+div.ng-invalid.ng-touched.ui-select-container span.ui-select-toggle{
+  border-color: #4874ff !important;
+}
+
+.yes-me{
+  background:url("../images/check_active.png") no-repeat;
+}
+.no-me{
+  background:url("../images/check_nor.png") no-repeat;
+}
+.ta-cd{
+  width: 14px;
+  height: 14px;
+  margin:0;
+  padding:0;
+  display:inline-block;
+  vertical-align: middle;
+  margin-right:8px;
+  cursor: pointer;
+}
+.mgt{margin-top:30px;font-size:14px;}
+.error_tit{text-align:center;font-size:14px;color:#f00;}
 
 
 

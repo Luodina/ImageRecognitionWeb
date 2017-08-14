@@ -14,6 +14,7 @@ let baseNotebookUrl = config[env].notebookUrl;
 let templatIpynbFile = 'new.ipynb';
 const modelPath = config[env].modelPath;
 const appPath = config[env].appPath;
+let exec = require('child_process').exec;
 
 //notebook
 function notebookPath(type){
@@ -32,11 +33,11 @@ function notebookDir(type){
 }
 
 function deleteall(path) {
-  var files = [];
+  let files = [];
   if (fs.existsSync(path)) {
     files = fs.readdirSync(path);
     files.forEach(function (file, index) {
-      var curPath = path + "/" + file;
+      let curPath = path + "/" + file;
       if (fs.statSync(curPath).isDirectory()) { // recurse
         deleteall(curPath);
       } else {
@@ -47,6 +48,19 @@ function deleteall(path) {
   }
 }
 
+ function chooseHtml(inputPath,outputPath) {
+//   let comms = 'jupyter '+'nbconvert '+ '/Users/JiYi/Desktop/7.31zhengli/OCAI/Basic/notebookModel/nnnn4/nnnn4.ipynb '+"--output='/Users/JiYi/Desktop/7.31zhengli/OCAI/Basic/notebookModel/nnnn4/nnnn4'";
+  let comms = 'jupyter '+'nbconvert '+ inputPath+"--output=outputPath";
+  console.log('comms',comms);
+
+  console.log('--------------comms=>', comms);
+  exec(comms, [''], function (error, stdout) {
+    if (error) {
+    }
+    console.log('shell exec--------->', stdout);
+  });
+ }
+
 router.get('/pathNoteBook', function (req, res) {
   let modelName = req.query.modelName;
   let type = req.query.modelType;
@@ -54,6 +68,7 @@ router.get('/pathNoteBook', function (req, res) {
   baseNotebookPath = notebookPath(type);
   let dirName = path.join(baseNotebookPath, modelName);
   let destUrl = baseNotebookUrl + 'notebooks/'+ notebookDir(type)+ '/' + projectType + '/' + modelName + '.ipynb';
+
   if (type === 'explore'){
     let templateDir = req.query.modelTemplate;
     templatIpynbFile = req.query.modelTemplate + '.ipynb';

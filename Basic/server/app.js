@@ -8,12 +8,16 @@ import proxy from 'http-proxy-middleware';
 
 let app = express();
 let env = config.env || 'dev';
+// use logger.xxx instead of console.xxx
+let logger = require('./utils/log')('app.js')
 
 if(env === 'dev') {
   app.use(require('connect-livereload')());
   app.use('/fonts',express.static('app/bower_components/bootstrap/fonts'));
 }
-
+// web server full logs
+//var log4js = require('log4js');
+//app.use(log4js.connectLogger(logger,{level:log4js.levels.INFO}));
 app.use(express.static(config[env].dist));
 app.use(favicon(path.join(__dirname, '../', config[env].dist, '/favicon.ico')));
 
@@ -48,7 +52,8 @@ app.get('*', function(req, res) {
 });
 
 app.listen(config[env].port, function () {
-  console.log('App listening on port ' + config[env].port + '!');
+  //console.log('App listening on port ' + config[env].port + '!');
+  logger.info('App listening on port ' + config[env].port + '!');
 });
 
 module.exports = app;

@@ -19,6 +19,8 @@ angular.module('basic')
                   x=showName.indexOf('-',x+1);
                 }
                 model.SHOW_NAME=showName.substring(x+1,showName.length);
+              }else{
+                model.SHOW_NAME=showName;
               }
 
               $scope.listAllProject.push(model);
@@ -31,11 +33,15 @@ angular.module('basic')
     projectList.get({}, res => {handleSuccess(res);});
     $scope.createModel = appName => {
       createAppModel.open(appName).then((model)=>{
-        console.log('model in AppFile: ',model.type, model.modelName, model.appName);
+        console.log('model in AppFile: ',model.appName, model.type, model.modelName);
         if (model.type===6) {
-          openNotebook.open(null, model.modelName, model.appName).then(() => {
-            $scope.listAllProject = [];
-            projectList.get({}, function (res) {handleSuccess(res);});
+          // openNotebook.open(null, model.modelName, model.appName).then(() => {
+          //   $scope.listAllProject = [];
+          //   projectList.get({}, function (res) {handleSuccess(res);});
+          // });
+          $location.path('/app/expert/new/'+ model.modelName).search({
+            type: model.appName,
+            appName: model.appName
           });
         }
         if (model.type!==6) {

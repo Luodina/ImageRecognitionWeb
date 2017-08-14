@@ -132,11 +132,11 @@ angular.module('basic.services', ['ui.bootstrap'])
                     });
                   } else {
                       console.log('Jupyter save:', data.msg);
-                      $uibModalInstance.close({msg:data.msg}); 
+                      $uibModalInstance.close({msg:data.msg});
                   }
                 } else {
                   console.log('An unexpected error occurred in Preview Modal');
-                  $uibModalInstance.close({msg:'An unexpected error occurred in Preview Modal'}); 
+                  $uibModalInstance.close({msg:'An unexpected error occurred in Preview Modal'});
                 }
               })
               .catch(err =>{
