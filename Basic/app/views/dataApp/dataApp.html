@@ -3,18 +3,21 @@
     <span class="dataExplore-header-left">{{'web_common_001'| translate}} <i ng-click="newApp()"class="addBgPic" ></i></span>
       <span class="dataExplore-header-right">
         <img src="./images/search.png" alt="搜索">
-        <input type="text" placeholder="{{'web_common_data_app_01'| translate}}">
+        <input type="text" placeholder="{{'web_common_data_app_01'| translate}}"  ng-model="grid.txt"  ng-keyup=applysearch(grid.txt)>
       </span>
   </div>
   <div class="dataExplore-container">
     <uib-tabset class="tab-default" active="grid.active">
-      <uib-tab ng-repeat="(indexType, item) in projectType track by indexType" index="$index">
-        <uib-tab-heading>
-          <p class="oper_tit">{{ item | translate}}</p>
-           <span class="icon">{{(listAllApp[$index] === undefined ||listAllProject[$index] === null) ? "0" : listAllApp[$index].length}}</span>
+      <uib-tab ng-repeat="(indexType, item) in projectType track by indexType" index="$index" >
+        <uib-tab-heading ng-click="tabClick($index)">
+
+            <p class="oper_tit">{{ item | translate}}</p>
+              <span class="icon">{{(listAllApp[$index] === undefined ||listAllProject[$index] === null) ? "0" : listAllApp[$index].length}}</span>
+
+
         </uib-tab-heading>
-        <div class="dataExplore-container-main" ng-repeat="item in listAllApp[$index]"
-             ui-sref="appInfo({mode: item.mode, name: item.APP_NAME})">
+        <!--<div class="dataExplore-container-main" ng-repeat="item in listAllApp[$index]" ui-sref="appInfo({mode: item.mode, name: item.APP_NAME})">-->
+        <div class="dataExplore-container-main" ng-repeat="item in items">
           <div class="date_set_main">
             <div class="main_header_data">{{item.APP_NAME}}
               <span class="deleteImg">
@@ -30,6 +33,23 @@
           </div>
       </uib-tab>
     </uib-tabset>
+  </div>
+
+  <div class="clear"></div>
+  <div class="page-style" ng-if="grid.total > 8">
+    <div uib-pagination
+         ng-model="grid.page"
+         total-items="grid.total"
+         items-per-page="grid.size"
+         class="pagination-sm"
+         boundary-links="false"
+         max-size="12"
+         rotate="true"
+         previous-text="上一页"
+         next-text="下一页"
+         first-text="首页"
+         last-text="末页">
+    </div>
   </div>
 </div>
 
