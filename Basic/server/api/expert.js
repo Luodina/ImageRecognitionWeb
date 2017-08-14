@@ -93,8 +93,7 @@ router.put('/delete',function (req,res) {
   let item = req.body.item;
   let type = req.body.type;
   let baseNotebookPath = path.join(__dirname, '../../' + req.body.path);
-  console.log('req.body', req.body,'item',item,'type',type);
-
+  console.log('req.body', req.body,'item',item,'type',type, 'baseNotebookPath', baseNotebookPath);
   deleteall(baseNotebookPath);
   res.send({result:'success'});
   

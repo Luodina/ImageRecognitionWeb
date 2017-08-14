@@ -14,6 +14,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.CHAR(32),
       allowNull: false
     },
+    NOTEBOOK_PATH: {
+      type: DataTypes.CHAR(32),
+      allowNull: false
+    }
   }, {
     createdAt: false,
     updatedAt: false,

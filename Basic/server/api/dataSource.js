@@ -15,8 +15,6 @@ const templatIpynbPath = path.join(__dirname, '../../template');
 const templatIpynbFile = '/dataProfile-V4.0.ipynb';
 const modelPath = config[env].modelPath;
 const appPath = config[env].appPath;
-console.log('modelPath', modelPath);
-console.log('appPath', appPath);
 let baseNotebookPath;
 let baseNotebookDir;
 let projectType;
@@ -158,6 +156,7 @@ router.post('/init', function (req, res) {
     userName = req.body.userName;
     type = req.body.projectType;
     mode = req.body.modelMode;
+    console.log('HEy:');
     baseNotebookPath = notebookPath(type);
     baseNotebookDir = notebookDir(type);
     if (type === 'explore') {
@@ -178,8 +177,7 @@ router.post('/init', function (req, res) {
     if (mode === 'new'){
         ensureExists(baseNotebookPath + '/'+ projectType, '0744', err => {
             if (err) {
-                console.log('Cannot create folder: ',err.xhr.statusText);
-                res.status(200).send({ msg: err.xhr.statusText});
+                res.status(200).send({ msg: err});
             } else {
                 createReadStream(templatIpynbPath + templatIpynbFile)
                 .pipe(createWriteStream(baseNotebookPath + '/'+ projectType + '/'+ modelName + '.ipynb'));
@@ -430,7 +428,6 @@ router.get('/save', function (req, res) {
                     console.log('Jupyter Notebook session closed');
                     res.status(200).send({ modelInfo: modelInfo,
                                            dataFileName:dataFileName,
-                                           notebookPath: baseNotebookDir,
                                            projectType: projectType,
                                            modelType: '01',
                                            msg:'success'

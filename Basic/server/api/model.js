@@ -5,6 +5,8 @@ let Model = require('../model/MODEL_INFO')(sequelize, Sequelize);
 let express = require('express');
 let router = express.Router();
 let moment = require('moment');
+const config = require('./../config');
+let env = config.env || 'dev';
 
 router.get('/getProjectList', function(req,res){
     Model.findAll({raw: true})
@@ -20,10 +22,9 @@ router.post('/new', function(req, res){
     let viewMenuID = req.body.VIEW_MENU_ID;
     let time = moment(req.body.UPDATED_TIME).format('YYYY-MM-DD');
     let filePath = req.body.FILE_PATH;
-    let notebookPath = req.body.NOTEBOOK_PATH;
+    let notebookPath = config[env][req.body.NOTEBOOK_PATH];//req.body.NOTEBOOK_PATH;
     let comment = req.body.COMMENT;
     let appName = req.body.APP_ID;
-    //console.log('new model data:', req.body);
     sequelize.transaction(t => {
         return Model.create({
             MODEL_ID: t.id,

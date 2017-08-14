@@ -60,7 +60,11 @@ angular.module('basic.services', ['ui.bootstrap'])
                     } else {
                       $http.get('/api/appFile/'+$scope.model.name).success((data) => {
                         if (data.result === 'success'){
-                          $http.post('/api/app/' + $scope.model.name, {APP_NAME: $scope.model.name, USER_NAME: $rootScope.getUsername()})
+                          $http.post('/api/app/' + $scope.model.name, 
+                          {
+                            APP_NAME: $scope.model.name, 
+                            USER_NAME: $rootScope.getUsername()
+                          })
                           .success((data) => {
                             if (data.result === 'success'){
                               $location.path('/app/new/'+$scope.model.name);
@@ -93,17 +97,16 @@ angular.module('basic.services', ['ui.bootstrap'])
                 if(data!== undefined && data !== null) {
                   if (data.msg==='success'){
                     let date = new Date();
-                    let projectType;
-                    let projectName;
-                    let appName;
-                    console.log('projectType:', data.projectType);
+                    let projectType,projectName,path,appName;
                     if ($location.path().split(/[\s/]+/).pop() === data.projectType){
                       projectType = '01';
-                      projectName = data.projectType
+                      projectName = data.projectType;
+                      path = 'modelPath';
                     } else{
                       projectType = '00';
                       appName = data.projectType;
                       projectName = data.projectType;
+                      path = 'appPath' ;
                     }
                     let savaData = {
                       MODEL_NAME: $location.path().split(/[\s/]+/).pop(),
@@ -113,7 +116,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                       VIEW_MENU_ID: data.modelType,
                       UPDATED_TIME: date.getTime(),
                       FILE_PATH: $location.path().split(/[\s/]+/).pop() + '.ipynb',
-                      NOTEBOOK_PATH: data.notebookPath + '/' + projectName,
+                      NOTEBOOK_PATH: path,
                       COMMENT: 'Lets try it!',
                       APP_ID: appName
                     };
@@ -432,12 +435,12 @@ angular.module('basic.services', ['ui.bootstrap'])
               }).then(function (response) {
                 if (modelType === 'explore') {
                     typeMenu = '01';
-                    path = modelName;
+                    path = 'modelPath';
                 }
                 if (modelType !== 'explore') {
                     appName = modelType;
                     typeMenu = '00';
-                    path = modelType;
+                    path = 'appPath';
                 }
                 ipyPath = response.data.jpyPath;
                 $scope.notebookPath = $sce.trustAsResourceUrl(ipyPath);
@@ -503,14 +506,14 @@ angular.module('basic.services', ['ui.bootstrap'])
               $scope.isOwner = (item.USER_NAME === user);
               if (item.MODEL_ID !== null && item.MODEL_ID !== undefined ) {
                 type = 'model';
+                itemID = item.MODEL_ID;
                 if (item.APP_ID !== null) {
-                  path = item.NOTEBOOKPATH + "/" + item.MODEL_NAME;
+                  path = item.NOTEBOOK_PATH + "/" + item.APP_ID + "/"+ item.MODEL_NAME + ".ipynb";
                 } else {
-
-                  path = item.NOTEBOOKPATH + "/" + item.APP_ID + "/"+ item.MODEL_NAME + ".ipynb";
+                  path = item.NOTEBOOK_PATH + "/" + item.MODEL_NAME;
                 }     
               } else {
-                path = item.NOTEBOOKPATH + "/" + item.APP_ID;
+                path = item.NOTEBOOK_PATH + "/" + item.APP_NAME;
                 itemID = item.APP_NAME ;
                 type = 'app' 
               }
@@ -521,8 +524,6 @@ angular.module('basic.services', ['ui.bootstrap'])
               $http.put(`/api/${type}/delete`,{item:itemID, user: user})
               .success(data=>{
                 if (data.msg === 'success'){
-                  console.log('del folder item',item)                   
-                  // del folder
                   $http.put('/api/expert/delete',{
                     item:item,
                     type:type,
