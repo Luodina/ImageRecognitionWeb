@@ -130,42 +130,16 @@ angular.module('basic.services', ['ui.bootstrap'])
                         if (projectType == '01') {$location.path('/explore');}
                         if (projectType == '00') {$location.path('/app/update/'+ projectName);}
                       }
-                      let savaData = {
-                        MODEL_NAME: $location.path().split(/[\s/]+/).pop(),
-                        MODEL_INFO: data.modelInfo,
-                        USER_ID: $cookies.get('username'),
-                        TYPE_MENU_ID: projectType,
-                        VIEW_MENU_ID: data.modelType,
-                        UPDATED_TIME: date.getTime(),
-                        FILE_PATH: $location.path().split(/[\s/]+/).pop() + '.ipynb',
-                        NOTEBOOK_PATH: projectName,
-                        COMMENT: 'Lets try it!',
-                        APP_ID: appName
-                      };
-                      $http.post('/api/model/new', savaData)
-                        .success(data => {
-                          if (data.msg === 'success') {
-                            if (projectType == '01') {
-                              $location.path('/explore');
-                            }
-                            if (projectType == '00') {
-                              $location.path('/app/update/' + projectName);
-                            }
-                          }
-                          console.log('Jupyter save:', data.msg);
-                          $uibModalInstance.close({msg: data.msg});
-                        })
-                        .catch(err => {
-                          $uibModalInstance.close({msg: err});
-                          console.log('err in /api/model/new:', err);
-                        });
-                    } else {
                       console.log('Jupyter save:', data.msg);
                       $uibModalInstance.close({msg: data.msg});
-                    }
+                    })
+                    .catch(err => {
+                      $uibModalInstance.close({msg: err});
+                      console.log('err in /api/model/new:', err);
+                    });
                   } else {
-                      console.log('Jupyter save:', data.msg);
-                      $uibModalInstance.close({msg:data.msg});
+                    console.log('Jupyter save:', data.msg);
+                    $uibModalInstance.close({msg: data.msg});
                   }
                 } else {
                   console.log('An unexpected error occurred in Preview Modal');
