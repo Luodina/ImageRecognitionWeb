@@ -24,7 +24,10 @@ angular.module('basic')
           }, this);
           console.log("$scope.listAllApp", $scope.listAllApp);
           refresh(1);
-          $scope.grid.total =  $scope.items;
+          $scope.grid.page = 1;
+          $scope.grid.total = $scope.listAllApp[$scope.thsinum].length;
+
+          console.log("3333",$scope.grid.total);
         }
       };
       $scope.delete = item => {
@@ -35,6 +38,7 @@ angular.module('basic')
       $scope.tabClick = (num) => {
         $scope.thsinum = num;
         refresh(1);
+        $scope.grid.page = 1;
         $scope.grid.total =  $scope.listAllApp[$scope.thsinum].length;
       }
 
@@ -52,6 +56,8 @@ angular.module('basic')
         }, 200);
         let skip = (page - 1) * $scope.grid.size;
         $scope.items = $scope.listAllApp[$scope.thsinum].slice(skip, skip + $scope.grid.size);
+        console.log("1111",$scope.listAllApp[$scope.thsinum]);
+        console.log("2222",$scope.items);
       };
 
       $scope.$watch('grid.page', function (newVal, oldVal) {
@@ -62,11 +68,13 @@ angular.module('basic')
 
       $scope.applysearch = function (event) {
         if (!$scope.grid.txt) {
+          alert(1);
           refresh(1);
           $scope.grid.page = 1;
           $scope.grid.total = $scope.listAllApp[$scope.thsinum].length;
           return;
         }else {
+          alert(2);
           let iarr = [];
           let str = $scope.grid.txt;
           str = str.toLocaleLowerCase();

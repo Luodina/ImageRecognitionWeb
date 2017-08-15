@@ -10,11 +10,8 @@
     <uib-tabset class="tab-default" active="grid.active">
       <uib-tab ng-repeat="(indexType, item) in projectType track by indexType" index="$index" >
         <uib-tab-heading ng-click="tabClick($index)">
-
             <p class="oper_tit">{{ item | translate}}</p>
               <span class="icon">{{(listAllApp[$index] === undefined ||listAllProject[$index] === null) ? "0" : listAllApp[$index].length}}</span>
-
-
         </uib-tab-heading>
         <!--<div class="dataExplore-container-main" ng-repeat="item in listAllApp[$index]" ui-sref="appInfo({mode: item.mode, name: item.APP_NAME})">-->
         <div class="dataExplore-container-main" ng-repeat="item in items">
