@@ -22,7 +22,9 @@ angular.module('basic')
               $scope.listAllApp[1].push(app);
             }
           }, this);
-          console.log("$scope.listAllApp", $scope.listAllApp)
+          console.log("$scope.listAllApp", $scope.listAllApp);
+          refresh(1);
+          $scope.grid.total =  $scope.items;
         }
       };
       $scope.delete = item => {
@@ -43,6 +45,7 @@ angular.module('basic')
         size: 4,
         total:10
       };
+
       let refresh = function(page) {
         $(document.body).animate({
           scrollTop: 0
