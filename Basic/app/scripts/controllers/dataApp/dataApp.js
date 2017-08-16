@@ -68,13 +68,11 @@ angular.module('basic')
 
       $scope.applysearch = function (event) {
         if (!$scope.grid.txt) {
-          alert(1);
           refresh(1);
           $scope.grid.page = 1;
           $scope.grid.total = $scope.listAllApp[$scope.thsinum].length;
           return;
         }else {
-          alert(2);
           let iarr = [];
           let str = $scope.grid.txt;
           str = str.toLocaleLowerCase();
