@@ -109,7 +109,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_delete_layer_02': '确认',
     'web_common_data_delete_layer_03': '取消',
 
-    'web_common_copy_layer_01': '复制文件'
+    'web_common_copy_layer_01': '文件复制'
 
 
   });

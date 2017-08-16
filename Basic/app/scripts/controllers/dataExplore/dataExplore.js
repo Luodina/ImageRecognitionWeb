@@ -44,7 +44,9 @@ angular.module('basic')
           $location.path('/explore/' + item.VIEW_MENU_ID + '/' + item.mode + '/' + item.MODEL_NAME);
         }
         if (item.VIEW_MENU_ID === '06') {
-          $location.path('/expert/' + item.mode + '/' + item.MODEL_NAME);
+          $location.path('/expert/' + item.mode + '/' + item.MODEL_NAME).search({
+            type: 'explore'
+          });
         }
       };
       $scope.delete = (item) => {
@@ -94,16 +96,7 @@ angular.module('basic')
               }).forEach(file => {
                 arrItem.push({content: file, img: image_mapping[file], isActive: false});
               });
-              //arrItem.push({content: 'new', img:'add_btn', isActive:false});
               createExpertModule.open(arrItem).then((model)=> {
-                //url: '/expert/{mode}/{modelNm}',
-                // openNotebook.open(model.modelTemplate, model.modelName, 'explore').then((msg) => {
-                //     $scope.listAllProject = [[]];
-                //     projectList.get({}, function (res) {
-                //       handleSuccess(res);
-                //     });
-                //   }
-                // );
                 $location.path('/expert/new/'+ model.modelName).search({
                   modelTemplate:model.modelTemplate,
                   type: 'explore'

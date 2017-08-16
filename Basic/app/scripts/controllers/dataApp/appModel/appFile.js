@@ -35,12 +35,8 @@ angular.module('basic')
       createAppModel.open(appName).then((model)=>{
         console.log('model in AppFile: ',model.appName, model.type, model.modelName);
         if (model.type===6) {
-          // openNotebook.open(null, model.modelName, model.appName).then(() => {
-          //   $scope.listAllProject = [];
-          //   projectList.get({}, function (res) {handleSuccess(res);});
-          // });
-          $location.path('/app/expert/new/'+ model.modelName).search({
-            type: model.appName,
+          $location.path('app/expert/new/'+ model.modelName).search({
+            type: 'app',
             appName: model.appName
           });
         }
@@ -50,10 +46,10 @@ angular.module('basic')
       });
     };
     $scope.delModel = item =>{
-      deletePage.open(item);  
+      deletePage.open(item);
     }
     $scope.openProject = item => {
-      $location.path('app/notebook/'+ item.APP_ID +'/'+item.MODEL_NAME);
+      $location.path('app/expert/view/'+item.MODEL_NAME).search({type: 'app', appName: item.APP_ID});
     };
       $scope.delete = () => {
         deletePage.open();
