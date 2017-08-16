@@ -6,41 +6,36 @@ angular.module('basic')
   .controller('ExpertCtrl', ['copyName','$cookies', '$sce', '$location', '$rootScope', '$scope', '$http',
     function (copyName,$cookies, $sce, $location, $rootScope, $scope, $http) {
       $scope.init = function () {
-        $scope.difUser = false;
-        $scope.openProject=function () {
-          copyName.open();
-        }
-        // let savePath = $location.search()['savePath'];
         let modelTemplate = $location.search()['modelTemplate'];
         let modelType = $location.search()['type'];
-        console.log('eeeeeeeee', modelTemplate)
+        let appName = modelType == 'explore'? '':  $location.search()['appName'];
         let path_list = $location.path().split(/[\s/]+/);
-        console.log('path_list', path_list);
         let modelName = path_list.pop();
         let model = path_list.pop();
-        console.log('modelNm11111111', modelName, model, modelType);
         $scope.notebookPath = '';
         let ipyPath = '';
         let typeMenu = '00';
-        let appName;
         let path;
+        $scope.difUser = false;
+        $scope.openProject=function () {
+          copyName.open(modelName, modelType);
+        }
         if (model === 'new') {
-
           $http.get('/api/expert/pathNoteBook', {
             params: {
-              modelTemplate: modelTemplate,
               modelName: modelName,
-              modelType: modelType
+              modelType: modelType,
+              modelTemplate: modelTemplate,
+              appName: appName
             }
           }).then(function (response) {
             if (modelType === 'explore') {
               typeMenu = '01';
-              path = modelName;
+              path = 'modelPath';
             }
             if (modelType !== 'explore') {
-              appName = modelType;
               typeMenu = '00';
-              path = modelType;
+              path = 'appPath';
             }
             ipyPath = response.data.jpyPath;
             $scope.notebookPath = $sce.trustAsResourceUrl(ipyPath);
@@ -63,19 +58,8 @@ angular.module('basic')
             });
           });
         } else if (model === 'update' || model === 'view') {
-          console.log('chooseModelUpdate', model)
           $scope.isShow = true;
-
-          let type = path_list[1];
-          let url = '/api/expert/notebook/open/' + modelName + '/';
-
-          if (type == 'app') {
-            //TODO app中点击文件过来的url是 app/notebook/APP_ID/FILE
-            url += model;
-          } else {
-            url += 'explore'
-          }
-
+          let url = '/api/expert/notebook/open/' + modelName + '/' + modelType;
           $http.get(url, {
             params: {
               userName: $cookies.get('username')

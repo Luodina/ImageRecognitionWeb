@@ -518,15 +518,15 @@ angular.module('basic.services', ['ui.bootstrap'])
                   path = item.NOTEBOOK_PATH + "/" + item.APP_ID + "/"+ item.MODEL_NAME + ".ipynb";
                 } else {
                   path = item.NOTEBOOK_PATH + "/" + item.MODEL_NAME;
-                }     
+                }
               } else {
                 path = item.NOTEBOOK_PATH + "/" + item.APP_NAME;
                 itemID = item.APP_NAME ;
-                type = 'app' 
+                type = 'app'
               }
             }else{
-              console.log('Del item === null && item === undefined');  
-            } 
+              console.log('Del item === null && item === undefined');
+            }
             $scope.ok = () => {
               $http.put(`/api/${type}/delete`,{item:itemID, user: user})
               .success(data=>{
@@ -542,11 +542,11 @@ angular.module('basic.services', ['ui.bootstrap'])
                         window.location.reload();
                       }
                     } else {
-                      console.log('Del data === null && data === undefined');  
+                      console.log('Del data === null && data === undefined');
                     }
                   }).catch(err => {
                     console.log('is not ok now',err);
-                  }) 
+                  })
                 }
               })
               .catch(err => {
@@ -558,47 +558,31 @@ angular.module('basic.services', ['ui.bootstrap'])
     };
   }])
   .service('copyName', ['$uibModal', function ($uibModal) {
-    this.open = () => {
+    this.open = (modelName, modelType) => {
       return $uibModal.open({
         backdrop: 'static',
         templateUrl: 'views/layer/createModel.html',
         size: 'size',
-        controller: ['$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', '$http',
-          ($rootScope, $location, $scope, $filter, $uibModalInstance, $http) => {
+        controller: ['$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', '$http', '$cookies',
+          ($rootScope, $location, $scope, $filter, $uibModalInstance, $http, $cookies) => {
             $scope.title = $filter('translate')('web_common_copy_layer_01');
-            // $scope.url = 'app';
+            $scope.content = $filter('translate')('web_common_copy_layer_01');
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
             };
             $scope.create = function () {
-              if ($scope.model.name !== undefined && $scope.model.name !== null) {
-                $http.get('/api/app/' + $scope.model.name).success((data) => {
-                  if (data.result !== null) {
-                    $scope.model.name = '';
-                    $scope.model.nameTip = 'Please use another name!!';
-                  } else {
-                    $http.get('/api/appFile/' + $scope.model.name).success((data) => {
-                      if (data.result === 'success') {
-                        $http.post('/api/app/' + $scope.model.name,
-                          {
-                            APP_NAME: $scope.model.name,
-                            USER_NAME: $rootScope.getUsername()
-                          })
-                          .success((data) => {
-                            if (data.result === 'success') {
-                              $location.path('/app/new/' + $scope.model.name);
-                              $uibModalInstance.dismiss();
-                            }
-                          });
-                      }
-                    })
-                      .catch(err => {
-                        console.log(err)
-                      });
+              if ($scope.model.name) {
+                $http.get('/api/expert/copyExpertModel',{
+                  params:{
+                    modelName: modelName,
+                    newModelName: $scope.model.name,
+                    modelType: modelType,
+                    newUserName: $cookies.get('username')
                   }
+                }).then(function (res) {
+                  $uibModalInstance.dismiss();
                 })
-              }
-              ;
+              };
             };
           }]
       }).result;

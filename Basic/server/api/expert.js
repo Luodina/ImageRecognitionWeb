@@ -1,3 +1,6 @@
+/**
+ * Created by niuniu on 2017/8/15.
+ */
 'use strict';
 import {mkdir, readdir, createReadStream, createWriteStream} from 'fs';
 import {copySync, moveSync} from 'fs-extra';
@@ -10,6 +13,7 @@ const router = express.Router();
 const path = require('path');
 const config = require('./../config');
 let env = config.env || 'dev';
+let moment = require('moment');
 
 let templatIpynbPath = path.join(__dirname, '../../template/notebookTemplates/');
 let baseNotebookPath;
@@ -27,8 +31,12 @@ function notebookPath(type) {
     return path.join(__dirname, '../../' + appPath);
   }
 }
-function notebookDir(type){
-  if (type === 'explore'){
+//notebook
+function getNotebookPathByConfig(type) {
+  return path.join(__dirname, '../../' + type);
+}
+function notebookDir(type) {
+  if (type === 'explore') {
     return modelPath;
   } else {
     return appPath;
@@ -51,54 +59,39 @@ function deleteall(path) {
   }
 }
 
-function chooseHtml(inputPath, outputPath) {
-//   let comms = 'jupyter '+'nbconvert '+ '/Users/JiYi/Desktop/7.31zhengli/OCAI/Basic/notebookModel/nnnn4/nnnn4.ipynb '+"--output='/Users/JiYi/Desktop/7.31zhengli/OCAI/Basic/notebookModel/nnnn4/nnnn4'";
-  let comms = 'jupyter ' + 'nbconvert ' + inputPath + " --output=" + outputPath;
-  console.log('comms', comms);
-
-  console.log('--------------comms=>', comms);
-  exec(comms, [''], function (error, stdout) {
-    if (error) {
-    }
-    console.log('shell exec--------->', stdout);
-  });
-}
-
 router.get('/pathNoteBook', function (req, res) {
   let modelName = req.query.modelName;
   let type = req.query.modelType;
-  let projectType = type;
+  let appName = req.query.appName;
   baseNotebookPath = notebookPath(type);
-  let dirName = path.join(baseNotebookPath, modelName);
-  let destUrl = baseNotebookUrl + 'notebooks/' + notebookDir(type) + '/' + projectType + '/' + modelName + '.ipynb';
 
   if (type === 'explore') {
+    let destPath = path.join(notebookPath(type), modelName);
     let templateDir = req.query.modelTemplate;
     templatIpynbFile = req.query.modelTemplate + '.ipynb';
-    projectType = modelName;
-    mkdir(dirName, function (error) {
+    mkdir(destPath, function (error) {
       if (error) {
         console.error('exec error: ' + error);
         return;
       }
-      let destUrl = baseNotebookUrl + 'notebooks/' + notebookDir(type) + '/' + projectType + '/' + modelName + '.ipynb';
-      copySync(templatIpynbPath + templateDir, baseNotebookPath + '/' + projectType);
-      moveSync(baseNotebookPath + '/' + projectType + '/notebook.ipynb', baseNotebookPath + '/' + projectType + '/' + modelName + '.ipynb');
+      let destUrl = baseNotebookUrl + 'notebooks/' + notebookDir(type) + '/' + modelName + '/' + modelName + '.ipynb';
+      copySync(templatIpynbPath + templateDir, destPath);
+      moveSync(destPath + '/notebook.ipynb', destPath + '/' + modelName + '.ipynb');
       res.send({jpyPath: destUrl, notebookPath: notebookDir(type)});
-      console.log('type===explore', destUrl)
     });
   } else {
-    createReadStream(templatIpynbPath + templatIpynbFile).pipe(createWriteStream(baseNotebookPath + '/' + projectType + '/' + modelName + '.ipynb'));
+    let destUrl = baseNotebookUrl + 'notebooks/' + notebookDir(type) + '/' + appName + '/' + modelName + '.ipynb';
+    createReadStream(templatIpynbPath + templatIpynbFile).pipe(createWriteStream(baseNotebookPath + '/' + appName + '/' + modelName + '.ipynb'));
     res.send({jpyPath: destUrl, notebookPath: notebookDir(type)});
   }
 });
 
-router.put('/delete',function (req,res) {
+router.put('/delete', function (req, res) {
   let item = req.body.item;
   let type = req.body.type;
   let baseNotebookPath = path.join(__dirname, '../../' + req.body.path);
   deleteall(baseNotebookPath);
-  res.send({result:'success'});  
+  res.send({result: 'success'});
 });
 
 router.get('/notebook/templateList', function (req, res) {
@@ -111,54 +104,118 @@ router.get('/notebook/templateList', function (req, res) {
   });
 
 });
-//http://localhost:9000/api/expert/notebook/open/auraniudatann/explore
 router.get('/notebook/open/:modelName/:projectType', function (req, res) {
   let userName = req.query.userName;
   let destUrl;
   let outputPath;
   let projectType = req.params.projectType;
   let modelName = req.params.modelName;
-  let baseNotePath = notebookPath(projectType);
-  console.log('projectType: ', projectType);
-  if (projectType === 'explore') {
-    destUrl = baseNotebookUrl + 'notebooks/' + notebookDir(projectType) + '/' + modelName + '/' + modelName + '.ipynb';
-    // outputPath = path.join(baseNotePath + '/' + modelName + '/' + modelName);
-    outputPath = path.join(baseNotePath + '/' + modelName);
-
-  } else {
-    destUrl = baseNotebookUrl + 'notebooks/' + notebookDir(projectType) + '/' + projectType + '/' + modelName + '.ipynb';
-    outputPath = path.join(baseNotebookPath, projectType, modelName);
-  }
-  console.log('00000000-------------', userName);
 
   Model.findOne({
     where: {MODEL_NAME: modelName},
     raw: true
   }).then((list) => {
-    console.log('qqqqqqkkkkkkkkk-------------', list.USER_NAME, userName)
+    if (projectType === 'explore') {
+      destUrl = baseNotebookUrl + 'notebooks/' + list.NOTEBOOK_PATH + '/' + modelName + '/' + modelName + '.ipynb';
+      outputPath = path.join(getNotebookPathByConfig(list.NOTEBOOK_PATH), modelName);
+    } else {
+      destUrl = baseNotebookUrl + 'notebooks/' + list.NOTEBOOK_PATH + '/' + list.APP_ID + '/' + modelName + '.ipynb';
+      outputPath = path.join(getNotebookPathByConfig(list.NOTEBOOK_PATH), list.APP_ID, modelName);
+    }
     if (list.USER_NAME === userName) {
-      console.log('destUrl: ', destUrl);
       res.send({
         jpyPath: destUrl,
-        difUser: false,
-
+        difUser: false
       });
-      console.log('update1111111', destUrl)
     } else {
-      let comms = 'cd ' + outputPath + ' && jupyter ' + 'nbconvert ' + modelName + " --output=" + outputPath + '/' + modelName;
-      outputPath = baseNotebookUrl + 'notebooks/' + notebookDir(projectType) + '/' + modelName + '/' + modelName + '.html';
-      console.log('--------------comms=>', comms);
+      let comms = 'cd ' + outputPath + ' && jupyter ' + 'nbconvert ./' + modelName + " --output=./" + modelName;
+      outputPath = baseNotebookUrl + 'notebooks/' + list.NOTEBOOK_PATH + '/' + modelName + '/' + modelName + '.html';
       exec(comms, [''], function (error, stdout) {
         if (error) {
         } else {
-          console.log('outputPathZZZZZZZZZZZZZZ', outputPath);
           res.send({
             difUser: true,
-            outputPath : outputPath
-        })
+            outputPath: outputPath
+          })
         }
-        console.log('shell exec--------->', stdout);
       });
+    }
+  })
+});
+router.get('/copyExpertModel', function (req, res) {
+  let modelName = req.query.modelName;
+  let newModelName = req.query.newModelName;
+  let modelType = req.query.modelType;
+  let newUserName = req.query.newUserName;
+  Model.findOne({
+    where: {MODEL_NAME: modelName},
+    raw: true
+  }).then((list) => {
+    let destUrl;
+    let srcPath;
+    let outputPath;
+    if (modelType === 'explore') {
+      destUrl = baseNotebookUrl + 'notebooks/' + list.NOTEBOOK_PATH + '/' + newModelName + '/' + newModelName + '.ipynb';
+      srcPath = path.join(getNotebookPathByConfig(list.NOTEBOOK_PATH), modelName);
+      outputPath = path.join(getNotebookPathByConfig(list.NOTEBOOK_PATH), newModelName);
+
+      mkdir(outputPath, function (error) {
+        if (error) {
+          console.error('exec error: ' + error);
+          return;
+        }
+        let time = moment(req.body.UPDATED_TIME).format('YYYY-MM-DD');
+        sequelize.transaction(t => {
+          return Model.create({
+            MODEL_ID: t.id,
+            MODEL_NAME: newModelName,
+            MODEL_INFO: list.MODEL_INFO,
+            USER_NAME: newUserName,
+            TYPE_MENU_ID: list.TYPE_MENU_ID,
+            VIEW_MENU_ID: list.VIEW_MENU_ID,
+            UPDATED_TIME: time,
+            FILE_PATH: newModelName + '.ipynb',
+            NOTEBOOK_PATH: list.NOTEBOOK_PATH,
+            COMMENT: list.COMMENT,
+            APP_ID: list.APP_ID,
+            isNewRecord: true
+          })
+            .then(() => {
+              copySync(srcPath, outputPath);
+              moveSync(outputPath + '/' + modelName + '.ipynb', outputPath + '/' + newModelName + '.ipynb');
+              if(fs.existsSync(outputPath + '/' + modelName + '.html')){
+                fs.unlinkSync(outputPath + '/' + modelName + '.html');
+              }
+              console.log(outputPath + '/' + newModelName + '.ipynb');
+              res.send({jpyPath: destUrl, notebookPath: list.NOTEBOOK_PATH});
+              console.log('type===explore', destUrl)
+            })
+            .catch(err => {
+              res.send({msg: err.name});
+              console.log('err', err);
+            });
+        });
+      });
+
+    } else {
+      // destUrl = baseNotebookUrl + 'notebooks/' + list.NOTEBOOK_PATH + '/' + list.APP_ID + '/' + newModelName + '.ipynb';
+      // srcPath = path.join(getNotebookPathByConfig(list.NOTEBOOK_PATH), list.APP_ID, modelName);
+      // outputPath = path.join(getNotebookPathByConfig(list.NOTEBOOK_PATH), list.APP_ID, newModelName);
+      //
+      // Model.findAll({
+      //   where: { APP_ID: list.APP_ID},
+      //   raw: true
+      // })
+      //   .then(modelList => {
+      //     res.send({ modelList: modelList});
+      //   })
+      //   .catch(err =>{
+      //     console.log('err',err);
+      //     res.send({result: null, msg: err.name});
+      //   });
+      //
+      // createReadStream(templatIpynbPath + templatIpynbFile).pipe(createWriteStream(baseNotebookPath + '/' + list.APP_ID + '/' + modelName + '.ipynb'));
+      // res.send({jpyPath: destUrl, notebookPath: notebookDir(type)});
     }
   })
 });
