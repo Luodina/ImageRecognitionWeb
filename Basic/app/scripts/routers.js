@@ -5,7 +5,7 @@
 angular.module('basic.routers', ['ui.router'])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
-    var states = [
+    let states = [
       {
         name: 'index',
         url: '/',

@@ -75,12 +75,11 @@ angular.module('basic.services', ['ui.bootstrap'])
                       }
                     })
                       .catch(err => {
-                        console.log(err)
+                        console.log(err);
                       });
                   }
-                })
+                });
               }
-              ;
             };
           }]
       }).result;
@@ -127,8 +126,8 @@ angular.module('basic.services', ['ui.bootstrap'])
                     $http.post('/api/model/new', savaData)
                     .success(data => {
                       if (data.msg==='success'){
-                        if (projectType == '01') {$location.path('/explore');}
-                        if (projectType == '00') {$location.path('/app/update/'+ projectName);}
+                        if (projectType === '01') {$location.path('/explore');}
+                        if (projectType === '00') {$location.path('/app/update/'+ projectName);}
                       }
                       console.log('Jupyter save:', data.msg);
                       $uibModalInstance.close({msg: data.msg});
@@ -164,8 +163,8 @@ angular.module('basic.services', ['ui.bootstrap'])
         backdrop: 'static',
         templateUrl: 'views/layer/createAppModel.html',
         size: 'size',
-        controller: ['projectList', 'openNotebook', '$scope', '$uibModalInstance', '$location',
-          function (projectList, openNotebook, $scope, $uibModalInstance, $location) {
+        controller: ['projectList', 'openNotebook', '$scope', '$uibModalInstance',
+          function (projectList, openNotebook, $scope, $uibModalInstance) {
             $scope.items = [
               {img: 'pic1', content: 'modelType_01', url: 'data', name: 'data', isActive: false},
               {img: 'pic2', content: 'modelType_02', url: 't1', name: 'data2', isActive: false},

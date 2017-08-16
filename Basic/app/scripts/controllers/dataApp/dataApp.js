@@ -4,7 +4,7 @@ angular.module('basic')
     (createApp, $rootScope, $scope, $filter, appList, deletePage) => {
       $scope.projectType = ['web_common_data_app_02', 'web_common_data_app_03', 'web_common_data_app_04'];
       $scope.listAllApp = [[]];
-      var handleSuccess = function (data, status) {
+      let handleSuccess = function (data, status) {
         let listAllApp = data.app;
         console.log("$scope.listAllApp", data.app);
         if (listAllApp !== null && listAllApp !== undefined) {
@@ -22,12 +22,77 @@ angular.module('basic')
               $scope.listAllApp[1].push(app);
             }
           }, this);
-          console.log("$scope.listAllApp", $scope.listAllApp)
+          console.log("$scope.listAllApp", $scope.listAllApp);
+          refresh(1);
+          $scope.grid.page = 1;
+          $scope.grid.total = $scope.listAllApp[$scope.thsinum].length;
+
+          console.log("3333",$scope.grid.total);
         }
       };
       $scope.delete = item => {
         deletePage.open(item);
       }
+
+      $scope.thsinum = 0;
+      $scope.tabClick = (num) => {
+        $scope.thsinum = num;
+        refresh(1);
+        $scope.grid.page = 1;
+        $scope.grid.total =  $scope.listAllApp[$scope.thsinum].length;
+      }
+
+
+      $scope.grid = {
+        page: 1,
+        txt: '',
+        size: 4,
+        total:10
+      };
+
+      let refresh = function(page) {
+        $(document.body).animate({
+          scrollTop: 0
+        }, 200);
+        let skip = (page - 1) * $scope.grid.size;
+        $scope.items = $scope.listAllApp[$scope.thsinum].slice(skip, skip + $scope.grid.size);
+        console.log("1111",$scope.listAllApp[$scope.thsinum]);
+        console.log("2222",$scope.items);
+      };
+
+      $scope.$watch('grid.page', function (newVal, oldVal) {
+        if (newVal !== oldVal) {
+          refresh(newVal);
+        }
+      });
+
+      $scope.applysearch = function (event) {
+        if (!$scope.grid.txt) {
+          refresh(1);
+          $scope.grid.page = 1;
+          $scope.grid.total = $scope.listAllApp[$scope.thsinum].length;
+          return;
+        }else {
+          let iarr = [];
+          let str = $scope.grid.txt;
+          str = str.toLocaleLowerCase();
+          angular.forEach($scope.listAllApp[$scope.thsinum], function (item, i) {
+
+            var nstr = item.APP_NAME;
+            console.log(nstr);
+            nstr = nstr.toLocaleLowerCase();
+            if (nstr.indexOf(str) !== -1) {
+              iarr.push(item)
+            }
+            //console.log(repo.instance_data, $scope.grid.txt);
+          })
+          $scope.items = iarr;
+          console.log(' $scope.items', $scope.items);
+          $scope.grid.total =  $scope.items
+        }
+
+      }
+
       //dataFactory.getAppList().success(handleSuccess);
       appList.get({}, function (res) {
         console.log('appList', res);

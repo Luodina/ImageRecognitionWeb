@@ -44,7 +44,7 @@ angular
   .config(['$translateProvider', '$windowProvider', function ($translateProvider, $windowProvider) {
     let window = $windowProvider.$get();
     let lang = window.navigator.userLanguage || window.navigator.language;
-    console.log("lang", lang);
+    console.log('lang', lang);
     if (lang) {
       lang = lang.substr(0, 2);
       $translateProvider.preferredLanguage(lang);
@@ -66,11 +66,11 @@ angular
       chartColors: ['#4da9ff', '#79d2a6', '#ff9900', '#ff704d', '#669999', '#4d0000']
     });
   }])
-  .run(['$rootScope', '$location', '$http', '$cookies', '$state', function ($rootScope, $location, $http, $cookies, $state) {
+  .run(['$rootScope', '$location', '$http', '$cookies', function ($rootScope, $location, $http, $cookies) {
     $rootScope.$on('$stateChangeStart', function (event, toState) {
       console.log('toState', toState.name);
       $rootScope.active = toState.name;
-      $rootScope.username = $cookies.get("username");
+      $rootScope.username = $cookies.get('username');
     });
 
 
