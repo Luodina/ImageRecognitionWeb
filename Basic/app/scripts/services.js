@@ -513,7 +513,7 @@ angular.module('basic.services', ['ui.bootstrap'])
               if (item.MODEL_ID !== null && item.MODEL_ID !== undefined ) {
                 type = 'model';
                 itemID = item.MODEL_ID;
-                if (item.APP_ID !== null) {
+                if (item.APP_ID) {
                   path = item.NOTEBOOK_PATH + "/" + item.APP_ID + "/"+ item.MODEL_NAME + ".ipynb";
                 } else {
                   path = item.NOTEBOOK_PATH + "/" + item.MODEL_NAME;
@@ -566,6 +566,7 @@ angular.module('basic.services', ['ui.bootstrap'])
           ($rootScope, $location, $scope, $filter, $uibModalInstance, $http, $cookies) => {
             $scope.title = $filter('translate')('web_common_copy_layer_01');
             $scope.content = $filter('translate')('web_common_copy_layer_01');
+
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
             };
@@ -579,7 +580,9 @@ angular.module('basic.services', ['ui.bootstrap'])
                     newUserName: $cookies.get('username')
                   }
                 }).then(function (res) {
+                  console.log('save:expertPage', res);
                   $uibModalInstance.dismiss();
+                  $location.path('/explore');
                 })
               };
             };
@@ -587,5 +590,38 @@ angular.module('basic.services', ['ui.bootstrap'])
       }).result;
     };
   }])
-
+  .service('copyFolder', ['$uibModal', function ($uibModal) {
+    this.open = (item, modelType) => {
+      let modelName = item.MODEL_NAME;
+      return $uibModal.open({
+        backdrop: 'static',
+        templateUrl: 'views/layer/createModel.html',
+        size: 'size',
+        controller: ['$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', '$http', '$cookies',
+          ($rootScope, $location, $scope, $filter, $uibModalInstance, $http, $cookies) => {
+            $scope.title = $filter('translate')('web_common_copy_layer_01');
+            $scope.content = $filter('translate')('web_common_copy_layer_01');
+            $scope.cancel = function () {
+              $uibModalInstance.dismiss();
+            };
+            $scope.create = function () {
+              if ($scope.model.name) {
+                $http.get('/api/expert/copyExpertModel',{
+                  params:{
+                    modelName: modelName,
+                    newModelName: $scope.model.name,
+                    modelType: modelType,
+                    newUserName: $cookies.get('username')
+                  }
+                }).then(function (res) {
+                  console.log('save:dataExplore', res);
+                  $uibModalInstance.dismiss();
+                  window.location.reload();
+                })
+              };
+            };
+          }]
+      }).result;
+    };
+  }]);
 

@@ -1,9 +1,10 @@
 'use strict';
 angular.module('basic')
-  .controller('DataExploreCtrl', ['$location', 'templateList', 'openNotebook', '$http', 'createModel', '$rootScope', '$scope', '$filter', 'projectList', 'createExpertModule', 'deletePage',
-    ($location, templateList, openNotebook, $http, createModel, $rootScope, $scope, $filter, projectList, createExpertModule, deletePage) => {
+  .controller('DataExploreCtrl', ['$location', 'templateList', 'openNotebook', '$http', 'createModel', '$rootScope', '$scope', '$filter', 'projectList', 'createExpertModule', 'deletePage', 'copyFolder',
+    ($location, templateList, openNotebook, $http, createModel, $rootScope, $scope, $filter, projectList, createExpertModule, deletePage, copyFolder) => {
       $scope.projectType = ['modelType_00', 'modelType_01', 'modelType_02', 'modelType_03', 'modelType_04', 'modelType_05', 'modelType_06'];
       $scope.listAllProject = [[]];
+      let modelType = 'explore';
       let handleSuccess = (data, status)=> {
         let listAllProject = data.model;
         if (listAllProject !== null && listAllProject !== undefined) {
@@ -28,10 +29,8 @@ angular.module('basic')
                   model.mode = 'update';
                 } else {
                   model.mode = 'view';
-                }
-                ;
+                };
                 $scope.listAllProject[parseInt(model.VIEW_MENU_ID)].push(model);
-
               }
             }
           }, this);
@@ -51,6 +50,9 @@ angular.module('basic')
       };
       $scope.delete = (item) => {
         deletePage.open(item);
+      }
+      $scope.copyFolderProject = (item) => {
+        copyFolder.open(item,modelType);
       }
       projectList.get({}, function (res) {
         handleSuccess(res);

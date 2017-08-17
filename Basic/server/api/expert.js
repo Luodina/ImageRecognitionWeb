@@ -183,10 +183,6 @@ router.get('/copyExpertModel', function (req, res) {
             .then(() => {
               copySync(srcPath, outputPath);
               moveSync(outputPath + '/' + modelName + '.ipynb', outputPath + '/' + newModelName + '.ipynb');
-              if(fs.existsSync(outputPath + '/' + modelName + '.html')){
-                fs.unlinkSync(outputPath + '/' + modelName + '.html');
-              }
-              console.log(outputPath + '/' + newModelName + '.ipynb');
               res.send({jpyPath: destUrl, notebookPath: list.NOTEBOOK_PATH});
               console.log('type===explore', destUrl)
             })
@@ -198,24 +194,7 @@ router.get('/copyExpertModel', function (req, res) {
       });
 
     } else {
-      // destUrl = baseNotebookUrl + 'notebooks/' + list.NOTEBOOK_PATH + '/' + list.APP_ID + '/' + newModelName + '.ipynb';
-      // srcPath = path.join(getNotebookPathByConfig(list.NOTEBOOK_PATH), list.APP_ID, modelName);
-      // outputPath = path.join(getNotebookPathByConfig(list.NOTEBOOK_PATH), list.APP_ID, newModelName);
-      //
-      // Model.findAll({
-      //   where: { APP_ID: list.APP_ID},
-      //   raw: true
-      // })
-      //   .then(modelList => {
-      //     res.send({ modelList: modelList});
-      //   })
-      //   .catch(err =>{
-      //     console.log('err',err);
-      //     res.send({result: null, msg: err.name});
-      //   });
-      //
-      // createReadStream(templatIpynbPath + templatIpynbFile).pipe(createWriteStream(baseNotebookPath + '/' + list.APP_ID + '/' + modelName + '.ipynb'));
-      // res.send({jpyPath: destUrl, notebookPath: notebookDir(type)});
+      console.log('...')
     }
   })
 });

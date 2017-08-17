@@ -22,8 +22,14 @@
              ng-repeat="item in listAllProject[$index]"
              ng-click="openProject(item);$event.stopPropagation();">
           <div class="date_set_main">
-            <div class="main_header_data">{{item.MODEL_NAME}}<span class="deleteImg"><img
-              ng-click="delete(item);$event.stopPropagation();" src="../../images/delete.png"/></span></div>
+            <div class="main_header_data">{{item.MODEL_NAME}}
+              <span class="deleteImg">
+                <img ng-click="delete(item);$event.stopPropagation();" src="../../images/delete.png"/>
+              </span>
+              <span class="deleteImg">
+                <img ng-click="copyFolderProject(item);$event.stopPropagation();" src="../../images/copy.png"/>
+              </span>
+            </div>
             <div class="main_container_data">
               <table style="width: 100%;">
                 <tr ng-repeat="val in item.MODEL_INFO track by $index">
