@@ -14,14 +14,13 @@ angular.module('basic')
                 if (model.USER_NAME === $rootScope.getUsername()) {
                   model.mode = 'update'
                   $scope.listAllProject[0].push(model);
-                }
-                ;
+                };
               }
-              if (model.VIEW_MENU_ID !== null && model.VIEW_MENU_ID !== undefined) {
+              if (model.VIEW_MENU_ID) {
                 if ($scope.listAllProject[parseInt(model.VIEW_MENU_ID)] === undefined) {
                   $scope.listAllProject[parseInt(model.VIEW_MENU_ID)] = [];
                 }
-                if (model.MODEL_INFO !== null && model.MODEL_INFO !== undefined) {
+                if (model.MODEL_INFO) {
                   let objJSON = eval('(function(){return ' + model.MODEL_INFO + ';})()');
                   model.MODEL_INFO = Object.values(objJSON);
                 }

@@ -120,7 +120,7 @@ router.get('/notebook/open/:modelName/:projectType', function (req, res) {
       outputPath = path.join(getNotebookPathByConfig(list.NOTEBOOK_PATH), modelName);
     } else {
       destUrl = baseNotebookUrl + 'notebooks/' + list.NOTEBOOK_PATH + '/' + list.APP_ID + '/' + modelName + '.ipynb';
-      outputPath = path.join(getNotebookPathByConfig(list.NOTEBOOK_PATH), list.APP_ID, modelName);
+      outputPath = path.join(getNotebookPathByConfig(list.NOTEBOOK_PATH), list.APP_ID);
     }
     if (list.USER_NAME === userName) {
       res.send({
@@ -128,17 +128,31 @@ router.get('/notebook/open/:modelName/:projectType', function (req, res) {
         difUser: false
       });
     } else {
-      let comms = 'cd ' + outputPath + ' && jupyter ' + 'nbconvert ./' + modelName + " --output=./" + modelName;
-      outputPath = baseNotebookUrl + 'notebooks/' + list.NOTEBOOK_PATH + '/' + modelName + '/' + modelName + '.html';
-      exec(comms, [''], function (error, stdout) {
-        if (error) {
-        } else {
-          res.send({
-            difUser: true,
-            outputPath: outputPath
-          })
-        }
-      });
+      if (projectType === 'explore') {
+        let comms = 'cd ' + outputPath + ' && jupyter ' + 'nbconvert ./' + modelName + " --output=./" + modelName;
+        outputPath = baseNotebookUrl + 'notebooks/' + list.NOTEBOOK_PATH + '/' + modelName + '/' + modelName + '.html';
+        exec(comms, [''], function (error, stdout) {
+          if (error) {
+          } else {
+            res.send({
+              difUser: true,
+              outputPath: outputPath
+            })
+          }
+        });
+      } else {
+        let comms = 'cd ' + outputPath + ' && jupyter ' + 'nbconvert ./' + modelName + " --output=./" + modelName;
+        outputPath = baseNotebookUrl + 'notebooks/' + list.NOTEBOOK_PATH + '/' + list.APP_ID + '/' + modelName + '.html';
+        exec(comms, [''], function (error, stdout) {
+          if (error) {
+          } else {
+            res.send({
+              difUser: false,
+              outputPath: outputPath
+            })
+          }
+        });
+      }
     }
   })
 });
