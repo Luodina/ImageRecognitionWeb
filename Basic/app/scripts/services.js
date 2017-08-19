@@ -36,7 +36,7 @@ angular.module('basic.services', ['ui.bootstrap'])
     };
   }])
   .service('createApp', ['$uibModal', function ($uibModal) {
-    this.open = () => {
+    this.open = (appName) => {
       return $uibModal.open({
         backdrop: 'static',
         templateUrl: 'views/layer/createModel.html',
@@ -52,7 +52,7 @@ angular.module('basic.services', ['ui.bootstrap'])
               $uibModalInstance.dismiss();
             };
 
-            $scope.create = function () {
+            $scope.create = function (appName) {
               if ($scope.model.name !== undefined && $scope.model.name !== null) {
                 //check in DB APP
                 $http.get('/api/app/' + $scope.model.name).success((data) => {
@@ -60,18 +60,18 @@ angular.module('basic.services', ['ui.bootstrap'])
                     $scope.model.name = '';
                     $scope.model.nameTip = 'Please use another name!!';
                   } else {
-                    $http.get('/api/appFile/' + $scope.model.name).success((data) => {
+                    $http.get('/api/appFile/' + $scope.model.name, {sourceApp:appName}).success((data) => {
                       if (data.result === 'success') {
                         $http.post('/api/app/' + $scope.model.name, {
                           APP_NAME: $scope.model.name,
                           USER_NAME: $rootScope.getUsername()
                         })
-                          .success((data) => {
-                            if (data.result === 'success') {
-                              $location.path('/app/new/' + $scope.model.name);
-                              $uibModalInstance.dismiss();
-                            }
-                          });
+                        .success((data) => {
+                          if (data.result === 'success') {
+                            $location.path('/app/new/' + $scope.model.name);
+                            $uibModalInstance.dismiss();
+                          }
+                        });
                       }
                     })
                       .catch(err => {
@@ -580,6 +580,40 @@ angular.module('basic.services', ['ui.bootstrap'])
                   }
                 }).then(function (res) {
                   $uibModalInstance.dismiss();
+                })
+              };
+            };
+          }]
+      }).result;
+    };
+  }])
+  .service('copyApp', ['$uibModal', function ($uibModal) {
+    this.open = (appNm) => {
+      return $uibModal.open({
+        backdrop: 'static',
+        templateUrl: 'views/layer/createModel.html',
+        size: 'size',
+        controller: ['$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', '$http', '$cookies',
+          ($rootScope, $location, $scope, $filter, $uibModalInstance, $http, $cookies) => {
+            $scope.title = $filter('translate')('web_common_copy_layer_01');
+            $scope.content = $filter('translate')('web_common_copy_layer_01');
+            $scope.cancel = () => {
+              $uibModalInstance.dismiss();
+            };
+            $scope.create = () => {
+              if ($scope.model.name) {
+                $http.post('/api/app/copy',{
+                  params:{
+                    modelName: modelName,
+                    newModelName: $scope.model.name,
+                    modelType: modelType,
+                    newUserName: $cookies.get('username')
+                  }
+                }).then(function (res) {
+                  if (res === 'success') {
+                    $uibModalInstance.close(res);
+                  }
+                  
                 })
               };
             };

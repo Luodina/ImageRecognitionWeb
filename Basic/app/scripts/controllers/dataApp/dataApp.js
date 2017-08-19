@@ -26,8 +26,15 @@ angular.module('basic')
       };
       $scope.delete = item => {
         deletePage.open(item);
-      }
-
+      };
+      $scope.copy = item => {
+         console.log('item', item);
+        createApp.open(item.APP_NAME).then((res)=>{
+          if (res === 'success') {
+            appList.get({}, res => {handleSuccess(res);});
+          }
+        });
+      };
       //dataFactory.getAppList().success(handleSuccess);
       appList.get({}, function (res) {
         console.log('appList', res);
