@@ -32,8 +32,7 @@ angular.module('basic')
             if (modelType === 'explore') {
               typeMenu = '01';
               path = 'modelPath';
-            }
-            if (modelType !== 'explore') {
+            }else {
               typeMenu = '00';
               path = 'appPath';
             }
@@ -58,7 +57,6 @@ angular.module('basic')
             });
           });
         } else if (model === 'update' || model === 'view') {
-          $scope.isShow = true;
           let url = '/api/expert/notebook/open/' + modelName + '/' + modelType;
           $http.get(url, {
             params: {
@@ -67,9 +65,17 @@ angular.module('basic')
           })
             .success(data => {
               console.log('dataModel===update', data);
-              if (data !== null && data !== undefined) {
-                if (data.difUser) {
-                  $scope.difUser = true;
+              if (data) {
+                if (modelType === 'explore') {
+                  $scope.difUser = data.difUser;
+                  typeMenu = '01';
+                  path = 'modelPath';
+                }else {
+                  $scope.difUser = false;
+                  typeMenu = '00';
+                  path = 'appPath';
+                }
+                if (data.outputPath) {
                   $scope.notebookPath = $sce.trustAsResourceUrl(data.outputPath);
                 } else {
                   $scope.notebookPath = $sce.trustAsResourceUrl(data.jpyPath);

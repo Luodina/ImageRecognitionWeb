@@ -384,11 +384,11 @@ body {
   }
   //window modal
   .modal-header {
-    background: #f2f2f2;
-    min-height: 50px;
+    background: #f0f0f0;
+    min-height: 50px;border-bottom:0;
     .modal-header-title {
       color: #333;
-      font-size: 14px;
+      font-size: 16px;
     }
     .modal-header-close {
       float: right;
@@ -449,10 +449,10 @@ body {
     }
     .modal-body-name {
       display: inline-block;
-      width: 200px;
-      text-align: center;
+      width: 190px;
+      text-align: left;
       margin-left: 32%;
-      margin-top: 30px;
+      margin-top: 30px;padding:0 5px;
       border: solid 1px #eaeaea;
       height: 30px;
 
@@ -639,13 +639,13 @@ body {
     }
   }
   .modal-footer {
-    background: #ecf1ff;
+    background: #ecf1ff;border-top:0;
     .modal-footer-btn {
-      float: right;
+      float: right;font-size:14px;
       color: #fff;
       display: inline-block;
-      padding: 5px 20px;
-      border-radius: 5px;
+      width:90px;height:30px;text-align:center;border:0px;line-height:30px;
+      border-radius: 2px;
       background: #4847ff;cursor:pointer;
     }
     .modal-footer-btn:hover {

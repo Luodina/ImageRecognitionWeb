@@ -1,9 +1,10 @@
 'use strict';
 angular.module('basic')
-  .controller('DataExploreCtrl', ['$location', 'templateList', 'openNotebook', '$http', 'createModel', '$rootScope', '$scope', '$filter', 'projectList', 'createExpertModule', 'deletePage',
-    ($location, templateList, openNotebook, $http, createModel, $rootScope, $scope, $filter, projectList, createExpertModule, deletePage) => {
+  .controller('DataExploreCtrl', ['$location', 'templateList', 'openNotebook', '$http', 'createModel', '$rootScope', '$scope', '$filter', 'projectList', 'createExpertModule', 'deletePage', 'copyFolder',
+    ($location, templateList, openNotebook, $http, createModel, $rootScope, $scope, $filter, projectList, createExpertModule, deletePage, copyFolder) => {
       $scope.projectType = ['modelType_00', 'modelType_01', 'modelType_02', 'modelType_03', 'modelType_04', 'modelType_05', 'modelType_06'];
       $scope.listAllProject = [[]];
+      let modelType = 'explore';
       let handleSuccess = (data, status)=> {
         let listAllProject = data.model;
         if (listAllProject !== null && listAllProject !== undefined) {
@@ -13,14 +14,13 @@ angular.module('basic')
                 if (model.USER_NAME === $rootScope.getUsername()) {
                   model.mode = 'update'
                   $scope.listAllProject[0].push(model);
-                }
-                ;
+                };
               }
-              if (model.VIEW_MENU_ID !== null && model.VIEW_MENU_ID !== undefined) {
+              if (model.VIEW_MENU_ID) {
                 if ($scope.listAllProject[parseInt(model.VIEW_MENU_ID)] === undefined) {
                   $scope.listAllProject[parseInt(model.VIEW_MENU_ID)] = [];
                 }
-                if (model.MODEL_INFO !== null && model.MODEL_INFO !== undefined) {
+                if (model.MODEL_INFO) {
                   let objJSON = eval('(function(){return ' + model.MODEL_INFO + ';})()');
                   model.MODEL_INFO = Object.values(objJSON);
                 }
@@ -28,10 +28,8 @@ angular.module('basic')
                   model.mode = 'update';
                 } else {
                   model.mode = 'view';
-                }
-                ;
+                };
                 $scope.listAllProject[parseInt(model.VIEW_MENU_ID)].push(model);
-
               }
             }
           }, this);
@@ -51,6 +49,9 @@ angular.module('basic')
       };
       $scope.delete = (item) => {
         deletePage.open(item);
+      }
+      $scope.copyFolderProject = (item) => {
+        copyFolder.open(item,modelType);
       }
       projectList.get({}, function (res) {
         handleSuccess(res);

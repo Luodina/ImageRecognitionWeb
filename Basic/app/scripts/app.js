@@ -73,7 +73,6 @@ angular
       $rootScope.username = $cookies.get('username');
     });
 
-
     $rootScope.$on('$stateChangeStart', function (event, toState) {
       if (toState && toState.name === 'login' || toState && toState.name === 'index') {
         $('#pageTitle').css('display', 'none');
