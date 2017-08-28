@@ -79,7 +79,7 @@ angular.module('basic.routers', ['ui.router'])
         controller: 'DashboardCtrl'
       },
       {
-        name: 'console.settings',
+        name: 'settings',
         url: '/settings',
         templateUrl: 'views/settings.html',
         controller: 'SettingsCtrl'

@@ -6,4 +6,12 @@ angular.module('basic')
       $scope.msg = data.msg;
       console.log("$scope.msg:", data);
     });
+    let editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+      lineNumbers: true,
+      smartIndent : true,
+      tabSize : 2,
+      mode: "python",
+      theme: "duotone-light"
+    });
+
   }]);
