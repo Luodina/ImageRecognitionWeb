@@ -83,7 +83,7 @@ angular
       } else {
         $('#pageTitle').css('display', 'block');
       }
-      if (toState && toState.name === 'dataExplore' || toState && toState.name === 'home') {
+      if (toState && toState.name === 'dataExplore' || toState && toState.name === 'home' || toState && toState.name === 'knowledgeMap') {
         $rootScope.isshow = true;
       } else {
         if (toState && toState.name === 'appInfo' || toState && toState.name === 'dataApp' || toState && toState.name === 'expertApp') {
