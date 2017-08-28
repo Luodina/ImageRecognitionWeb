@@ -6,9 +6,9 @@ angular.module('basic')
         //     $scope.msg = data.msg;
         //     console.log("$scope.msg:", data);
         // });
-        console.log('CodeMirror', CodeMirror)
-            //document.getElementById("code").value = 'hehe';
-            //CodeMirror.modes = "python";
+        // console.log('CodeMirror', CodeMirror)
+        document.getElementById("code").value = 'hehe';
+        // CodeMirror.modes = "python";
         let editor = CodeMirror.fromTextArea(document.getElementById("code"), {
             lineNumbers: true,
             smartIndent: true,

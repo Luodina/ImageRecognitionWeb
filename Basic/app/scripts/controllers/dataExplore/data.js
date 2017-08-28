@@ -29,18 +29,10 @@ angular.module('basic')
                             if (data.msg !== 'success') {
                                 Notification.error(data.msg);
                                 console.log('data.msg', data.msg);
-                                return $http.post('/api/jupyter/run/')
-                                    .success(data => {
-                                        console.log('data.msg in run', data.msg);
-                                    })
-                                    .catch(err => {
-                                        Notification.error('An unexpected error occurred in initNotebook() function', err.xhr.statusText);
-                                        console.log('err in initNotebook():', err);
-                                    });
-                            } else {
-                                Notification.error('An unexpected error occurred in initNotebook() function');
-                                console.log('err in initNotebook():');
                             }
+                        } else {
+                            Notification.error('An unexpected error occurred in initNotebook() function');
+                            console.log('err in initNotebook():');
                         }
                     })
                     .catch(err => {
