@@ -6,8 +6,8 @@ angular.module('basic.services', ['ui.bootstrap'])
         backdrop: 'static',
         templateUrl: 'views/layer/createModel.html',
         size: 'size',
-        controller: ['$location', '$scope', '$filter', '$uibModalInstance', '$http',
-          function ($location, $scope, $filter, $uibModalInstance, $http) {
+        controller: ['$location', '$rootScope', '$scope', '$filter', '$uibModalInstance', '$http',
+          function ($location, $rootScope, $scope, $filter, $uibModalInstance, $http) {
             $scope.title = $filter('translate')('modelType_0' + index);
             $scope.content = $filter('translate')('modelType_0' + index);
 
@@ -15,13 +15,16 @@ angular.module('basic.services', ['ui.bootstrap'])
               $uibModalInstance.dismiss();
             };
             $scope.create = () => {
-              if ($scope.model.name !== undefined && $scope.model.name !== null) {
+              if ($scope.model.name) {
                 //check in DB APP
                 $http.get('/api/model/' + $scope.model.name).success((data) => {
                   if (data.result !== null) {
                     $scope.model.name = '';
                     $scope.model.nameTip = 'Please use another name!';
                   } else {
+                    $rootScope.exploreName = 'modelType_01';
+                    $rootScope.modelExpertName = $scope.model.name;
+                    $rootScope.nowActive = 1;
                     $location.path('/explore/0' + index + '/new/' + $scope.model.name);
                     $uibModalInstance.dismiss();
                   }
@@ -43,18 +46,17 @@ angular.module('basic.services', ['ui.bootstrap'])
         size: 'size',
         controller: ['$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', '$http',
           ($rootScope, $location, $scope, $filter, $uibModalInstance, $http) => {
-            //$scope.title = 'Title';//$filter('translate')(obj.title)
             $scope.title = $filter('translate')('web_common_data_app_layer_01');
-            //$scope.content = 'Content';//$filter('translate')(obj.content);
             $scope.content = $filter('translate')('web_common_data_app_layer_02');
             $scope.url = 'app';
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
             };
-
             $scope.create = function () {
-              if ($scope.model.name !== undefined && $scope.model.name !== null) {
+              if ($scope.model.name) {
                 //check in DB APP
+                // $rootScope.unfoldPath;
+                $rootScope.modelAppName = $scope.model.name;
                 $http.get('/api/app/' + $scope.model.name).success((data) => {
                   if (data.result !== null) {
                     $scope.model.name = '';
@@ -96,59 +98,63 @@ angular.module('basic.services', ['ui.bootstrap'])
             $scope.resultPreview = resultPreview;
             $scope.save = () => {
               $http.get('/api/jupyter/save')
-              .success(data => {
-                if(data!== undefined && data !== null) {
-                  if (data.msg==='success'){
-                    let date = new Date();
-                    let projectType,projectName,path,appName;
-                    if ($location.path().split(/[\s/]+/).pop() === data.projectType){
-                      projectType = '01';
-                      projectName = data.projectType;
-                      path = 'modelPath';
-                    } else{
-                      projectType = '00';
-                      appName = data.projectType;
-                      projectName = data.projectType;
-                      path = 'appPath' ;
-                    }
-                    let savaData = {
-                      MODEL_NAME: $location.path().split(/[\s/]+/).pop(),
-                      MODEL_INFO: data.modelInfo,
-                      USER_NAME: $cookies.get('username'),
-                      TYPE_MENU_ID: projectType,
-                      VIEW_MENU_ID: data.modelType,
-                      UPDATED_TIME: date.getTime(),
-                      FILE_PATH: $location.path().split(/[\s/]+/).pop() + '.ipynb',
-                      NOTEBOOK_PATH: path,
-                      COMMENT: 'Lets try it!',
-                      APP_ID: appName
-                    };
-                    $http.post('/api/model/new', savaData)
-                    .success(data => {
-                      if (data.msg==='success'){
-                        if (projectType === '01') {$location.path('/explore');}
-                        if (projectType === '00') {$location.path('/app/update/'+ projectName);}
+                .success(data => {
+                  if (data !== undefined && data !== null) {
+                    if (data.msg === 'success') {
+                      let date = new Date();
+                      let projectType, projectName, path, appName;
+                      if ($location.path().split(/[\s/]+/).pop() === data.projectType) {
+                        projectType = '01';
+                        projectName = data.projectType;
+                        path = 'modelPath';
+                      } else {
+                        projectType = '00';
+                        appName = data.projectType;
+                        projectName = data.projectType;
+                        path = 'appPath';
                       }
+                      let savaData = {
+                        MODEL_NAME: $location.path().split(/[\s/]+/).pop(),
+                        MODEL_INFO: data.modelInfo,
+                        USER_NAME: $cookies.get('username'),
+                        TYPE_MENU_ID: projectType,
+                        VIEW_MENU_ID: data.modelType,
+                        UPDATED_TIME: date.getTime(),
+                        FILE_PATH: $location.path().split(/[\s/]+/).pop() + '.ipynb',
+                        NOTEBOOK_PATH: path,
+                        COMMENT: 'Lets try it!',
+                        APP_ID: appName
+                      };
+                      $http.post('/api/model/new', savaData)
+                        .success(data => {
+                          if (data.msg === 'success') {
+                            if (projectType === '01') {
+                              $location.path('/explore');
+                            }
+                            if (projectType === '00') {
+                              $location.path('/app/update/' + projectName);
+                            }
+                          }
+                          console.log('Jupyter save:', data.msg);
+                          $uibModalInstance.close({msg: data.msg});
+                        })
+                        .catch(err => {
+                          $uibModalInstance.close({msg: err});
+                          console.log('err in /api/model/new:', err);
+                        });
+                    } else {
                       console.log('Jupyter save:', data.msg);
                       $uibModalInstance.close({msg: data.msg});
-                    })
-                    .catch(err => {
-                      $uibModalInstance.close({msg: err});
-                      console.log('err in /api/model/new:', err);
-                    });
+                    }
                   } else {
-                    console.log('Jupyter save:', data.msg);
-                    $uibModalInstance.close({msg: data.msg});
+                    console.log('An unexpected error occurred in Preview Modal');
+                    $uibModalInstance.close({msg: 'An unexpected error occurred in Preview Modal'});
                   }
-                } else {
-                  console.log('An unexpected error occurred in Preview Modal');
-                  $uibModalInstance.close({msg:'An unexpected error occurred in Preview Modal'});
-                }
-              })
-              .catch(err =>{
-                $uibModalInstance.close({msg:err});
-                console.log('err in preview:',err);
-              });
+                })
+                .catch(err => {
+                  $uibModalInstance.close({msg: err});
+                  console.log('err in preview:', err);
+                });
             };
             $scope.cancel = () => {
               $uibModalInstance.dismiss();
@@ -163,8 +169,8 @@ angular.module('basic.services', ['ui.bootstrap'])
         backdrop: 'static',
         templateUrl: 'views/layer/createAppModel.html',
         size: 'size',
-        controller: ['projectList', 'openNotebook', '$scope', '$uibModalInstance',
-          function (projectList, openNotebook, $scope, $uibModalInstance) {
+        controller: ['$scope', '$uibModalInstance',
+          function ($scope, $uibModalInstance) {
             $scope.items = [
               {img: 'pic1', content: 'modelType_01', url: 'data', name: 'data', isActive: false},
               {img: 'pic2', content: 'modelType_02', url: 't1', name: 'data2', isActive: false},
@@ -181,7 +187,7 @@ angular.module('basic.services', ['ui.bootstrap'])
               $uibModalInstance.dismiss();
             };
             $scope.changeStyle = function (idx) {
-              angular.forEach($scope.items, function (item, i) {
+              angular.forEach($scope.items, function (item) {
                 item.isActive = false;
               });
               $scope.items[idx].isActive = true;
@@ -189,7 +195,7 @@ angular.module('basic.services', ['ui.bootstrap'])
               $scope.urlcontent = $scope.items[idx];
             };
             $scope.create = function () {
-              if ($scope.model.name !== undefined && $scope.model.name !== null) {
+              if ($scope.model.name) {
                 $uibModalInstance.close({appName: appName, type: type, modelName: $scope.model.name});
               }
             };
@@ -204,7 +210,7 @@ angular.module('basic.services', ['ui.bootstrap'])
         templateUrl: 'views/layer/createArrange.html',
         size: 'size',
         controller: ['$cookies', '$scope', '$filter', '$uibModalInstance', '$http',
-          ($cookies, $scope, $filter, $uibModalInstance, $http) => {
+          ($cookies, $scope, $uibModalInstance, $http) => {
             let opts = [];
             $scope.makeFileName = makeFileName;
             $scope.data = {
@@ -266,8 +272,8 @@ angular.module('basic.services', ['ui.bootstrap'])
         backdrop: 'static',
         templateUrl: 'views/layer/createTaskPlan.html',
         size: 'size',
-        controller: ['$cookies', '$scope', '$filter', '$uibModalInstance', '$http',
-          function ($cookies, $scope, $filter, $uibModalInstance, $http) {
+        controller: ['$scope', '$uibModalInstance',
+          function ($scope, $uibModalInstance) {
             $scope.schedule = null;
             createOrEdit === 'edit' ? $scope.schedule = editSchedule : $scope.schedule;
             createOrEdit === 'edit' ? $scope.isEdit = true : $scope.isEdit = false;
@@ -391,8 +397,8 @@ angular.module('basic.services', ['ui.bootstrap'])
         backdrop: 'static',
         templateUrl: 'views/layer/createExpertModel.html',
         size: 'size',
-        controller: ['$uibModalInstance', '$scope',
-          function ($uibModalInstance, $scope) {
+        controller: ['$uibModalInstance', '$scope', '$rootScope',
+          function ($uibModalInstance, $scope, $rootScope) {
             $scope.projectType = 'explore';
             $scope.items = arrItem;
             $scope.items[0].isActive = true;
@@ -410,7 +416,10 @@ angular.module('basic.services', ['ui.bootstrap'])
               $scope.urlcontent = $scope.items[idx];
             };
             $scope.create = function () {
-              if ($scope.model.name !== undefined && $scope.model.name !== null) {
+              if ($scope.model.name) {
+                $rootScope.exploreName = 'modelType_06';
+                $rootScope.modelExpertName = $scope.model.name;
+                $rootScope.nowActive = 6;
                 $uibModalInstance.close({modelTemplate: $scope.urlcontent.content, modelName: $scope.model.name});
               }
             };
@@ -440,13 +449,13 @@ angular.module('basic.services', ['ui.bootstrap'])
                 }
               }).then(function (response) {
                 if (modelType === 'explore') {
-                    typeMenu = '01';
-                    path = 'modelPath';
+                  typeMenu = '01';
+                  path = 'modelPath';
                 }
                 if (modelType !== 'explore') {
-                    appName = modelType;
-                    typeMenu = '00';
-                    path = 'appPath';
+                  appName = modelType;
+                  typeMenu = '00';
+                  path = 'appPath';
                 }
                 ipyPath = response.data.jpyPath;
                 $scope.notebookPath = $sce.trustAsResourceUrl(ipyPath);
@@ -487,7 +496,7 @@ angular.module('basic.services', ['ui.bootstrap'])
             $scope.viewList = list;
             $scope.changeView = function (item) {
               document.getElementById('ifm').setAttribute('src', item.path);
-            }
+            };
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
             };
@@ -495,7 +504,7 @@ angular.module('basic.services', ['ui.bootstrap'])
       }).result;
     };
   }])
-  .service('deletePage',['$rootScope','$uibModal','$http', function ($rootScope,$uibModal,$http) {
+  .service('deletePage', ['$rootScope', '$uibModal', '$http', function ($rootScope, $uibModal, $http) {
     this.open = function (item) {
       return $uibModal.open({
         backdrop: 'static',
@@ -507,50 +516,50 @@ angular.module('basic.services', ['ui.bootstrap'])
               $uibModalInstance.dismiss();
             };
             let itemID, type, path, user;
-            if (item !== null && item !== undefined){
+            if (item !== null && item !== undefined) {
               user = $rootScope.getUsername();
               $scope.isOwner = (item.USER_NAME === user);
-              if (item.MODEL_ID !== null && item.MODEL_ID !== undefined ) {
+              if (item.MODEL_ID !== null && item.MODEL_ID !== undefined) {
                 type = 'model';
                 itemID = item.MODEL_ID;
                 if (item.APP_ID) {
-                  path = item.NOTEBOOK_PATH + "/" + item.APP_ID + "/"+ item.MODEL_NAME + ".ipynb";
+                  path = item.NOTEBOOK_PATH + '/' + item.APP_ID + '/' + item.MODEL_NAME + '.ipynb';
                 } else {
-                  path = item.NOTEBOOK_PATH + "/" + item.MODEL_NAME;
+                  path = item.NOTEBOOK_PATH + '/' + item.MODEL_NAME;
                 }
               } else {
-                path = item.NOTEBOOK_PATH + "/" + item.APP_NAME;
-                itemID = item.APP_NAME ;
-                type = 'app'
+                path = item.NOTEBOOK_PATH + '/' + item.APP_NAME;
+                itemID = item.APP_NAME;
+                type = 'app';
               }
-            }else{
+            } else {
               console.log('Del item === null && item === undefined');
             }
             $scope.ok = () => {
-              $http.put(`/api/${type}/delete`,{item:itemID, user: user})
-              .success(data=>{
-                if (data.msg === 'success'){
-                  $http.put('/api/expert/delete',{
-                    item:item,
-                    type:type,
-                    path:path
-                  }).success(data=>{
-                    if (data !== null && data !== undefined){
-                      if (data.result === 'success'){
-                        $uibModalInstance.dismiss();
-                        window.location.reload();
+              $http.put(`/api/${type}/delete`, {item: itemID, user: user})
+                .success(data => {
+                  if (data.msg === 'success') {
+                    $http.put('/api/expert/delete', {
+                      item: item,
+                      type: type,
+                      path: path
+                    }).success(data => {
+                      if (data !== null && data !== undefined) {
+                        if (data.result === 'success') {
+                          $uibModalInstance.dismiss();
+                          window.location.reload();
+                        }
+                      } else {
+                        console.log('Del data === null && data === undefined');
                       }
-                    } else {
-                      console.log('Del data === null && data === undefined');
-                    }
-                  }).catch(err => {
-                    console.log('is not ok now',err);
-                  })
-                }
-              })
-              .catch(err => {
-                console.log('error',data.msg);
-              })
+                    }).catch(err => {
+                      console.log('is not ok now', err);
+                    });
+                  }
+                })
+                .catch(err => {
+                  console.log('error', data.msg);
+                });
             };
           }]
       }).result;
@@ -572,8 +581,8 @@ angular.module('basic.services', ['ui.bootstrap'])
             };
             $scope.create = function () {
               if ($scope.model.name) {
-                $http.get('/api/expert/copyExpertModel',{
-                  params:{
+                $http.get('/api/expert/copyExpertModel', {
+                  params: {
                     modelName: modelName,
                     newModelName: $scope.model.name,
                     modelType: modelType,
@@ -583,8 +592,8 @@ angular.module('basic.services', ['ui.bootstrap'])
                   console.log('save:expertPage', res);
                   $uibModalInstance.dismiss();
                   $location.path('/explore');
-                })
-              };
+                });
+              }
             };
           }]
       }).result;
@@ -597,8 +606,8 @@ angular.module('basic.services', ['ui.bootstrap'])
         backdrop: 'static',
         templateUrl: 'views/layer/createModel.html',
         size: 'size',
-        controller: ['$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', '$http', '$cookies',
-          ($rootScope, $location, $scope, $filter, $uibModalInstance, $http, $cookies) => {
+        controller: ['$scope', '$filter', '$uibModalInstance', '$http', '$cookies',
+          ($scope, $filter, $uibModalInstance, $http, $cookies) => {
             $scope.title = $filter('translate')('web_common_copy_layer_01');
             $scope.content = $filter('translate')('web_common_copy_layer_01');
             $scope.cancel = function () {
@@ -606,8 +615,8 @@ angular.module('basic.services', ['ui.bootstrap'])
             };
             $scope.create = function () {
               if ($scope.model.name) {
-                $http.get('/api/expert/copyExpertModel',{
-                  params:{
+                $http.get('/api/expert/copyExpertModel', {
+                  params: {
                     modelName: modelName,
                     newModelName: $scope.model.name,
                     modelType: modelType,
@@ -617,8 +626,91 @@ angular.module('basic.services', ['ui.bootstrap'])
                   console.log('save:dataExplore', res);
                   $uibModalInstance.dismiss();
                   window.location.reload();
-                })
-              };
+                });
+              }
+            };
+          }]
+      }).result;
+    };
+  }])
+  .service('loginModel', ['$uibModal', function ($uibModal) {
+    this.open = () => {
+      return $uibModal.open({
+        backdrop: 'static',
+        templateUrl: 'views/layer/loginModel.html',
+        size: 'size',
+        controller: ['$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', 'hotkeys', 'ipCookie',
+          ($rootScope, $location, $scope, $filter, $uibModalInstance, hotkeys, ipCookie) => {
+            $scope.expires = 7;
+            $scope.expirationUnit = 'days';
+
+            let setMessage = function (message, messageStyle) {
+              $scope.message = message ? message : null;
+              $scope.messageStyle = messageStyle ? messageStyle : 'success';
+            };
+            $scope.saveCookie = function () {
+              setMessage();
+              $scope.messageStyle = 'success';
+              // key, value, options
+              console.log('saving cookie...');
+              ipCookie('username', $scope.usermessage.username, {
+                expires: $scope.expires,
+                expirationUnit: $scope.expirationUnit
+              });
+              ipCookie('userpass', $scope.usermessage.password, {
+                expires: $scope.expires,
+                expirationUnit: $scope.expirationUnit
+              });
+              console.log('new cookie value...');
+              console.log(ipCookie('username'));
+              console.log(ipCookie('userpass'));
+              setMessage("Cookie created. Use your browser cookie display to verify content or expiry.");
+            };
+            $scope.deleteCookie = function () {
+              setMessage();
+              console.log('removing cookie...');
+              ipCookie.remove('username');
+              ipCookie.remove('userpass');
+              if (ipCookie() === undefined) {
+                setMessage('Successfully deleted cookie.');
+              } else {
+                setMessage('Unable to delete cookie.', 'danger');
+              }
+            };
+            $scope.username = $filter('translate')('web_common_010');
+            $scope.password = $filter('translate')('web_common_011');
+            $scope.signin = $filter('translate')('web_common_012');
+            $scope.isForget = false;
+            $scope.login = () => {
+              if ($scope.usermessage.password !== undefined) {
+                $rootScope.login($scope.usermessage.username, $scope.usermessage.password);
+                $uibModalInstance.dismiss();
+              }
+            };
+            //enter 进入页面
+            $scope.enterLogin = (e) => {
+              if (e.keyCode == 13) {
+                //$state.go('dataExplore');
+                if ($scope.usermessage.password !== undefined) {
+                  $rootScope.login($scope.usermessage.username, $scope.usermessage.password);
+                  $uibModalInstance.dismiss();
+                }
+              }
+            };
+            //图片预加载
+            let images = new Array()
+            function preload() {
+              for (let i = 0; i < arguments.length; i++) {
+                images[i] = new Image()
+                images[i].src = arguments[i]
+              }
+            };
+            preload(
+              "images/homeBag.png",
+              "images/logo.png"
+            );
+            $scope.cancel = function () {
+              $uibModalInstance.dismiss();
             };
           }]
       }).result;

@@ -46,11 +46,19 @@
         </a>
       </div>
       <div class="collapse navbar-collapse navbar-head" id="js-navbar-collapse">
-        <div class="nav navbar-nav navbar-left nav-top" id="navbar-nav">
-          <a ui-sref-active="active" ui-sref="home">{{'web_common_001' | translate}}</a>
+        <div class="nav navbar-nav navbar-left nav-top" id="navbar-nav" ng-if="isshow">
+          <a ng-class="{true: 'active'}[active == 'home']"  ui-sref="home">{{'web_common_001' | translate}}</a>
           <a ng-class="{true: 'active'}[active == 'dataExplore']" ui-sref="dataExplore">{{'web_common_002' | translate}}</a>
           <a ng-class="{true: 'active'}[active == 'knowledgeMap']" ui-sref="knowledgeMap">{{'web_common_004' | translate}}</a>
           <a ng-class="{true: 'active'}[active == 'settings']" ui-sref="settings">{{'web_common_005' | translate}}</a>
+        </div>
+        <div ng-if="!isshow && appInfoShow" style="display: inline-block;line-height: 52px;font-size: 16px;margin-left: 10px">
+          <span ui-sref="home">{{username}}</span> / {{modelAppName}}
+        </div>
+        <div ng-if="!isshow && expertShow" style="display: inline-block;line-height: 52px;font-size: 16px;margin-left: 10px">
+          <span ng-click="findWay(0)">{{username}}</span>
+          <span ng-click="findWay(index)">/ {{exploreName | translate}} </span>
+          <span>/ {{modelExpertName}}</span>
         </div>
         <div class="navbar-right">
           <span class="help_tit">帮助</span>

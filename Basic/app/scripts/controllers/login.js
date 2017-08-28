@@ -14,7 +14,7 @@ angular.module('basic')
     $scope.expires = 7;
     $scope.expirationUnit = 'days';
 
-    var setMessage = function (message, messageStyle) {
+    let setMessage = function (message, messageStyle) {
       $scope.message = message ? message : null;
       $scope.messageStyle = messageStyle ? messageStyle : 'success';
     };
@@ -72,10 +72,10 @@ angular.module('basic')
       }
     };
     //图片预加载
-    var images = new Array()
+    let images = new Array()
 
     function preload() {
-      for (var i = 0; i < arguments.length; i++) {
+      for (let i = 0; i < arguments.length; i++) {
         images[i] = new Image()
         images[i].src = arguments[i]
       }

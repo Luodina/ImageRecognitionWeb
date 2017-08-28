@@ -67,6 +67,10 @@ angular
     });
   }])
   .run(['$rootScope', '$location', '$http', '$cookies', function ($rootScope, $location, $http, $cookies) {
+    $rootScope.nowActive = 0;
+    $rootScope.findWay = function () {
+      $location.path('/explore');
+    }
     $rootScope.$on('$stateChangeStart', function (event, toState) {
       console.log('toState', toState.name);
       $rootScope.active = toState.name;
@@ -79,10 +83,26 @@ angular
       } else {
         $('#pageTitle').css('display', 'block');
       }
+      if (toState && toState.name === 'dataExplore' || toState && toState.name === 'home') {
+        $rootScope.isshow = true;
+      } else {
+        if (toState && toState.name === 'appInfo' || toState && toState.name === 'dataApp' || toState && toState.name === 'expertApp') {
+          $rootScope.appInfoShow = true;
+        } else {
+          $rootScope.appInfoShow = false;
+        }
+        if (toState && toState.name === 'expert' || toState && toState.name === 'data' || toState && toState.name === 'expert') {
+          $rootScope.expertShow = true;
+        } else {
+          $rootScope.expertShow = false;
+        }
+        $rootScope.isshow = false;
+      }
     });
 
+
     //退出
-    $rootScope.logout = function () {
+    $rootScope.logout = () => {
       $location.path('/');
     };
 

@@ -5,14 +5,14 @@ angular.module('basic')
       $scope.projectType = ['modelType_00', 'modelType_01', 'modelType_02', 'modelType_03', 'modelType_04', 'modelType_05', 'modelType_06'];
       $scope.listAllProject = [[]];
       let modelType = 'explore';
-      let handleSuccess = (data, status)=> {
+      let handleSuccess = (data, status) => {
         let listAllProject = data.model;
-        if (listAllProject !== null && listAllProject !== undefined) {
+        if (listAllProject) {
           listAllProject.forEach(model => {
             if (model.TYPE_MENU_ID === "01") {
-              if (model.USER_NAME !== null && model.USER_NAME !== undefined) {
+              if (model.USER_NAME) {
                 if (model.USER_NAME === $rootScope.getUsername()) {
-                  model.mode = 'update'
+                  model.mode = 'update';
                   $scope.listAllProject[0].push(model);
                 };
               }
@@ -28,13 +28,21 @@ angular.module('basic')
                   model.mode = 'update';
                 } else {
                   model.mode = 'view';
-                };
+                }
+                ;
                 $scope.listAllProject[parseInt(model.VIEW_MENU_ID)].push(model);
               }
             }
           }, this);
         }
       };
+      $scope.unfoldPath = (name, nameSecond, idx) => {
+        console.log('cvcvcv', name);
+        $rootScope.exploreName = name;
+        $rootScope.modelExpertName = nameSecond.MODEL_NAME;
+        $rootScope.nowActive = idx;
+      };
+
       $scope.openProject = (item) => {
         console.log('item.VIEW_MENU_ID', item.VIEW_MENU_ID, 'item.mode', item.mode);
         if (item.VIEW_MENU_ID === '01') {
@@ -47,17 +55,21 @@ angular.module('basic')
           });
         }
       };
+
       $scope.delete = (item) => {
         deletePage.open(item);
-      }
+      };
+
       $scope.copyFolderProject = (item) => {
-        copyFolder.open(item,modelType);
-      }
+        copyFolder.open(item, modelType);
+      };
+
       projectList.get({}, function (res) {
+        console.log('projectList', res);
         handleSuccess(res);
       });
-      $scope.newProject = (index) => {
 
+      $scope.newProject = (index) => {
         let arrItem = [];
         if (index === 1) {
           arrItem = [
@@ -83,23 +95,23 @@ angular.module('basic')
         if (index === 6) {
           arrItem = [];
           templateList.get({}, function (data) {
-            if (data !== null && data !== undefined) {
-              var image_mapping = {
+            if (data) {
+              let image_mapping = {
                 '分类预测': 'pic3',
                 '文本数据预处理': 'pic2',
                 '目标检测': 'pic5',
                 '自由模式': 'pic6',
                 '文本聚类分析': 'pic4'
               };
-
               data.files.filter(function (name) {
                 return !name.endsWith('.ipynb')
               }).forEach(file => {
                 arrItem.push({content: file, img: image_mapping[file], isActive: false});
               });
-              createExpertModule.open(arrItem).then((model)=> {
-                $location.path('/expert/new/'+ model.modelName).search({
-                  modelTemplate:model.modelTemplate,
+              createExpertModule.open(arrItem).then((model) => {
+                // console.log('dataExplore',arrItem);
+                $location.path('/expert/new/' + model.modelName).search({
+                  modelTemplate: model.modelTemplate,
                   type: 'explore'
                 });
               });
@@ -108,7 +120,6 @@ angular.module('basic')
             }
 
           });
-
         }
       };
     }]);
