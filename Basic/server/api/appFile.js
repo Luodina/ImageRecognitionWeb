@@ -6,11 +6,16 @@ const fs = require('fs-extra');
 const config = require('./../config');
 const env = config.env || 'dev';
 const basePath = config[env].appPath;
-const templatePath = path.join(__dirname, '../../template/data_apply_demo');
+let templatePath = path.join(__dirname, '../../template/data_apply_demo');
 
 router.get('/:appName', function (req, res) {
     let appName = req.params.appName;
+    let sourceApp = req.params.sourceApp;
     let destPath = path.join(basePath, appName);
+    if (sourceApp !== null && sourceApp !== undefined) {
+      templatePath = path.join(__dirname, '../../' + basePath + '/' + appName);
+    }
+    console.log('templatePath', templatePath, 'destPath',destPath);
     fs.copy(templatePath, destPath)
     .then(() => {
       console.log('success!');

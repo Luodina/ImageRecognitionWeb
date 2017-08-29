@@ -11,9 +11,9 @@ let env = config.env || 'dev';
 // use logger.xxx instead of console.xxx
 let logger = require('./utils/log')('app.js')
 
-if(env === 'dev') {
-  app.use(require('connect-livereload')());
-  app.use('/fonts',express.static('app/bower_components/bootstrap/fonts'));
+if (env === 'dev') {
+    app.use(require('connect-livereload')());
+    app.use('/fonts', express.static('app/bower_components/bootstrap/fonts'));
 }
 // web server full logs
 //var log4js = require('log4js');
@@ -23,18 +23,20 @@ app.use(favicon(path.join(__dirname, '../', config[env].dist, '/favicon.ico')));
 
 //proxy notebook request, has to above bodyparser to enable proxy post request
 app.use('/lab', proxy({
-  headers: {'Authorization': 'token ' + config[env].token},
-  target:config[env].notebookUrl,
-  logLevel: 'debug',
-  changeOrigin:true,
-  ws:true}));
+    headers: { 'Authorization': 'token ' + config[env].token },
+    target: config[env].notebookUrl,
+    logLevel: 'debug',
+    changeOrigin: true,
+    ws: true
+}));
 
-app.use(bodyParser.json());       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-  extended: true
+app.use(bodyParser.json()); // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
+    extended: true
 }));
 
 //rest api
+//app.use('/api/jupyter', require('./api/jupyterHub'));
 app.use('/api/jupyter', require('./api/dataSource'));
 app.use('/api/user', require('./api/user'));
 app.use('/api/model', require('./api/model'));
@@ -45,15 +47,15 @@ app.use('/api/testSchedule', require('./api/testSchedule'));
 app.use('/api/appResults', require('./api/appResults'));
 app.use('/api/appFile', require('./api/appFile'));
 //app.use('/queryDS/all', proxy('http://10.20.51.3:5000/queryDS/all'));
-app.use('/datasets', proxy({target:'http://10.20.51.3:5000', pathRewrite: {'^/datasets': ''}}));
+app.use('/datasets', proxy({ target: 'http://10.20.51.3:5000', pathRewrite: { '^/datasets': '' } }));
 //
 app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname, '../',config[env].dist,'/404.html'));// load the single view file (angular will handle the page changes on the front-end)
+    res.sendFile(path.join(__dirname, '../', config[env].dist, '/404.html')); // load the single view file (angular will handle the page changes on the front-end)
 });
 
-app.listen(config[env].port, function () {
-  //console.log('App listening on port ' + config[env].port + '!');
-  logger.info('App listening on port ' + config[env].port + '!');
+app.listen(config[env].port, function() {
+    //console.log('App listening on port ' + config[env].port + '!');
+    logger.info('App listening on port ' + config[env].port + '!');
 });
 
 module.exports = app;
