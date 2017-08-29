@@ -1248,6 +1248,7 @@ div.ng-invalid.ng-touched.ui-select-container span.ui-select-toggle {
   border-color: #4874ff !important;
 }
 
+//login
 .active .no-me {
   background: url("../images/check_active.png") no-repeat;
 }
@@ -1290,10 +1291,50 @@ div.ng-invalid.ng-touched.ui-select-container span.ui-select-toggle {
   overflow: hidden;
 }
 
+//fenye
 .pagination {
   float: right;
   margin-right: 10px;
 }
 
+//expertPage
+.expertPage {
+  margin-top: 10px;
+  width: 100%;
+  .titlePart {
+    padding: 0 10px;
+    font-size: 20px;
+    line-height: 50px;
+    border: solid 1px #f2f2f2;
 
+  }
+  .contentPart {
+    float: left;
+    width: 100%;
+    padding: 0 10px;
+    height: 50px;
+    border: solid 1px #f2f2f2;
+    .header-button-group {
+      float: left;
+      margin-right: 10px;
+      display: inline-block;
+      .dropdown {
+        line-height: 50px;
+      }
+      .header-button {
+        color: #333;
+        cursor: pointer;
+        font-size: 20px;
+        margin-left: 12px;
+        margin-top: 10px;
+        .glyphicon-play:hover {
+          color: #0b93d5;
+        }
+        .glyphicon-forward:hover {
+          color: #0b93d5;
+        }
+      }
+    }
+  }
+}
 
