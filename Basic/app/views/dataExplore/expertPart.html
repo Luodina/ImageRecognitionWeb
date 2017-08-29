@@ -1,127 +1,67 @@
 <!--<div>-->
-  <!--<span style="font-size: 18px;color: #000;">NOTEBOOK</span>-->
-  <!--<button ng-show='difUser' ng-click="openProject()">{{'web_common_021'|translate}}</button>-->
+<!--<span style="font-size: 18px;color: #000;">NOTEBOOK</span>-->
+<!--<button ng-show='difUser' ng-click="openProject()">{{'web_common_021'|translate}}</button>-->
 <!--</div>-->
 <!--<div>-->
-  <!--<iframe style="border: solid 1px #f4f4f4;"-->
-          <!--frameborder=0 width=100% height=800 marginheight=0-->
-          <!--marginwidth=0 scrolling=auto-->
-          <!--src={{notebookPath}}>-->
-  <!--</iframe>-->
+<!--<iframe style="border: solid 1px #f4f4f4;"-->
+<!--frameborder=0 width=100% height=800 marginheight=0-->
+<!--marginwidth=0 scrolling=auto-->
+<!--src={{notebookPath}}>-->
+<!--</iframe>-->
 <!--</div>-->
-<div style="padding: 0 30px">
-  <div class="editPage">
+<div style="padding:0 30px;">
+  <div class="expertPage">
     <div class="titlePart">jupyter notebook</div>
     <div class="contentPart">
-      <div class="row">
-        <div class="col-md-2">
-          <div class="pageheader__notebook-header-button-group">
-            <div class="pageheader__notebook-header-button"><span class="glyphicon glyphicon-play"
-                                                                  aria-hidden="true"></span></div>
-            <div class="pageheader__notebook-header-button"><span class="glyphicon glyphicon-stop" aria-hidden="true"
-                                                                  style="color: red;display: none;"></span></div>
-          </div>
+      <div class="header-button-group">
+        <div class="header-button"><span class="glyphicon glyphicon-play"
+                                                              aria-hidden="true"></span></div>
+        <div class="header-button"><span class="glyphicon glyphicon-stop" aria-hidden="true"
+                                                              style="color: red;display: none;"></span></div>
+      </div>
+      <div class="header-button-group">
+        <div class="header-button"><span class="glyphicon glyphicon-forward"
+                                                              aria-hidden="true"></span></div>
+        <div class="header-button"><span class="glyphicon glyphicon-forward"
+                                                              aria-hidden="true"
+                                                              style="color: red;display: none;"></span></div>
+      </div>
+      <div class="header-button-group">
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="true">
+            Python
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><a href="#">Python</a></li>
+            <li><a href="#">R</a></li>
+          </ul>
         </div>
-        <div class="col-md-2">
-          <div class="pageheader__notebook-header-button-group">
-            <div class="pageheader__notebook-header-button"><span class="glyphicon glyphicon-forward"
-                                                                  aria-hidden="true"></span></div>
-            <div class="pageheader__notebook-header-button"><span class="glyphicon glyphicon-forward" aria-hidden="true"
-                                                                  style="color: red;display: none;"></span></div>
-          </div>
+      </div>
+      <div class="header-button-group">
+        <div class="dropdown" style="float: left;">
+          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="true">
+            kernel
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><a href="#">kernel1</a></li>
+            <li><a href="#">kernel2</a></li>
+          </ul>
         </div>
-        <div class="col-md-2">
-          <div class="pageheader__notebook-header-button-group">
-            <div class="dropdown">
-              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="true">
-                Python
-                <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                <li><a href="#">R</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="pageheader__notebook-header-button-group">
-            <div class="dropdown" style="float: left;">
-              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="true">
-                kernel
-                <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                <li><a href="#">kernel1</a></li>
-                <li><a href="#">kernel2</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="pageheader__notebook-header-button-group">
-            <div class="dropdown" style="float: left;">
-              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="true">
-                save
-              </button>
-            </div>
-          </div>
+      </div>
+      <div class="header-button-group">
+        <div class="dropdown" style="float: left;">
+          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="true">
+            save
+          </button>
         </div>
       </div>
     </div>
   </div>
-
 </div>
 
-<style>
-  .editPage {
-    margin-top: 20px;
-    width: 100%;
-    border: solid 1px #f2f2f2;
 
-  }
-
-  .titlePart {
-    padding: 0 10px;
-    font-size: 20px;
-    line-height: 50px;
-    border: solid 1px #f2f2f2;
-
-  }
-
-  .contentPart {
-    float: left;
-    width: 100%;
-    padding: 0 10px;
-    height: 50px;
-    border: solid 1px #f2f2f2;
-  }
-
-  .pageheader__notebook-header-button-group {
-    float: left;
-    margin-right: 10px;
-    display: inline-block;
-  }
-
-  .pageheader__notebook-header-button {
-    color: #333;
-    cursor: pointer;
-    font-size: 20px;
-    margin-left: 12px;
-    margin-top: 10px;
-  }
-
-  .glyphicon-play:hover {
-    color: #0b93d5;
-  }
-
-  .glyphicon-forward:hover {
-    color: #0b93d5;
-  }
-
-  .dropdown {
-    line-height: 50px;
-  }
-</style>
