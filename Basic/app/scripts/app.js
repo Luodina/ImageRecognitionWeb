@@ -67,14 +67,14 @@ angular
         });
     }])
     .run(['$rootScope', '$location', '$http', '$cookies', function($rootScope, $location, $http, $cookies) {
+        $rootScope.nowActive = 0;
+        $rootScope.findWay = function() {
+            $location.path('/explore');
+        }
         $rootScope.$on('$stateChangeStart', function(event, toState) {
             console.log('toState', toState.name);
             $rootScope.active = toState.name;
-            if ($cookies.get('username') !== undefined && $cookies.get('username') !== null) {
-                $rootScope.username = $cookies.get('username');
-            } else {
-                $rootScope.logout();
-            }
+            $rootScope.username = $cookies.get('username');
         });
 
         $rootScope.$on('$stateChangeStart', function(event, toState) {
@@ -83,30 +83,43 @@ angular
             } else {
                 $('#pageTitle').css('display', 'block');
             }
+            if (toState && toState.name === 'dataExplore' || toState && toState.name === 'home' || toState && toState.name === 'knowledgeMap') {
+                $rootScope.isshow = true;
+            } else {
+                if (toState && toState.name === 'appInfo' || toState && toState.name === 'dataApp' || toState && toState.name === 'expertApp') {
+                    $rootScope.appInfoShow = true;
+                } else {
+                    $rootScope.appInfoShow = false;
+                }
+                if (toState && toState.name === 'expert' || toState && toState.name === 'data' || toState && toState.name === 'expert') {
+                    $rootScope.expertShow = true;
+                } else {
+                    $rootScope.expertShow = false;
+                }
+                $rootScope.isshow = false;
+            }
         });
 
         //退出
         $rootScope.logout = () => {
             $location.path('/');
         };
+
         $rootScope.login = (username, password) => {
-            $http.post('/api/user/login/', { username, password })
-                .success(function(user) {
-                    $rootScope.error_name = false;
-                    if (user.status) {
-                        console.log('LOGIN SUCCESS!');
-                        $cookies.put('username', username);
-                        $location.path('/home');
-                        $rootScope.iflogin = true;
-                        $rootScope.username = $cookies.get("username");
-                    } else {
-                        $rootScope.error_name = true;
-                        //console.log('LOGIN FAILED!please, use login name:ocai and pass:123456');
-                    }
-                }).error(function(err) {
-                    $rootScope.message = err;
-                });
-        };
+            $http.post('/api/user/login/', { username, password }).success(function(user) {
+                $rootScope.error_name = false;
+                if (user.status) {
+                    console.log('LOGIN SUCCESS!');
+                    $cookies.put('username', username);
+                    $location.path('/home');
+                    $rootScope.iflogin = true;
+                    $rootScope.username = $cookies.get("username");
+                } else {
+                    $rootScope.error_name = true;
+                    //console.log('LOGIN FAILED!please, use login name:ocai and pass:123456');
+                }
+            })
+        }
         $rootScope.getUsername = () => {
             return $cookies.get('username');
         };

@@ -37,6 +37,12 @@ angular.module('basic.routers', ['ui.router'])
         controller: 'NotebookCtrl'
       },
       {
+        name: 'dataApp',
+        url: '/app/{appNm}/{type}/{mode}/{modelNm}',
+        templateUrl: 'views/dataExplore/data.html',
+        controller: 'DataCtrl'
+      },
+      {
         name: 'expertApp',
         url: '/app/expert/{mode}/{name}',
         templateUrl: 'views/dataExplore/expertPart.html',
