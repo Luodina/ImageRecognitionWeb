@@ -647,8 +647,8 @@ angular.module('basic.services', ['ui.bootstrap'])
                 backdrop: 'static',
                 templateUrl: 'views/layer/loginModel.html',
                 size: 'size',
-                controller: ['$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', 'hotkeys', 'ipCookie',
-                    ($rootScope, $location, $scope, $filter, $uibModalInstance, hotkeys, ipCookie) => {
+                controller: ['$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', 'hotkeys', 'ipCookie','$http','$cookies',
+                    ($rootScope, $location, $scope, $filter, $uibModalInstance, hotkeys, ipCookie,$http,$cookies) => {
                         $scope.expires = 7;
                         $scope.expirationUnit = 'days';
 
@@ -692,16 +692,33 @@ angular.module('basic.services', ['ui.bootstrap'])
                         $scope.login = () => {
                             if ($scope.usermessage.password !== undefined) {
                                 $rootScope.login($scope.usermessage.username, $scope.usermessage.password);
-                                $uibModalInstance.dismiss();
+                                //$uibModalInstance.dismiss();
                             }
                         };
+                      //登录接口
+                      $rootScope.login = (username, password) => {
+                        $http.post('/api/user/login/', { username, password }).success(function(user) {
+                          $rootScope.error_name = false;
+                          if (user.status) {
+                            console.log('LOGIN SUCCESS!');
+                            $cookies.put('username', username);
+                            $uibModalInstance.dismiss();
+                            $location.path('/home');
+                            $rootScope.iflogin = true;
+                            $rootScope.username = $cookies.get("username");
+                          } else {
+                            $rootScope.error_name = true;
+                            //console.log('LOGIN FAILED!please, use login name:ocai and pass:123456');
+                          }
+                        })
+                      }
                         //enter 进入页面
                         $scope.enterLogin = (e) => {
                             if (e.keyCode == 13) {
                                 //$state.go('dataExplore');
                                 if ($scope.usermessage.password !== undefined) {
                                     $rootScope.login($scope.usermessage.username, $scope.usermessage.password);
-                                    $uibModalInstance.dismiss();
+                                    //$uibModalInstance.dismiss();
                                 }
                             }
                         };
