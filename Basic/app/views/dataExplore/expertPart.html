@@ -9,49 +9,68 @@
 <!--src={{notebookPath}}>-->
 <!--</iframe>-->
 <!--</div>-->
+
 <div style="padding:0 30px;">
-    <div class="expertPage">
-        <div class="titlePart">jupyter notebook</div>
-        <div class="contentPart">
-            <div class="header-button-group">
-                <div class="header-button"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></div>
-                <div class="header-button"><span class="glyphicon glyphicon-stop" aria-hidden="true" style="color: red;display: none;"></span></div>
-            </div>
-            <div class="header-button-group">
-                <div class="header-button"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span></div>
-                <div class="header-button"><span class="glyphicon glyphicon-forward" aria-hidden="true" style="color: red;display: none;"></span></div>
-            </div>
-            <div class="header-button-group">
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            Python
+  <div class="expertPage">
+    <div class="titlePart">jupyter notebook</div>
+    <div class="contentPart">
+      <div class="header-button-group">
+        <div class="header-button"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></div>
+        <div class="header-button"><span class="glyphicon glyphicon-stop" aria-hidden="true"
+                                         style="color: red;display: none;"></span></div>
+      </div>
+      <div class="header-button-group">
+        <div class="header-button"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span></div>
+        <div class="header-button"><span class="glyphicon glyphicon-forward" aria-hidden="true"
+                                         style="color: red;display: none;"></span></div>
+      </div>
+      <div class="header-button-group data_bg header_area_select head_main_set">
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="true">
+            {{grids.changestatus}}
             <span class="caret"></span>
           </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a href="#">Python</a></li>
-                        <li><a href="#">R</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="header-button-group">
-                <div class="dropdown" style="float: left;">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li ng-repeat="kernel in grids.status" ng-click="grids.changestatus=kernel.name">
+              <a href="javascript:void(0);">
+                <span ng-class="{colored:kernel.name===grids.changestatus}">{{kernel.name}}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="header-button-group">
+        <div class="dropdown" style="float: left;">
+          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="true">
             kernel
             <span class="caret"></span>
           </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a href="#">kernel1</a></li>
-                        <li><a href="#">kernel2</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="header-button-group">
-                <div class="dropdown" style="float: left;">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><a href="#">kernel1</a></li>
+            <li><a href="#">kernel2</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="header-button-group">
+        <div class="dropdown" style="float: left;">
+          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="true">
             save
           </button>
-                </div>
-            </div>
         </div>
+      </div>
     </div>
+  </div>
+  <div class="row" ng-repeat="item in model.sourceCells track by $index">
+    <div class="col-lg-1">
+      <span style="font-size: large" class="pull-right">In [{{$index +1}}]:</span>
+    </div>
+    <div class="col-lg-11">
+    <textarea id="code"+$index ui-codemirror="cmOption" ng-model="model.sourceCells[$index]">
+      {{model.sourceCells[$index]}}
+    </textarea>
+    </div>
+  </div>
 </div>

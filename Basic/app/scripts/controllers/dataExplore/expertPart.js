@@ -16,6 +16,27 @@ angular.module('basic')
         let ipyPath = '';
         let typeMenu = '00';
         let path;
+
+        $scope.grids = {
+          changestatus: 'Python',
+          status: [{ name: 'Python' }, { name: 'R' }]
+        };
+
+        let tmpArr = ['print（"1");', 'print（"2");'];
+        $scope.model ={};
+        $scope.model.sourceCells = tmpArr;
+        $scope.sourceCells = tmpArr;
+
+        console.log($scope.model.sourceCells);
+
+        $scope.cmOption  = {
+          lineNumbers: false,
+          indentWithTabs: true,
+          lineWrapping:true,
+          theme: "duotone-light"
+        };
+
+
         $scope.difUser = false;
         $scope.openProject=function () {
           copyName.open(modelName, modelType);
@@ -90,4 +111,5 @@ angular.module('basic')
         }
       };
       $scope.init();
+
     }]);

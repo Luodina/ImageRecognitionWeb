@@ -4,8 +4,6 @@
 </div>
 <div class="modal-body">
   <div class="createTaskPlan" style="margin-top: 10px;"><p class="diag_tit_set">计划名称</p>
-    <!--<input ng-if="isEdit" ng-model='schedule.name' type="text" disabled>-->
-    <!--<input ng-if="!isEdit" ng-model='schedule.name' type="text">-->
     <input ng-model="schedule.name" type="text">
   </div>
   <div class="createTaskPlan"><p class="diag_tit_set">计划命令</p><input  ng-model='schedule.command' type="text"></div>
@@ -17,20 +15,10 @@
           <span class="header_per_tit">{{grids.changestatus}}</span>
           <span class="xl_bg"></span>
         </a>
-
-        <!--<a href="javascript:void(0);" class="service_block" uib-dropdown-toggle>-->
-    <!--<span style="color:#999;width:90px;display:block;margin:0 auto;position:relative;">{{grid.changestatus}}-->
-    <!--<b class="ser_bg_btn"></b></span>-->
-
-        <!--</a>-->
         <ul class="dropdown-menu zx_area_drop" uib-dropdown-menu="" aria-labelledby="user-menu">
           <li class="zx_active" ng-repeat="name in grids.status" ng-click="grids.changestatus=name.name">
             <a href="javascript:void(0);"><span ng-class="{colored:name.name===grids.changestatus}">{{name.name}}</span></a></li>
-          <!--<li class="zx_mange" ng-click="gotoorg()"><a href="javascript:void(0);"><span>每月</span></a></li>-->
-          <!--<li class="zx_mange" ng-click="gotoorg()"><a href="javascript:void(0);"><span>每周</span></a></li>-->
-
         </ul>
-
       </div>
     </div>
 <!--每周设置-->

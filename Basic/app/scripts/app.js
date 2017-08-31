@@ -30,7 +30,8 @@ angular
         'ui.router.state.events',
         'angularFileUpload',
         'hc.marked',
-        'ipCookie'
+        'ipCookie',
+        'ui.codemirror'
     ])
     .constant('GLOBAL', {
         host_cdm: '',
@@ -83,7 +84,7 @@ angular
             } else {
                 $('#pageTitle').css('display', 'block');
             }
-            if (toState && toState.name === 'dataExplore' || toState && toState.name === 'home' || toState && toState.name === 'knowledgeMap') {
+            if (toState && toState.name === 'dataExplore' || toState && toState.name === 'home' || toState && toState.name === 'knowledgeMap' || toState && toState.name ==='settings') {
                 $rootScope.isshow = true;
             } else {
                 if (toState && toState.name === 'appInfo' || toState && toState.name === 'dataApp' || toState && toState.name === 'expertApp') {
