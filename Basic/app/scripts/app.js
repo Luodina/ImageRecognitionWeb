@@ -105,22 +105,6 @@ angular
         $rootScope.logout = () => {
             $location.path('/');
         };
-
-        $rootScope.login = (username, password) => {
-            $http.post('/api/user/login/', { username, password }).success(function(user) {
-                $rootScope.error_name = false;
-                if (user.status) {
-                    console.log('LOGIN SUCCESS!');
-                    $cookies.put('username', username);
-                    $location.path('/home');
-                    $rootScope.iflogin = true;
-                    $rootScope.username = $cookies.get("username");
-                } else {
-                    $rootScope.error_name = true;
-                    //console.log('LOGIN FAILED!please, use login name:ocai and pass:123456');
-                }
-            })
-        }
         $rootScope.getUsername = () => {
             return $cookies.get('username');
         };

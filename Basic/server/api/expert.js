@@ -137,7 +137,7 @@ router.get('/notebook/open/:modelName/:projectType', function (req, res) {
             res.send({
               difUser: true,
               outputPath: outputPath
-            })
+            });
           }
         });
       } else {
@@ -149,12 +149,12 @@ router.get('/notebook/open/:modelName/:projectType', function (req, res) {
             res.send({
               difUser: false,
               outputPath: outputPath
-            })
+            });
           }
         });
       }
     }
-  })
+  });
 });
 router.get('/copyExpertModel', function (req, res) {
   let modelName = req.query.modelName;
@@ -198,7 +198,7 @@ router.get('/copyExpertModel', function (req, res) {
               copySync(srcPath, outputPath);
               moveSync(outputPath + '/' + modelName + '.ipynb', outputPath + '/' + newModelName + '.ipynb');
               res.send({jpyPath: destUrl, notebookPath: list.NOTEBOOK_PATH});
-              console.log('type===explore', destUrl)
+              console.log('type===explore', destUrl);
             })
             .catch(err => {
               res.send({msg: err.name});
@@ -208,9 +208,9 @@ router.get('/copyExpertModel', function (req, res) {
       });
 
     } else {
-      console.log('...')
+      console.log('...');
     }
-  })
+  });
 });
 
 module.exports = router;
