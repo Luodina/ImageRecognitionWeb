@@ -1333,9 +1333,9 @@ div.ng-invalid.ng-touched.ui-select-container span.ui-select-toggle {
         }
       }
       .open .caret {
-        -webkit-transform: rotate(-45deg) !important;
-        -moz-transform: rotate(-45deg) !important;
-        transform: rotate(-45deg) !important;
+        -webkit-transform: rotate(-180deg) !important;
+        -moz-transform: rotate(-180deg) !important;
+        transform: rotate(-180deg) !important;
         top: 12px !important;
       }
       .header-button {

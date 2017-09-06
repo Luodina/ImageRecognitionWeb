@@ -17,12 +17,43 @@ angular.module('basic')
         let typeMenu = '00';
         let path;
 
+        $scope.changeMode = (lang) =>{
+          $scope.cmOption.mode = 'r';
+          $scope.grids.changestatus =lang;
+        };
+        $scope.changeKernel = (sss) =>{
+          console.log(sss);
+          $scope.cmOption.mode = sss;
+          $scope.kernels.changestatus =sss;
+        };
         $scope.grids = {
           changestatus: 'Python',
-          status: [{ name: 'Python' }, { name: 'R' }]
+          status: ['Python' , 'R' ],
+        };
+        $scope.kernels = {
+          changestatus: 'Kernel1',
+          status:['Kernel1','Kernel2']
         };
 
-        let tmpArr = ['print（"1");', 'print（"2");'];
+        let tmpArr = [`&lt;html style=&quot;color: green&quot;&gt;
+        &lt;!-- this is a comment --&gt;
+        &lt;head&gt;
+        &lt;title&gt;HTML Example&lt;/title&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+        The indentation tries to be &lt;em&gt;somewhat &amp;quot;do what
+          I mean&amp;quot;&lt;/em&gt;... but might not match your style.
+        &lt;/body&gt;
+        &lt;/html&gt;`,'print（"1");', 'print（"1");','print（"1");','print（"1");',`&lt;html style=&quot;color: green&quot;&gt;
+        &lt;!-- this is a comment --&gt;
+        &lt;head&gt;
+        &lt;title&gt;HTML Example&lt;/title&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+        The indentation tries to be &lt;em&gt;somewhat &amp;quot;do what
+          I mean&amp;quot;&lt;/em&gt;... but might not match your style.
+        &lt;/body&gt;
+        &lt;/html&gt;`,'1111111'];
         $scope.model ={};
         $scope.model.sourceCells = tmpArr;
         $scope.sourceCells = tmpArr;
@@ -33,9 +64,9 @@ angular.module('basic')
           lineNumbers: false,
           indentWithTabs: true,
           lineWrapping:true,
-          theme: "duotone-light"
+          theme:'twilight',
+          mode:'Python'
         };
-
 
         $scope.difUser = false;
         $scope.openProject=function () {

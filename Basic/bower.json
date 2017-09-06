@@ -63,6 +63,7 @@
         "lib/codemirror.js",
         "lib/codemirror.css",
         "theme/duotone-light.css",
+        "theme/twilight.css",
         "mode/python/python.js",
         "mode/r/r.js"
       ]
