@@ -4,17 +4,17 @@ angular.module('basic')
   .controller('NotebookCtrl', ['$cookies', '$sce', '$location', '$rootScope', '$scope', '$http',
   function ($cookies, $sce, $location, $rootScope, $scope, $http) {
   $scope.init = function () {
-    var path_list = $location.path().split(/[\s/]+/);
+    let path_list = $location.path().split(/[\s/]+/);
     console.log('path_list',path_list);
-    var modelName = path_list.pop();
-    var project = path_list.pop();
-    var type = path_list[1];
-    var url = '/api/expert/notebook/open/'+ modelName +'/';
+    let modelName = path_list.pop();
+    let project = path_list.pop();
+    let type = path_list[1];
+    let url = '/api/expert/notebook/open/'+ modelName +'/';
     if (type == 'app') {
       //TODO app中点击文件过来的url是 app/notebook/APP_ID/FILE
       url += project;
     } else{
-      url += 'explore'
+      url += 'explore';
     }
 
     $http.get(url)

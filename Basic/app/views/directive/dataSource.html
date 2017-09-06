@@ -1,31 +1,10 @@
 <p class="title">{{ 'web_common_data_explore_004' | translate}}</p>
 <div class="dataSourceChoose">
-
   <input type="radio" ng-model="bigData" value="iptOne" ng-value="1">
   &nbsp;&nbsp;{{'web_common_data_explore_005' | translate}}
   <select ng-disabled="bigData !==1" ng-model="cmdSource" class="data_select">
     <option ng-repeat="option in cmdDataset track by $index" >{{option.datasetname}}</option>
   </select>
-
-  <!--<input type="radio" ng-model="bigData" value="iptOne" ng-value="1">&nbsp;&nbsp;{{'web_common_data_explore_005' | translate}}
-  <div class="main_drop_set " ng-disabled="!bigData">
-  <div class="data_bg header_area_select data_source" >
-    <div uib-dropdown="" on-toggle="toggled(open)" class="dropdown open">
-      <a href="javascript:void(0);" class="per_block dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="true">
-
-        <span class="header_per_tit">123213</span>
-        <span class="xl_bg"></span>
-      </a>
-      <ul class="dropdown-menu zx_area_drop" uib-dropdown-menu="" aria-labelledby="user-menu">
-        <li class="zx_active">
-          <a href="javascript:void(0);"><span>1</span></a>
-          <a href="javascript:void(0);"><span>2</span></a></li>
-
-      </ul>
-    </div>
-  </div>
-  </div>-->
-
   &nbsp;&nbsp;{{'web_common_data_explore_005_02' | translate}}
 </div>
 <div class="dataFileImport">

@@ -30,7 +30,8 @@ angular
         'ui.router.state.events',
         'angularFileUpload',
         'hc.marked',
-        'ipCookie'
+        'ipCookie',
+        'ui.codemirror'
     ])
     .constant('GLOBAL', {
         host_cdm: '',
@@ -83,7 +84,7 @@ angular
             } else {
                 $('#pageTitle').css('display', 'block');
             }
-            if (toState && toState.name === 'dataExplore' || toState && toState.name === 'home' || toState && toState.name === 'knowledgeMap') {
+            if (toState && toState.name === 'dataExplore' || toState && toState.name === 'home' || toState && toState.name === 'knowledgeMap' || toState && toState.name ==='settings') {
                 $rootScope.isshow = true;
             } else {
                 if (toState && toState.name === 'appInfo' || toState && toState.name === 'dataApp' || toState && toState.name === 'expertApp') {
@@ -104,22 +105,6 @@ angular
         $rootScope.logout = () => {
             $location.path('/');
         };
-
-        $rootScope.login = (username, password) => {
-            $http.post('/api/user/login/', { username, password }).success(function(user) {
-                $rootScope.error_name = false;
-                if (user.status) {
-                    console.log('LOGIN SUCCESS!');
-                    $cookies.put('username', username);
-                    $location.path('/home');
-                    $rootScope.iflogin = true;
-                    $rootScope.username = $cookies.get("username");
-                } else {
-                    $rootScope.error_name = true;
-                    //console.log('LOGIN FAILED!please, use login name:ocai and pass:123456');
-                }
-            })
-        }
         $rootScope.getUsername = () => {
             return $cookies.get('username');
         };
