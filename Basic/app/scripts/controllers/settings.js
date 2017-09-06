@@ -7,14 +7,14 @@ angular.module('basic')
         //     console.log("$scope.msg:", data);
         // });
         // console.log('CodeMirror', CodeMirror)
-        document.getElementById("code").value = 'hehe';
+        //document.getElementById("code").value = $scope.msg;
         // CodeMirror.modes = "python";
-        let editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-            lineNumbers: true,
-            smartIndent: true,
-            tabSize: 2,
-            mode: "python",
-            theme: "duotone-light"
-        });
+        // let editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        //     lineNumbers: true,
+        //     smartIndent: true,
+        //     tabSize: 2,
+        //     mode: "python",
+        //     theme: "duotone-light"
+        // });
 
     }]);

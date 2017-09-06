@@ -59,21 +59,29 @@ angular.module('basic.services', ['ui.bootstrap'])
                                 // $rootScope.unfoldPath;
                                 $rootScope.modelAppName = $scope.model.name;
                                 $http.get('/api/app/' + $scope.model.name).success((data) => {
+                                    console.log(data);
                                     if (data.result !== null) {
                                         $scope.model.name = '';
                                         $scope.model.nameTip = 'Please use another name!!';
                                     } else {
-                                        $http.get('/api/appFile/' + $scope.model.name, { sourceApp: appName }).success((data) => {
+                                        $http.post('/api/app/' + $scope.model.name, {
+                                                APP_NAME: $scope.model.name,
+                                                USER_NAME: $rootScope.getUsername()
+                                            })
+                                            .success((data) => {
                                                 if (data.result === 'success') {
-                                                    $http.post('/api/app/' + $scope.model.name, {
-                                                            APP_NAME: $scope.model.name,
-                                                            USER_NAME: $rootScope.getUsername()
+                                                    console.log('!!!!!!!!!!!!!!!!!!!', data, $rootScope.getUsername());
+                                                    $http.post('/api/appFile/' + data.app.APP_ID, {
+                                                            userName: $rootScope.getUsername()
                                                         })
                                                         .success((data) => {
                                                             if (data.result === 'success') {
                                                                 $location.path('/app/new/' + $scope.model.name);
                                                                 $uibModalInstance.dismiss();
                                                             }
+                                                        })
+                                                        .catch(err => {
+                                                            console.log(err);
                                                         });
                                                 }
                                             })

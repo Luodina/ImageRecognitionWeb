@@ -36,8 +36,8 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 }));
 
 //rest api
-//app.use('/api/jupyter', require('./api/jupyterHub'));
-app.use('/api/jupyter', require('./api/dataSource'));
+app.use('/api/jupyter', require('./api/jupyterService'));
+// app.use('/api/jupyter', require('./api/dataSource'));
 app.use('/api/user', require('./api/user'));
 app.use('/api/model', require('./api/model'));
 app.use('/api/app', require('./api/app'));
