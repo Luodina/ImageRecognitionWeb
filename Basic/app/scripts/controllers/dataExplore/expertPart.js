@@ -36,12 +36,9 @@ angular.module('basic')
         };
         $scope.model = {};
         let tmpArr = [{test: 'print（"1");'},{test: 'print（"2");'}];
-        let outSource = ['1'];
 
         $scope.model.sourceCells = tmpArr;
-        $scope.model.outPutSource = outSource;
         $scope.sourceCells = tmpArr;
-        $scope.outPutSource = outSource;
 
         console.log($scope.model.sourceCells);
 
@@ -60,19 +57,23 @@ angular.module('basic')
           $scope.model.sourceCells[$index].isShow = false;
           console.log('sddsds', $scope.model.sourceCells);
         };
-        $scope.run = function ($index) {
-          $scope.model.sourceCells[$index].isShowCode = true;
-          console.log($scope.sourceCells[$index])
-          $scope.outPutSource[index].push()
+        $scope.run = function (index) {
+          $scope.model.sourceCells[index].isShowCode = true;
+          $scope.model.sourceCells[index].result = 1;
+          console.log($scope.model.sourceCells[index]);
+
         };
-        $scope.upAdd = (item) => {
-          $scope.tmpArr.push({test: ''});
+        $scope.upAdd = (index,item) => {
+
+          $scope.model.sourceCells.splice(index,0,{});
           console.log('0011upupup',item);
         };
-        $scope.downAdd = ($index) => {
+        $scope.downAdd = (index,item) => {
+          $scope.model.sourceCells.splice(index+1,0,{});
           console.log('0012122downdown')
         };
-        $scope.codeMirrorDelete = ($index) => {
+        $scope.codeMirrorDelete = (index,item) => {
+          $scope.model.sourceCells.splice(index,1);
           console.log('0012122delete')
         };
         $scope.difUser = false;

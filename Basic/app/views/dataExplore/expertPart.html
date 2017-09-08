@@ -56,7 +56,7 @@
   </div>
   <div class="expertPageContent">
     <div class="row">
-      <div class="ipynb-edit cell" ng-repeat="item in model.sourceCells">
+      <div class="ipynb-edit cell" ng-repeat="item in model.sourceCells track by $index">
         <div class="col-lg-1">
           <div ng-show="item.isShow">
             <button ng-click="run($index)">run</button>
@@ -69,12 +69,12 @@
               </textarea>
               <textarea class="col-lg-12" id="code11" +$index ng-disabled="item.test" ng-show="item.isShowCode"
                     style="background: #000;color: #fff;">
-                {{model.outPutSource[$index]}}
+                {{item.result}}
               </textarea>
           <div class="tool-tip" ng-show="item.isShow">
-            <button ng-click="upAdd(index);$event.stopPropagation();">upAdd</button>
-            <button ng-click="downAdd($index);$event.stopPropagation();">downAdd</button>
-            <button ng-click="codeMirrorDelete($index);$event.stopPropagation();">delete</button>
+            <button ng-click="upAdd($index,item);$event.stopPropagation();">upAdd</button>
+            <button ng-click="downAdd($index,item);$event.stopPropagation();">downAdd</button>
+            <button ng-click="codeMirrorDelete($index,item);$event.stopPropagation();">delete</button>
           </div>
         </div>
       </div>
