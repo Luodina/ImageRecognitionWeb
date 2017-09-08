@@ -3,12 +3,12 @@
  */
 'use strict';
 angular.module('basic')
-  .controller('ExpertCtrl', ['copyName','$cookies', '$sce', '$location', '$rootScope', '$scope', '$http',
-    function (copyName,$cookies, $sce, $location, $rootScope, $scope, $http) {
+  .controller('ExpertCtrl', ['copyName', '$cookies', '$sce', '$location', '$rootScope', '$scope', '$http',
+    function (copyName, $cookies, $sce, $location, $rootScope, $scope, $http) {
       $scope.init = function () {
         let modelTemplate = $location.search()['modelTemplate'];
         let modelType = $location.search()['type'];
-        let appName = modelType == 'explore'? '':  $location.search()['appName'];
+        let appName = modelType == 'explore' ? '' : $location.search()['appName'];
         let path_list = $location.path().split(/[\s/]+/);
         let modelName = path_list.pop();
         let model = path_list.pop();
@@ -17,59 +17,66 @@ angular.module('basic')
         let typeMenu = '00';
         let path;
 
-        $scope.changeMode = (lang) =>{
+        $scope.changeMode = (lang) => {
           $scope.cmOption.mode = 'r';
-          $scope.grids.changestatus =lang;
+          $scope.grids.changestatus = lang;
         };
-        $scope.changeKernel = (sss) =>{
+        $scope.changeKernel = (sss) => {
           console.log(sss);
           $scope.cmOption.mode = sss;
-          $scope.kernels.changestatus =sss;
+          $scope.kernels.changestatus = sss;
         };
         $scope.grids = {
           changestatus: 'Python',
-          status: ['Python' , 'R' ],
+          status: ['Python', 'R'],
         };
         $scope.kernels = {
           changestatus: 'Kernel1',
-          status:['Kernel1','Kernel2']
+          status: ['Kernel1', 'Kernel2']
         };
+        $scope.model = {};
+        let tmpArr = [{test: 'print（"1");'},{test: 'print（"2");'}];
+        let outSource = ['1'];
 
-        let tmpArr = [`&lt;html style=&quot;color: green&quot;&gt;
-        &lt;!-- this is a comment --&gt;
-        &lt;head&gt;
-        &lt;title&gt;HTML Example&lt;/title&gt;
-        &lt;/head&gt;
-        &lt;body&gt;
-        The indentation tries to be &lt;em&gt;somewhat &amp;quot;do what
-          I mean&amp;quot;&lt;/em&gt;... but might not match your style.
-        &lt;/body&gt;
-        &lt;/html&gt;`,'print（"1");', 'print（"1");','print（"1");','print（"1");',`&lt;html style=&quot;color: green&quot;&gt;
-        &lt;!-- this is a comment --&gt;
-        &lt;head&gt;
-        &lt;title&gt;HTML Example&lt;/title&gt;
-        &lt;/head&gt;
-        &lt;body&gt;
-        The indentation tries to be &lt;em&gt;somewhat &amp;quot;do what
-          I mean&amp;quot;&lt;/em&gt;... but might not match your style.
-        &lt;/body&gt;
-        &lt;/html&gt;`,'1111111'];
-        $scope.model ={};
         $scope.model.sourceCells = tmpArr;
+        $scope.model.outPutSource = outSource;
         $scope.sourceCells = tmpArr;
+        $scope.outPutSource = outSource;
 
         console.log($scope.model.sourceCells);
 
-        $scope.cmOption  = {
+        $scope.cmOption = {
           lineNumbers: false,
           indentWithTabs: true,
-          lineWrapping:true,
-          theme:'twilight',
-          mode:'Python'
+          lineWrapping: true,
+          theme: 'default',
+          mode: 'Python'
         };
-
+        $scope.openToolTip = ($index) => {
+          $scope.model.sourceCells[$index].isShow = true;
+          console.log('sddsds', $scope.model.sourceCells);
+        };
+        $scope.aaa = ($index) => {
+          $scope.model.sourceCells[$index].isShow = false;
+          console.log('sddsds', $scope.model.sourceCells);
+        };
+        $scope.run = function ($index) {
+          $scope.model.sourceCells[$index].isShowCode = true;
+          console.log($scope.sourceCells[$index])
+          $scope.outPutSource[index].push()
+        };
+        $scope.upAdd = (item) => {
+          $scope.tmpArr.push({test: ''});
+          console.log('0011upupup',item);
+        };
+        $scope.downAdd = ($index) => {
+          console.log('0012122downdown')
+        };
+        $scope.codeMirrorDelete = ($index) => {
+          console.log('0012122delete')
+        };
         $scope.difUser = false;
-        $scope.openProject=function () {
+        $scope.openProject = function () {
           copyName.open(modelName, modelType);
         }
         if (model === 'new') {
@@ -84,7 +91,7 @@ angular.module('basic')
             if (modelType === 'explore') {
               typeMenu = '01';
               path = 'modelPath';
-            }else {
+            } else {
               typeMenu = '00';
               path = 'appPath';
             }
@@ -122,7 +129,7 @@ angular.module('basic')
                   $scope.difUser = data.difUser;
                   typeMenu = '01';
                   path = 'modelPath';
-                }else {
+                } else {
                   $scope.difUser = false;
                   typeMenu = '00';
                   path = 'appPath';
