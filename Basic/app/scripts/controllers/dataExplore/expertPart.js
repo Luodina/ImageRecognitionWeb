@@ -58,10 +58,13 @@ angular.module('basic')
           console.log('sddsds', $scope.model.sourceCells);
         };
         $scope.run = function (index) {
-          $scope.model.sourceCells[index].isShowCode = true;
-          $scope.model.sourceCells[index].result = 1;
-          console.log($scope.model.sourceCells[index]);
-
+          if(!$scope.model.sourceCells[index].test){
+            $scope.model.sourceCells[index].isShowCode = false;
+          }else {
+            $scope.model.sourceCells[index].isShowCode = true;
+            $scope.model.sourceCells[index].result = 1;
+            console.log($scope.model.sourceCells[index]);
+          }
         };
         $scope.upAdd = (index,item) => {
 

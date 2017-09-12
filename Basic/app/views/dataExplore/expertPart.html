@@ -65,7 +65,7 @@
         </div>
         <div class="col-lg-11 ipynb-right" ng-click="openToolTip($index);$event.stopPropagation();">
               <textarea id="code" +$index ui-codemirror="cmOption" ng-model="item.test">
-                {{item.test}}
+                <!--{{item.test}}-->
               </textarea>
               <textarea class="col-lg-12" id="code11" +$index ng-disabled="item.test" ng-show="item.isShowCode"
                     style="background: #000;color: #fff;">
