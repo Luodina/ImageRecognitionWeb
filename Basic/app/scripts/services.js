@@ -56,10 +56,8 @@ angular.module('basic.services', ['ui.bootstrap'])
                         $scope.create = function() {
                             if ($scope.model.name) {
                                 //check in DB APP
-                                // $rootScope.unfoldPath;
                                 $rootScope.modelAppName = $scope.model.name;
-                                $http.get('/api/app/' + $scope.model.name).success((data) => {
-                                    console.log(data);
+                                $http.get('/api/app/' + $scope.model.name).success(data => {
                                     if (data.result !== null) {
                                         $scope.model.name = '';
                                         $scope.model.nameTip = 'Please use another name!!';
@@ -68,13 +66,13 @@ angular.module('basic.services', ['ui.bootstrap'])
                                                 APP_NAME: $scope.model.name,
                                                 USER_NAME: $rootScope.getUsername()
                                             })
-                                            .success((data) => {
+                                            .success(data => {
                                                 if (data.result === 'success') {
-                                                    console.log('!!!!!!!!!!!!!!!!!!!', data, $rootScope.getUsername());
                                                     $http.post('/api/appFile/' + data.app.APP_ID, {
-                                                            userName: $rootScope.getUsername()
+                                                            userName: $rootScope.getUsername(),
+                                                            itemType: "app"
                                                         })
-                                                        .success((data) => {
+                                                        .success(data => {
                                                             if (data.result === 'success') {
                                                                 $location.path('/app/new/' + $scope.model.name);
                                                                 $uibModalInstance.dismiss();
@@ -655,8 +653,8 @@ angular.module('basic.services', ['ui.bootstrap'])
                 backdrop: 'static',
                 templateUrl: 'views/layer/loginModel.html',
                 size: 'size',
-                controller: ['$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', 'hotkeys', 'ipCookie','$http','$cookies',
-                    ($rootScope, $location, $scope, $filter, $uibModalInstance, hotkeys, ipCookie,$http,$cookies) => {
+                controller: ['$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', 'hotkeys', 'ipCookie', '$http', '$cookies',
+                    ($rootScope, $location, $scope, $filter, $uibModalInstance, hotkeys, ipCookie, $http, $cookies) => {
                         $scope.expires = 7;
                         $scope.expirationUnit = 'days';
 
@@ -703,24 +701,24 @@ angular.module('basic.services', ['ui.bootstrap'])
                                 //$uibModalInstance.dismiss();
                             }
                         };
-                      //登录接口
-                      $rootScope.login = (username, password) => {
-                        $http.post('/api/user/login/', { username, password }).success(function(user) {
-                          $rootScope.error_name = false;
-                          if (user.status) {
-                            console.log('LOGIN SUCCESS!');
-                            $cookies.put('username', username);
-                            $uibModalInstance.dismiss();
-                            $location.path('/home');
-                            $rootScope.iflogin = true;
-                            $rootScope.username = $cookies.get("username");
-                          } else {
-                            $rootScope.error_name = true;
-                            //console.log('LOGIN FAILED!please, use login name:ocai and pass:123456');
-                          }
-                        })
-                      }
-                        //enter 进入页面
+                        //登录接口
+                        $rootScope.login = (username, password) => {
+                                $http.post('/api/user/login/', { username, password }).success(function(user) {
+                                    $rootScope.error_name = false;
+                                    if (user.status) {
+                                        console.log('LOGIN SUCCESS!');
+                                        $cookies.put('username', username);
+                                        $uibModalInstance.dismiss();
+                                        $location.path('/home');
+                                        $rootScope.iflogin = true;
+                                        $rootScope.username = $cookies.get("username");
+                                    } else {
+                                        $rootScope.error_name = true;
+                                        //console.log('LOGIN FAILED!please, use login name:ocai and pass:123456');
+                                    }
+                                })
+                            }
+                            //enter 进入页面
                         $scope.enterLogin = (e) => {
                             if (e.keyCode == 13) {
                                 //$state.go('dataExplore');

@@ -8,16 +8,17 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const config = require('./../config');
-const env = config.env || 'local';
+const env = config.env || 'dev';
 
 const fs = require('fs');
 const node_ssh = require('node-ssh');
 const ssh = new node_ssh();
 const sshJupyterHubOpts = {
-    host: '10.1.236.84',
-    port: 22,
-    username: 'root',
-    password: 'Ocai@131415'
+    host: config[env].jupyterHubHost, //'10.20.51.5', //'10.1.236.84'
+    // port: 22,
+    username: config[env].jupyterHubUserName, //'root',
+    //privateKey: '/Users/luodina/.ssh/id_rsa'
+    password: config[env].jupyterHubPassword, //'Asiainfo123456' // 'Ocai@131415' 
 };
 
 var type,

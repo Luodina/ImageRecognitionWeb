@@ -16,42 +16,64 @@ const node_ssh = require('node-ssh');
 const ssh = new node_ssh();
 let remotePath;
 const sshJupyterHubOpts = {
-    host: '10.20.51.5', //'10.1.236.84'
+    host: config[env].jupyterHubHost, //'10.20.51.5', //'10.1.236.84'
     // port: 22,
-    username: 'root',
-    privateKey: '/Users/luodina/.ssh/id_rsa' //'/root/.ssh/id_rsa'
-        //password:'Asiainfo123456' // 'Ocai@131415' 
+    username: config[env].jupyterHubUserName, //'root',
+    //privateKey: '/Users/luodina/.ssh/id_rsa'
+    password: config[env].jupyterHubPassword, //'Asiainfo123456' // 'Ocai@131415' 
 };
 
 router.post('/:appID', function(req, res) {
-    let appName = 'app_' + req.params.appID;
+    let itemType = req.body.itemType; //app or model
+    let appName = itemType + "_" + req.params.appID;
     let userName = req.body.userName;
-    let userPath = 'jupyterhub-user-' + userName;
-    console.log(appName, userPath, templAppDir);
+    let userPath = "jupyterhub-user-" + userName;
+    let isApp = itemType === "app";
+    console.log(itemType, appName, userPath, templAppDir, isApp);
     ssh.connect(sshJupyterHubOpts)
         .then(() => {
-            let command = 'docker volume inspect jupyterhub-user-' + userName;
+            let command = "docker volume inspect " + userPath;
             ssh.execCommand(command)
                 .then(function(result) {
                     console.log('STDOUT: ' + result.stdout)
-                    console.log('STDERR: ' + result.stderr, result.stderr != null)
+                        //console.log('STDERR: ' + result.stderr, result.stderr != null)
                     if (result.stdout !== '' && result.stdout !== null) {
                         remotePath = JSON.parse(result.stdout)[0]['Mountpoint'];
-                        if (remotePath !== "") {
-                            command = "scp -r " + templAppDir + " root@10.20.51.5:" + remotePath + "/" + appName;
-                            exec(command, (error, stdout, stderr) => {
-                                if (error) {
-                                    console.error(`exec error: ${error}`);
+                        if (remotePath !== "" && remotePath !== null) {
+                            if (isApp) { //" root@10.20.51.5:" = " " + sshJupyterHubOpts.username +"@" + sshJupyterHubOpts.host
+                                command = "scp -r " + templAppDir + " " + sshJupyterHubOpts.username + "@" + sshJupyterHubOpts.host + ":" + remotePath + "/" + appName;
+                                exec(command, (error, stdout, stderr) => {
+                                    if (error) {
+                                        console.error(`exec error: ${error}`);
+                                        res.status(200).send({ result: 'failed' });
+                                        return;
+                                    }
+                                    // console.log(`stdout: ${stdout}`);
+                                    // console.log(`stderr: ${stderr}`);
+                                    res.status(200).send({ result: 'success' });
+                                });
+                            }
+                            if (!isApp) {
+                                console.log(`templDataProfile`, templDataProfile, remotePath + "/" + appName + "/" + appName + ".ipynb");
+                                ssh.putFiles([{ local: templDataProfile, remote: remotePath + "/" + appName + "/" + appName + ".ipynb" }]).then(function() {
+                                    console.log("The File thing is done");
+                                    res.status(200).send({ result: 'success' });
+                                }, function(error) {
+                                    console.log("Something's wrong")
                                     res.status(200).send({ result: 'failed' });
-                                    return;
-                                }
-                                // console.log(`stdout: ${stdout}`);
-                                // console.log(`stderr: ${stderr}`);
-                                res.status(200).send({ result: 'success' });
-                            });
-                        } else { console.log('remotePath', remotePath); }
+                                })
+                            }
 
-                    } else { console.log('wtf'); }
+
+                        } else {
+                            console.log('remotePath', remotePath);
+                            res.status(200).send({ result: 'failed' });
+                        }
+
+                    } else {
+                        console.log('wtf');
+                        res.status(200).send({ result: 'failed' });
+                    }
                 })
                 .catch(err => { console.log('err', err) });
         })
@@ -89,6 +111,8 @@ router.post('/:appID', function(req, res) {
             res.status(500).send({ result: 'failed!' });
         });
 });
+
+
 router.get('/:appName/overview', function(req, res) {
     let appName = req.params.appName;
     let filePath = path.join(basePath, appName, 'README.md');
