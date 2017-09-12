@@ -68,9 +68,10 @@ angular.module('basic.services', ['ui.bootstrap'])
                                             })
                                             .success(data => {
                                                 if (data.result === 'success') {
-                                                    $http.post('/api/appFile/' + data.app.APP_ID, {
+                                                    $http.post('/api/appFile/' + data.app.APP_NAME, {
                                                             userName: $rootScope.getUsername(),
-                                                            itemType: "app"
+                                                            itemType: "app",
+                                                            itemID: data.app.APP_ID
                                                         })
                                                         .success(data => {
                                                             if (data.result === 'success') {
@@ -399,14 +400,14 @@ angular.module('basic.services', ['ui.bootstrap'])
                 .result;
         };
     }])
-    .service('createExpertModule', ['$uibModal', function($uibModal) {
+    .service('createExpertModule', ['$uibModal', '$http', function($uibModal, $http) {
         this.open = function(arrItem) {
             return $uibModal.open({
                 backdrop: 'static',
                 templateUrl: 'views/layer/createExpertModel.html',
                 size: 'size',
-                controller: ['$uibModalInstance', '$scope', '$rootScope',
-                    function($uibModalInstance, $scope, $rootScope) {
+                controller: ['$uibModalInstance', '$scope', '$rootScope', '$location',
+                    function($uibModalInstance, $scope, $rootScope, $location) {
                         $scope.projectType = 'explore';
                         $scope.items = arrItem;
                         $scope.items[0].isActive = true;
@@ -424,12 +425,65 @@ angular.module('basic.services', ['ui.bootstrap'])
                             $scope.urlcontent = $scope.items[idx];
                         };
                         $scope.create = function() {
+                            // --------------
                             if ($scope.model.name) {
-                                $rootScope.exploreName = 'modelType_06';
-                                $rootScope.modelExpertName = $scope.model.name;
-                                $rootScope.nowActive = 6;
-                                $uibModalInstance.close({ modelTemplate: $scope.urlcontent.content, modelName: $scope.model.name });
-                            }
+                                //check in DB APP
+                                $rootScope.modelAppName = $scope.model.name;
+                                let date = new Date();
+                                $http.get('/api/model/' + $scope.model.name).success(data => {
+                                    if (data.result !== null) {
+                                        $scope.model.name = '';
+                                        $scope.model.nameTip = 'Please use another name!!';
+                                    } else {
+                                        $http.post('/api/model/' + $scope.model.name, {
+                                                APP_ID: $scope.model.name,
+                                                USER_ID: $rootScope.getUsername(),
+                                                TYPE_MENU_ID: "01",
+                                                VIEW_MENU_ID: "06",
+                                                COMMENT: "heyyyy",
+                                                FILE_PATH: "FILE_PATH",
+                                                UPDATED_TIME: date.getTime()
+                                            })
+                                            .success(data => {
+                                                if (data.result === 'success') {
+                                                    console.log(data.model);
+
+                                                    $http.post('/api/appFile/' + data.model.MODEL_NAME, {
+                                                            userName: $rootScope.getUsername(),
+                                                            modelTemplate: $scope.urlcontent.content,
+                                                            itemType: "expert",
+                                                            itemID: data.model.MODEL_ID
+                                                        })
+                                                        .success(data => {
+                                                            if (data.result === 'success') {
+                                                                $rootScope.exploreName = 'modelType_06';
+                                                                $rootScope.modelExpertName = $scope.model.name;
+                                                                $rootScope.nowActive = 6;
+                                                                $uibModalInstance.close({ modelTemplate: $scope.urlcontent.content, modelName: $scope.model.name });
+
+                                                                // $location.path('/explore/new/' + $scope.model.name);
+                                                                // $uibModalInstance.dismiss();
+                                                            }
+                                                        })
+                                                        .catch(err => {
+                                                            console.log(err);
+                                                        });
+                                                }
+                                            })
+                                            .catch(err => {
+                                                console.log(err);
+                                            });
+                                    }
+                                });
+
+                            };
+                            //-------
+                            // if ($scope.model.name) {
+                            //     $rootScope.exploreName = 'modelType_06';
+                            //     $rootScope.modelExpertName = $scope.model.name;
+                            //     $rootScope.nowActive = 6;
+                            //     $uibModalInstance.close({ modelTemplate: $scope.urlcontent.content, modelName: $scope.model.name });
+                            // }
                         };
                     }
                 ]

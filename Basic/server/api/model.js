@@ -14,15 +14,16 @@ router.get('/getProjectList', function(req, res) {
         .catch(err => { console.log('err', err); });
 });
 
-router.post('/new', function(req, res) {
-    let modelName = req.body.MODEL_NAME;
+router.post('/:modelName', function(req, res) {
+    let modelName = req.params.modelName;
+    //let modelName = req.body.MODEL_NAME;
     let modelInfo = req.body.MODEL_INFO;
     let userName = req.body.USER_ID;
     let typeMenuID = req.body.TYPE_MENU_ID;
     let viewMenuID = req.body.VIEW_MENU_ID;
     let time = moment(req.body.UPDATED_TIME).format('YYYY-MM-DD');
     let filePath = req.body.FILE_PATH;
-    let notebookPath = config[env][req.body.NOTEBOOK_PATH]; //req.body.NOTEBOOK_PATH;
+    let notebookPath = 'notebookPath'; //config[env][req.body.NOTEBOOK_PATH]; //req.body.NOTEBOOK_PATH;
     let comment = req.body.COMMENT;
     let appName = req.body.APP_ID;
     sequelize.transaction(t => {
@@ -40,11 +41,12 @@ router.post('/new', function(req, res) {
                 APP_ID: appName,
                 isNewRecord: true
             })
-            .then(() => { res.send({ msg: 'success' }); })
+            .then(model => { res.send({ result: 'success', model: model }); })
             .catch(err => {
-                res.send({ msg: err.name });
+                res.send({ result: err.name });
                 console.log('err', err);
             });
+        s
     });
 });
 

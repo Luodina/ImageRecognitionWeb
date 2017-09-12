@@ -23,39 +23,51 @@ const sshJupyterHubOpts = {
     password: config[env].jupyterHubPassword, //'Asiainfo123456' // 'Ocai@131415' 
 };
 
-router.post('/:appID', function(req, res) {
+router.post('/:itemName', function(req, res) {
     let itemType = req.body.itemType; //app or model
-    let appName = itemType + "_" + req.params.appID;
+    let itemID = itemType === "app" ? itemType + "_" + req.body.itemID : "model_" + req.body.itemID;
+    let itemName = req.params.itemName;
     let userName = req.body.userName;
+    let modelTemplate = req.body.modelTemplate;
     let userPath = "jupyterhub-user-" + userName;
     let isApp = itemType === "app";
-    console.log(itemType, appName, userPath, templAppDir, isApp);
+    let localPath = itemType => {
+        if (itemType === "app") { return templAppDir }
+        if (itemType === "model") { return templDataProfile }
+        if (itemType === "expert") { return templExpertModelDir + "/" + modelTemplate }
+    }
+    console.log(`localPath`, localPath(itemType),
+        `itemID`, itemID,
+        `itemType`, itemType,
+        `itemName`, itemName,
+        `userPath`, userPath,
+        `itemType`, itemType);
     ssh.connect(sshJupyterHubOpts)
         .then(() => {
             let command = "docker volume inspect " + userPath;
             ssh.execCommand(command)
-                .then(function(result) {
+                .then(result => {
                     console.log('STDOUT: ' + result.stdout)
                         //console.log('STDERR: ' + result.stderr, result.stderr != null)
                     if (result.stdout !== '' && result.stdout !== null) {
                         remotePath = JSON.parse(result.stdout)[0]['Mountpoint'];
                         if (remotePath !== "" && remotePath !== null) {
-                            if (isApp) { //" root@10.20.51.5:" = " " + sshJupyterHubOpts.username +"@" + sshJupyterHubOpts.host
-                                command = "scp -r " + templAppDir + " " + sshJupyterHubOpts.username + "@" + sshJupyterHubOpts.host + ":" + remotePath + "/" + appName;
+                            if (itemType === "app" || itemType === "expert") { //" root@10.20.51.5:" = " " + sshJupyterHubOpts.username +"@" + sshJupyterHubOpts.host
+                                command = "scp -r " + localPath(itemType) + " " + sshJupyterHubOpts.username + "@" + sshJupyterHubOpts.host + ":" + remotePath + "/" + itemID;
                                 exec(command, (error, stdout, stderr) => {
                                     if (error) {
-                                        console.error(`exec error: ${error}`);
+                                        console.error(`exec error: $ { error }`);
                                         res.status(200).send({ result: 'failed' });
                                         return;
                                     }
-                                    // console.log(`stdout: ${stdout}`);
-                                    // console.log(`stderr: ${stderr}`);
+                                    // console.log(`stdout: $ { stdout }`);
+                                    // console.log(`stderr: $ { stderr }`);
                                     res.status(200).send({ result: 'success' });
                                 });
                             }
-                            if (!isApp) {
-                                console.log(`templDataProfile`, templDataProfile, remotePath + "/" + appName + "/" + appName + ".ipynb");
-                                ssh.putFiles([{ local: templDataProfile, remote: remotePath + "/" + appName + "/" + appName + ".ipynb" }]).then(function() {
+                            if (itemType === "model") {
+                                console.log(`localPath `, localPath(itemType), remotePath + "/" + itemID + "/" + itemName + ".ipynb");
+                                ssh.putFiles([{ local: localPath(itemType), remote: remotePath + "/" + itemID + "/" + itemName + ".ipynb" }]).then(function() {
                                     console.log("The File thing is done");
                                     res.status(200).send({ result: 'success' });
                                 }, function(error) {
@@ -63,7 +75,6 @@ router.post('/:appID', function(req, res) {
                                     res.status(200).send({ result: 'failed' });
                                 })
                             }
-
 
                         } else {
                             console.log('remotePath', remotePath);
@@ -77,39 +88,44 @@ router.post('/:appID', function(req, res) {
                 })
                 .catch(err => { console.log('err', err) });
         })
-        // const failed = [];
-        // const successful = [];
-        // ssh.putDirectory(templAppDir, remoteAppPath, {
-        //         recursive: true,
-        //         validate: function(itemPath) {
-        //             const baseName = path.basename(itemPath)
-        //             return baseName.substr(0, 1) !== '.' && // do not allow dot files 
-        //                 baseName !== 'node_modules' // do not allow node_modules 
-        //         },
-        //         tick: function(localPath, remotePath, error) {
-        //             if (error) {
-        //                 failed.push(localPath)
-        //             } else {
-        //                 successful.push(localPath)
-        //             }
-        //         }
-        //     })
-        //     .then(function(status) {
-        //             console.log('the directory transfer was', status ? 'successful' : 'unsuccessful')
-        //             console.log('failed transfers', failed.join(', '), failed.length)
-        //             console.log('successful transfers', successful.join(', '), successful.length)
-        //             ssh.dispose();
-        //             res.status(200).send({ result: 'success' });
-        //         },
-        //         function(error) {
-        //             console.log("Something's wrong")
-        //             console.log(error)
-        //         })
-        .catch(function(err) {
-            console.log(err);
-            console.error(err);
-            res.status(500).send({ result: 'failed!' });
-        });
+
+
+
+    // const failed = [];
+    // const successful = [];
+    // ssh.putDirectory(templAppDir, remoteAppPath, {
+    //         recursive: true,
+    //         validate: function(itemPath) {
+    //             const baseName = path.basename(itemPath)
+    //             return baseName.substr(0, 1) !== '.' && // do not allow dot files 
+    //                 baseName !== 'node_modules' // do not allow node_modules 
+    //         },
+    //         tick: function(localPath, remotePath, error) {
+    //             if (error) {
+    //                 failed.push(localPath)
+    //             } else {
+    //                 successful.push(localPath)
+    //             }
+    //         }
+    //     })
+    //     .then(function(status) {
+    //             console.log('the directory transfer was', status ? 'successful' : 'unsuccessful')
+    //             console.log('failed transfers', failed.join(', '), failed.length)
+    //             console.log('successful transfers', successful.join(', '), successful.length)
+    //             ssh.dispose();
+    //             res.status(200).send({ result: 'success' });
+    //         },
+    //         function(error) {
+    //             console.log("Something's wrong")
+    //             console.log(error)
+    //         })
+
+
+    .catch(function(err) {
+        console.log(err);
+        console.error(err);
+        res.status(500).send({ result: 'failed!' });
+    });
 });
 
 

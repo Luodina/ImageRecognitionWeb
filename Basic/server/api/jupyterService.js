@@ -68,36 +68,7 @@ router.post('/init', function(req, res) {
     let modelIpynbPath = volume + '/' + modelName + '/' + modelName + '.ipynb';
     let remotePath = '/var/lib/docker/volumes/' + userPath + '/_data/';
     console.log(templAppDir, remotePath);
-    ssh.connect(sshJupyterHubOpts).then(function() {
-        let command = '';
-        const failed = []
-        const successful = []
-        ssh.putDirectory(templAppDir, remotePath + appName, {
-            recursive: true,
-            // validate: function(itemPath) {
-            //     const baseName = path.basename(itemPath)
-            //     return baseName.substr(0, 1) !== '.' && // do not allow dot files 
-            //         baseName !== 'node_modules' // do not allow node_modules 
-            // },
-            tick: function(localPath, remotePath, error) {
-                if (error) {
-                    failed.push(localPath)
-                } else {
-                    successful.push(localPath)
-                }
-            }
-        }).then(function(status) {
-            console.log('the directory transfer was', status ? 'successful' : 'unsuccessful')
-            console.log('failed transfers', failed.join(', '))
-            console.log('successful transfers', successful.join(', '))
-        }).catch(err => { console.log(err) });
-
-        // if (type === 'app') {
-        //     command = 'cp -r /home/puaiuc/aura_deploy/template/data_apply_demo ' + '/var/lib/docker/volumes/' + userPath + '/_data/' + appName + ' && chmod 777 /var/lib/docker/volumes/' + userPath + '/_data/' + appName + '\nexit\n';
-        // }
-        // if (type === 'model') {
-        //     command = 'mkdir ' + modelFolderPath + ' && cp ' + templDataProfile + ' ' + modelIpynbPath + ' && chmod -R 777 ' + modelFolderPath + '\nexit\n';
-        // }
+    ssh.connect(sshJupyterHubOpts).then(() => {
         // ssh.execCommand(command).then(function(result) {
         //     console.log('STDOUT: ' + result.stdout);
         //     console.log('STDERR: ' + result.stderr);
