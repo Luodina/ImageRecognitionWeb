@@ -3,12 +3,12 @@
  */
 'use strict';
 angular.module('basic')
-  .controller('ExpertCtrl', ['copyName','$cookies', '$sce', '$location', '$rootScope', '$scope', '$http',
-    function (copyName,$cookies, $sce, $location, $rootScope, $scope, $http) {
+  .controller('ExpertCtrl', ['copyName', '$cookies', '$sce', '$location', '$rootScope', '$scope', '$http',
+    function (copyName, $cookies, $sce, $location, $rootScope, $scope, $http) {
       $scope.init = function () {
         let modelTemplate = $location.search()['modelTemplate'];
         let modelType = $location.search()['type'];
-        let appName = modelType == 'explore'? '':  $location.search()['appName'];
+        let appName = modelType == 'explore' ? '' : $location.search()['appName'];
         let path_list = $location.path().split(/[\s/]+/);
         let modelName = path_list.pop();
         let model = path_list.pop();
@@ -17,28 +17,67 @@ angular.module('basic')
         let typeMenu = '00';
         let path;
 
+        $scope.changeMode = (lang) => {
+          $scope.cmOption.mode = 'r';
+          $scope.grids.changestatus = lang;
+        };
+        $scope.changeKernel = (sss) => {
+          console.log(sss);
+          $scope.cmOption.mode = sss;
+          $scope.kernels.changestatus = sss;
+        };
         $scope.grids = {
           changestatus: 'Python',
-          status: [{ name: 'Python' }, { name: 'R' }]
+          status: ['Python', 'R'],
         };
+        $scope.kernels = {
+          changestatus: 'Kernel1',
+          status: ['Kernel1', 'Kernel2']
+        };
+        $scope.model = {};
+        let tmpArr = [{test: 'print（"1");'},{test: 'print（"2");'}];
 
-        let tmpArr = ['print（"1");', 'print（"2");'];
-        $scope.model ={};
         $scope.model.sourceCells = tmpArr;
         $scope.sourceCells = tmpArr;
 
         console.log($scope.model.sourceCells);
 
-        $scope.cmOption  = {
+        $scope.cmOption = {
           lineNumbers: false,
           indentWithTabs: true,
-          lineWrapping:true,
-          theme: "duotone-light"
+          lineWrapping: true,
+          theme: 'default',
+          mode: 'Python'
         };
+        $scope.openToolTip = ($index) => {
+          $scope.model.sourceCells[$index].isShow = true;
+          console.log('sddsds', $scope.model.sourceCells);
+        };
+        $scope.aaa = ($index) => {
+          $scope.model.sourceCells[$index].isShow = false;
+          console.log('sddsds', $scope.model.sourceCells);
+        };
+        $scope.run = function (index) {
+          $scope.model.sourceCells[index].isShowCode = true;
+          $scope.model.sourceCells[index].result = 1;
+          console.log($scope.model.sourceCells[index]);
 
+        };
+        $scope.upAdd = (index,item) => {
 
+          $scope.model.sourceCells.splice(index,0,{});
+          console.log('0011upupup',item);
+        };
+        $scope.downAdd = (index,item) => {
+          $scope.model.sourceCells.splice(index+1,0,{});
+          console.log('0012122downdown')
+        };
+        $scope.codeMirrorDelete = (index,item) => {
+          $scope.model.sourceCells.splice(index,1);
+          console.log('0012122delete')
+        };
         $scope.difUser = false;
-        $scope.openProject=function () {
+        $scope.openProject = function () {
           copyName.open(modelName, modelType);
         }
         if (model === 'new') {
@@ -53,7 +92,7 @@ angular.module('basic')
             if (modelType === 'explore') {
               typeMenu = '01';
               path = 'modelPath';
-            }else {
+            } else {
               typeMenu = '00';
               path = 'appPath';
             }
@@ -91,7 +130,7 @@ angular.module('basic')
                   $scope.difUser = data.difUser;
                   typeMenu = '01';
                   path = 'modelPath';
-                }else {
+                } else {
                   $scope.difUser = false;
                   typeMenu = '00';
                   path = 'appPath';

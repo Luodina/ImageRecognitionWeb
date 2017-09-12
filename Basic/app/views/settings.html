@@ -14,14 +14,12 @@
 </div>
 
 
-<!--<section ng-controller="SettingsCtrl">-->
-<!--<textarea ui-codemirror="cmOption" ng-model="code">
+<section ng-controller="SettingsCtrl">
+    <textarea ui-codemirror="cmOption" ng-model="code">
 
-  </textarea>-->
-<!--{{code}}-->
-<!--Mode :-->
-<!--<select ng-model="mode" ng-options="m for m in modes" ng-change="modeChanged()"></select>-->
-<!--</section>-->
+  </textarea> {{code}} Mode :
+    <select ng-model="mode" ng-options="m for m in modes" ng-change="modeChanged()"></select>
+</section>
 
 <div style="margin-top: 100px;background: #999">{{model.sourceCells[1]}}</div>
 

@@ -34,6 +34,7 @@ angular.module('basic')
         lineNumbers: false,
         indentWithTabs: true,
         lineWrapping: true,
-        theme: 'duotone-light'
+        theme: 'duotone-light',
+        mode: 'xml'
     };
 }]);
