@@ -25,12 +25,12 @@ const sshJupyterHubOpts = {
 
 router.post('/:itemName', function(req, res) {
     let itemType = req.body.itemType; //app or model
-    let itemID = itemType === "app" ? itemType + "_" + req.body.itemID : "model_" + req.body.itemID;
+    let itemID = "model_"; //itemType === "app" ? itemType + "_" + req.body.itemID : "model_" + req.body.itemID;
     let itemName = req.params.itemName;
     let userName = req.body.userName;
     let modelTemplate = req.body.modelTemplate;
     let userPath = "jupyterhub-user-" + userName;
-    let isApp = itemType === "app";
+
     let localPath = itemType => {
         if (itemType === "app") { return templAppDir }
         if (itemType === "model") { return templDataProfile }
@@ -47,8 +47,8 @@ router.post('/:itemName', function(req, res) {
             let command = "docker volume inspect " + userPath;
             ssh.execCommand(command)
                 .then(result => {
-                    console.log('STDOUT: ' + result.stdout)
-                        //console.log('STDERR: ' + result.stderr, result.stderr != null)
+                    console.log('STDOUT: ' + result.stdout);
+                    //console.log('STDERR: ' + result.stderr, result.stderr != null)
                     if (result.stdout !== '' && result.stdout !== null) {
                         remotePath = JSON.parse(result.stdout)[0]['Mountpoint'];
                         if (remotePath !== "" && remotePath !== null) {

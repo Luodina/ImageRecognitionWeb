@@ -1,93 +1,87 @@
 <div style="padding:0 30px;">
-  <div class="expertPage">
-    <div class="titlePart">jupyter notebook</div>
-    <div class="contentPart">
-      <div class="header-button-group">
-        <div class="header-button"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></div>
-        <div class="header-button"><span class="glyphicon glyphicon-stop" aria-hidden="true"
-                                         style="color: red;display: none;"></span></div>
-      </div>
-      <div class="header-button-group">
-        <div class="header-button"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span></div>
-        <div class="header-button"><span class="glyphicon glyphicon-forward" aria-hidden="true"
-                                         style="color: red;display: none;"></span></div>
-      </div>
-      <div class="header-button-group data_bg header_area_select head_main_set">
-        <div class="dropdown">
-          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-                  aria-expanded="true">
+    <div class="expertPage">
+        <div class="titlePart">jupyter notebook</div>
+        <div class="contentPart">
+            <div class="header-button-group">
+                <div class="header-button"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></div>
+                <div class="header-button"><span class="glyphicon glyphicon-stop" aria-hidden="true" style="color: red;display: none;"></span></div>
+            </div>
+            <div class="header-button-group">
+                <div class="header-button"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span></div>
+                <div class="header-button"><span class="glyphicon glyphicon-forward" aria-hidden="true" style="color: red;display: none;"></span></div>
+            </div>
+            <div class="header-button-group data_bg header_area_select head_main_set">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             {{grids.changestatus}}
             <span class="caret"></span>
           </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li ng-repeat="name in grids.status" ng-click="changeMode(name)">
-              <a href="javascript:void(0);">
-                <span ng-class="{colored:name===grids.changestatus}">{{name}}</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="header-button-group">
-        <div class="dropdown" style="float: left;">
-          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-                  aria-expanded="true">
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li ng-repeat="name in grids.status" ng-click="changeMode(name)">
+                            <a href="javascript:void(0);">
+                                <span ng-class="{colored:name===grids.changestatus}">{{name}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="header-button-group">
+                <div class="dropdown" style="float: left;">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             {{kernels.changestatus}}
             <span class="caret"></span>
           </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li ng-repeat="name in kernels.status" ng-click="changeKernel(name)">
-              <a href="javascript:void(0);">
-                <span ng-class="{colored:name===kernels.changestatus}">{{name}}</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="header-button-group">
-        <div class="dropdown" style="float: left;">
-          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="true">
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li ng-repeat="name in kernels.status" ng-click="changeKernel(name)">
+                            <a href="javascript:void(0);">
+                                <span ng-class="{colored:name===kernels.changestatus}">{{name}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="header-button-group">
+                <div class="dropdown" style="float: left;">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             save
           </button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <div class="expertPageContent">
-    <div class="row">
-      <div class="ipynb-edit cell" ng-repeat="item in model.sourceCells track by $index">
-        <div class="col-lg-1">
-          <div ng-show="item.isShow">
-            <button ng-click="run($index)">run</button>
-          </div>
-          <span style="font-size: large" class="pull-right">In [{{$index +1}}]:</span>
-        </div>
-        <div class="col-lg-11 ipynb-right" ng-click="openToolTip($index);$event.stopPropagation();">
-              <textarea id="code" +$index ui-codemirror="cmOption" ng-model="item.test">
-                {{item.test}}
+    <div class="expertPageContent">
+        <div class="row">
+            <div class="ipynb-edit cell" ng-repeat="item in model.sourceCells track by $index">
+                <div class="col-lg-1">
+                    <div ng-show="item.isShow">
+                        <button ng-click="run($index)">run</button>
+                    </div>
+                    <span style="font-size: large" class="pull-right">In [{{$index +1}}]:</span>
+                </div>
+                <div class="col-lg-11 ipynb-right" ng-click="openToolTip($index);$event.stopPropagation();">
+                    <textarea id="code" +$index ui-codemirror="cmOption" ng-model="item.code">
+                {{item.code}}
               </textarea>
-              <textarea class="col-lg-12" id="code11" +$index ng-disabled="item.test" ng-show="item.isShowCode"
-                    style="background: #000;color: #fff;">
-                {{item.result}}
+                    <textarea class="col-lg-12" id="code11" +$index ng-disabled="item.code" ng-show="item.isShowCode || item.result!==null" style="background: #000;color: #fff;"> 
+                {{item.result['image/png']}}
               </textarea>
-          <div class="tool-tip" ng-show="item.isShow">
-            <button ng-click="upAdd($index,item);$event.stopPropagation();">upAdd</button>
-            <button ng-click="downAdd($index,item);$event.stopPropagation();">downAdd</button>
-            <button ng-click="codeMirrorDelete($index,item);$event.stopPropagation();">delete</button>
-          </div>
+                    <div class="tool-tip" ng-show="item.isShow">
+                        <button ng-click="upAdd($index,item);$event.stopPropagation();">upAdd</button>
+                        <button ng-click="downAdd($index,item);$event.stopPropagation();">downAdd</button>
+                        <button ng-click="codeMirrorDelete($index,item);$event.stopPropagation();">delete</button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 
 
 <style>
-  .CodeMirror {
-    font-family: monospace;
-    height: 50px;
-    color: black;
-    border: solid 1px #f3f3f3;
-  }
+    .CodeMirror {
+        font-family: monospace;
+        height: 50px;
+        color: black;
+        border: solid 1px #f3f3f3;
+    }
 </style>
