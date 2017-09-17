@@ -47,7 +47,7 @@ let command;
 router.post('/initNotebook', function(req, res) {
     let modelId = "model_";
     let userName = "marta";
-    let file = '/notebook2.ipynb';
+    let file = '/notebook3.ipynb';
     let token;
     let jupyterOpts;
     ssh.connect(sshJupyterHubOpts).then(() => {
