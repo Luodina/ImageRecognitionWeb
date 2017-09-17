@@ -46,9 +46,10 @@ let command;
 
 router.post('/initNotebook', function(req, res) {
     let modelId = "model_";
-    let userName = "niusy";
-    let token
-    let jupyterOpts
+    let userName = "marta";
+    let file = '/notebook2.ipynb';
+    let token;
+    let jupyterOpts;
     ssh.connect(sshJupyterHubOpts).then(() => {
         command = 'docker exec -i auradeploy_hub_1 sh -c "jupyterhub token ' + userName + '"\nexit\n';
         //get token
@@ -62,7 +63,7 @@ router.post('/initNotebook', function(req, res) {
                         baseUrl: config[env].notebookUrl + 'user/' + userName,
                         token: token,
                         kernelName: 'python3',
-                        path: modelId + '/notebook.ipynb'
+                        path: modelId + file
                     };
                     console.log('jupyterOpts', jupyterOpts);
                     // Kernel.getSpecs({ baseUrl: 'http://10.20.51.5:8000/user/niusy' }).then(kernelSpecs => {
@@ -72,37 +73,25 @@ router.post('/initNotebook', function(req, res) {
                     //     console.log('Kernel err', err);
                     // });
                     let contents = new ContentsManager(jupyterOpts);
-                    contents.get(modelId + '/notebook.ipynb')
-                        .then(function(model) {
-
-                            for (var i = 0; i < model.content.cells.length; i++) {
+                    contents.get(modelId + file)
+                        .then(model => {
+                            for (let i = 0; i < model.content.cells.length; i++) {
                                 sourceCodes[i] = model.content.cells[i].source;
                             }
                             let obj = model.content;
                             let cells = Array(obj.cells.length);
                             for (let i = 0, len = obj.cells.length; i < len; i++) {
                                 cells[i] = {};
-                                let tmpSource = obj.cells[i].source;
-                                if (tmpSource !== undefined && tmpSource !== null) {
-                                    if (tmpSource.length !== 0) {
-                                        if (tmpSource !== undefined && tmpSource !== null) {
-                                            source[i] = tmpSource;
-                                            cells[i].code = source[i]
-                                        }
+                                cells[i].cell_type = obj.cells[i].cell_type;
+                                cells[i].execution_count = obj.cells[i].execution_count;
+                                cells[i].metadata = obj.cells[i].metadata;
+                                if (obj.cells[i].source !== undefined && obj.cells[i].source !== null) {
+                                    if (obj.cells[i].source.length !== 0) {
+                                        cells[i].code = obj.cells[i].source;
                                     }
                                 }
-                                let tmpOutputs = obj.cells[i].outputs;
-                                //console.log("tmpOutputs", tmpOutputs)
-                                if (tmpOutputs !== undefined && tmpOutputs !== null) {
-                                    if (tmpOutputs.length !== 0) {
-                                        for (let j = 0, len = tmpOutputs.length; j < len; j++) {
-                                            if (tmpOutputs[j].data !== undefined && tmpOutputs[j].data !== null) {
-                                                console.log("tmpOutputs[j]", tmpOutputs[j])
-                                                outputs[i] = tmpOutputs[j].data;
-                                                cells[i].result = outputs[i]
-                                            }
-                                        }
-                                    }
+                                if (obj.cells[i].outputs !== undefined && obj.cells[i].outputs !== null) {
+                                    cells[i].outputs = obj.cells[i].outputs;
                                 }
                             }
                             console.log("cells", cells)
@@ -201,23 +190,47 @@ router.post('/initNotebook', function(req, res) {
 
 router.post('/run', function(req, res) {
     let sourceCodes = req.body.sourceCodes;
-    console.log(`CODE:'${sourceCodes}`)
+
     let future = kernel.requestExecute({ code: sourceCodes });
-    future.onDone = () => {
-        console.log('Future is fulfilled');
-    };
+    console.log(`CODE:'${sourceCodes}
+                future ${future }`)
+
+    // future.onDone = () => {
+    //     console.log('Future is fulfilled');
+    // };
     future.onIOPub = msg => {
-        if (msg.header.msg_type === 'error') {
-            console.log(`
-                    ERROR: '${msg.content.evalue}
-                    CODE: $ { sourceCodes[2] }
-                    `);
-            res.status(200).send({ result: msg.content.evalue, msg: 'error' });
-        }
+        console.log(`msg`);
+
+        //return res.send({ result: msg.content, msg: 'success' });
+        // if (msg.header.msg_type === 'error') {
+        //     console.log(`
+        // ERROR: '${msg.content.evalue}
+        // CODE: $ { sourceCodes[2] }
+        // `);
+        //     return res.status(200).send({ result: msg.content.evalue, msg: 'error' });
+        // }
         if (msg.header.msg_type === 'execute_result') {
-            console.log(`msg.content:'${msg.content}`)
-            return res.send({ result: msg.content, msg: 'success' });
+            //console.log(`msg.content: '${msg.content} ${ msg.header.msg_type } `)
+            return res.send({ type: 'execute_result', result: msg.content, msg: 'success' });
         }
+        if (msg.header.msg_type === 'stream') {
+            //console.log(`msg.content: '${msg.content}  ${ msg.header.msg_type }`)
+            return res.send({ type: 'stream', result: msg.content, msg: 'success' });
+        }
+        if (msg.header.msg_type === 'display_data') {
+            //console.log(`msg.content: '${msg.content} ${ msg.header.msg_type } `)
+            return res.send({ type: 'display_data', result: msg.content, msg: 'success' });
+        }
+        if (msg.header.msg_type === 'error') {
+            //console.log(`msg.content: '${msg.content}  ${ msg.header.msg_type }`)
+            return res.send({
+                type: 'error',
+                result: msg.content,
+                msg: 'success'
+            });
+        }
+        //console.log(`msg.content: '${msg.content}`)
+
     };
 });
 
