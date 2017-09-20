@@ -117,6 +117,7 @@ angular.module('basic')
                                 $scope.model.sourceCells.splice(index, 1);
                                 console.log('0012122delete')
                             };
+
                             $scope.difUser = false;
                             $scope.openProject = function() {
                                 copyName.open(modelName, modelType);
@@ -126,6 +127,16 @@ angular.module('basic')
                     .catch(err => { console.log('err', err); })
             };
             $scope.init();
+            $scope.saveAll = function() {
+                $http.post('/api/jupyter/saveNotebook', {
+                        newContent: $scope.model.sourceCells
+                    })
+                    .then(data => {
+                        if (data !== null && data !== '') {
+                            console.log('data', data)
+                        }
+                    })
+            }
 
         }
     ]);
