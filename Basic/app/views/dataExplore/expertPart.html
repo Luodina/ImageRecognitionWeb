@@ -63,16 +63,15 @@
       <div class="ipynb-edit cell " ng-repeat="cell in model.sourceCells track by $index ">
         <div class="col-lg-1 ipynb-left" style="display: table-cell;">
           <!--<div ng-show="cell.cell_type==='code' && cell.outputs!==null ">-->
-          <div ng-show="cell.isShow">
+          <div ng-show="cell.isShow&&cell.cell_type==='code'">
             <button class="runBtn" ng-click="run($index)"></button>
           </div>
-          <span ng-show="!cell.isShow " style="font-size: large "
+          <span ng-show="!cell.isShow && cell.cell_type ==='code'" style="font-size: large "
                 class="pull-right ">In [{{cell.execution_count}}]:</span>
-          <!-- <span style="font-size: large " class="pull-right " ng-show="cell.outputs[0].output_type==='execute_result' ">In [{{cell.execution_count}}]:</span> -->
+          <!--<span style="font-size: large " class="pull-right " ng-show="cell.outputs[0].output_type==='execute_result' ">In [{{cell.execution_count}}]:</span>-->
         </div>
-        <div class="col-lg-11 ipynb-right" ng-click="openToolTip($index);$event.stopPropagation(); ">
-          <textarea id="code " class="changeStyle" ui-codemirror="cmOption " ng-model="cell.code "
-                    ng-focus="changeStyle()">
+        <div class="col-lg-11 ipynb-right" ng-click="openToolTip($index);$event.stopPropagation();">
+          <textarea id="code" class="changeStyle" ui-codemirror="cmOption " ng-model="cell.code">
             {{cell.code}}
           </textarea>
           <div ng-repeat="output in cell.outputs track by $index " ng-model="cell.outputs ">
@@ -92,7 +91,8 @@
               {{output.traceback}}
             </div>
           </div>
-          <div class="tool-tip " ng-show="cell.isShow ">
+          <div class="tool-tip "
+               ng-show="cell.isShow && cell.cell_type==='code'">
             <button class="upAddBtn" ng-click="upAdd($index,item);$event.stopPropagation();"></button>
             <button class="downAddBtn" ng-click="downAdd($index,item);$event.stopPropagation();"></button>
             <button class="deleteRedBtn" ng-click="codeMirrorDelete($index,item);$event.stopPropagation();"></button>
