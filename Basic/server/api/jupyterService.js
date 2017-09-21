@@ -1,6 +1,6 @@
 'use strict';
 import { Session, ContentsManager, Kernel } from '@jupyterlab/services';
-
+import { readFile, writeFile, existsSync, readFileSync, mkdir, createReadStream, createWriteStream } from 'fs';
 import { XMLHttpRequest } from 'xmlhttprequest';
 import { default as WebSocket } from 'ws';
 global.XMLHttpRequest = XMLHttpRequest;
@@ -10,7 +10,7 @@ const router = express.Router();
 const path = require('path');
 const config = require('./../config');
 const env = config.env || 'dev';
-
+const { exec } = require('child_process');
 const fs = require('fs');
 const node_ssh = require('node-ssh');
 const ssh = new node_ssh();
@@ -35,30 +35,37 @@ const templDir = path.join(__dirname, '../../template/');
 const templDataProfile = templDir + 'dataProfile-V4.0.ipynb';
 const templExpertModelDir = templDir + 'notebookTemplates';
 const templAppDir = templDir + 'data_apply_demo';
+const templTemp = templDir + 'temp.ipynb';
 
 let mysession;
 let kernel;
-//let token;
 
 let dataFileName;
 let command;
-
-
+let modelContent;
+let token;
+let jupyterOpts;
 router.post('/initNotebook', function(req, res) {
-    let modelId = "model_";
+    let modelId = "notebookTemplates/文本聚类分析";
     let userName = "marta";
-    let file = '/notebook3.ipynb';
-    let token;
-    let jupyterOpts;
+    let file = '/new.ipynb';
     ssh.connect(sshJupyterHubOpts).then(() => {
         command = 'docker exec -i auradeploy_hub_1 sh -c "jupyterhub token ' + userName + '"\nexit\n';
         //get token
         ssh.execCommand(command).then(result => {
             if (result.stdout !== '') {
+                let kernelSpecs;
                 token = result.stdout;
                 console.log('token:', result.stdout);
                 //res.status(200).send({ msg: 'success' });
                 if (token !== '') {
+                    Kernel.getSpecs({ baseUrl: config[env].notebookUrl + 'user/' + userName, token: token }).then(kernelSpecs => {
+                        kernelSpecs = kernelSpecs;
+                        console.log('Default spec:', kernelSpecs.default);
+                        console.log('Available specs', Object.keys(kernelSpecs.kernelspecs));
+                    }).catch(function(err) {
+                        console.log('Kernel err', err);
+                    });
                     jupyterOpts = {
                         baseUrl: config[env].notebookUrl + 'user/' + userName,
                         token: token,
@@ -66,15 +73,11 @@ router.post('/initNotebook', function(req, res) {
                         path: modelId + file
                     };
                     console.log('jupyterOpts', jupyterOpts);
-                    // Kernel.getSpecs({ baseUrl: 'http://10.20.51.5:8000/user/niusy' }).then(kernelSpecs => {
-                    //     console.log('Default spec:', kernelSpecs.default);
-                    //     console.log('Available specs', Object.keys(kernelSpecs.kernelspecs));
-                    // }).catch(function(err) {
-                    //     console.log('Kernel err', err);
-                    // });
                     let contents = new ContentsManager(jupyterOpts);
                     contents.get(modelId + file)
                         .then(model => {
+                            modelContent = model.content;
+                            console.log('model.content:', model.content);
                             for (let i = 0; i < model.content.cells.length; i++) {
                                 sourceCodes[i] = model.content.cells[i].source;
                             }
@@ -94,8 +97,8 @@ router.post('/initNotebook', function(req, res) {
                                     cells[i].outputs = obj.cells[i].outputs;
                                 }
                             }
-                            console.log("cells", cells)
-                                //-------------
+                            //console.log("cells", cells)
+                            //-------------
                             Session.listRunning(jupyterOpts).then(function(sessionModels) {
                                 var sessionNums = sessionModels.length;
                                 var existSession = false;
@@ -106,7 +109,7 @@ router.post('/initNotebook', function(req, res) {
                                             kernel = session.kernel;
                                             mysession = session;
                                             console.log('connected to running Jupyter Notebook session');
-                                            res.status(200).send({ cells: cells });
+                                            res.status(200).send({ cells: cells, kernelSpecs: kernelSpecs });
                                         });
                                         existSession = true;
                                         break;
@@ -129,63 +132,12 @@ router.post('/initNotebook', function(req, res) {
                         }).catch(function(err) {
                             console.log(err);
                         });
-
-
                 }
             }
         })
-
     }).catch(function(err) {
         console.log(err);
     });
-
-    // let jupyterOpts = {
-    //     baseUrl: config[env].notebookUrl + '/user/' + userName,
-    //     token: token,
-    //     kernelName: 'python3',
-    //     path: modelId + '/notebook.ipynb'
-    // };
-
-    // console.log('jupyterOpts', jupyterOpts);
-    // let contents = new ContentsManager(jupyterOpts);
-    // contents.get(modelId + '/notebook.ipynb').then(function(model) {
-    //     for (var i = 0; i < model.content.cells.length; i++) {
-    //         sourceCodes[i] = model.content.cells[i].source;
-    //     }
-    //     Session.listRunning(jupyterOpts).then(function(sessionModels) {
-    //         var sessionNums = sessionModels.length;
-    //         var existSession = false;
-    //         for (var _i = 0; _i < sessionNums; _i++) {
-    //             var _path = sessionModels[_i].notebook.path;
-    //             if (_path === modelName + '/' + modelName + '.ipynb') {
-    //                 Session.connectTo(sessionModels[_i].id, jupyterOpts).then(function(session) {
-    //                     kernel = session.kernel;
-    //                     mysession = session;
-    //                     console.log('connected to running Jupyter Notebook session');
-    //                 });
-    //                 existSession = true;
-    //                 break;
-    //             }
-    //         }
-    //         if (!existSession) {
-    //             Session.startNew(jupyterOpts).then(function(session) {
-    //                 kernel = session.kernel;
-    //                 mysession = session;
-    //                 // future.onDone = function() {
-    //                 //     console.log('Future is fulfilled');
-    //                 res.status(200).send({ msg: 'success', outputs: outputs, sources: source });
-    //                 // }; console.log('New Jupyter Notebook session started');
-    //             }).catch(function(err) {
-    //                 console.log(err, err);
-    //             });
-    //         }
-    //     }).catch(function(err) {
-    //         console.log(err);
-    //     });
-    // }).catch(function(err) {
-    //     console.log('Content problem!', err);
-    //     res.status(200).send({ msg: err.xhr.responseText });
-    // });
 });
 
 router.post('/run', function(req, res) {
@@ -234,6 +186,67 @@ router.post('/run', function(req, res) {
     };
 });
 
+router.post('/saveNotebook', function(req, res) {
+    let modelId = "notebookTemplates/文本聚类分析";
+    let userName = "marta";
+    let file = '/new.ipynb';
+    let path = "/var/lib/docker/volumes/jupyterhub-user-" + userName + "/_data/";
+    let token;
+    let jupyterOpts;
+    console.log(' req.body: ' + req.body);
+    let newContent = req.body.newContent;
+    console.log('newContent: ' + newContent);
+    let oldContent = modelContent;
+
+    for (let i = 0, len = newContent.length; i < len; i++) {
+
+        oldContent.cells[i].cell_type = newContent[i].cell_type;
+        oldContent.cells[i].execution_count = newContent[i].execution_count;
+        oldContent.cells[i].metadata = newContent[i].metadata;
+        oldContent.cells[i].source = newContent[i].code ? newContent[i].code : [];
+        if (newContent[i].outputs !== undefined && newContent[i].outputs !== null) {
+            oldContent.cells[i].outputs = newContent[i].outputs;
+        }
+    }
+
+    function writeFilePromisified(filename, text) {
+        return new Promise(
+            function(resolve, reject) {
+                writeFile(filename, text, { encoding: 'utf8' },
+                    (error, data) => {
+                        if (error) {
+                            reject(error);
+                        } else {
+                            resolve(data);
+                        }
+                    });
+            });
+    }
+    let json = JSON.stringify(oldContent); //convert it back to json
+    console.log('json: ' + json);
+    writeFilePromisified(templTemp, json)
+        .then(() => {
+            ssh.connect(sshJupyterHubOpts).then(function() {
+                let command = 'rm -rf ' + path + modelId + file;
+                ssh.execCommand(command)
+                    .then(result => {
+                        console.log('STDOUT: ' + result.stdout);
+                        ssh.putFiles([{
+                            local: templTemp,
+                            remote: path + modelId + file
+                        }]).then(function() {
+                            res.status(200).send({ result: "succeess" })
+                            console.log("The File thing is done");
+                        }, function(error) {
+                            res.status(200).send({ result: "failed" })
+                            console.log("Something's wrong");
+                            console.log(error);
+                        });
+                    })
+            });
+        })
+
+});
 // router.post('/upload', upload.single('file'), function(req, res) {
 //     res.status(200).send({ fileName: req.file.originalname });
 //     ssh.connect(sshJupyterHubOpts).then(function() {
