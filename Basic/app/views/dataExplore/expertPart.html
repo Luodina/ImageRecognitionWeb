@@ -61,9 +61,9 @@
         notebook
       </div>
       <div class="ipynb-edit cell " ng-repeat="cell in model.sourceCells track by $index ">
-        <div class="col-lg-1 ipynb-left" style="display: table-cell;">
+        <div class="col-lg-1 ipynb-left">
           <!--<div ng-show="cell.cell_type==='code' && cell.outputs!==null ">-->
-          <div ng-show="cell.isShow&&cell.cell_type==='code'">
+          <div ng-show="cell.isShow && cell.cell_type==='code'">
             <button class="runBtn" ng-click="run($index)"></button>
           </div>
           <span ng-show="!cell.isShow && cell.cell_type ==='code'" style="font-size: large "
@@ -71,10 +71,13 @@
           <!--<span style="font-size: large " class="pull-right " ng-show="cell.outputs[0].output_type==='execute_result' ">In [{{cell.execution_count}}]:</span>-->
         </div>
         <div class="col-lg-11 ipynb-right" ng-click="openToolTip($index);$event.stopPropagation();">
-          <textarea id="code" class="changeStyle" ui-codemirror="cmOption " ng-model="cell.code">
+          <!--<textarea id="code" class="changeStyle" ui-codemirror="cmOption " ng-model="cell.code">-->
+            <!--{{cell.code}}-->
+          <!--</textarea>-->
+          <div id="code" class="changeStyle" ui-codemirror="cmOption " ng-model="cell.code">
             {{cell.code}}
-          </textarea>
-          <div ng-repeat="output in cell.outputs track by $index " ng-model="cell.outputs ">
+          </div>
+          <div ng-repeat="output in cell.outputs track by $index " ng-model="cell.outputs" class="outPutCell">
             <div ng-show="output.output_type==='display_data' ">
               <img src="{{ 'data:image/png;base64,'+output.data[ 'image/png']}} ">
             </div>
@@ -91,8 +94,7 @@
               {{output.traceback}}
             </div>
           </div>
-          <div class="tool-tip "
-               ng-show="cell.isShow && cell.cell_type==='code'">
+          <div class="tool-tip " ng-show="cell.isShow && cell.cell_type==='code'">
             <button class="upAddBtn" ng-click="upAdd($index,item);$event.stopPropagation();"></button>
             <button class="downAddBtn" ng-click="downAdd($index,item);$event.stopPropagation();"></button>
             <button class="deleteRedBtn" ng-click="codeMirrorDelete($index,item);$event.stopPropagation();"></button>
@@ -103,21 +105,6 @@
   </div>
 </div>
 
-
-<style>
-  .CodeMirror {
-    font-family: monospace;
-    height: auto;
-    border: 1px solid #ccc; /*add by jackqqxu*/
-    font-size: 12px;
-  }
-
-  .CodeMirror-scroll {
-    /* Set scrolling behaviour here */
-    overflow: auto;
-    /*max-height: 200px;*/
-  }
-</style>
 <script type="text/javascript">
   window.onscroll = function () {
     let topScroll = document.body.scrollTop;
@@ -132,5 +119,6 @@
     } else {
       bignav.style.position = 'static';
     }
-  }
+  };
+
 </script>

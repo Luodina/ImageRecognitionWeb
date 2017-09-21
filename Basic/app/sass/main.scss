@@ -1389,13 +1389,14 @@ div.ng-invalid.ng-touched.ui-select-container span.ui-select-toggle {
   .ipynb-edit {
     margin-top: 50px;
     position: relative;
-    //display: table-row;
-    .ipynb-left{
-      //display: table-cell;
-      //background: #0b3e6f;
-      margin-right: 0;
+    background: #e6e6e6;
+    .ipynb-left {
+      //background: #CFF3D4;
+      margin-right: -15px;
+      margin-left: 15px;
       padding-right: 0;
       .runBtn {
+        float: right;
         border: none;
         width: 44px;
         height: 30px;
@@ -1406,42 +1407,62 @@ div.ng-invalid.ng-touched.ui-select-container span.ui-select-toggle {
 
     .ipynb-right {
       margin-bottom: 50px;
-      .dataframe {
+      .changeStyle {
+
+      }
+      .CodeMirror {
+        font-family: monospace;
+        height: auto;
+        border: 1px solid #ccc;
+        font-size: 12px;
+
+        .CodeMirror-scroll {
+          overflow: auto;
+          min-height: 30px;
+        }
+
+      }
+      .select{
+        background: #3f3f3f;
+      }
+      .outPutCell {
         margin-top: 10px;
-        thead th {
-          font-size: 14px;
-          height: 40px;
-          color: #999;
-          padding: 0 5px;
-          text-align: center;
-          border: solid 1px #999;
-        }
-        thead tr th:nth-child(1) {
-          padding: 0 15px;
-          text-align: center;
-          border: solid 1px #999;
-        }
-        tbody tr:nth-child(odd) {
-          background: #f9f9f9;
-        }
-        tbody tr:nth-child(even) {
-          background: #ffffff;
-        }
-        tbody th {
-          padding: 0 5px;
-          height: 40px;
-          text-align: center;
-          border: solid 1px #999;
-        }
-        tbody tr th:nth-child(1) {
-          padding: 0 15px;
-          text-align: center;
-          border: solid 1px #999;
-        }
-        tbody td {
-          padding: 0 5px;
-          text-align: center;
-          border: solid 1px #999;
+        .dataframe {
+          thead th {
+            font-size: 14px;
+            height: 40px;
+            color: #999;
+            padding: 0 5px;
+            text-align: center;
+            border: solid 1px #999;
+          }
+          thead tr th:nth-child(1) {
+            padding: 0 15px;
+            text-align: center;
+            border: solid 1px #999;
+          }
+          tbody tr:nth-child(odd) {
+            background: #f9f9f9;
+          }
+          tbody tr:nth-child(even) {
+            background: #ffffff;
+          }
+          tbody th {
+            padding: 0 5px;
+            height: 40px;
+            text-align: center;
+            border: solid 1px #999;
+          }
+          tbody tr th:nth-child(1) {
+            padding: 0 15px;
+            text-align: center;
+            border: solid 1px #999;
+          }
+          tbody td {
+            padding: 0 5px;
+            text-align: center;
+            border: solid 1px #999;
+          }
         }
       }
       .tool-tip {
