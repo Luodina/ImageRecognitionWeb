@@ -45,9 +45,9 @@
           </div>
         </div>
         <div class="header-button-group ">
-          <div class="dropdown " style="float: left; ">
+          <div class="dropdown " style="float: left;">
             <button class="btn btn-default dropdown-toggle " type="button " id="dropdownMenu1 " data-toggle="dropdown "
-                    aria-haspopup="true " aria-expanded="true ">
+                    aria-haspopup="true " aria-expanded="true " ng-click="saveAll()">
               save
             </button>
           </div>
@@ -66,11 +66,13 @@
           <div ng-show="cell.isShow">
             <button class="runBtn" ng-click="run($index)"></button>
           </div>
-          <span ng-show="!cell.isShow " style="font-size: large " class="pull-right ">In [{{cell.execution_count}}]:</span>
+          <span ng-show="!cell.isShow " style="font-size: large "
+                class="pull-right ">In [{{cell.execution_count}}]:</span>
           <!-- <span style="font-size: large " class="pull-right " ng-show="cell.outputs[0].output_type==='execute_result' ">In [{{cell.execution_count}}]:</span> -->
         </div>
         <div class="col-lg-11 ipynb-right" ng-click="openToolTip($index);$event.stopPropagation(); ">
-          <textarea id="code " class="changeStyle" ui-codemirror="cmOption " ng-model="cell.code " ng-focus="changeStyle()">
+          <textarea id="code " class="changeStyle" ui-codemirror="cmOption " ng-model="cell.code "
+                    ng-focus="changeStyle()">
             {{cell.code}}
           </textarea>
           <div ng-repeat="output in cell.outputs track by $index " ng-model="cell.outputs ">
@@ -103,18 +105,10 @@
 
 
 <style>
-  /*.CodeMirror {*/
-  /*font-family: monospace;*/
-  /*height: 50px;*/
-  /*color: black;*/
-  /*border: solid 1px #f3f3f3;*/
-  /*}*/
   .CodeMirror {
-    /* Set height, width, borders, and global font properties here */
     font-family: monospace;
     height: auto;
     border: 1px solid #ccc; /*add by jackqqxu*/
-    font-family: Monaco, Menlo, Consolas, 'COURIER NEW', monospace; /*add by jackqqxu*/
     font-size: 12px;
   }
 
@@ -126,23 +120,17 @@
 </style>
 <script type="text/javascript">
   window.onscroll = function () {
-    let topScroll = document.body.scrollTop;//滚动的距离,距离顶部的距离
-    let bignav = document.getElementById('fixTitle');//获取到导航栏id
-    if (topScroll > 50) {  //当滚动距离大于50px时执行下面的东西
+    let topScroll = document.body.scrollTop;
+    let bignav = document.getElementById('fixTitle');
+    if (topScroll > 50) {
       bignav.style.position = 'fixed';
       bignav.style.top = '0';
       bignav.style.marginTop = '0';
       bignav.style.zIndex = '10';
       bignav.style.width = '1403px';
       bignav.style.background = '#fff';
-    } else {//当滚动距离小于50的时候执行下面的内容，也就是让导航栏恢复原状
+    } else {
       bignav.style.position = 'static';
     }
-//    let ipynbLeft = document.getElementById('ipynbLeft');//获取到导航栏id
-//    let ipynbRight = document.getElementById('ipynbRight');//获取到导航栏id
-//    ipynbRight.style.height = 'auto';
-//    console.log('ipynbRight.style.height',ipynbRight.style.height)
-//    ipynbLeft.style.height = ipynbRight.style.height;
-
   }
 </script>
