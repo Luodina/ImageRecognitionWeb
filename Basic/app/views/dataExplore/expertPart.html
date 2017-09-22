@@ -1,4 +1,4 @@
-<div style="padding:0 30px;">
+<div style="padding:0 30px;" ng-click="handleGlobalClick()">
   <div class="row" id="fixTitle">
     <div class="expertPage">
       <div class="contentPart">
@@ -71,12 +71,9 @@
           <!--<span style="font-size: large " class="pull-right " ng-show="cell.outputs[0].output_type==='execute_result' ">In [{{cell.execution_count}}]:</span>-->
         </div>
         <div class="col-lg-11 ipynb-right" ng-click="openToolTip($index);$event.stopPropagation();">
-          <!--<textarea id="code" class="changeStyle" ui-codemirror="cmOption " ng-model="cell.code">-->
-            <!--{{cell.code}}-->
-          <!--</textarea>-->
-          <div id="code" class="changeStyle" ui-codemirror="cmOption " ng-model="cell.code">
+            <textarea id="code" class="changeStyle" ui-codemirror="cmOption " ng-model="cell.code" >
             {{cell.code}}
-          </div>
+          </textarea>
           <div ng-repeat="output in cell.outputs track by $index " ng-model="cell.outputs" class="outPutCell">
             <div ng-show="output.output_type==='display_data' ">
               <img src="{{ 'data:image/png;base64,'+output.data[ 'image/png']}} ">

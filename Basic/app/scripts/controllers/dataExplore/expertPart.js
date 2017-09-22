@@ -54,9 +54,23 @@ angular.module('basic')
                                 theme: 'default',
                                 mode: 'Python'
                             };
+                            $scope.handleGlobalClick = () => {
+                              $scope.model.sourceCells.forEach((item, idx) => {
+                                $scope.model.sourceCells[idx].isShow = false;
+                                document.getElementsByClassName(' CodeMirror')[idx].style.background='#fff';
+
+                              });
+                            };
                             $scope.openToolTip = ($index) => {
+
+                              $scope.model.sourceCells.forEach((item ,idx)=> {
+                                document.getElementsByClassName(' CodeMirror')[idx].style.background='#fff';
+                                item.isShow = false;
+                              });
                                 $scope.model.sourceCells[$index].isShow = true;
-                                console.log('openToolTip', $scope.model.sourceCells);
+                              document.getElementsByClassName(' CodeMirror')[$index].style.background='#999';
+
+                              console.log('openToolTip', $scope.model.sourceCells);
                             };
                             $scope.aaa = ($index) => {
                                 $scope.model.sourceCells[$index].isShow = false;
