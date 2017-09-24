@@ -404,8 +404,8 @@ angular.module('basic.services', ['ui.bootstrap'])
     this.open = function (arrItem) {
       return $uibModal.open({
         backdrop: 'static',
-        templateUrl: 'views/layer/chooseKernelPage.html',
-        // templateUrl: 'views/layer/createExpertModel.html',
+        // templateUrl: 'views/layer/chooseKernelPage.html',
+        templateUrl: 'views/layer/createExpertModel.html',
         size: 'size',
         controller: ['$uibModalInstance', '$scope', '$rootScope', '$location',
           function ($uibModalInstance, $scope, $rootScope, $location) {
