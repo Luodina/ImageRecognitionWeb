@@ -1,0 +1,71 @@
+<div class="modal-header">
+  <span class="modal-header-title">CREATE NEW IPYNB</span>
+  <span class="modal-header-close closeModelBtn" ng-click="cancel()"></span>
+</div>
+<div class="modal-body">
+  <div class="model-body-container">
+    <p class="oneLine">
+      <span>输入notebook名称：</span>
+      <input type="text" class="ipt" ng-class="model.name">
+    </p>
+    <p class="twoLine">
+      <span>运行环境选择：&nbsp;&nbsp;</span>
+      <select name="" id="" class="select">
+        <option value="">111</option>
+        <option value="">111222</option>
+      </select>
+    </p>
+  </div>
+  <div class="modal-body-warning">{{model.nameTip}}</div>
+</div>
+<div class="modal-footer">
+  <button class="modal-footer-btn"
+          ng-click="create()"
+          ng-disabled="!(model.name !== undefined && model.name !== null)"
+  >
+    {{'web_common_015'| translate}}
+  </button>
+  <!--<span ng-if="!UISref" class="modal-footer-btn" ng-click="create()">{{'web_common_015'| translate}}</span>
+  <span ng-if="UISref" class="modal-footer-btn" ui-sref="{{url}}({mode: 'new', name: model.name})" ng-click="create()">{{'web_common_015'| translate}}</span>-->
+</div>
+<style>
+  .model-body-container {
+    width:500px;
+    height: 100px;
+    padding-left: 50px;
+    position: relative;
+  }
+  .oneLine{
+    position: absolute;
+    left: 50px;
+    width:400px;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #3f3f3f;
+    /*background: blue;*/
+  }
+  .twoLine{
+    position: absolute;
+    left: 50px;
+    top:70px;
+    width: 400px;
+    font-size: 16px;
+    color: #3f3f3f;
+    /*background: blue;*/
+  }
+  .ipt{
+    float: right;
+    display: inline-block;
+    width:240px;
+    height: 30px;
+  }
+  .select{
+    float: right;
+    display: inline-block;
+    width:240px;
+    height: 30px;
+  }
+</style>
+
+
+
