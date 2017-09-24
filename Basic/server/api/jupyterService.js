@@ -19,7 +19,7 @@ const sshJupyterHubOpts = {
     // port: 22,
     username: config[env].jupyterHubUserName, //'root',
     //privateKey: '/Users/luodina/.ssh/id_rsa'
-    password: config[env].jupyterHubPassword, //'Asiainfo123456' // 'Ocai@131415' 
+    password: config[env].jupyterHubPassword, //'Asiainfo123456' // 'Ocai@131415'
 };
 
 let type,
@@ -48,7 +48,7 @@ let jupyterOpts;
 router.post('/initNotebook', function(req, res) {
     let modelId = "notebookTemplates/文本聚类分析";
     let userName = "marta";
-    let file = '/new.ipynb';
+    let file = '/notebook.ipynb';
     ssh.connect(sshJupyterHubOpts).then(() => {
         command = 'docker exec -i auradeploy_hub_1 sh -c "jupyterhub token ' + userName + '"\nexit\n';
         //get token
