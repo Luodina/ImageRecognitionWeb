@@ -99,7 +99,7 @@ angular.module('basic')
                 $scope.model.sourceCells[index].isShowCode = true;
                 $scope.model.sourceCells[index].execution_count = $scope.model.sourceCells[index].execution_count + 1;
                 //$scope.model.sourceCells[index].result = 1;
-                console.log($scope.model.sourceCells[index]);
+                // console.log($scope.model.sourceCells[index]);
                 $http.post('/api/jupyter/run', {sourceCodes: $scope.model.sourceCells[index].code})
                   .then(data => {
                     console.log('-------->',data);
@@ -110,8 +110,7 @@ angular.module('basic')
                       tmp.output_type = data.data.type;
                       $scope.model.sourceCells[index].outputs = [tmp];
                       //$scope.model.sourceCells[index].outputs.output_type = data.data.type;
-                      console.log("$scope.model.sourceCells[index].outputs",
-                        $scope.model.sourceCells[index].outputs);
+                      // console.log("$scope.model.sourceCells[index].outputs", $scope.model.sourceCells[index].outputs);
                     }
                   })
               };
@@ -123,18 +122,16 @@ angular.module('basic')
                   cell.isShowCode = true;
                   cell.execution_count = cell.execution_count + 1;
                   //$scope.model.sourceCells[index].result = 1;
-                  console.log('cell', cell);
+                  // console.log('cell', cell);
                   $http.post('/api/jupyter/run', {sourceCodes: cell.code})
                     .then(data => {
                       if (data !== null && data !== '') {
-                        console.log("cell.outputs",
-                          cell.outputs);
+                        // console.log("cell.outputs", cell.outputs);
                         let tmp = data.data.result;
                         tmp.output_type = data.data.type;
                         cell.outputs = [tmp];
                         //$scope.model.sourceCells[index].outputs.output_type = data.data.type;
-                        console.log("$scope.model.sourceCells[index].outputs",
-                          cell.outputs);
+                        // console.log("$scope.model.sourceCells[index].outputs", cell.outputs);
                       }
                     })
                 });
@@ -142,15 +139,15 @@ angular.module('basic')
               };
               $scope.upAdd = (index, item) => {
                 $scope.model.sourceCells.splice(index, 0, {cell_type :'code'});
-                console.log('0011upupup', item);
+                // console.log('0011upupup', item);
               };
               $scope.downAdd = (index, item) => {
                 $scope.model.sourceCells.splice(index + 1, 0, {cell_type :'code'});
-                console.log('0012122downdown')
+                // console.log('0012122downdown')
               };
               $scope.codeMirrorDelete = (index, item) => {
                 $scope.model.sourceCells.splice(index, 1);
-                console.log('0012122delete')
+                // console.log('0012122delete')
               };
 
               $scope.difUser = false;

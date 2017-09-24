@@ -144,7 +144,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                               $location.path('/app/update/' + projectName);
                             }
                           }
-                          console.log('Jupyter save:', data.msg);
+                          // console.log('Jupyter save:', data.msg);
                           $uibModalInstance.close({msg: data.msg});
                         })
                         .catch(err => {
@@ -152,7 +152,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                           console.log('err in /api/model/new:', err);
                         });
                     } else {
-                      console.log('Jupyter save:', data.msg);
+                      // console.log('Jupyter save:', data.msg);
                       $uibModalInstance.close({msg: data.msg});
                     }
                   } else {
@@ -306,7 +306,7 @@ angular.module('basic.services', ['ui.bootstrap'])
               changestatus: '周一',
               status: [{name: '周一'}, {name: '周二'}, {name: '周三'}, {name: '周四'}, {name: '周五'}, {name: '周六'}, {name: '周日'}]
             };
-            console.log('1111', $scope.weeks);
+            // console.log('1111', $scope.weeks);
             //每月设置
             $scope.months = {
               changestatus: '1',
@@ -426,7 +426,7 @@ angular.module('basic.services', ['ui.bootstrap'])
               $scope.urlcontent = $scope.items[idx];
             };
             $scope.create = function () {
-              console.log('kkkkk')
+              // console.log('kkkkk')
               // --------------
               if ($scope.model.name) {
                 //check in DB APP
@@ -448,7 +448,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                     })
                       .success(data => {
                         if (data.result === 'success') {
-                          console.log(data.model);
+                          // console.log(data.model);
 
                           $http.post('/api/appFile/' + data.model.MODEL_NAME, {
                             userName: $rootScope.getUsername(),
@@ -480,16 +480,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                       });
                   }
                 });
-
               }
-              ;
-              //-------
-              // if ($scope.model.name) {
-              //     $rootScope.exploreName = 'modelType_06';
-              //     $rootScope.modelExpertName = $scope.model.name;
-              //     $rootScope.nowActive = 6;
-              //     $uibModalInstance.close({ modelTemplate: $scope.urlcontent.content, modelName: $scope.model.name });
-              // }
             };
           }
         ]
@@ -540,7 +531,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                   COMMENT: 'Lets try it!',
                   APP_ID: appName
                 };
-                console.log('Data to DB savaData:', savaData);
+                // console.log('Data to DB savaData:', savaData);
                 $http.post('/api/model/new', savaData).success(function (data) {
                   console.log('Expert MODE save:', data.msg);
                 });

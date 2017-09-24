@@ -72,12 +72,12 @@ router.post('/initNotebook', function(req, res) {
                         kernelName: 'python3',
                         path: modelId + file
                     };
-                    console.log('jupyterOpts', jupyterOpts);
+                    // console.log('jupyterOpts', jupyterOpts);
                     let contents = new ContentsManager(jupyterOpts);
                     contents.get(modelId + file)
                         .then(model => {
                             modelContent = model.content;
-                            console.log('model.content:', model.content);
+                            // console.log('model.content:', model.content);
                             for (let i = 0; i < model.content.cells.length; i++) {
                                 sourceCodes[i] = model.content.cells[i].source;
                             }
@@ -100,10 +100,10 @@ router.post('/initNotebook', function(req, res) {
                             //console.log("cells", cells)
                             //-------------
                             Session.listRunning(jupyterOpts).then(function(sessionModels) {
-                                var sessionNums = sessionModels.length;
-                                var existSession = false;
-                                for (var _i = 0; _i < sessionNums; _i++) {
-                                    var _path = sessionModels[_i].notebook.path;
+                                let sessionNums = sessionModels.length;
+                                let existSession = false;
+                                for (let _i = 0; _i < sessionNums; _i++) {
+                                    let _path = sessionModels[_i].notebook.path;
                                     if (_path === modelName + '/' + modelName + '.ipynb') {
                                         Session.connectTo(sessionModels[_i].id, jupyterOpts).then(function(session) {
                                             kernel = session.kernel;
@@ -145,13 +145,13 @@ router.post('/run', function(req, res) {
 
     let future = kernel.requestExecute({ code: sourceCodes });
     console.log(`CODE:'${sourceCodes}
-                future ${future }`)
+                future ${future }`);
 
     // future.onDone = () => {
     //     console.log('Future is fulfilled');
     // };
     future.onIOPub = msg => {
-        console.log(`msg`);
+        // console.log(`msg`);
 
         //return res.send({ result: msg.content, msg: 'success' });
         // if (msg.header.msg_type === 'error') {
@@ -193,9 +193,9 @@ router.post('/saveNotebook', function(req, res) {
     let path = "/var/lib/docker/volumes/jupyterhub-user-" + userName + "/_data/";
     let token;
     let jupyterOpts;
-    console.log(' req.body: ' + req.body);
+    // console.log(' req.body: ' + req.body);
     let newContent = req.body.newContent;
-    console.log('newContent: ' + newContent);
+    // console.log('newContent: ' + newContent);
     let oldContent = modelContent;
 
     for (let i = 0, len = newContent.length; i < len; i++) {
@@ -223,7 +223,7 @@ router.post('/saveNotebook', function(req, res) {
             });
     }
     let json = JSON.stringify(oldContent); //convert it back to json
-    console.log('json: ' + json);
+    // console.log('json: ' + json);
     writeFilePromisified(templTemp, json)
         .then(() => {
             ssh.connect(sshJupyterHubOpts).then(function() {
