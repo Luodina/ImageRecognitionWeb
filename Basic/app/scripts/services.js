@@ -409,6 +409,10 @@ angular.module('basic.services', ['ui.bootstrap'])
         size: 'size',
         controller: ['$uibModalInstance', '$scope', '$rootScope', '$location',
           function ($uibModalInstance, $scope, $rootScope, $location) {
+            $http.get('/api/jupyter/kernels').then(data => {
+              console.log('kernellist',data);
+              $scope.kernels = data.data.kernellist;
+            });
             $scope.projectType = 'explore';
             $scope.items = arrItem;
             $scope.items[0].isActive = true;

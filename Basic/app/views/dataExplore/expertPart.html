@@ -10,11 +10,11 @@
           <div class="header-pic"><img ng-click="runAll()" class="titleRunAll" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="true"></div>
         </div>
-        <div class="header-button-group data_bg header_area_select head_main_set ">
+        <div class="header-button-group data_bg header_area_select head_main_set">
           <div class="dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="true">
-              {{grids.changestatus}}
+              {{grids.kernels}}
               <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
@@ -41,7 +41,7 @@
     <div class="expertPageContent">
       <div class="title">Notebook</div>
       <div class="ipynb-edit cell " ng-repeat="cell in model.sourceCells track by $index ">
-        <div class="col-lg-1 col-md-1 ipynb-left">
+        <div class="col-xs-1 ipynb-left">
           <!--<div ng-show="cell.cell_type==='code' && cell.outputs!==null ">-->
           <div ng-show="cell.isShow && cell.cell_type!='markdown'">
             <button class="runBtn" ng-click="run($index);$event.stopPropagation();"></button>
@@ -50,7 +50,7 @@
                 class="pull-right ">In [{{cell.execution_count || ''}}]:</span>
           <!--<span style="font-size: large " class="pull-right " ng-show="cell.outputs[0].output_type==='execute_result' ">In [{{cell.execution_count}}]:</span>-->
         </div>
-        <div class="col-lg-11 col-md-11 ipynb-right" ng-click="openToolTip($index);$event.stopPropagation();">
+        <div class="col-lg-11 col-md-11 col-xs-11 ipynb-right" ng-click="openToolTip($index);$event.stopPropagation();">
             <textarea id="code" name="code" class="changeStyle" ui-codemirror="cmOption " ng-model="cell.code">
             {{cell.code}}
           </textarea>

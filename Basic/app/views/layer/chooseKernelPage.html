@@ -3,19 +3,34 @@
   <span class="modal-header-close closeModelBtn" ng-click="cancel()"></span>
 </div>
 <div class="modal-body">
-  <div class="model-body-container">
-    <p class="oneLine">
-      <span>输入notebook名称：</span>
-      <input type="text" class="ipt" ng-class="model.name">
-    </p>
-    <p class="twoLine">
-      <span>运行环境选择：&nbsp;&nbsp;</span>
-      <select name="" id="" class="select">
-        <option value="">111</option>
-        <option value="">111222</option>
-      </select>
-    </p>
-  </div>
+  <!--<div class="model-body-container">-->
+    <!--<p class="oneLine">-->
+      <!--<span>输入notebook名称：</span>-->
+      <!--<input type="text" class="ipt" ng-class="model.name">-->
+    <!--</p>-->
+    <!--<p class="twoLine">-->
+      <!--<span>运行环境选择：&nbsp;&nbsp;</span>-->
+      <!--<select name="" id="" class="select">-->
+        <!--<option value="">111</option>-->
+        <!--<option value="">111222</option>-->
+      <!--</select>-->
+    <!--</p>-->
+  <!--</div>-->
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label class="col-sm-3 control-label">输入notebook名称: </label>
+      <div class="col-sm-9">
+        <input type="email" class="form-control"  placeholder="名称需要唯一">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">运行环境选择: </label>
+      <div class="col-sm-9">
+        <select class="form-control" ng-model="name" ng-options="name as a for a in kernels">
+        </select>
+      </div>
+    </div>
+  </form>
   <div class="modal-body-warning">{{model.nameTip}}</div>
 </div>
 <div class="modal-footer">
@@ -30,39 +45,43 @@
 </div>
 <style>
   .model-body-container {
-    width:500px;
+    width: 500px;
     height: 100px;
     padding-left: 50px;
     position: relative;
   }
-  .oneLine{
+
+  .oneLine {
     position: absolute;
     left: 50px;
-    width:400px;
+    width: 400px;
     margin-top: 10px;
     font-size: 16px;
     color: #3f3f3f;
     /*background: blue;*/
   }
-  .twoLine{
+
+  .twoLine {
     position: absolute;
     left: 50px;
-    top:70px;
+    top: 70px;
     width: 400px;
     font-size: 16px;
     color: #3f3f3f;
     /*background: blue;*/
   }
-  .ipt{
+
+  .ipt {
     float: right;
     display: inline-block;
-    width:240px;
+    width: 240px;
     height: 30px;
   }
-  .select{
+
+  .select {
     float: right;
     display: inline-block;
-    width:240px;
+    width: 240px;
     height: 30px;
   }
 </style>

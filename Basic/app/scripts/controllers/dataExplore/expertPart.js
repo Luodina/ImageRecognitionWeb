@@ -13,10 +13,8 @@ angular.module('basic')
         })
           .then(data => {
             console.log('----hghghhghh--->', data);
-            if (data.data.cells) {
-              // document.getElementsByClassName('CodeMirror')[$index].style.height = '100px';
-              // document.getElementsByClassName('ipynb-left')[$index].style.height = document.getElementsByClassName('CodeMirror')[$index].style.height;
 
+            if (data.data.cells) {
               let tmpArr = data.data.cells;
               tmpArr.forEach(function (cell) {
                 if (cell.outputs) {
@@ -29,10 +27,11 @@ angular.module('basic')
                     }
                   }
                 }
+
               }, this);
               let runIndex = 0;
+
               $scope.model.sourceCells = tmpArr;
-              console.log('data', data.data.cells);
               $scope.changeMode = (lang) => {
                 $scope.cmOption.mode = 'r';
                 $scope.grids.changestatus = lang;
@@ -56,12 +55,19 @@ angular.module('basic')
                 indentWithTabs: true,
                 lineWrapping: true,
                 theme: 'default',
-                mode: 'Python'
+                mode: 'python',
+                styleActiveLine: true,
+                matchBrackets: true
               };
               $scope.handleGlobalClick = () => {
                 $scope.model.sourceCells.forEach((item, idx) => {
+                  console.log('forEach((item, idx)', item);
                   $scope.model.sourceCells[idx].isShow = false;
-                  document.getElementsByClassName(' CodeMirror')[idx].style.borderColor = '#fff';
+                  document.getElementsByClassName('CodeMirror')[idx].style.borderColor = '#fff';
+                  if (item.cell_type === 'markdown'){
+                    document.getElementsByClassName('CodeMirror')[idx].style.background = '#fff';
+                    document.getElementsByClassName('CodeMirror')[idx].style.fontSize = '20px';
+                  }
                 });
               };
               $scope.openToolTip = ($index) => {
@@ -74,7 +80,7 @@ angular.module('basic')
                 $scope.model.sourceCells[$index].execution_count = $scope.model.sourceCells[$index].execution_count + 1;
                 document.getElementsByClassName(' CodeMirror')[$index].style.borderColor = '#CFF3D4';
                 console.log('openToolTip', $scope.model.sourceCells);
-                if($scope.isShow == true){
+                if ($scope.isShow == true) {
                   $scope.model.sourceCells[$index].isShow = true;
                   $scope.model.sourceCells[$index].execution_count = $scope.model.sourceCells[$index].execution_count + 1;
                   document.getElementsByClassName(' CodeMirror')[$index].style.borderColor = '#CFF3D4';
@@ -102,7 +108,7 @@ angular.module('basic')
                 // console.log($scope.model.sourceCells[index]);
                 $http.post('/api/jupyter/run', {sourceCodes: $scope.model.sourceCells[index].code})
                   .then(data => {
-                    console.log('-------->',data);
+                    console.log('-------->', data);
                     if (data !== null && data !== '') {
                       console.log("$scope.model.sourceCells[index].outputs",
                         $scope.model.sourceCells[index].outputs);
@@ -138,11 +144,11 @@ angular.module('basic')
                 $scope.model.sourceCells = tmpArr;
               };
               $scope.upAdd = (index, item) => {
-                $scope.model.sourceCells.splice(index, 0, {cell_type :'code'});
+                $scope.model.sourceCells.splice(index, 0, {cell_type: 'code'});
                 // console.log('0011upupup', item);
               };
               $scope.downAdd = (index, item) => {
-                $scope.model.sourceCells.splice(index + 1, 0, {cell_type :'code'});
+                $scope.model.sourceCells.splice(index + 1, 0, {cell_type: 'code'});
                 // console.log('0012122downdown')
               };
               $scope.codeMirrorDelete = (index, item) => {

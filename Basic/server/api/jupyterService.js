@@ -45,6 +45,38 @@ let command;
 let modelContent;
 let token;
 let jupyterOpts;
+let kernellist;
+
+
+router.get('/kernels', function (req, res) {
+  let options = {
+    baseUrl: "http://10.20.51.5:8000/user/admin",
+    token: "57fb7f5be0b748f0be4ff2d2805f35b3"
+  }
+  Kernel.getSpecs(options).then(function (data) {
+    let kk = data.kernelspecs;
+    function getItemsArr(object) {
+      let tmpArr = [];
+      for (let item in object) {
+        tmpArr.push(item);
+      }
+      return tmpArr;
+    }
+    function getItemsValue(object) {
+      let array = [];
+      let temp = getItemsArr(object);
+      for (let i in temp) {
+        array.push(kk[temp[i]].display_name);
+      }
+      return array;
+    }
+
+    kernellist = getItemsValue(kk);
+    res.send({kernellist: kernellist})
+  }).catch(function (err) {
+    console.log("err", err.xhr.responseText)
+  })
+});
 router.post('/initNotebook', function(req, res) {
     let modelId = "notebookTemplates/文本聚类分析";
     let userName = "marta";
@@ -59,13 +91,13 @@ router.post('/initNotebook', function(req, res) {
                 console.log('token:', result.stdout);
                 //res.status(200).send({ msg: 'success' });
                 if (token !== '') {
-                    Kernel.getSpecs({ baseUrl: config[env].notebookUrl + 'user/' + userName, token: token }).then(kernelSpecs => {
-                        kernelSpecs = kernelSpecs;
-                        console.log('Default spec:', kernelSpecs.default);
-                        console.log('Available specs', Object.keys(kernelSpecs.kernelspecs));
-                    }).catch(function(err) {
-                        console.log('Kernel err', err);
-                    });
+                    // Kernel.getSpecs({ baseUrl: config[env].notebookUrl + 'user/' + userName, token: token }).then(kernelSpecs => {
+                    //     kernelSpecs = kernelSpecs;
+                    //     console.log('Default spec:', kernelSpecs.default);
+                    //     console.log('Available specs', Object.keys(kernelSpecs.kernelspecs));
+                    // }).catch(function(err) {
+                    //     console.log('Kernel err', err);
+                    // });
                     jupyterOpts = {
                         baseUrl: config[env].notebookUrl + 'user/' + userName,
                         token: token,
@@ -109,7 +141,7 @@ router.post('/initNotebook', function(req, res) {
                                             kernel = session.kernel;
                                             mysession = session;
                                             console.log('connected to running Jupyter Notebook session');
-                                            res.status(200).send({ cells: cells, kernelSpecs: kernelSpecs });
+                                            res.status(200).send({ cells: cells});
                                         });
                                         existSession = true;
                                         break;
