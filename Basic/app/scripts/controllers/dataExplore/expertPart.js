@@ -23,18 +23,15 @@ angular.module('basic')
                                         if (cell.outputs.data['image/png'] !== null) {
                                             cell.outputs.data['image/png'] = 'data:image/png;base64,' + cell.outputs.data['image/png'];
                                         }
-
                                     }
                                 }
                             }, this);
                             $scope.model.sourceCells = tmpArr;
-                            console.log('data', data.data.cells);
                             $scope.changeMode = (lang) => {
                                 $scope.cmOption.mode = 'r';
                                 $scope.grids.changestatus = lang;
                             };
                             $scope.changeKernel = (sss) => {
-                                console.log(sss);
                                 $scope.cmOption.mode = sss;
                                 $scope.kernels.changestatus = sss;
                             };
@@ -115,9 +112,7 @@ angular.module('basic')
                             };
                             $scope.codeMirrorDelete = (index, item) => {
                                 $scope.model.sourceCells.splice(index, 1);
-                                console.log('0012122delete')
                             };
-
                             $scope.difUser = false;
                             $scope.openProject = function() {
                                 copyName.open(modelName, modelType);

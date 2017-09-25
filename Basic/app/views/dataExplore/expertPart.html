@@ -56,8 +56,9 @@
                     <div ng-show="cell.cell_type==='code' && cell.outputs!==null ">
                         <button ng-click="run($index) ">run</button>
                     </div>
-                    <span style="font-size: large " class="pull-right " ng-show="cell.cell_type==='code' ">In [{{cell.execution_count}}]:</span>
-                    <!-- <span style="font-size: large " class="pull-right " ng-show="cell.outputs[0].output_type==='execute_result' ">In [{{cell.execution_count}}]:</span> -->
+                    <span style="font-size: large " class="pull-right " ng-show="cell.cell_type==='code' ">
+                        In [{{cell.execution_count}}]:
+                    </span>
                 </div>
                 <div class="col-lg-11 ipynb-right " ng-click="openToolTip($index);$event.stopPropagation(); ">
                     <textarea id="code " +$index ui-codemirror="cmOption " ng-model="cell.code ">
