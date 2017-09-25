@@ -2,14 +2,11 @@
 angular.module('basic')
   .controller('ExpertCtrl', ['copyName', '$cookies', '$sce', '$location', '$rootScope', '$scope', '$http',
     function (copyName, $cookies, $sce, $location, $rootScope, $scope, $http) {
-      $scope.model = {
-        // sourceCells: {
-        //     execution_count: 0
-        // }
-      };
+      $scope.model = {};
+      let modelName = $location.path().split(/[\s/]+/).pop();
       $scope.init = function () {
         $http.post('/api/jupyter/initNotebook', {
-          // params: {}
+          modelName: modelName
         })
           .then(data => {
             console.log('----hghghhghh--->', data);
@@ -38,6 +35,7 @@ angular.module('basic')
                 changestatus: '选择语言',
                 status: ['Python', 'R'],
               };
+              $scope.language = ['python', 'r'];
               $scope.cmOption = {
                 lineNumbers: false,
                 indentWithTabs: true,
@@ -119,7 +117,7 @@ angular.module('basic')
                   // console.log('cell', cell);
                   $http.post('/api/jupyter/run', {sourceCodes: cell.code})
                     .then(data => {
-                      if (data !== null && data !== '') {
+                      if (data) {
                         // console.log("cell.outputs", cell.outputs);
                         let tmp = data.data.result;
                         tmp.output_type = data.data.type;
@@ -133,15 +131,12 @@ angular.module('basic')
               };
               $scope.upAdd = (index, item) => {
                 $scope.model.sourceCells.splice(index, 0, {cell_type: 'code'});
-                // console.log('0011upupup', item);
               };
               $scope.downAdd = (index, item) => {
                 $scope.model.sourceCells.splice(index + 1, 0, {cell_type: 'code'});
-                // console.log('0012122downdown')
               };
               $scope.codeMirrorDelete = (index, item) => {
                 $scope.model.sourceCells.splice(index, 1);
-                // console.log('0012122delete')
               };
 
               $scope.difUser = false;
@@ -160,7 +155,7 @@ angular.module('basic')
           newContent: $scope.model.sourceCells
         })
           .then(data => {
-            if (data !== null && data !== '') {
+            if (data) {
               console.log('data', data)
             }
           })

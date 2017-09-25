@@ -410,7 +410,7 @@ angular.module('basic.services', ['ui.bootstrap'])
         controller: ['$uibModalInstance', '$scope', '$rootScope', '$location',
           function ($uibModalInstance, $scope, $rootScope, $location) {
             $http.get('/api/jupyter/kernels').then(data => {
-              console.log('kernellist',data);
+              $scope.selectKernel = data.data.kernellist[2];
               $scope.kernels = data.data.kernellist;
             });
             $scope.projectType = 'explore';
@@ -430,7 +430,6 @@ angular.module('basic.services', ['ui.bootstrap'])
               $scope.urlcontent = $scope.items[idx];
             };
             $scope.create = function () {
-              // console.log('kkkkk')
               if ($scope.model.name) {
                 //check in DB APP
                 $rootScope.modelAppName = $scope.model.name;
@@ -440,6 +439,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                     $scope.model.name = '';
                     $scope.model.nameTip = 'Please use another name!!';
                   } else {
+                    console.log('kerker',$scope.selectKernel)
                     $http.post('/api/model/' + $scope.model.name, {
                       APP_ID: $scope.model.name,
                       USER_ID: $rootScope.getUsername(),
@@ -447,36 +447,33 @@ angular.module('basic.services', ['ui.bootstrap'])
                       VIEW_MENU_ID: "06",
                       COMMENT: "heyyyy",
                       FILE_PATH: "FILE_PATH",
-                      UPDATED_TIME: date.getTime()
+                      UPDATED_TIME: date.getTime(),
+                      KERNEL: $scope.selectKernel
                     })
                       .success(data => {
-                        if (data.result === 'success') {
-                          // console.log(data.model);
-                          $http.post('/api/appFile/' + data.model.MODEL_NAME, {
-                            userName: $rootScope.getUsername(),
-                            modelTemplate: $scope.urlcontent.content,
-                            itemType: "expert",
-                            itemID: data.model.MODEL_ID,
+                      if (data.result === 'success') {
+                        $http.post('/api/appFile/' + data.model.MODEL_NAME, {
+                          userName: $rootScope.getUsername(),
+                          modelTemplate: $scope.urlcontent.content,
+                          itemType: "expert",
+                          itemID: data.model.MODEL_ID
                         })
-                            .success(data => {
-                              if (data.result === 'success') {
-                                $rootScope.exploreName = 'modelType_06';
-                                $rootScope.modelExpertName = $scope.model.name;
-                                $rootScope.nowActive = 6;
-                                $uibModalInstance.close({
-                                  modelTemplate: $scope.urlcontent.content,
-                                  modelName: $scope.model.name
-                                });
-
-                                // $location.path('/explore/new/' + $scope.model.name);
-                                // $uibModalInstance.dismiss();
-                              }
-                            })
-                            .catch(err => {
-                              console.log(err);
-                            });
-                        }
-                      })
+                          .success(data => {
+                            if (data.result === 'success') {
+                              $rootScope.exploreName = 'modelType_06';
+                              $rootScope.modelExpertName = $scope.model.name;
+                              $rootScope.nowActive = 6;
+                              $uibModalInstance.close({
+                                modelTemplate: $scope.urlcontent.content,
+                                modelName: $scope.model.name
+                              });
+                            }
+                          })
+                          .catch(err => {
+                            console.log(err);
+                          });
+                      }
+                    })
                       .catch(err => {
                         console.log(err);
                       });
