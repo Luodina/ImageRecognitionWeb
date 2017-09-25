@@ -26,6 +26,7 @@ router.post('/:modelName', function(req, res) {
     let notebookPath = 'notebookPath'; //config[env][req.body.NOTEBOOK_PATH]; //req.body.NOTEBOOK_PATH;
     let comment = req.body.COMMENT;
     let appName = req.body.APP_ID;
+    let kernel = req.body.KERNEL;
     sequelize.transaction(t => {
         return Model.create({
                 MODEL_ID: t.id,
@@ -39,6 +40,7 @@ router.post('/:modelName', function(req, res) {
                 NOTEBOOK_PATH: notebookPath,
                 COMMENT: comment,
                 APP_ID: appName,
+                KERNEL: kernel,
                 isNewRecord: true
             })
             .then(model => { res.send({ result: 'success', model: model }); })

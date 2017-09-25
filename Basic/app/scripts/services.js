@@ -404,8 +404,8 @@ angular.module('basic.services', ['ui.bootstrap'])
     this.open = function (arrItem) {
       return $uibModal.open({
         backdrop: 'static',
-        // templateUrl: 'views/layer/chooseKernelPage.html',
-        templateUrl: 'views/layer/createExpertModel.html',
+        templateUrl: 'views/layer/chooseKernelPage.html',
+        // templateUrl: 'views/layer/createExpertModel.html',
         size: 'size',
         controller: ['$uibModalInstance', '$scope', '$rootScope', '$location',
           function ($uibModalInstance, $scope, $rootScope, $location) {
@@ -431,7 +431,6 @@ angular.module('basic.services', ['ui.bootstrap'])
             };
             $scope.create = function () {
               // console.log('kkkkk')
-              // --------------
               if ($scope.model.name) {
                 //check in DB APP
                 $rootScope.modelAppName = $scope.model.name;
@@ -453,13 +452,12 @@ angular.module('basic.services', ['ui.bootstrap'])
                       .success(data => {
                         if (data.result === 'success') {
                           // console.log(data.model);
-
                           $http.post('/api/appFile/' + data.model.MODEL_NAME, {
                             userName: $rootScope.getUsername(),
                             modelTemplate: $scope.urlcontent.content,
                             itemType: "expert",
-                            itemID: data.model.MODEL_ID
-                          })
+                            itemID: data.model.MODEL_ID,
+                        })
                             .success(data => {
                               if (data.result === 'success') {
                                 $rootScope.exploreName = 'modelType_06';

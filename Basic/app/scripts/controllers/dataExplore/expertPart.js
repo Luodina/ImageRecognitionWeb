@@ -13,7 +13,6 @@ angular.module('basic')
         })
           .then(data => {
             console.log('----hghghhghh--->', data);
-
             if (data.data.cells) {
               let tmpArr = data.data.cells;
               tmpArr.forEach(function (cell) {
@@ -30,26 +29,15 @@ angular.module('basic')
 
               }, this);
               let runIndex = 0;
-
               $scope.model.sourceCells = tmpArr;
               $scope.changeMode = (lang) => {
                 $scope.cmOption.mode = 'r';
                 $scope.grids.changestatus = lang;
               };
-              $scope.changeKernel = (sss) => {
-                console.log(sss);
-                $scope.cmOption.mode = sss;
-                $scope.kernels.changestatus = sss;
-              };
               $scope.grids = {
                 changestatus: '选择语言',
                 status: ['Python', 'R'],
               };
-              $scope.kernels = {
-                changestatus: '选择运行环境',
-                status: ['Kernel1', 'Kernel2']
-              };
-
               $scope.cmOption = {
                 lineNumbers: false,
                 indentWithTabs: true,
@@ -64,7 +52,7 @@ angular.module('basic')
                   console.log('forEach((item, idx)', item);
                   $scope.model.sourceCells[idx].isShow = false;
                   document.getElementsByClassName('CodeMirror')[idx].style.borderColor = '#fff';
-                  if (item.cell_type === 'markdown'){
+                  if (item.cell_type === 'markdown') {
                     document.getElementsByClassName('CodeMirror')[idx].style.background = '#fff';
                     document.getElementsByClassName('CodeMirror')[idx].style.fontSize = '20px';
                   }
