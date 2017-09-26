@@ -27,21 +27,22 @@ angular.module('basic')
               }, this);
               let runIndex = 0;
               $scope.model.sourceCells = tmpArr;
-              $scope.changeMode = (lang) => {
-                $scope.cmOption.mode = 'r';
-                $scope.grids.changestatus = lang;
-              };
-              $scope.grids = {
-                changestatus: '选择语言',
-                status: ['Python', 'R'],
-              };
-              $scope.language = ['python', 'r'];
+              // $scope.changeMode = (lang) => {
+              //   $scope.cmOption.mode = 'r';
+              //   $scope.grids.changestatus = lang;
+              // };
+              // $scope.grids = {
+              //   changestatus: '选择语言',
+              //   status: ['Python', 'R'],
+              // };
+              $scope.language = ['python', 'r' , 'scala'];
+              $scope.selectLanguage = $scope.language[0];
               $scope.cmOption = {
                 lineNumbers: false,
                 indentWithTabs: true,
                 lineWrapping: true,
                 theme: 'default',
-                mode: 'python',
+                mode: $scope.selectLanguage,
                 styleActiveLine: true,
                 matchBrackets: true
               };

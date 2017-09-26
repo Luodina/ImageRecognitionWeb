@@ -10,22 +10,24 @@
           <div class="header-pic"><img ng-click="runAll()" class="titleRunAll" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="true"></div>
         </div>
-        <div class="header-button-group data_bg header_area_select head_main_set">
-          <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="true">
-              {{grids.kernels}}
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <li ng-repeat="name in grids.status" ng-click="changeMode(name)">
-                <a href="javascript:void(0);">
-                  <span ng-class="{colored:name===grids.changestatus}">{{name}}</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <!--<div class="header-button-group data_bg header_area_select head_main_set">-->
+        <!--<div class="dropdown">-->
+        <!--<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"-->
+        <!--aria-expanded="true">-->
+        <!--{{grids.kernels}}-->
+        <!--<span class="caret"></span>-->
+        <!--</button>-->
+        <!--<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">-->
+        <!--<li ng-repeat="name in grids.status" ng-click="changeMode(name)">-->
+        <!--<a href="javascript:void(0);">-->
+        <!--<span ng-class="{colored:name===grids.changestatus}">{{name}}</span>-->
+        <!--</a>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</div>-->
+        <!--</div>-->
+        <select ng-model="selectLanguage" ng-options="a for a in language" style="float: left;width: 100px;height: 30px;margin-top: 10px;margin-right: 10px;"></select>
+
         <div class="header-button-group ">
           <div class="dropdown " style="float: left;">
             <button class="btn btn-default dropdown-toggle " type="button " id="dropdownMenu1 " data-toggle="dropdown "
