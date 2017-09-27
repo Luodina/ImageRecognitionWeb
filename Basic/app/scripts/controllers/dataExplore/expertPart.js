@@ -27,22 +27,14 @@ angular.module('basic')
               }, this);
               let runIndex = 0;
               $scope.model.sourceCells = tmpArr;
-              // $scope.changeMode = (lang) => {
-              //   $scope.cmOption.mode = 'r';
-              //   $scope.grids.changestatus = lang;
-              // };
-              // $scope.grids = {
-              //   changestatus: '选择语言',
-              //   status: ['Python', 'R'],
-              // };
-              $scope.language = ['python', 'r' , 'scala'];
-              $scope.selectLanguage = $scope.language[0];
+              $scope.codeStyle = ['code','markdown'];
+              $scope.selectStyle = $scope.codeStyle[0];
               $scope.cmOption = {
                 lineNumbers: false,
                 indentWithTabs: true,
                 lineWrapping: true,
                 theme: 'default',
-                mode: $scope.selectLanguage,
+                mode: 'python',
                 styleActiveLine: true,
                 matchBrackets: true
               };
@@ -50,27 +42,23 @@ angular.module('basic')
                 $scope.model.sourceCells.forEach((item, idx) => {
                   console.log('forEach((item, idx)', item);
                   $scope.model.sourceCells[idx].isShow = false;
-                  document.getElementsByClassName('CodeMirror')[idx].style.borderColor = '#fff';
-                  if (item.cell_type === 'markdown') {
-                    document.getElementsByClassName('CodeMirror')[idx].style.background = '#fff';
-                    document.getElementsByClassName('CodeMirror')[idx].style.fontSize = '20px';
-                  }
+                  document.getElementsByClassName('content')[idx].style.background = '#fff';
                 });
               };
               $scope.openToolTip = ($index) => {
                 runIndex = $index;
                 $scope.model.sourceCells.forEach((item, idx) => {
-                  document.getElementsByClassName('CodeMirror')[idx].style.borderColor = '#fff';
+                  document.getElementsByClassName('content')[idx].style.background = '#fff';
                   item.isShow = false;
                 });
                 $scope.model.sourceCells[$index].isShow = true;
                 $scope.model.sourceCells[$index].execution_count = $scope.model.sourceCells[$index].execution_count + 1;
-                document.getElementsByClassName(' CodeMirror')[$index].style.borderColor = '#CFF3D4';
+                document.getElementsByClassName(' content')[$index].style.background = '#f3f3f3';
                 console.log('openToolTip', $scope.model.sourceCells);
                 if ($scope.isShow == true) {
                   $scope.model.sourceCells[$index].isShow = true;
                   $scope.model.sourceCells[$index].execution_count = $scope.model.sourceCells[$index].execution_count + 1;
-                  document.getElementsByClassName(' CodeMirror')[$index].style.borderColor = '#CFF3D4';
+                  document.getElementsByClassName(' content')[$index].style.background = '#f3f3f3';
                 }
               };
 

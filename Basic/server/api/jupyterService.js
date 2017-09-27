@@ -96,7 +96,7 @@ router.post('/initNotebook', function (req, res) {
       res.send({result: null, msg: 'KERNEL can not null'});
       return
     }
-    let modelId = "notebookTemplates/文本聚类分析";
+    let modelId = "model_/文本聚类分析";
     let userName = "marta";
     let file = '/notebook.ipynb';
     let kernelName = model.KERNEL;
