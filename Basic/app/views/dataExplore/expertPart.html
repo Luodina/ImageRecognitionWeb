@@ -2,19 +2,19 @@
   <div class="row" id="fixTitle">
     <div class="expertPage">
       <div class="contentPart">
-        <div class="header-button-group" ng-click="runCell()">
+        <div class="header-button-group" ng-click="runCell();$event.stopPropagation();">
           <div class="header-pic"><img class="titleRunCell" data-toggle="dropdown" aria-haspopup="true "
                                        aria-expanded="true"></div>
         </div>
         <div class="header-button-group">
-          <div class="header-pic"><img ng-click="runAll()" class="titleRunAll" data-toggle="dropdown"
+          <div class="header-pic"><img ng-click="runAll();$event.stopPropagation();" class="titleRunAll" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="true"></div>
         </div>
-        <select ng-model="selectStyle" ng-options="a for a in codeStyle" style="float: left;width: 100px;height: 30px;margin-top: 10px;margin-right: 10px;"></select>
+        <select ng-model="selectStyle" ng-click="$event.stopPropagation();" ng-options="a for a in codeStyle" style="float: left;width: 100px;height: 30px;margin-top: 10px;margin-right: 10px;"></select>
         <div class="header-button-group ">
           <div class="dropdown " style="float: left;">
             <button class="btn btn-default dropdown-toggle " type="button " id="dropdownMenu1 " data-toggle="dropdown "
-                    aria-haspopup="true " aria-expanded="true " ng-click="saveAll()">
+                    aria-haspopup="true " aria-expanded="true " ng-click="saveAll();$event.stopPropagation();">
               {{"web_common_018"|translate}}
             </button>
           </div>

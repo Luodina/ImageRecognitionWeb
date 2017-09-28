@@ -4,6 +4,9 @@ angular.module('basic')
     function (copyName, $cookies, $sce, $location, $rootScope, $scope, $http) {
       $scope.model = {};
       let modelName = $location.path().split(/[\s/]+/).pop();
+      function isValidCodeModel(cell) {
+        return cell.cell_type === 'code' && !!cell.code;
+      }
       $scope.init = function () {
         $http.post('/api/jupyter/initNotebook', {
           modelName: modelName
@@ -39,44 +42,60 @@ angular.module('basic')
                 matchBrackets: true
               };
               $scope.handleGlobalClick = () => {
+                console.log('handleGlobalClick')
                 $scope.model.sourceCells.forEach((item, idx) => {
-                  console.log('forEach((item, idx)', item);
+                  // console.log('forEach((item, idx)', item);
                   $scope.model.sourceCells[idx].isShow = false;
                   document.getElementsByClassName('content')[idx].style.background = '#fff';
                 });
               };
-              $scope.openToolTip = ($index) => {
-                runIndex = $index;
+              $scope.openToolTip = (index) => {
+                runIndex = index;
                 $scope.model.sourceCells.forEach((item, idx) => {
                   document.getElementsByClassName('content')[idx].style.background = '#fff';
                   item.isShow = false;
                 });
-                $scope.model.sourceCells[$index].isShow = true;
-                $scope.model.sourceCells[$index].execution_count = $scope.model.sourceCells[$index].execution_count + 1;
-                document.getElementsByClassName(' content')[$index].style.background = '#f3f3f3';
+                $scope.model.sourceCells[index].isShow = true;
+                // $scope.model.sourceCells[index].execution_count = $scope.model.sourceCells[index].execution_count + 1;
+                document.getElementsByClassName('content')[index].style.background = '#f3f3f3';
                 console.log('openToolTip', $scope.model.sourceCells);
                 if ($scope.isShow == true) {
-                  $scope.model.sourceCells[$index].isShow = true;
-                  $scope.model.sourceCells[$index].execution_count = $scope.model.sourceCells[$index].execution_count + 1;
-                  document.getElementsByClassName(' content')[$index].style.background = '#f3f3f3';
+                  $scope.model.sourceCells[index].isShow = true;
+                  // $scope.model.sourceCells[index].execution_count = $scope.model.sourceCells[index].execution_count + 1;
+                  document.getElementsByClassName('content')[index].style.background = '#f3f3f3';
                 }
               };
 
               $scope.runCell = () => {
-                console.log('runIndex--->', runIndex);
+                if ($scope.model.sourceCells.length === 0) return;
+                if (runIndex >= $scope.model.sourceCells.length) {
+                  runIndex = 0;
+                }
+                if (!isValidCodeModel($scope.model.sourceCells[runIndex])) {
+                  $scope.openToolTip(++runIndex);
+                  return;
+                }
                 $http.post('/api/jupyter/run', {sourceCodes: $scope.model.sourceCells[runIndex].code})
                   .then(data => {
+                    console.log('runIndexdatadatadata--->', data);
                     if (data) {
                       $scope.model.sourceCells[runIndex].isShowCode = true;
                       let tmp = data.data.result;
                       tmp.output_type = data.data.type;
                       $scope.model.sourceCells[runIndex].outputs = [tmp];
-                      runIndex++;
+                      $scope.openToolTip(++runIndex);
+                      console.log('runIndex--->', runIndex);
+
                     }
-                  })
+                  }).catch(err => {
+                  console.log('dataerr', err);
+                })
               };
 
               $scope.run = function (index) {
+                if (!isValidCodeModel($scope.model.sourceCells[index])) {
+                  return;
+                }
                 $scope.model.sourceCells[index].isShowCode = true;
                 $scope.model.sourceCells[index].execution_count = $scope.model.sourceCells[index].execution_count + 1;
                 //$scope.model.sourceCells[index].result = 1;
@@ -98,8 +117,9 @@ angular.module('basic')
               $scope.runAll = function () {
                 console.log("runAll");
                 $scope.model.sourceCells.isShowCode = true;
-                let tmpArr = $scope.model.sourceCells;
-                tmpArr.forEach(function (cell) {
+                $scope.model.sourceCells.forEach(function (cell) {
+                  if (!isValidCodeModel(cell)) return;
+
                   cell.isShowCode = true;
                   cell.execution_count = cell.execution_count + 1;
                   //$scope.model.sourceCells[index].result = 1;
@@ -116,7 +136,6 @@ angular.module('basic')
                       }
                     })
                 });
-                $scope.model.sourceCells = tmpArr;
               };
               $scope.upAdd = (index, item) => {
                 $scope.model.sourceCells.splice(index, 0, {cell_type: 'code'});
