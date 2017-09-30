@@ -10,7 +10,7 @@
           <div class="header-pic"><img ng-click="runAll();$event.stopPropagation();" class="titleRunAll" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="true"></div>
         </div>
-        <select ng-model="selectStyle" ng-click="$event.stopPropagation();" ng-options="a for a in codeStyle" style="float: left;width: 100px;height: 30px;margin-top: 10px;margin-right: 10px;"></select>
+        <select ng-model="selectStyle" ng-change="changeSelectType(selectStyle)" ng-click="$event.stopPropagation();" ng-options="a for a in codeStyle" style="float: left;width: 100px;height: 30px;margin-top: 10px;margin-right: 10px;"></select>
         <div class="header-button-group ">
           <div class="dropdown " style="float: left;">
             <button class="btn btn-default dropdown-toggle " type="button " id="dropdownMenu1 " data-toggle="dropdown "
@@ -29,7 +29,7 @@
         <div class="row content">
           <div class="col-xs-1 ipynb-left">
             <!--<div ng-show="cell.cell_type==='code' && cell.outputs!==null ">-->
-            <div ng-show="cell.isShow && cell.cell_type!='markdown'">
+            <div ng-show="cell.isShow && cell.cell_type!=='markdown'">
               <button class="runBtn" ng-click="run($index);$event.stopPropagation();"></button>
             </div>
             <span ng-show="!cell.isShow && cell.cell_type ==='code'" style="font-size: large "
@@ -57,8 +57,8 @@
               </div>
               <div ng-show="output.output_type==='error'" class="output error">
                 <!--{{output.traceback}}-->
-                <span style="color: red;">{{output.ename}}</span>
-                <span style="color: #333;">{{output.evalue}}</span>
+                <span style="color: red;">{{output.ename}}</span><br />
+                <span style="color: #333;">{{output.evalue}}</span><br />
               </div>
             </div>
             <div class="tool-tip " ng-show="cell.isShow ">
