@@ -40,6 +40,7 @@ const templExpertModelDir = templDir + 'notebookTemplates';
 const templAppDir = templDir + 'data_apply_demo';
 const templTemp = templDir + 'temp.ipynb';
 
+
 let mysession;
 let kernel;
 
@@ -50,6 +51,8 @@ let token;
 let jupyterOpts;
 let kernellist;
 
+let baseNotebookUrl = config[env].notebookUrl;
+let modelType = 'explore';
 
 router.get('/kernels', function (req, res) {
   let options = {
@@ -229,15 +232,12 @@ router.post('/run', function (req, res) {
       return res.send({type: 'display_data', result: msg.content, msg: 'success'});
     }
     if (msg.header.msg_type === 'error') {
-      //console.log(`msg.content: '${msg.content}  ${ msg.header.msg_type }`)
       return res.send({
         type: 'error',
         result: msg.content,
         msg: 'success'
       });
     }
-    //console.log(`msg.content: '${msg.content}`)
-
   };
 });
 
@@ -303,7 +303,6 @@ router.post('/saveNotebook', function (req, res) {
     })
 
 });
-
 
 
 module.exports = router;

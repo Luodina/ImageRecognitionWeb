@@ -39,7 +39,7 @@ angular.module('basic')
         }
       };
       $scope.unfoldPath = (name, nameSecond, idx) => {
-        console.log('cvcvcv', name);
+        // console.log('cvcvcv', name);
         $rootScope.exploreName = name;
         $rootScope.modelExpertName = nameSecond.MODEL_NAME;
         $rootScope.nowActive = idx;

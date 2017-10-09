@@ -116,8 +116,6 @@ angular.module('basic')
                   .then(data => {
                     // console.log('-------->', data);
                     if (data !== null && data !== '') {
-                      console.log("$scope.model.sourceCells[index].outputs",
-                        $scope.model.sourceCells[index].outputs);
                       let tmp = data.data.result;
                       tmp.output_type = data.data.type;
                       $scope.model.sourceCells[index].outputs = [tmp];
@@ -125,7 +123,7 @@ angular.module('basic')
                   })
               };
               $scope.runAll = function () {
-                console.log("runAll");
+                // console.log("runAll");
                 $scope.model.sourceCells.isShowCode = true;
                 $scope.model.sourceCells.forEach(function (cell) {
                   if (!isValidCodeModel(cell)) return;
