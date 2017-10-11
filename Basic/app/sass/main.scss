@@ -1299,7 +1299,6 @@ div.ng-invalid.ng-touched.ui-select-container span.ui-select-toggle {
 
 //expertPage
 .expertPage {
-  margin-top: 10px;
   width: 100%;
   .titlePart {
     padding: 0 10px;
@@ -1313,11 +1312,35 @@ div.ng-invalid.ng-touched.ui-select-container span.ui-select-toggle {
     width: 100%;
     padding: 0 10px;
     height: 50px;
-    border: solid 1px #f2f2f2;
     .header-button-group {
       float: left;
       margin-right: 10px;
       display: inline-block;
+      .header-pic {
+        margin-top: 12px;
+        .titleRunCell {
+          border: none;
+          width: 34px;
+          height: 26px;
+          background: url(../images/runCell.png) no-repeat;
+        }
+        .titleRunCell:hover {
+          cursor: pointer;
+          z-index: 999;
+          background: url(../images/runBack.png) no-repeat;
+        }
+        .titleRunAll {
+          border: none;
+          width: 34px;
+          height: 26px;
+          background: url(../images/runAll.png) no-repeat;
+        }
+        .titleRunAll:hover {
+          cursor: pointer;
+          z-index: 999;
+          background: url(../images/runAllBack.png) no-repeat;
+        }
+      }
       .dropdown {
         line-height: 50px;
         .caret {
@@ -1355,31 +1378,127 @@ div.ng-invalid.ng-touched.ui-select-container span.ui-select-toggle {
   }
 }
 
-.expertPage {
-  //background: #3f3f3f;
-  .contentPart {
-    //background: #f3f3f3;
-  }
-}
-
 .expertPageContent {
-  margin-top: 100px;
-  .row {
-    .ipynb-edit {
+  .title {
+    padding-left: 15px;
+    font-size: 14px;
+    line-height: 30px;
+    background: #f3f3f3;
+    border-bottom: solid 1px #f0f0f0;
+  }
+  .ipynb-edit {
+    margin-top: 50px;
+    position: relative;
+    .content{
+      margin-left: 15px;
+      margin-right: 15px;
+      .ipynb-left {
+        //background: #CFF3D4;
+        margin-right: -15px;
+        margin-left: 15px;
+        padding-right: 0;
+        .runBtn {
+          float: right;
+          border: none;
+          width: 44px;
+          height: 30px;
+          z-index: 10;
+          background: url(../images/runSinCell.png) no-repeat;
+        }
+      }
       .ipynb-right {
-        position: relative;
-        margin-bottom: 50px;
+        //margin-bottom: 50px;
+        .changeStyle {
+
+        }
+        .CodeMirror {
+          font-family: monospace;
+          height: auto;
+          border: 1px solid #ccc;
+          font-size: 12px;
+          background: #f9f9f9;
+          .CodeMirror-scroll {
+            overflow: auto;
+            min-height: 30px;
+          }
+
+        }
+        .select {
+          background: #3f3f3f;
+        }
+        .outPutCell {
+          margin-top: 10px;
+          .output {
+            word-wrap: break-word;
+            .dataframe {
+              thead th {
+                font-size: 14px;
+                height: 40px;
+                color: #999;
+                padding: 0 5px;
+                text-align: center;
+                border: solid 1px #999;
+              }
+              thead tr th:nth-child(1) {
+                padding: 0 15px;
+                text-align: center;
+                border: solid 1px #999;
+              }
+              tbody tr:nth-child(odd) {
+                background: #f9f9f9;
+              }
+              tbody tr:nth-child(even) {
+                background: #ffffff;
+              }
+              tbody th {
+                padding: 0 5px;
+                height: 40px;
+                text-align: center;
+                border: solid 1px #999;
+              }
+              tbody tr th:nth-child(1) {
+                padding: 0 15px;
+                text-align: center;
+                border: solid 1px #999;
+              }
+              tbody td {
+                padding: 0 5px;
+                text-align: center;
+                border: solid 1px #999;
+              }
+            }
+          }
+          .error {
+            border: solid 1px #f3f3f3;
+            padding: 10px 5px;
+          }
+
+        }
         .tool-tip {
           position: absolute;
-          top: -20px;
+          top: -22px;
           right: 15px;
-          button {
-            display: inline-block;
-            height: 20px;
-            color: #000;
+          .upAddBtn {
+            border: none;
+            width: 67px;
+            height: 22px;
+            background: url(../images/addUp.png) no-repeat;
+          }
+          .downAddBtn {
+            border: none;
+            width: 67px;
+            height: 22px;
+            background: url(../images/addDown.png) no-repeat;
+          }
+          .deleteRedBtn {
+            border: none;
+            width: 38px;
+            height: 22px;
+            background: url(../images/deleteCell.png) no-repeat;
           }
         }
       }
     }
+
   }
 }

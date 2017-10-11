@@ -2,18 +2,33 @@
 angular.module('basic')
     .controller('ExpertCtrl', ['copyName', '$cookies', '$sce', '$location', '$rootScope', '$scope', '$http',
         function(copyName, $cookies, $sce, $location, $rootScope, $scope, $http) {
-            $scope.model = {
-                // sourceCells: {
-                //     execution_count: 0
-                // }
-            };
+            $scope.model = {};
+            let modelName = $location.path().split(/[\s/]+/).pop();
+
+            function isValidCodeModel(cell) {
+                return cell.cell_type === 'code' && !!cell.code;
+            }
             $scope.init = function() {
                 $http.post('/api/jupyter/initNotebook', {
-                        params: {}
+                        modelName: modelName
                     })
                     .then(data => {
-                        if (data.data.cells !== null && data.data.cells !== '') {
+                        // console.log('----hghghhghh--->', data);
+                        if (data.data.cells) {
                             let tmpArr = data.data.cells;
+                            let runIndex = 0;
+                            $scope.model.sourceCells = tmpArr;
+                            $scope.codeStyle = ['code', 'markdown'];
+                            $scope.selectStyle = $scope.codeStyle[0];
+                            $scope.cmOption = {
+                                lineNumbers: false,
+                                indentWithTabs: true,
+                                lineWrapping: true,
+                                theme: 'default',
+                                mode: 'python',
+                                styleActiveLine: true,
+                                matchBrackets: true
+                            };
                             tmpArr.forEach(function(cell) {
                                 if (cell.outputs) {
                                     if (cell.outputs.data) {
@@ -26,100 +41,124 @@ angular.module('basic')
                                     }
                                 }
                             }, this);
-                            $scope.model.sourceCells = tmpArr;
-                            $scope.changeMode = (lang) => {
-                                $scope.cmOption.mode = 'r';
-                                $scope.grids.changestatus = lang;
+                            $scope.handleGlobalClick = () => {
+                                $scope.model.sourceCells.forEach((item, idx) => {
+                                    $scope.model.sourceCells[idx].isShow = false;
+                                    document.getElementsByClassName('content')[idx].style.background = '#fff';
+                                });
                             };
-                            $scope.changeKernel = (sss) => {
-                                $scope.cmOption.mode = sss;
-                                $scope.kernels.changestatus = sss;
+                            $scope.initSelectCell = (index) => {
+                                runIndex = index;
+                                $scope.model.sourceCells.forEach((item, idx) => {
+                                    document.getElementsByClassName('content')[idx] && (document.getElementsByClassName('content')[idx].style.background = '#fff');
+                                });
+                                document.getElementsByClassName('content')[index] && (document.getElementsByClassName('content')[index].style.background = '#f3f3f3');
+                                if ($scope.model.sourceCells[index].cell_type === 'markdown') {
+                                    $scope.selectStyle = $scope.codeStyle[1];
+                                } else if ($scope.model.sourceCells[index].cell_type === 'code') {
+                                    $scope.selectStyle = $scope.codeStyle[0];
+                                }
                             };
-                            $scope.grids = {
-                                changestatus: 'Python',
-                                status: ['Python', 'R'],
+                            $scope.initSelectCell(0);
+                            $scope.openToolTip = (index) => {
+                                runIndex = index;
+                                $scope.model.sourceCells.forEach((item, idx) => {
+                                    document.getElementsByClassName('content')[idx] && (document.getElementsByClassName('content')[idx].style.background = '#fff');
+                                    item.isShow = false;
+                                });
+                                $scope.model.sourceCells[index].isShow = true;
+                                document.getElementsByClassName('content')[index] && (document.getElementsByClassName('content')[index].style.background = '#f3f3f3');
+                                $scope.selectStyle = $scope.model.sourceCells[index].cell_type;
                             };
-                            $scope.kernels = {
-                                changestatus: 'Kernel1',
-                                status: ['Kernel1', 'Kernel2']
+                            $scope.changeSelectType = (selectType) => {
+                                // console.log(111000,selectType);
+                                $scope.model.sourceCells[runIndex].cell_type = selectType;
+                                if (selectType === 'markdown') {
+                                    $scope.model.sourceCells[runIndex].outputs = null;
+                                    document.getElementsByClassName('content')[runIndex].style.color = '#666';
+                                }
                             };
+                            $scope.runCell = () => {
+                                if ($scope.model.sourceCells.length === 0) return;
+                                if (runIndex >= $scope.model.sourceCells.length) {
+                                    runIndex = 0;
+                                }
+                                if (!isValidCodeModel($scope.model.sourceCells[runIndex])) {
+                                    $scope.openToolTip(++runIndex);
+                                    return;
+                                }
+                                $http.post('/api/jupyter/run', { sourceCodes: $scope.model.sourceCells[runIndex].code })
+                                    .then(data => {
+                                        // console.log('runIndexdatadatadata--->', data);
+                                        if (data) {
+                                            $scope.model.sourceCells[runIndex].isShowCode = true;
+                                            let tmp = data.data.result;
+                                            tmp.output_type = data.data.type;
+                                            // tmp.traceback = tmp.traceback.map(item => {
+                                            //   return item.replace(/\u001b\[\d{1,2}m?(;\d{1,2}m?)?/gi, '');
+                                            // })
+                                            // console.warn(tmp.traceback)
+                                            $scope.model.sourceCells[runIndex].outputs = [tmp];
+                                            $scope.openToolTip(++runIndex);
+                                            // console.log('runIndex--->', runIndex);
+                                        }
+                                    }).catch(err => {
+                                        console.log('dataErr', err);
+                                    })
+                            }
 
-                            $scope.cmOption = {
-                                lineNumbers: false,
-                                indentWithTabs: true,
-                                lineWrapping: true,
-                                theme: 'default',
-                                mode: 'Python'
-                            };
-                            $scope.openToolTip = ($index) => {
-                                $scope.model.sourceCells[$index].isShow = true;
-                                console.log('openToolTip', $scope.model.sourceCells);
-                            };
-                            $scope.aaa = ($index) => {
-                                $scope.model.sourceCells[$index].isShow = false;
-                                console.log('sddsds', $scope.model.sourceCells);
-                            };
                             $scope.run = function(index) {
+                                if (!isValidCodeModel($scope.model.sourceCells[index])) {
+                                    return;
+                                }
                                 $scope.model.sourceCells[index].isShowCode = true;
                                 $scope.model.sourceCells[index].execution_count = $scope.model.sourceCells[index].execution_count + 1;
-                                //$scope.model.sourceCells[index].result = 1;
-                                console.log($scope.model.sourceCells[index]);
                                 $http.post('/api/jupyter/run', { sourceCodes: $scope.model.sourceCells[index].code })
                                     .then(data => {
+                                        // console.log('-------->', data);
                                         if (data !== null && data !== '') {
-                                            console.log("$scope.model.sourceCells[index].outputs",
-                                                $scope.model.sourceCells[index].outputs);
                                             let tmp = data.data.result;
                                             tmp.output_type = data.data.type;
                                             $scope.model.sourceCells[index].outputs = [tmp];
-                                            //$scope.model.sourceCells[index].outputs.output_type = data.data.type;
-                                            console.log("$scope.model.sourceCells[index].outputs",
-                                                $scope.model.sourceCells[index].outputs);
                                         }
                                     })
                             };
                             $scope.runAll = function() {
-                                console.log("runAll")
-                                let tmpArr = $scope.model.sourceCells;
-                                tmpArr.forEach(function(cell) {
+                                // console.log("runAll");
+                                $scope.model.sourceCells.isShowCode = true;
+                                $scope.model.sourceCells.forEach(function(cell) {
+                                    if (!isValidCodeModel(cell)) return;
                                     cell.isShowCode = true;
                                     cell.execution_count = cell.execution_count + 1;
-                                    //$scope.model.sourceCells[index].result = 1;
-                                    console.log('cell', cell);
                                     $http.post('/api/jupyter/run', { sourceCodes: cell.code })
                                         .then(data => {
-                                            if (data !== null && data !== '') {
-                                                console.log("cell.outputs",
-                                                    cell.outputs);
+                                            if (data) {
                                                 let tmp = data.data.result;
                                                 tmp.output_type = data.data.type;
                                                 cell.outputs = [tmp];
-                                                //$scope.model.sourceCells[index].outputs.output_type = data.data.type;
-                                                console.log("$scope.model.sourceCells[index].outputs",
-                                                    cell.outputs);
                                             }
                                         })
                                 });
-                                $scope.model.sourceCells = tmpArr;
                             };
                             $scope.upAdd = (index, item) => {
-                                $scope.model.sourceCells.splice(index, 0, {});
-                                console.log('0011upupup', item);
+                                $scope.model.sourceCells.splice(index, 0, { cell_type: 'code' });
                             };
                             $scope.downAdd = (index, item) => {
-                                $scope.model.sourceCells.splice(index + 1, 0, {});
-                                console.log('0012122downdown')
+                                $scope.model.sourceCells.splice(index + 1, 0, { cell_type: 'code' });
                             };
                             $scope.codeMirrorDelete = (index, item) => {
                                 $scope.model.sourceCells.splice(index, 1);
                             };
+
                             $scope.difUser = false;
                             $scope.openProject = function() {
                                 copyName.open(modelName, modelType);
                             }
                         }
                     })
-                    .catch(err => { console.log('err', err); })
+                    .catch(err => {
+                        console.log('err', err);
+                    })
             };
             $scope.init();
             $scope.saveAll = function() {
@@ -127,7 +166,7 @@ angular.module('basic')
                         newContent: $scope.model.sourceCells
                     })
                     .then(data => {
-                        if (data !== null && data !== '') {
+                        if (data) {
                             console.log('data', data)
                         }
                     })

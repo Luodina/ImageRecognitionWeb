@@ -109,8 +109,12 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_delete_layer_02': '确认',
     'web_common_data_delete_layer_03': '取消',
 
-    'web_common_copy_layer_01': '文件复制'
+    'web_common_copy_layer_01': '文件复制',
 
+    'web_common_expertPart_layer_01': '创建新的ipynb',
+    'web_common_expertPart_layer_02': '输入notebook名称:',
+    'web_common_expertPart_layer_03': '运行环境选择:',
+    'web_common_expertPart_layer_04': '名称需要唯一'
 
   });
 }]);

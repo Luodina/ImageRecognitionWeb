@@ -10,7 +10,7 @@ module.exports = {
         jupyterHubHost: '10.20.51.5',
         jupyterHubUserName: 'root',
         jupyterHubPassword: 'Asiainfo123456'
-
+        // huburl:'http://10.20.51.5:8000/user/'
     },
     prod: {
         dist: 'app',

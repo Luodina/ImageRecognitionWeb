@@ -111,7 +111,14 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_delete_layer_02': 'confirm',
     'web_common_data_delete_layer_03': 'cancle',
 
-    'web_common_copy_layer_01': 'Copy the file'
+    'web_common_copy_layer_01': 'Copy the file',
+
+    'web_common_expertPart_layer_01': 'Creata new ipynb',
+    'web_common_expertPart_layer_02': 'Enter a notebook name',
+    'web_common_expertPart_layer_03': 'Operating environment selection',
+    'web_common_expertPart_layer_04': 'The name needs to be unique'
+
+
 
   });
 }]);
