@@ -1,80 +1,71 @@
-<div style="padding:0 30px;">
-  <div class="expertPage">
-    <div class="titlePart">jupyter notebook</div>
-    <div class="contentPart">
-      <div class="header-button-group">
-        <div class="header-button"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></div>
-        <div class="header-button"><span class="glyphicon glyphicon-stop" aria-hidden="true"
-                                         style="color: red;display: none;"></span></div>
-      </div>
-      <div class="header-button-group">
-        <div class="header-button"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span></div>
-        <div class="header-button"><span class="glyphicon glyphicon-forward" aria-hidden="true"
-                                         style="color: red;display: none;"></span></div>
-      </div>
-      <div class="header-button-group data_bg header_area_select head_main_set">
-        <div class="dropdown">
-          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-                  aria-expanded="true">
-            {{grids.changestatus}}
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li ng-repeat="name in grids.status" ng-click="changeMode(name)">
-              <a href="javascript:void(0);">
-                <span ng-class="{colored:name===grids.changestatus}">{{name}}</span>
-              </a>
-            </li>
-          </ul>
+<div style="padding:0 30px;" ng-click="handleGlobalClick()">
+  <div class="row" id="fixTitle">
+    <div class="expertPage">
+      <div class="contentPart">
+        <div class="header-button-group" ng-click="runCell();$event.stopPropagation();">
+          <div class="header-pic"><img class="titleRunCell" data-toggle="dropdown" aria-haspopup="true "
+                                       aria-expanded="true"></div>
         </div>
-      </div>
-      <div class="header-button-group">
-        <div class="dropdown" style="float: left;">
-          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-                  aria-expanded="true">
-            {{kernels.changestatus}}
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li ng-repeat="name in kernels.status" ng-click="changeKernel(name)">
-              <a href="javascript:void(0);">
-                <span ng-class="{colored:name===kernels.changestatus}">{{name}}</span>
-              </a>
-            </li>
-          </ul>
+        <div class="header-button-group">
+          <div class="header-pic"><img ng-click="runAll();$event.stopPropagation();" class="titleRunAll" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="true"></div>
         </div>
-      </div>
-      <div class="header-button-group">
-        <div class="dropdown" style="float: left;">
-          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="true">
-            save
-          </button>
+        <select ng-model="selectStyle" ng-change="changeSelectType(selectStyle)" ng-click="$event.stopPropagation();" ng-options="a for a in codeStyle" style="float: left;width: 100px;height: 30px;margin-top: 10px;margin-right: 10px;"></select>
+        <div class="header-button-group ">
+          <div class="dropdown " style="float: left;">
+            <button class="btn btn-default dropdown-toggle " type="button " id="dropdownMenu1 " data-toggle="dropdown "
+                    aria-haspopup="true " aria-expanded="true " ng-click="saveAll();$event.stopPropagation();">
+              {{"web_common_018"|translate}}
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="expertPageContent">
-    <div class="row">
-      <div class="ipynb-edit cell" ng-repeat="item in model.sourceCells track by $index">
-        <div class="col-lg-1">
-          <div ng-show="item.isShow">
-            <button ng-click="run($index)">run</button>
+  <div class="row" style="border: solid 1px #f0f0f0;">
+    <div class="expertPageContent">
+      <div class="title">Notebook</div>
+      <div class="ipynb-edit cell " ng-repeat="cell in model.sourceCells track by $index ">
+        <div class="row content">
+          <div class="col-xs-1 ipynb-left">
+            <!--<div ng-show="cell.cell_type==='code' && cell.outputs!==null ">-->
+            <div ng-show="cell.isShow && cell.cell_type!=='markdown'">
+              <button class="runBtn" ng-click="run($index);$event.stopPropagation();"></button>
+            </div>
+            <span ng-show="!cell.isShow && cell.cell_type ==='code'" style="font-size: large "
+                  class="pull-right ">In [{{cell.execution_count || ''}}]:</span>
+            <!--<span style="font-size: large " class="pull-right " ng-show="cell.outputs[0].output_type==='execute_result' ">In [{{cell.execution_count}}]:</span>-->
           </div>
-          <span style="font-size: large" class="pull-right">In [{{$index +1}}]:</span>
-        </div>
-        <div class="col-lg-11 ipynb-right" ng-click="openToolTip($index);$event.stopPropagation();">
-              <textarea id="code" +$index ui-codemirror="cmOption" ng-model="item.test">
-                <!--{{item.test}}-->
-              </textarea>
-              <textarea class="col-lg-12" id="code11" +$index ng-disabled="item.test" ng-show="item.isShowCode"
-                    style="background: #000;color: #fff;">
-                {{item.result}}
-              </textarea>
-          <div class="tool-tip" ng-show="item.isShow">
-            <button ng-click="upAdd($index,item);$event.stopPropagation();">upAdd</button>
-            <button ng-click="downAdd($index,item);$event.stopPropagation();">downAdd</button>
-            <button ng-click="codeMirrorDelete($index,item);$event.stopPropagation();">delete</button>
+          <div class="col-lg-11 col-md-11 col-xs-11 ipynb-right" ng-click="openToolTip($index);$event.stopPropagation();">
+            <textarea id="code" name="code" class="changeStyle" ui-codemirror="cmOption " ng-model="cell.code">
+            {{cell.code}}
+          </textarea>
+            <div ng-repeat="output in cell.outputs track by $index " ng-model="cell.outputs" class="outPutCell">
+              <div ng-show="output.output_type==='display_data'" class="output">
+                <img src="{{ 'data:image/png;base64,'+output.data[ 'image/png']}} ">
+              </div>
+              <div ng-show="output.output_type==='stream'" class="output">
+                <pre>{{output.text}}</pre>
+              </div>
+              <div ng-show="output.output_type==='execute_result' && output.data[ 'text/html']!==undefined "
+                   class="output">
+                <div ng-bind-html="output.data[ 'text/html'] "></div>
+              </div>
+              <div ng-show="output.output_type==='execute_result' && !(output.data[ 'text/html']!==undefined)"
+                   class="output">
+                {{output.data['text/plain']}}
+              </div>
+              <div ng-show="output.output_type==='error'" class="output error">
+                <!--{{output.traceback}}-->
+                <span style="color: red;">{{output.ename}}</span><br />
+                <span style="color: #333;">{{output.evalue}}</span><br />
+              </div>
+            </div>
+            <div class="tool-tip " ng-show="cell.isShow ">
+              <button class="upAddBtn" ng-click="upAdd($index,item);$event.stopPropagation();"></button>
+              <button class="downAddBtn" ng-click="downAdd($index,item);$event.stopPropagation();"></button>
+              <button class="deleteRedBtn" ng-click="codeMirrorDelete($index,item);$event.stopPropagation();"></button>
+            </div>
           </div>
         </div>
       </div>
@@ -82,12 +73,20 @@
   </div>
 </div>
 
+<script type="text/javascript">
+  window.onscroll = function () {
+    let topScroll = document.body.scrollTop;
+    let bignav = document.getElementById('fixTitle');
+    if (topScroll > 50) {
+      bignav.style.position = 'fixed';
+      bignav.style.top = '0';
+      bignav.style.marginTop = '0';
+      bignav.style.zIndex = '10';
+      bignav.style.width = '1403px';
+      bignav.style.background = '#fff';
+    } else {
+      bignav.style.position = 'static';
+    }
+  };
 
-<style>
-  .CodeMirror {
-    font-family: monospace;
-    height: 50px;
-    color: black;
-    border: solid 1px #f3f3f3;
-  }
-</style>
+</script>

@@ -46,6 +46,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.CHAR(11),
       allowNull: true
     },
+    KERNEL:{
+      type: DataTypes.CHAR(45),
+      allowNull: true
+    }
   }, {
     createdAt: false,
     updatedAt: false,

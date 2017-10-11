@@ -61,15 +61,13 @@
         "wiredep": "^2.2.2",
         "ws": "^2.3.1",
         "xmlhttprequest": "^1.8.0",
-        "silly-datetime": "^0.1.2"
+        "silly-datetime": "^0.1.2",
+        "log4js": "^2.3.3"
     },
     "engines": {
         "node": ">=0.10.0"
     },
     "dependencies": {
-        "angular-ui-codemirror": "^0.3.0",
-        "fs-extra": "^4.0.0",
-        "log4js": "^2.3.3",
         "node-ssh": "^4.2.3"
     }
 }
