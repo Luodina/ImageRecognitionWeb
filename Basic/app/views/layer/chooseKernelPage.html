@@ -13,7 +13,7 @@
     <div class="form-group">
       <label class="col-sm-3 control-label">{{'web_common_expertPart_layer_03'| translate}} </label>
       <div class="col-sm-9">
-        <select class="form-control" ng-model="selectKernel" ng-options="a for a in kernels"></select>
+        <select class="form-control" ng-model="selectKernel"  ng-options="item as item.display_name for item in kernels"></select>
       </div>
     </div>
   </form>

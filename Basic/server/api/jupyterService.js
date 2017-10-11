@@ -49,42 +49,48 @@ let command;
 let modelContent;
 let token;
 let jupyterOpts;
-let kernellist;
+// let kernellist;
 
 let baseNotebookUrl = config[env].notebookUrl;
 let modelType = 'explore';
 
 router.get('/kernels', function (req, res) {
-  let options = {
-    baseUrl: "http://10.20.51.5:8000/user/admin",
-    token: "57fb7f5be0b748f0be4ff2d2805f35b3"
-  }
-  Kernel.getSpecs(options).then(function (data) {
-    let kk = data.kernelspecs;
+  let userName = "marta";
+  ssh.connect(sshJupyterHubOpts).then(() => {
+    command = 'docker exec -i auradeploy_hub_1 sh -c "jupyterhub token ' + userName + '"\nexit\n';
+    //get token
+    ssh.execCommand(command).then(result => {
+      if (result.stdout !== '') {
+        let kernelSpecs;
+        token = result.stdout;
+        console.log('token:', result.stdout);
+        //res.status(200).send({ msg: 'success' });
+        if (token !== '') {
+          Kernel.getSpecs({ baseUrl: config[env].notebookUrl + 'user/' + userName, token: token }).then(kernelSpecs => {
+             kernelSpecs = kernelSpecs;
+            //console.log('Default spec:', kernelSpecs.default);
+            console.log('Available specs',Object.keys(kernelSpecs.kernelspecs));
+            let tmp = Object.values(kernelSpecs.kernelspecs);
+            let kernellist={};
+            kernellist.default = kernelSpecs.default;
+            kernellist.kernelspecs =[];
+            tmp.forEach(kernel=>{
 
-    function getItemsArr(object) {
-      let tmpArr = [];
-      for (let item in object) {
-        tmpArr.push(item);
+              kernellist.kernelspecs.push({ name: kernel.name,display_name:kernel.display_name});
+
+            })
+            res.send({kernellist: kernellist, msg: 'KERNEL ok'});
+          }).catch(function(err) {
+            res.send({kernellist: null, msg: 'err'});
+            console.log('Kernel err', err);
+          });
+        }
       }
-      return tmpArr;
-    }
-
-    function getItemsValue(object) {
-      let array = [];
-      let temp = getItemsArr(object);
-      for (let i in temp) {
-        array.push(kk[temp[i]].display_name);
-      }
-      return array;
-    }
-
-    kernellist = getItemsValue(kk);
-    res.send({kernellist: kernellist})
-  }).catch(function (err) {
-    console.log("err", err.xhr.responseText)
+    })
   })
 });
+
+
 router.post('/initNotebook', function (req, res) {
   // console.log('req.body.modelName',req.body.modelName)
   if (!req.body.modelName) {
@@ -100,6 +106,9 @@ router.post('/initNotebook', function (req, res) {
       return
     }
     let modelId = "model_/文本聚类分析";
+    // let userName = req.body.user;//"marta";//
+    // let file = req.body.name;//'/notebook.ipynb';//
+    // let kernelName = req.body.kernel;//model.KERNEL;//
     let userName = "marta";
     let file = '/notebook.ipynb';
     let kernelName = model.KERNEL;
@@ -108,25 +117,16 @@ router.post('/initNotebook', function (req, res) {
       //get token
       ssh.execCommand(command).then(result => {
         if (result.stdout !== '') {
-          let kernelSpecs;
+          //let kernelSpecs;
           token = result.stdout;
           console.log('token:', result.stdout);
-          //res.status(200).send({ msg: 'success' });
           if (token !== '') {
-            // Kernel.getSpecs({ baseUrl: config[env].notebookUrl + 'user/' + userName, token: token }).then(kernelSpecs => {
-            //     kernelSpecs = kernelSpecs;
-            //     console.log('Default spec:', kernelSpecs.default);
-            //     console.log('Available specs', Object.keys(kernelSpecs.kernelspecs));
-            // }).catch(function(err) {
-            //     console.log('Kernel err', err);
-            // });
             jupyterOpts = {
               baseUrl: config[env].notebookUrl + 'user/' + userName,
               token: token,
               kernelName: kernelName,
               path: modelId + file
             };
-            // console.log('jupyterOpts', jupyterOpts);
             let contents = new ContentsManager(jupyterOpts);
             contents.get(modelId + file)
               .then(model => {
@@ -192,9 +192,10 @@ router.post('/initNotebook', function (req, res) {
       console.log(err);
     });
 
-  }).catch(function (err) {
-    console.log('err', err);
-    res.send({result: null, msg: err.name});
+    // }).catch(function (err) {
+    //   console.log('err', err);
+    //   res.send({result: null, msg: err.name});
+    // });
   });
 });
 

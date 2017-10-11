@@ -410,9 +410,14 @@ angular.module('basic.services', ['ui.bootstrap'])
         controller: ['$uibModalInstance', '$scope', '$rootScope', '$location',
           function ($uibModalInstance, $scope, $rootScope, $location) {
             $http.get('/api/jupyter/kernels').then(data => {
-              $scope.selectKernel = data.data.kernellist[2];
-              $scope.kernels = data.data.kernellist;
+              $scope.kernels = data.data.kernellist.kernelspecs;
+              for (let i = 0; i < $scope.kernels.length; i++) {
+                if ($scope.kernels[i].name === data.data.kernellist.default) {
+                  $scope.selectKernel = data.data.kernellist.kernelspecs[i];
+                }
+              }
             });
+
             $scope.projectType = 'explore';
             $scope.items = arrItem;
             $scope.items[0].isActive = true;
@@ -439,7 +444,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                     $scope.model.name = '';
                     $scope.model.nameTip = 'Please use another name!!';
                   } else {
-                    console.log('kerker',$scope.selectKernel)
+                    console.log('kerker', $scope.selectKernel)
                     $http.post('/api/model/' + $scope.model.name, {
                       APP_ID: $scope.model.name,
                       USER_ID: $rootScope.getUsername(),
@@ -448,32 +453,32 @@ angular.module('basic.services', ['ui.bootstrap'])
                       COMMENT: "heyyyy",
                       FILE_PATH: "FILE_PATH",
                       UPDATED_TIME: date.getTime(),
-                      KERNEL: $scope.selectKernel
+                      KERNEL: $scope.selectKernel.name
                     })
                       .success(data => {
-                      if (data.result === 'success') {
-                        $http.post('/api/appFile/' + data.model.MODEL_NAME, {
-                          userName: $rootScope.getUsername(),
-                          modelTemplate: $scope.urlcontent.content,
-                          itemType: "expert",
-                          itemID: data.model.MODEL_ID
-                        })
-                          .success(data => {
-                            if (data.result === 'success') {
-                              $rootScope.exploreName = 'modelType_06';
-                              $rootScope.modelExpertName = $scope.model.name;
-                              $rootScope.nowActive = 6;
-                              $uibModalInstance.close({
-                                modelTemplate: $scope.urlcontent.content,
-                                modelName: $scope.model.name
-                              });
-                            }
+                        if (data.result === 'success') {
+                          $http.post('/api/appFile/' + data.model.MODEL_NAME, {
+                            userName: $rootScope.getUsername(),
+                            modelTemplate: $scope.urlcontent.content,
+                            itemType: "expert",
+                            itemID: data.model.MODEL_ID
                           })
-                          .catch(err => {
-                            console.log(err);
-                          });
-                      }
-                    })
+                            .success(data => {
+                              if (data.result === 'success') {
+                                $rootScope.exploreName = 'modelType_06';
+                                $rootScope.modelExpertName = $scope.model.name;
+                                $rootScope.nowActive = 6;
+                                $uibModalInstance.close({
+                                  modelTemplate: $scope.urlcontent.content,
+                                  modelName: $scope.model.name
+                                });
+                              }
+                            })
+                            .catch(err => {
+                              console.log(err);
+                            });
+                        }
+                      })
                       .catch(err => {
                         console.log(err);
                       });
