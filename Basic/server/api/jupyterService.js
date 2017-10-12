@@ -68,7 +68,8 @@ router.get('/kernels', function (req, res) {
           Kernel.getSpecs({baseUrl: config[env].notebookUrl + 'user/' + userName, token: token}).then(kernelSpecs => {
             kernelSpecs = kernelSpecs;
             //console.log('Default spec:', kernelSpecs.default);
-            console.log('Available specs', Object.keys(kernelSpecs.kernelspecs));
+            // console.log('Available specs', Object.keys(kernelSpecs.kernelspecs));
+            // console.log('Available specs', kernelSpecs.kernelspecs);
             let tmp = Object.values(kernelSpecs.kernelspecs);
             let kernellist = {};
             kernellist.default = kernelSpecs.default;
@@ -308,7 +309,9 @@ router.get('/enter', function (req, res) {
   let name = req.query.name;
   let kernel = req.query.kernel;
   let user = req.query.user;
+
   if (!name && !kernel && !user) {
+
     let path = 'http://localhost:9000/#/expert/new/1111?name=explore&kernel=aaa&user=bbb';
     //http://localhost:9000/#/expert/new/1111?type=explore&kernel=python3&user=marta&name=TestingNotebook1
     // let path = 'http://localhost:9000/#/expert/new/' + name + '?' + name + '&' + kernel + '&' + user ;
