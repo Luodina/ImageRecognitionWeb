@@ -49,7 +49,6 @@ let command;
 let modelContent;
 let token;
 let jupyterOpts;
-// let kernellist;
 
 let baseNotebookUrl = config[env].notebookUrl;
 let modelType = 'explore';
@@ -66,21 +65,21 @@ router.get('/kernels', function (req, res) {
         console.log('token:', result.stdout);
         //res.status(200).send({ msg: 'success' });
         if (token !== '') {
-          Kernel.getSpecs({ baseUrl: config[env].notebookUrl + 'user/' + userName, token: token }).then(kernelSpecs => {
-             kernelSpecs = kernelSpecs;
+          Kernel.getSpecs({baseUrl: config[env].notebookUrl + 'user/' + userName, token: token}).then(kernelSpecs => {
+            kernelSpecs = kernelSpecs;
             //console.log('Default spec:', kernelSpecs.default);
-            console.log('Available specs',Object.keys(kernelSpecs.kernelspecs));
+            console.log('Available specs', Object.keys(kernelSpecs.kernelspecs));
             let tmp = Object.values(kernelSpecs.kernelspecs);
-            let kernellist={};
+            let kernellist = {};
             kernellist.default = kernelSpecs.default;
-            kernellist.kernelspecs =[];
-            tmp.forEach(kernel=>{
+            kernellist.kernelspecs = [];
+            tmp.forEach(kernel => {
 
-              kernellist.kernelspecs.push({ name: kernel.name,display_name:kernel.display_name});
+              kernellist.kernelspecs.push({name: kernel.name, display_name: kernel.display_name});
 
             })
             res.send({kernellist: kernellist, msg: 'KERNEL ok'});
-          }).catch(function(err) {
+          }).catch(function (err) {
             res.send({kernellist: null, msg: 'err'});
             console.log('Kernel err', err);
           });
@@ -92,28 +91,29 @@ router.get('/kernels', function (req, res) {
 
 
 router.post('/initNotebook', function (req, res) {
-  // console.log('req.body.modelName',req.body.modelName)
-  if (!req.body.modelName) {
-    res.send({result: null, msg: 'modelName can not null'});
-    return
-  }
+  console.log('req.body.modelName',req.body.modelName)
+  // if (!req.body.modelName) {
+  //   res.send({result: null, msg: 'modelName can not null'});
+  //   return
+  // }
   Model.findOne({
     where: {MODEL_NAME: req.body.modelName},
     raw: true
   }).then(function (model) {
+    console.log('model from DB:', model);
     if (!model || !model.KERNEL) {
       res.send({result: null, msg: 'KERNEL can not null'});
       return
     }
-    let modelId = "model_/文本聚类分析";
-    // let userName = req.body.user;//"marta";//
-    // let file = req.body.name;//'/notebook.ipynb';//
-    // let kernelName = req.body.kernel;//model.KERNEL;//
-    let userName = "marta";
+    let modelId = "model_" + model.MODEL_ID;
+    let userName = model.USER_NAME;//"marta";
     let file = '/notebook.ipynb';
     let kernelName = model.KERNEL;
+    console.log('model from DB!!!:', model,'modelId',modelId,'userName' ,userName);
     ssh.connect(sshJupyterHubOpts).then(() => {
+
       command = 'docker exec -i auradeploy_hub_1 sh -c "jupyterhub token ' + userName + '"\nexit\n';
+      console.log('command:', command);
       //get token
       ssh.execCommand(command).then(result => {
         if (result.stdout !== '') {
@@ -243,9 +243,9 @@ router.post('/run', function (req, res) {
 });
 
 router.post('/saveNotebook', function (req, res) {
-  let modelId = "notebookTemplates/文本聚类分析";
-  let userName = "marta";
-  let file = '/new.ipynb';
+  let modelId = res.body.modelId;//"notebookTemplates/文本聚类分析";
+  let userName = res.body.user;//"marta";
+  let file = 'new.ipynb';
   let path = "/var/lib/docker/volumes/jupyterhub-user-" + userName + "/_data/";
   let token;
   let jupyterOpts;
@@ -302,8 +302,20 @@ router.post('/saveNotebook', function (req, res) {
           })
       });
     })
-
 });
 
+router.get('/enter', function (req, res) {
+  let name = req.query.name;
+  let kernel = req.query.kernel;
+  let user = req.query.user;
+  if (!name && !kernel && !user) {
+    let path = 'http://localhost:9000/#/expert/new/1111?name=explore&kernel=aaa&user=bbb';
+    //http://localhost:9000/#/expert/new/1111?type=explore&kernel=python3&user=marta&name=TestingNotebook1
+    // let path = 'http://localhost:9000/#/expert/new/' + name + '?' + name + '&' + kernel + '&' + user ;
+    res.send({path: path})
+  } else {
+    res.send({status: false})
+  }
+});
 
 module.exports = router;
