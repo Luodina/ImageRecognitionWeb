@@ -76,7 +76,7 @@ angular.module('basic.routers', ['ui.router'])
         name: 'expert',
         url: '/expert/{mode}/{modelNm}',
         templateUrl: 'views/dataExplore/expertPart.html',
-        controller: 'ExpertCtrl'
+        controller: 'ExpertCtrlTwo'
       },
       {
         name: 'console.taskSchedule',
