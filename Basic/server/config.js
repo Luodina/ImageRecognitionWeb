@@ -1,6 +1,7 @@
 'use strict';
 module.exports = {
     dev: {
+        webIp: 'http://192.168.1.105:9000',
         dist: 'app',
         port: 9000,
         notebookUrl: 'http://10.20.51.5:8000/',
@@ -13,6 +14,7 @@ module.exports = {
         // huburl:'http://10.20.51.5:8000/user/'
     },
     prod: {
+        webIp: 'http://192.168.1.105:9000',
         dist: 'app',
         port: 9000,
         notebookUrl: 'http://127.0.0.1:8888/',

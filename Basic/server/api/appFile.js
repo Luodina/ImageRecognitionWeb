@@ -66,8 +66,6 @@ router.post('/:itemName', function (req, res) {
                     res.status(200).send({result: 'failed'});
                     return;
                   }
-                  // console.log(`stdout: $ { stdout }`);
-                  // console.log(`stderr: $ { stderr }`);
                   res.status(200).send({result: 'success'});
                 });
               }
@@ -89,7 +87,6 @@ router.post('/:itemName', function (req, res) {
               console.log('remotePath', remotePath);
               res.status(200).send({result: 'failed'});
             }
-
           } else {
             console.log('wtf');
             res.status(200).send({result: 'failed'});
@@ -99,52 +96,16 @@ router.post('/:itemName', function (req, res) {
           console.log('err', err)
         });
     })
-
-
-
-    // const failed = [];
-    // const successful = [];
-    // ssh.putDirectory(templAppDir, remoteAppPath, {
-    //         recursive: true,
-    //         validate: function(itemPath) {
-    //             const baseName = path.basename(itemPath)
-    //             return baseName.substr(0, 1) !== '.' && // do not allow dot files
-    //                 baseName !== 'node_modules' // do not allow node_modules
-    //         },
-    //         tick: function(localPath, remotePath, error) {
-    //             if (error) {
-    //                 failed.push(localPath)
-    //             } else {
-    //                 successful.push(localPath)
-    //             }
-    //         }
-    //     })
-    //     .then(function(status) {
-    //             console.log('the directory transfer was', status ? 'successful' : 'unsuccessful')
-    //             console.log('failed transfers', failed.join(', '), failed.length)
-    //             console.log('successful transfers', successful.join(', '), successful.length)
-    //             ssh.dispose();
-    //             res.status(200).send({ result: 'success' });
-    //         },
-    //         function(error) {
-    //             console.log("Something's wrong")
-    //             console.log(error)
-    //         })
-
-
     .catch(function (err) {
       console.log(err);
       console.error(err);
       res.status(500).send({result: 'failed!'});
     });
 });
-
-
 router.get('/:appName/overview', function (req, res) {
   let appName = req.params.appName;
   let filePath = path.join(basePath, appName, 'README.md');
   let contentType = 'text/html';
-
   // TODO combine logic from app results .
   fs.readFile(filePath, 'utf-8', function (error, content) {
     if (error) {

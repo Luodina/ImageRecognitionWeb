@@ -91,7 +91,6 @@ angular.module('basic.routers', ['ui.router'])
         controller: 'SettingsCtrl'
       }
     ];
-    // Loop over the state definitions and register them
     states.forEach(function (state) {
       $stateProvider.state(state);
     });
