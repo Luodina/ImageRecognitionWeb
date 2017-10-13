@@ -76,7 +76,7 @@ angular.module('basic.routers', ['ui.router'])
         name: 'expert',
         url: '/expert/{mode}/{modelNm}',
         templateUrl: 'views/dataExplore/expertPart.html',
-        controller: 'ExpertCtrl'
+        controller: 'ExpertCtrlTwo'
       },
       {
         name: 'console.taskSchedule',
@@ -91,7 +91,6 @@ angular.module('basic.routers', ['ui.router'])
         controller: 'SettingsCtrl'
       }
     ];
-    // Loop over the state definitions and register them
     states.forEach(function (state) {
       $stateProvider.state(state);
     });

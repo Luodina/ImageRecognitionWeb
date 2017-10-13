@@ -24,7 +24,6 @@ const sshJupyterHubOpts = {
   //privateKey: '/Users/luodina/.ssh/id_rsa'
   password: config[env].jupyterHubPassword, //'Asiainfo123456' // 'Ocai@131415'
 };
-
 let type,
   userName,
   modelName,
@@ -34,23 +33,17 @@ let sourceCodes = [];
 let outputs = [];
 let source = [];
 const templDir = path.join(__dirname, '../../template/');
-
 const templDataProfile = templDir + 'dataProfile-V4.0.ipynb';
 const templExpertModelDir = templDir + 'notebookTemplates';
 const templAppDir = templDir + 'data_apply_demo';
 const templTemp = templDir + 'temp.ipynb';
-
-
 let mysession;
 let kernel;
-
 let dataFileName;
 let command;
 let modelContent;
 let token;
 let jupyterOpts;
-// let kernellist;
-
 let baseNotebookUrl = config[env].notebookUrl;
 let modelType = 'explore';
 
@@ -66,21 +59,19 @@ router.get('/kernels', function (req, res) {
         console.log('token:', result.stdout);
         //res.status(200).send({ msg: 'success' });
         if (token !== '') {
-          Kernel.getSpecs({ baseUrl: config[env].notebookUrl + 'user/' + userName, token: token }).then(kernelSpecs => {
-             kernelSpecs = kernelSpecs;
+          Kernel.getSpecs({baseUrl: config[env].notebookUrl + 'user/' + userName, token: token}).then(kernelSpecs => {
+            kernelSpecs = kernelSpecs;
             //console.log('Default spec:', kernelSpecs.default);
-            console.log('Available specs',Object.keys(kernelSpecs.kernelspecs));
+            console.log('Available specs', Object.keys(kernelSpecs.kernelspecs));
             let tmp = Object.values(kernelSpecs.kernelspecs);
-            let kernellist={};
+            let kernellist = {};
             kernellist.default = kernelSpecs.default;
-            kernellist.kernelspecs =[];
-            tmp.forEach(kernel=>{
-
-              kernellist.kernelspecs.push({ name: kernel.name,display_name:kernel.display_name});
-
-            })
+            kernellist.kernelspecs = [];
+            tmp.forEach(kernel => {
+              kernellist.kernelspecs.push({name: kernel.name, display_name: kernel.display_name});
+            });
             res.send({kernellist: kernellist, msg: 'KERNEL ok'});
-          }).catch(function(err) {
+          }).catch(function (err) {
             res.send({kernellist: null, msg: 'err'});
             console.log('Kernel err', err);
           });
@@ -89,10 +80,8 @@ router.get('/kernels', function (req, res) {
     })
   })
 });
-
-
 router.post('/initNotebook', function (req, res) {
-  // console.log('req.body.modelName',req.body.modelName)
+  console.log('req.body.modelName', req.body.modelName)
   if (!req.body.modelName) {
     res.send({result: null, msg: 'modelName can not null'});
     return
@@ -101,23 +90,21 @@ router.post('/initNotebook', function (req, res) {
     where: {MODEL_NAME: req.body.modelName},
     raw: true
   }).then(function (model) {
+    console.log('model from DB:', model);
     if (!model || !model.KERNEL) {
       res.send({result: null, msg: 'KERNEL can not null'});
       return
     }
-    let modelId = "model_/文本聚类分析";
-    // let userName = req.body.user;//"marta";//
-    // let file = req.body.name;//'/notebook.ipynb';//
-    // let kernelName = req.body.kernel;//model.KERNEL;//
-    let userName = "marta";
+    let modelId = "model_" + model.MODEL_ID;
+    let userName = model.USER_NAME;
     let file = '/notebook.ipynb';
     let kernelName = model.KERNEL;
+    console.log('model from DB!!!:', model, 'modelId', modelId, 'userName', userName);
     ssh.connect(sshJupyterHubOpts).then(() => {
       command = 'docker exec -i auradeploy_hub_1 sh -c "jupyterhub token ' + userName + '"\nexit\n';
-      //get token
+      console.log('command:', command);
       ssh.execCommand(command).then(result => {
         if (result.stdout !== '') {
-          //let kernelSpecs;
           token = result.stdout;
           console.log('token:', result.stdout);
           if (token !== '') {
@@ -131,7 +118,6 @@ router.post('/initNotebook', function (req, res) {
             contents.get(modelId + file)
               .then(model => {
                 modelContent = model.content;
-                // console.log('model.content:', model.content);
                 for (let i = 0; i < model.content.cells.length; i++) {
                   sourceCodes[i] = model.content.cells[i].source;
                 }
@@ -151,7 +137,6 @@ router.post('/initNotebook', function (req, res) {
                     cells[i].outputs = obj.cells[i].outputs;
                   }
                 }
-                //console.log("cells", cells)
                 Session.listRunning(jupyterOpts).then(function (sessionModels) {
                   let sessionNums = sessionModels.length;
                   let existSession = false;
@@ -181,7 +166,6 @@ router.post('/initNotebook', function (req, res) {
                 }).catch(function (err) {
                   console.log(err);
                 });
-                //-------------
               }).catch(function (err) {
               console.log(err);
             });
@@ -191,11 +175,9 @@ router.post('/initNotebook', function (req, res) {
     }).catch(function (err) {
       console.log(err);
     });
-
-    // }).catch(function (err) {
-    //   console.log('err', err);
-    //   res.send({result: null, msg: err.name});
-    // });
+  }).catch(function (err) {
+    console.log('err', err);
+    res.send({result: null, msg: err.name});
   });
 });
 
@@ -205,31 +187,14 @@ router.post('/run', function (req, res) {
   let future = kernel.requestExecute({code: sourceCodes});
   console.log(`CODE:'${sourceCodes}
                 future ${future }`);
-
-  // future.onDone = () => {
-  //     console.log('Future is fulfilled');
-  // };
   future.onIOPub = msg => {
-    // console.log(`msg`);
-
-    //return res.send({ result: msg.content, msg: 'success' });
-    // if (msg.header.msg_type === 'error') {
-    //     console.log(`
-    // ERROR: '${msg.content.evalue}
-    // CODE: $ { sourceCodes[2] }
-    // `);
-    //     return res.status(200).send({ result: msg.content.evalue, msg: 'error' });
-    // }
     if (msg.header.msg_type === 'execute_result') {
-      //console.log(`msg.content: '${msg.content} ${ msg.header.msg_type } `)
       return res.send({type: 'execute_result', result: msg.content, msg: 'success'});
     }
     if (msg.header.msg_type === 'stream') {
-      //console.log(`msg.content: '${msg.content}  ${ msg.header.msg_type }`)
       return res.send({type: 'stream', result: msg.content, msg: 'success'});
     }
     if (msg.header.msg_type === 'display_data') {
-      //console.log(`msg.content: '${msg.content} ${ msg.header.msg_type } `)
       return res.send({type: 'display_data', result: msg.content, msg: 'success'});
     }
     if (msg.header.msg_type === 'error') {
@@ -243,9 +208,9 @@ router.post('/run', function (req, res) {
 });
 
 router.post('/saveNotebook', function (req, res) {
-  let modelId = "notebookTemplates/文本聚类分析";
-  let userName = "marta";
-  let file = '/new.ipynb';
+  let modelId = res.body.modelId;//"notebookTemplates/文本聚类分析";
+  let userName = res.body.user;//"marta";
+  let file = 'new.ipynb';
   let path = "/var/lib/docker/volumes/jupyterhub-user-" + userName + "/_data/";
   let token;
   let jupyterOpts;
@@ -255,7 +220,6 @@ router.post('/saveNotebook', function (req, res) {
   let oldContent = modelContent;
 
   for (let i = 0, len = newContent.length; i < len; i++) {
-
     oldContent.cells[i].cell_type = newContent[i].cell_type;
     oldContent.cells[i].execution_count = newContent[i].execution_count;
     oldContent.cells[i].metadata = newContent[i].metadata;
@@ -264,7 +228,6 @@ router.post('/saveNotebook', function (req, res) {
       oldContent.cells[i].outputs = newContent[i].outputs;
     }
   }
-
   function writeFilePromisified(filename, text) {
     return new Promise(
       function (resolve, reject) {
@@ -279,8 +242,7 @@ router.post('/saveNotebook', function (req, res) {
       });
   }
 
-  let json = JSON.stringify(oldContent); //convert it back to json
-  // console.log('json: ' + json);
+  let json = JSON.stringify(oldContent);
   writeFilePromisified(templTemp, json)
     .then(() => {
       ssh.connect(sshJupyterHubOpts).then(function () {
@@ -292,18 +254,29 @@ router.post('/saveNotebook', function (req, res) {
               local: templTemp,
               remote: path + modelId + file
             }]).then(function () {
-              res.status(200).send({result: "succeess"})
+              res.status(200).send({result: "succeess"});
               console.log("The File thing is done");
             }, function (error) {
-              res.status(200).send({result: "failed"})
+              res.status(200).send({result: "failed"});
               console.log("Something's wrong");
               console.log(error);
             });
           })
       });
     })
-
 });
 
+router.get('/enter', function (req, res) {
+  let name = req.query.name;
+  let kernel = req.query.kernel;
+  let user = req.query.user;
+  if (name && kernel && user) {
+    let path = config[env].webIp + '/#/expert/new/' + name + '?name=' + name + '&kernel=' + kernel + '&user=' + user;
+    //http://localhost:9000/#/expert/new/1111?type=explore&kernel=python3&user=marta&name=TestingNotebook1
+    res.send({path: path})
+  } else {
+    res.send({status: false})
+  }
+});
 
 module.exports = router;
