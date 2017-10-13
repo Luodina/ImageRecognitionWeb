@@ -8,7 +8,7 @@ angular.module('basic')
         }
       });
       $scope.model = $location.search();
-      console.log($scope.model )
+      console.log($scope.model );
       function createNotebook() {
         if ($scope.model.name) {
           //check in DB APP
@@ -166,7 +166,7 @@ angular.module('basic')
                   }).catch(err => {
                   console.log('dataErr', err);
                 })
-              }
+              };
 
               $scope.run = function (index) {
                 if (!isValidCodeModel($scope.model.sourceCells[index])) {

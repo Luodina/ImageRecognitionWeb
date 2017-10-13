@@ -307,14 +307,12 @@ router.post('/saveNotebook', function (req, res) {
 
 router.get('/enter', function (req, res) {
   let name = req.query.name;
+
   let kernel = req.query.kernel;
   let user = req.query.user;
-
-  if (!name && !kernel && !user) {
-
-    let path = 'http://localhost:9000/#/expert/new/1111?name=explore&kernel=aaa&user=bbb';
+  if (name && kernel && user) {
+    let path = config[env].webIp + '/#/expert/new/' + name + '?name=' + name + '&kernel=' + kernel + '&user=' + user;
     //http://localhost:9000/#/expert/new/1111?type=explore&kernel=python3&user=marta&name=TestingNotebook1
-    // let path = 'http://localhost:9000/#/expert/new/' + name + '?' + name + '&' + kernel + '&' + user ;
     res.send({path: path})
   } else {
     res.send({status: false})
