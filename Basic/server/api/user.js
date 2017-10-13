@@ -4,13 +4,13 @@ let Sequelize = require('sequelize');
 let User = require('../model/USER_INFO')(sequelize, Sequelize);
 let express = require('express');
 let router = express.Router();
+let auth = require('../utils/auth');
 
+// 用户登录，发放token
 router.post('/login', function(req, res){
   let username = req.body.username;
   let pass = req.body.password;
-  // console.log('username',username);
-  // console.log('pass',pass);
-  if (username !== null && pass !== null ){
+  if (username && pass){
     User.findOne({
       attributes: ['USER_ID', 'USER_NAME', 'PASSWORD'],
       where: {
@@ -18,29 +18,24 @@ router.post('/login', function(req, res){
       },
       raw: true
     }).then(function(user){
-      //console.log('users',user);
-      if (user === null){
-        res.send({status: false});
+      if (!user){
+	res.status(403).send({status: false, msg:'Username not found'});
       }else{
-        if (user.PASSWORD === pass){
-          res.send({status: true});
-        }else{
-          res.send({status: false});
+        if (user.PASSWORD !== pass) {
+	  res.status(403).send({status: false, msg:'Invalid password'});
+	}else{
+	  var token = auth.encode(user.USER_NAME);
+	  res.setHeader('Set-Cookie',['aura_token='+token]);
+	  res.status(200).send({status: true, token: token});
         }
       }
     }).catch(err =>{
       console.log('err',err);
+      res.status(403).send({status: true, msg: err});
     });
   }else{
-
+    res.status(403).send({status: true, msg:'Username and password cannot be blank'});
   }
 });
-
-// router.get('/enter',function (req, res) {
-//   if (username!==null&& pass !==null){
-//     let path = 'http://10.1.50.43:9000/#/expert/new/v?name=aa&kernel=python3&user=cc&modelTemplate=%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B&type=explore'
-//     res.send({path:path})
-//   }
-// });
 
 module.exports = router;

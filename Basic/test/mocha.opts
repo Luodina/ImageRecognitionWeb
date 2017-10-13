@@ -1,0 +1,4 @@
+test/server/utils/*.js
+test/server/api/*.js
+test/server/*.js
+--compilers js:babel-core/register

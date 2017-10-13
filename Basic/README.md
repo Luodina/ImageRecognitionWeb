@@ -238,3 +238,9 @@ sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
 registry=https://registry.npm.taobao.org
 ```
 2.这个一个build任务，一般情况下是gulp的默认任务。在运行build前，可以看到要执行clean:dist任务来做一些清理，可以看到build是依赖于clean:dist的，只有当clean:dist执行结束返回的时候build才会启动；而其中的runSequence是一个gulp插件，表示执行一组任务，但是其中的任务没有严格顺序，注意和依赖区分。
+
+## 单元测试
+```
+npm test
+```
+

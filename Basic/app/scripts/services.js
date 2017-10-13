@@ -763,6 +763,8 @@ angular.module('basic.services', ['ui.bootstrap'])
                 if (user.status) {
                   console.log('LOGIN SUCCESS!');
                   $cookies.put('username', username);
+                  //将token加入cookie
+                  $cookies.put('aura_token',user.token);
                   $uibModalInstance.dismiss();
                   $location.path('/home');
                   $rootScope.iflogin = true;
