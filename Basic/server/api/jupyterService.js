@@ -47,21 +47,21 @@ let jupyterOpts;
 let baseNotebookUrl = config[env].notebookUrl;
 let modelType = 'explore';
 
-router.get('/kernels', function (req, res) {
-  let userName = "marta";
-  ssh.connect(sshJupyterHubOpts).then(() => {
-    command = 'docker exec -i auradeploy_hub_1 sh -c "jupyterhub token ' + userName + '"\nexit\n';
-    //get token
-    ssh.execCommand(command).then(result => {
-      if (result.stdout !== '') {
-        let kernelSpecs;
-        token = result.stdout;
-        console.log('token:', result.stdout);
-        //res.status(200).send({ msg: 'success' });
+function getKernelList(userName) {
+
+  return new Promise(function (resolve, reject) {
+    ssh.connect(sshJupyterHubOpts).then(() => {
+      command = 'docker exec -i auradeploy_hub_1 sh -c "jupyterhub token ' + userName + '"\nexit\n';
+      //get token
+      ssh.execCommand(command).then(result => {
+        let token = result.stdout;
         if (token !== '') {
+          let kernelSpecs;
+          console.log('token:', token);
+          //res.status(200).send({ msg: 'success' });
           Kernel.getSpecs({baseUrl: config[env].notebookUrl + 'user/' + userName, token: token}).then(kernelSpecs => {
             kernelSpecs = kernelSpecs;
-            //console.log('Default spec:', kernelSpecs.default);
+            console.log('Default spec:', kernelSpecs.default);
             console.log('Available specs', Object.keys(kernelSpecs.kernelspecs));
             let tmp = Object.values(kernelSpecs.kernelspecs);
             let kernellist = {};
@@ -69,23 +69,50 @@ router.get('/kernels', function (req, res) {
             kernellist.kernelspecs = [];
             tmp.forEach(kernel => {
               kernellist.kernelspecs.push({name: kernel.name, display_name: kernel.display_name});
+<<<<<<< HEAD
             });
             res.send({kernellist: kernellist, msg: 'KERNEL ok'});
+=======
+            })
+            resolve(kernellist);
+>>>>>>> 861d17c0da87ccb1d57682ea9d4b6046e56d1449
           }).catch(function (err) {
-            res.send({kernellist: null, msg: 'err'});
-            console.log('Kernel err', err);
+            reject(err);
           });
+        } else {
+          reject('token error');
         }
-      }
+      }).catch(err => {
+        reject(err)
+      })
+    }).catch(err_ => {
+      reject()
     })
   })
+
+}
+router.get('/kernels', function (req, res) {
+  let userName = "marta";
+  getKernelList(userName).then((kernellist) => {
+    res.send({kernellist: kernellist, msg: 'KERNEL ok'});
+  }).catch(err => {
+    res.send({kernellist: null, msg: 'err'});
+    console.log('Kernel err', err);
+  });
 });
 router.post('/initNotebook', function (req, res) {
   console.log('req.body.modelName', req.body.modelName)
+<<<<<<< HEAD
   if (!req.body.modelName) {
     res.send({result: null, msg: 'modelName can not null'});
     return
   }
+=======
+  // if (!req.body.modelName) {
+  //   res.send({result: null, msg: 'modelName can not null'});
+  //   return
+  // }
+>>>>>>> 861d17c0da87ccb1d57682ea9d4b6046e56d1449
   Model.findOne({
     where: {MODEL_NAME: req.body.modelName},
     raw: true
@@ -267,9 +294,11 @@ router.post('/saveNotebook', function (req, res) {
 });
 
 router.get('/enter', function (req, res) {
+  let userName = "marta";
   let name = req.query.name;
-  let kernel = req.query.kernel;
+  let kernelName = req.query.kernel;
   let user = req.query.user;
+<<<<<<< HEAD
   if (name && kernel && user) {
     let path = config[env].webIp + '/#/expert/new/' + name + '?name=' + name + '&kernel=' + kernel + '&user=' + user;
     //http://localhost:9000/#/expert/new/1111?type=explore&kernel=python3&user=marta&name=TestingNotebook1
@@ -277,6 +306,27 @@ router.get('/enter', function (req, res) {
   } else {
     res.send({status: false})
   }
+=======
+  getKernelList(userName).then((kernellist) => {
+    if (!kernellist.kernelspecs) {
+      res.send({status: false});
+      return;
+    }
+    let kernelObject = Object.values(kernellist.kernelspecs).find(item => item.name === kernelName);
+    if (!kernelObject) {
+      res.send({status: false});
+      return;
+    }
+    let kernel = kernelObject[''];
+    if (name && kernel && user) {
+      let path = config[env].webIp + '/#/expert/new/' + name + '?name=' + name + '&kernel=' + kernel + '&user=' + user;
+      //http://localhost:9000/#/expert/new/1111?type=explore&kernel=python3&user=marta&name=TestingNotebook1
+      res.send({path: path})
+    } else {
+      res.send({status: false})
+    }
+  });
+>>>>>>> 861d17c0da87ccb1d57682ea9d4b6046e56d1449
 });
 
 module.exports = router;
