@@ -69,13 +69,8 @@ function getKernelList(userName) {
             kernellist.kernelspecs = [];
             tmp.forEach(kernel => {
               kernellist.kernelspecs.push({name: kernel.name, display_name: kernel.display_name});
-<<<<<<< HEAD
-            });
-            res.send({kernellist: kernellist, msg: 'KERNEL ok'});
-=======
             })
             resolve(kernellist);
->>>>>>> 861d17c0da87ccb1d57682ea9d4b6046e56d1449
           }).catch(function (err) {
             reject(err);
           });
@@ -102,17 +97,11 @@ router.get('/kernels', function (req, res) {
 });
 router.post('/initNotebook', function (req, res) {
   console.log('req.body.modelName', req.body.modelName)
-<<<<<<< HEAD
-  if (!req.body.modelName) {
-    res.send({result: null, msg: 'modelName can not null'});
-    return
-  }
-=======
+
   // if (!req.body.modelName) {
   //   res.send({result: null, msg: 'modelName can not null'});
   //   return
   // }
->>>>>>> 861d17c0da87ccb1d57682ea9d4b6046e56d1449
   Model.findOne({
     where: {MODEL_NAME: req.body.modelName},
     raw: true
@@ -298,15 +287,6 @@ router.get('/enter', function (req, res) {
   let name = req.query.name;
   let kernelName = req.query.kernel;
   let user = req.query.user;
-<<<<<<< HEAD
-  if (name && kernel && user) {
-    let path = config[env].webIp + '/#/expert/new/' + name + '?name=' + name + '&kernel=' + kernel + '&user=' + user;
-    //http://localhost:9000/#/expert/new/1111?type=explore&kernel=python3&user=marta&name=TestingNotebook1
-    res.send({path: path})
-  } else {
-    res.send({status: false})
-  }
-=======
   getKernelList(userName).then((kernellist) => {
     if (!kernellist.kernelspecs) {
       res.send({status: false});
@@ -326,7 +306,6 @@ router.get('/enter', function (req, res) {
       res.send({status: false})
     }
   });
->>>>>>> 861d17c0da87ccb1d57682ea9d4b6046e56d1449
 });
 
 module.exports = router;
