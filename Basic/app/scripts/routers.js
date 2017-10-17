@@ -41,12 +41,12 @@ angular.module('basic.routers', ['ui.router'])
                 templateUrl: 'views/dataExplore/data.html',
                 controller: 'DataCtrl'
             },
-            {
-                name: 'expertApp',
-                url: '/app/expert/{mode}/{name}',
-                templateUrl: 'views/dataExplore/expertPart.html',
-                controller: 'ExpertCtrl'
-            },
+            // {
+            //     name: 'expertApp',
+            //     url: '/app/expert/{mode}/{name}',
+            //     templateUrl: 'views/dataExplore/expertPart.html',
+            //     controller: 'ExpertCtrl'
+            // },
             {
                 name: 'dataExplore',
                 url: '/explore',
@@ -73,7 +73,7 @@ angular.module('basic.routers', ['ui.router'])
             },
             {
                 name: 'expert',
-                url: '/expert/{mode}/{modelNm}',
+                url: '/expert/{new}',
                 templateUrl: 'views/dataExplore/expertPart.html',
                 controller: 'ExpertCtrlTwo'
             },

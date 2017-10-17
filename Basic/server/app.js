@@ -42,27 +42,27 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 
 // 上游验证token
 app.use(function(req, res, next) {
-  var token = req.body.token || req.query.token || req.cookies.aura_token || req.headers['Authorization'];
-  if(req.path.startsWith('/api/user/login')) {
-    next();
-  }else if(token) {
-    try {
-      var decoded = auth.decode(token);
-      if(decoded) {
-	req.user = decoded;
-	next();
-      } else {
-        console.error('invalid token, return 403');
-        res.status(403).send({status:false, msg:'invalid token'});
-      }
-    } catch(err) {
-      console.error(err.name+' caught, return 403');
-      res.status(403).send({status:false, msg:err.name});
+    var token = req.body.token || req.query.token || req.cookies.aura_token || req.headers['Authorization'];
+    if (req.path.startsWith('/api/user/login')) {
+        next();
+    } else if (token) {
+        try {
+            var decoded = auth.decode(token);
+            if (decoded) {
+                req.user = decoded;
+                next();
+            } else {
+                console.error('invalid token, return 403');
+                res.status(403).send({ status: false, msg: 'invalid token' });
+            }
+        } catch (err) {
+            console.error(err.name + ' caught, return 403');
+            res.status(403).send({ status: false, msg: err.name });
+        }
+    } else {
+        console.error('token not found, return 403');
+        res.status(403).send({ status: false, msg: 'token not found' });
     }
-  }else {
-    console.error('token not found, return 403');
-    res.status(403).send({status:false, msg:'token not found'});
-  }
 });
 
 //rest api
