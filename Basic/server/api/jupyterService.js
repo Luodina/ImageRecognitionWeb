@@ -58,11 +58,7 @@ function getKernelList(userName) {
           kernelSpecs = kernelSpecs;
           console.log('Default spec:', kernelSpecs.default);
           console.log('Available specs', Object.keys(kernelSpecs.kernelspecs));
-          // let tmp = Object.values(kernelSpecs.kernelspecs);
-          let kernelspecs = kernelSpecs.kernelspecs;
-          let tmp = Object.keys(kernelspecs).map(key => {
-            return kernelspecs[key];
-          });
+          let tmp = Object.values(kernelSpecs.kernelspecs);
           let kernellist = {};
           kernellist.default = kernelSpecs.default;
           kernellist.kernelspecs = [];
