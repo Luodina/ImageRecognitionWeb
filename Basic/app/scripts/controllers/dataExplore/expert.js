@@ -13,7 +13,9 @@ angular.module('basic')
             function isParamValid() {
                 return new Promise((resolve, reject) => {
                     //check kernel
-                    $http.get('/api/jupyter/kernels').success(data => {
+                    $http.get('/api/jupyter/kernels', {
+                            params: { token: $scope.model.token }
+                        }).success(data => {
                             let val = false;
                             if (data.msg = 'success') {
                                 let tmpArr = [];
@@ -22,37 +24,33 @@ angular.module('basic')
                                 });
                                 if (tmpArr.includes($scope.model.kernel)) {
                                     //check user 
-                                    if ($scope.model.user === $rootScope.username) {
-                                        //check model name &&  mode
-                                        $http.get('/api/jupyter/projects/' + $scope.model.name)
-                                            .success(project => {
-                                                if (project.msg === 'success') {
-                                                    if (project.result.length !== 0) {
-                                                        if ($location.path().split('/')[2] === 'edit') {
-                                                            val = true;
-                                                            resolve(val);
-                                                        } else {
-                                                            console.log('project with name:', project.result[0].MODEL_NAME, 'exists');
-                                                            resolve(val);
-                                                        };
+                                    $http.get('/api/jupyter/projects/' + $scope.model.name, {
+                                            params: { token: $scope.model.token }
+                                        })
+                                        .success(project => {
+                                            if (project.msg === 'success') {
+                                                if (project.result.length !== 0) {
+                                                    if ($location.path().split('/')[2] === 'edit') {
+                                                        val = true;
+                                                        resolve(val);
                                                     } else {
-                                                        if ($scope.model.mode === 'new') {
-                                                            val = true;
-                                                            resolve(val);
-                                                        } else {
-                                                            console.log('project with name:', $scope.model.name, 'do not exists');
-                                                            resolve(val);
-                                                        };
-                                                    }
+                                                        console.log('project with name:', project.result[0].MODEL_NAME, 'exists');
+                                                        resolve(val);
+                                                    };
                                                 } else {
-                                                    console.log(project.msg);
-                                                    resolve(val);
+                                                    if ($scope.model.mode === 'new') {
+                                                        val = true;
+                                                        resolve(val);
+                                                    } else {
+                                                        console.log('project with name:', $scope.model.name, 'do not exists');
+                                                        resolve(val);
+                                                    };
                                                 }
-                                            })
-                                    } else {
-                                        console.log('authentification name');
-                                        resolve(val);
-                                    }
+                                            } else {
+                                                console.log(project.msg);
+                                                resolve(val);
+                                            }
+                                        })
                                 }
                             } else {
                                 console.log(data.msg);
@@ -71,40 +69,29 @@ angular.module('basic')
                 let done;
                 if (isKerneValid) {
                     if ($scope.model.mode === "new") {
-                        console.log('111');
                         done = 2
                         createNotebook();
                     } else {
                         done = 2
 
                     }
-
                     if (done === 2) { init(); }
-                    console.log('222');
                 }
 
             });
-            console.log("$scope.model", $scope.model);
 
             function createNotebook() {
-                // if ($scope.model.name) {
-                //check in DB APP
-                //$rootScope.modelAppName = $scope.model.name;
                 let date = new Date();
-                // $http.get('/api/model/' + $scope.model.name).success(data => {
-                //         console.log(data);
-                // if (data.result !== null) {
-                //     console.log("smth went wrong");
-                // } else {
                 $http.post('/api/model/' + $scope.model.name, {
                         APP_ID: $scope.model.name,
-                        USER_ID: $scope.model.user,
+                        //USER_ID: $scope.model.user,
                         TYPE_MENU_ID: "01",
                         VIEW_MENU_ID: "06",
                         COMMENT: "heyyyy",
                         FILE_PATH: "FILE_PATH",
                         UPDATED_TIME: date.getTime(),
-                        KERNEL: $scope.model.kernel
+                        KERNEL: $scope.model.kernel,
+                        token: $scope.model.token
                     })
                     .success(data => {
                         if (data.result === 'success') {
@@ -114,19 +101,13 @@ angular.module('basic')
                                     userName: data.model.USER_NAME, //$rootScope.getUsername(),
                                     modelTemplate: "自由模式", //$scope.urlcontent.content,
                                     itemType: "expert",
-                                    itemID: data.model.MODEL_ID
+                                    itemID: data.model.MODEL_ID,
+                                    token: $scope.model.token
                                 })
                                 .success(data => {
                                     if (data.result === 'success') {
                                         console.log('success');
                                         init();
-                                        // $rootScope.exploreName = 'modelType_06';
-                                        // $rootScope.modelExpertName = $scope.model.name;
-                                        // $rootScope.nowActive = 6;
-                                        // $uibModalInstance.close({
-                                        //   modelTemplate: $scope.urlcontent.content,
-                                        //   modelName: $scope.model.name
-                                        // });
                                     }
                                 })
                                 .catch(err => {
@@ -137,21 +118,16 @@ angular.module('basic')
                     .catch(err => {
                         console.log(err);
                     });
-                //     }
-                // });
-                // }
             }
 
-            //createNotebook();
-
-            //function initNotebook() {
             function isValidCodeModel(cell) {
                 return cell.cell_type === 'code' && !!cell.code;
             }
 
             function init() {
                 $http.post('/api/jupyter/initNotebook', {
-                        modelName: $scope.model.name
+                        modelName: $scope.model.name,
+                        token: $scope.model.token
                     })
                     .then(data => {
                         console.log('data', data)
@@ -228,7 +204,7 @@ angular.module('basic')
                                     $scope.openToolTip(++runIndex);
                                     return;
                                 }
-                                $http.post('/api/jupyter/run', { sourceCodes: $scope.model.sourceCells[runIndex].code })
+                                $http.post('/api/jupyter/run', { sourceCodes: $scope.model.sourceCells[runIndex].code, token: $scope.model.token })
                                     .then(data => {
                                         // console.log('runIndexdatadatadata--->', data);
                                         if (data) {
@@ -254,7 +230,7 @@ angular.module('basic')
                                 }
                                 $scope.model.sourceCells[index].isShowCode = true;
                                 $scope.model.sourceCells[index].execution_count = $scope.model.sourceCells[index].execution_count + 1;
-                                $http.post('/api/jupyter/run', { sourceCodes: $scope.model.sourceCells[index].code })
+                                $http.post('/api/jupyter/run', { sourceCodes: $scope.model.sourceCells[index].code, token: $scope.model.token })
                                     .then(data => {
                                         // console.log('-------->', data);
                                         if (data !== null && data !== '') {
@@ -271,7 +247,7 @@ angular.module('basic')
                                     if (!isValidCodeModel(cell)) return;
                                     cell.isShowCode = true;
                                     cell.execution_count = cell.execution_count + 1;
-                                    $http.post('/api/jupyter/run', { sourceCodes: cell.code })
+                                    $http.post('/api/jupyter/run', { sourceCodes: cell.code, token: $scope.model.token })
                                         .then(data => {
                                             if (data) {
                                                 let tmp = data.data.result;
@@ -305,7 +281,8 @@ angular.module('basic')
             $scope.saveAll = function() {
                 $http.post('/api/jupyter/saveNotebook', {
                         modelID: $scope.model.MODEL_ID,
-                        newContent: $scope.model.sourceCells
+                        newContent: $scope.model.sourceCells,
+                        token: $scope.model.token
                     })
                     .then(data => {
                         if (data) {

@@ -50,7 +50,6 @@ let modelType = 'explore';
 function getKernelList(userName) {
     return new Promise((resolve, reject) => {
         getJupyterToken(userName).then(result => {
-            console.log('result:', result);
             let token = result.token;
             if (token !== '' && token !== null) {
                 let kernelSpecs;
@@ -92,7 +91,6 @@ function getJupyterToken(userName) {
         ssh.connect(sshJupyterHubOpts).then(() => {
             command = 'docker exec -i auradeploy_hub_1 sh -c "jupyterhub token ' + userName + '"\nexit\n';
             //get token
-            console.log('token:', command);
             ssh.execCommand(command).then(result => {
                 let token = result.stdout;
                 if (token !== '') {
@@ -112,7 +110,6 @@ function getJupyterToken(userName) {
 
 }
 router.get('/kernels', function(req, res) {
-    console.log('req.user ', req.user);
     if (!req.user) {
         res.send({ msg: "authentification error" });
     }
@@ -127,12 +124,6 @@ router.get('/kernels', function(req, res) {
 
 
 router.post('/initNotebook', function(req, res) {
-    console.log('req.body.modelName', req.body.modelName)
-
-    // if (!req.body.modelName) {
-    //   res.send({result: null, msg: 'modelName can not null'});
-    //   return
-    // }
     Model.findOne({
         where: { MODEL_NAME: req.body.modelName },
         raw: true
@@ -145,7 +136,6 @@ router.post('/initNotebook', function(req, res) {
         let userName = req.user.username; //model.USER_NAME;
         let file = '/notebook.ipynb';
         let kernelName = model.KERNEL;
-        console.log('model from DB!!!:', model, 'modelId', modelId, 'userName', userName);
 
         getJupyterToken(userName).then(result => {
             console.log('result:', result);

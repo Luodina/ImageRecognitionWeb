@@ -42,6 +42,7 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 
 // 上游验证token
 app.use(function(req, res, next) {
+    console.log('---------------------------------->', req.path, req.body.token, req.query.token);
     var token = req.body.token || req.query.token || req.cookies.aura_token || req.headers['Authorization'];
     if (req.path.startsWith('/api/user/login')) {
         next();
