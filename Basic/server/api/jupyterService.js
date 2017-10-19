@@ -319,7 +319,7 @@ router.post('/saveNotebook', function(req, res) {
                                     remote: path + modelId + file
                                 }]).then(function() {
                                     res.status(200).send({ result: "succeess" });
-                                    console.log("The File thing is done");
+                                    console.log("The File thing is SAVED");
                                 }, function(error) {
                                     res.status(200).send({ result: "failed" });
                                     console.log("Something's wrong");
@@ -340,14 +340,12 @@ router.get('/projects', function(req, res) {
         },
         raw: true
     }).then(model => {
-        res.status(200).send(model)
-        console.log(model);
+        res.status(200).send(model);
     });
 });
 
 router.get('/projects/:modelName', function(req, res) {
     let modelName = req.params.modelName;
-    console.log('modelName', modelName, "req.user", req.user);
     if (!req.user) {
         res.send({ msg: "authentification error" });
     }
@@ -365,7 +363,6 @@ router.get('/projects/:modelName', function(req, res) {
             });
         })
         .catch(err => {
-            console.log('!!!!err', err);
             res.send({
                 result: null,
                 msg: err.name
