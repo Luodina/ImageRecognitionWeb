@@ -9,30 +9,38 @@ angular.module('basic')
             });
             $scope.model = $location.search();
             $scope.model.mode = $location.path().split('/')[2];
-            //validation
+            console.log('$scope.model', $scope.model)
+                //validation
             function isParamValid() {
                 return new Promise((resolve, reject) => {
                     //check kernel
                     $http.get('/api/jupyter/kernels', {
                             params: { token: $scope.model.token }
                         }).success(data => {
+                            console.log('$scope.model', $scope.model)
                             let val = false;
                             if (data.msg = 'success') {
                                 let tmpArr = [];
                                 data.kernellist.kernelspecs.forEach(kernel => {
                                     tmpArr.push(kernel.name);
                                 });
+                                console.log('tmpArr', tmpArr, '$scope.model.kernel', $scope.model.kernel, tmpArr.includes($scope.model.kernel))
                                 if (tmpArr.includes($scope.model.kernel)) {
                                     //check user 
+                                    console.log("11111");
                                     $http.get('/api/jupyter/projects/' + $scope.model.name, {
                                             params: { token: $scope.model.token }
                                         })
                                         .success(project => {
+                                            console.log('project:', project)
                                             if (project.msg === 'success') {
                                                 if (project.result.length !== 0) {
                                                     if ($location.path().split('/')[2] === 'edit') {
+
+                                                        $scope.model.MODEL_ID = project.result[0].MODEL_ID;
+                                                        console.log('$scope.model.MODEL_ID:', $scope.model.MODEL_ID);
                                                         val = true;
-                                                        resolve(val);
+                                                        resolve(val, project.result[0].MODEL_ID);
                                                     } else {
                                                         console.log('project with name:', project.result[0].MODEL_NAME, 'exists');
                                                         resolve(val);
@@ -51,14 +59,21 @@ angular.module('basic')
                                                 resolve(val);
                                             }
                                         })
+                                        .catch(err => {
+                                            console.log('err in /api/jupyter/projects/', err);
+                                            reject(err);
+                                        });
+                                } else {
+                                    console.log('Chosen kernel', $scope.model.kernel, ' is not in i the availabe kernel list ', tmpArr);
+                                    resolve(val);
                                 }
                             } else {
-                                console.log(data.msg);
+                                console.log('data', data.msg);
                                 resolve(val);
                             }
                         })
                         .catch(err => {
-                            console.log(err);
+                            console.log('err', err);
                             reject(err);
                         });
                 });
@@ -69,15 +84,17 @@ angular.module('basic')
                 let done;
                 if (isKerneValid) {
                     if ($scope.model.mode === "new") {
-                        done = 2
+
                         createNotebook();
                     } else {
-                        done = 2
+                        init();
 
                     }
-                    if (done === 2) { init(); }
+
                 }
 
+            }).catch(err => {
+                console.log('err in isParamValid', err);
             });
 
             function createNotebook() {
@@ -279,6 +296,8 @@ angular.module('basic')
             };
 
             $scope.saveAll = function() {
+                console.log('$scope.model.MODEL_ID', $scope.model.MODEL_ID);
+
                 $http.post('/api/jupyter/saveNotebook', {
                         modelID: $scope.model.MODEL_ID,
                         newContent: $scope.model.sourceCells,
