@@ -1387,7 +1387,7 @@ div.ng-invalid.ng-touched.ui-select-container span.ui-select-toggle {
     border-bottom: solid 1px #f0f0f0;
   }
   .ipynb-edit {
-    margin-top: 50px;
+    margin-top: 30px;
     position: relative;
     .content{
       margin-left: 15px;
@@ -1408,19 +1408,15 @@ div.ng-invalid.ng-touched.ui-select-container span.ui-select-toggle {
         }
       }
       .ipynb-right {
-        //margin-bottom: 50px;
-        .changeStyle {
-
-        }
         .CodeMirror {
           font-family: monospace;
           height: auto;
           border: 1px solid #ccc;
-          font-size: 12px;
+          font-size: 16px;
           background: #f9f9f9;
           .CodeMirror-scroll {
             overflow: auto;
-            min-height: 30px;
+            min-height: 40px;
           }
 
         }
@@ -1431,6 +1427,9 @@ div.ng-invalid.ng-touched.ui-select-container span.ui-select-toggle {
           margin-top: 10px;
           .output {
             word-wrap: break-word;
+            pre{
+              font-size: 16px;
+            }
             .dataframe {
               thead th {
                 font-size: 14px;

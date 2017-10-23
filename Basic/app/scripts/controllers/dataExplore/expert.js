@@ -24,9 +24,9 @@ angular.module('basic')
                                 data.kernellist.kernelspecs.forEach(kernel => {
                                     tmpArr.push(kernel.name);
                                 });
-                                console.log('tmpArr', tmpArr, '$scope.model.kernel', $scope.model.kernel, tmpArr.includes($scope.model.kernel))
-                                if (tmpArr.includes($scope.model.kernel)) {
-                                    //check user 
+                                // console.log('tmpArr', tmpArr, '$scope.model.kernel', $scope.model.kernel, tmpArr.includes($scope.model.kernel))
+                                if (tmpArr.indexOf($scope.model.kernel)>-1) {
+                                    //check user
                                     console.log("11111");
                                     $http.get('/api/jupyter/projects/' + $scope.model.name, {
                                             params: { token: $scope.model.token }
