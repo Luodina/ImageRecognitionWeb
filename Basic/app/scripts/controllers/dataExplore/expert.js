@@ -27,12 +27,12 @@ angular.module('basic')
                                 // console.log('tmpArr', tmpArr, '$scope.model.kernel', $scope.model.kernel, tmpArr.includes($scope.model.kernel))
                                 if (tmpArr.indexOf($scope.model.kernel)>-1) {
                                     //check user
-                                    console.log("11111");
+                                    // console.log("11111");
                                     $http.get('/api/jupyter/projects/' + $scope.model.name, {
                                             params: { token: $scope.model.token }
                                         })
                                         .success(project => {
-                                            console.log('project:', project)
+                                            // console.log('project:', project);
                                             if (project.msg === 'success') {
                                                 if (project.result.length !== 0) {
                                                     if ($location.path().split('/')[2] === 'edit') {
@@ -44,7 +44,7 @@ angular.module('basic')
                                                     } else {
                                                         console.log('project with name:', project.result[0].MODEL_NAME, 'exists');
                                                         resolve(val);
-                                                    };
+                                                    }
                                                 } else {
                                                     if ($scope.model.mode === 'new') {
                                                         val = true;
@@ -52,7 +52,7 @@ angular.module('basic')
                                                     } else {
                                                         console.log('project with name:', $scope.model.name, 'do not exists');
                                                         resolve(val);
-                                                    };
+                                                    }
                                                 }
                                             } else {
                                                 console.log(project.msg);
@@ -83,20 +83,15 @@ angular.module('basic')
                 console.log('isKerneValid', isKerneValid);
                 let done;
                 if (isKerneValid) {
-                    if ($scope.model.mode === "new") {
-
+                    if ($scope.model.mode === 'new') {
                         createNotebook();
                     } else {
                         init();
-
                     }
-
                 }
-
             }).catch(err => {
                 console.log('err in isParamValid', err);
             });
-
             function createNotebook() {
                 let date = new Date();
                 $http.post('/api/model/' + $scope.model.name, {
@@ -147,7 +142,7 @@ angular.module('basic')
                         token: $scope.model.token
                     })
                     .then(data => {
-                        console.log('data', data)
+                        // console.log('data', data)
                         if (data.data.cells) {
                             let tmpArr = data.data.cells;
                             let runIndex = 0;
@@ -239,8 +234,7 @@ angular.module('basic')
                                     }).catch(err => {
                                         console.log('dataErr', err);
                                     })
-                            }
-
+                            };
                             $scope.run = function(index) {
                                 if (!isValidCodeModel($scope.model.sourceCells[index])) {
                                     return;
@@ -293,8 +287,7 @@ angular.module('basic')
                     .catch(err => {
                         console.log('err', err);
                     })
-            };
-
+            }
             $scope.saveAll = function() {
                 console.log('$scope.model.MODEL_ID', $scope.model.MODEL_ID);
 
