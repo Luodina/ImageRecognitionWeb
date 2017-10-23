@@ -31,7 +31,7 @@ angular.module('basic')
           }
 
         })
-      }
+      };
 
       // get app_name
       $scope.appName = $location.path().split(/[\s/]+/).pop();
@@ -41,9 +41,10 @@ angular.module('basic')
        * @param app_id
        */
       $scope.getScheduleById = function (app_id) {
-        $http.get('/api/testSchedule/getScheduleListById/' + app_id).success(function (data) {
-          console.log("schedule list====>", data.makeSchedule);
-          $scope.scheduleList = data.makeSchedule;
+        $http.get('/api/testSchedule/getScheduleListById/' + app_id)
+          .success(function (data) {
+          // console.log("schedule list====>", data.makeSchedule);
+          $scope.scheduleList = data.makeSchedule  || [];
           $scope.scheduleList.forEach(function (schedule) {
             schedule.DAYOFWEEK == 1 ? schedule.DAYOFWEEK ="周一" : schedule.DAYOFWEEK == 2 ? schedule.DAYOFWEEK ="周二" : schedule.DAYOFWEEK == 3 ? schedule.DAYOFWEEK ="周三" : schedule.DAYOFWEEK == 4 ? schedule.DAYOFWEEK ="周四" : schedule.DAYOFWEEK == 5 ? schedule.DAYOFWEEK ="周五" : schedule.DAYOFWEEK == 6 ? schedule.DAYOFWEEK ="周六" : schedule.DAYOFWEEK == 7 ? schedule.DAYOFWEEK ="周日" :schedule.DAYOFWEEK;
           })
@@ -58,7 +59,7 @@ angular.module('basic')
        */
       $scope.getScheduleByName = function (scheduleName, callback) {
         $http.get('/api/testSchedule/getScheduleListByName/' + scheduleName).success(function (data) {
-          console.log("schedule count====>", data.count)
+          // console.log("schedule count====>", data.count)
           callback({countSchedule: data.count ? data.count : 0});
         })
       };

@@ -14,12 +14,12 @@
         <uib-tab-heading>
           <p class="oper_tit">{{ "modelType_0" + $index | translate}}</p>
           <span class="icon">
-            {{(!listAllProject[$index]) ? "0" : listAllProject[$index].length}}
+            {{(!allFiles[$index]) ? "0" : allFiles[$index].length}}
           </span>
           <i ng-if="$index !== 0" ng-click="newProject($index)" class="addSmPic" style="margin-top: -5px;"></i>
         </uib-tab-heading>
         <div class="dataExplore-container-main"
-             ng-repeat="item in listAllProject[$index]"
+             ng-repeat="item in allFiles[$index]"
              ng-click="openProject(item);$event.stopPropagation();">
           <div class="date_set_main">
             <div class="main_header_data">{{item.MODEL_NAME}}
@@ -31,7 +31,7 @@
               </span>
             </div>
             <div class="main_container_data"
-                 ng-click="unfoldPath('modelType_' + item.VIEW_MENU_ID,listAllProject[idx][$index],idx)">
+                 ng-click="unfoldPath('modelType_' + item.VIEW_MENU_ID,allFiles[idx][$index],idx)">
               <table style="width: 100%;">
                 <tr ng-repeat="val in item.MODEL_INFO track by $index">
                   <td> {{ "modelType_" + item.VIEW_MENU_ID + "_0" + $index | translate }}</td>

@@ -11,7 +11,7 @@ let Sequelize = require('sequelize');
 let User = require('../../../server/model/USER_INFO')(sequelize, Sequelize);
 
 describe('server/api/user.js', function() {
-  const USERNAME = 'test', PASSWORD = 'test'; 
+  const USERNAME = 'test', PASSWORD = 'test';
   // 固定数据库的返回值
   var stub;
   before(function() {

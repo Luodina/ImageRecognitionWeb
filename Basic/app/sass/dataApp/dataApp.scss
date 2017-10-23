@@ -170,6 +170,8 @@ body {
                 line-height: 54px;
               }
               .markdown {
+                padding: 0 20px;
+                margin-bottom: 40px;
                 h1 {
                   margin-top: 20px;
                   font-size: 24px;
@@ -194,6 +196,10 @@ body {
                   margin-top: 24px;
                   font-size: 14px;
                   color: #666;
+                }
+                table{
+                  display: none;
+                  //table-layout: fixed;
                 }
               }
               .ower {
@@ -236,7 +242,7 @@ body {
       }
       .fileContent {
         margin: 0;
-        padding: 0 20px;
+        padding: 0 30px;
         min-height: 600px;
         .filePart {
           .file {
@@ -244,7 +250,58 @@ body {
               margin-top: 40px;
               font-size: 20px;
               color: #333;
-              margin-left: 18px;
+
+            }
+
+            .table_content {
+
+              margin-top: 30px;
+
+              //border:solid 1px #f2f2f2;
+
+              .contentTitle {
+
+                border: solid 1px #eaeaea;
+
+                .title {
+
+                  background: #f4f4f4;
+
+                  height: 52px;
+
+                  font-size: 14px;
+
+                  td {
+
+                    padding: 0 30px;
+
+                  }
+
+                }
+                .content {
+
+                  height: 52px;
+
+                  font-size: 14px;
+
+                  td {
+
+                    padding: 0 30px;
+
+                    .btn {
+                      float: right;
+                      height: 30px;
+                      border: solid 1px #4847ff;
+                      color: #4874ff;
+                      margin-left: 15px;
+
+                    }
+
+                  }
+
+                }
+
+              }
 
             }
             .content {

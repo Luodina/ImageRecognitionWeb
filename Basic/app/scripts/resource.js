@@ -6,9 +6,12 @@ angular.module('basic.resource', ['ngResource'])
     return projectList;
   }])
   .factory('appList', ['$resource', 'GLOBAL',function ($resource,GLOBAL) {
-    let appList = $resource(GLOBAL.host_app+'/getAppList', {}, {
+    let appList = $resource(GLOBAL.host_app, {}, {
     });
     return appList;
+  }])
+  .factory('appDetail', ['$resource', 'GLOBAL',function ($resource,GLOBAL) {
+    return $resource(GLOBAL.host_app+'/:appName', {appName:'@appName'}, {});
   }])
   .factory('makefileList', ['$resource', 'GLOBAL',function ($resource,GLOBAL) {
     let makefileList = $resource(GLOBAL.host_makefile+'/getMakeFileList/:appName', {appName:'@appName'}, {

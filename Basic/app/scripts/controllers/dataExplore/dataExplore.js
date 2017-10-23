@@ -3,24 +3,24 @@ angular.module('basic')
     .controller('DataExploreCtrl', ['$location', 'templateList', 'openNotebook', '$http', 'createModel', '$rootScope', '$scope', '$filter', 'projectList', 'createExpertModule', 'deletePage', 'copyFolder',
         ($location, templateList, openNotebook, $http, createModel, $rootScope, $scope, $filter, projectList, createExpertModule, deletePage, copyFolder) => {
             $scope.projectType = ['modelType_00', 'modelType_01', 'modelType_02', 'modelType_03', 'modelType_04', 'modelType_05', 'modelType_06'];
-            $scope.listAllProject = [
+            $scope.allFiles = [
                 []
             ];
             let modelType = 'explore';
             let handleSuccess = (data, status) => {
                 let listAllProject = data.model;
-                if (listAllProject) {
-                    listAllProject.forEach(model => {
+                if (allFiles) {
+                    allFiles.forEach(model => {
                         if (model.TYPE_MENU_ID === "01") {
                             if (model.USER_NAME) {
                                 if (model.USER_NAME === $rootScope.getUsername()) {
                                     model.mode = 'update';
-                                    $scope.listAllProject[0].push(model);
+                                    $scope.allFiles[0].push(model);
                                 };
                             }
                             if (model.VIEW_MENU_ID) {
-                                if ($scope.listAllProject[parseInt(model.VIEW_MENU_ID)] === undefined) {
-                                    $scope.listAllProject[parseInt(model.VIEW_MENU_ID)] = [];
+                                if ($scope.allFiles[parseInt(model.VIEW_MENU_ID)] === undefined) {
+                                    $scope.allFiles[parseInt(model.VIEW_MENU_ID)] = [];
                                 }
                                 if (model.MODEL_INFO) {
                                     let objJSON = eval('(function(){return ' + model.MODEL_INFO + ';})()');
@@ -31,7 +31,7 @@ angular.module('basic')
                                 } else {
                                     model.mode = 'view';
                                 };
-                                $scope.listAllProject[parseInt(model.VIEW_MENU_ID)].push(model);
+                                $scope.allFiles[parseInt(model.VIEW_MENU_ID)].push(model);
                             }
                         }
                     }, this);
@@ -83,7 +83,7 @@ angular.module('basic')
                     ];
                     createModel.open(index, arrItem).then(msg => {
                             if (msg === 'success') {
-                                $scope.listAllProject = [
+                                $scope.allFiles = [
                                     []
                                 ];
                                 projectList.get({}, res => {

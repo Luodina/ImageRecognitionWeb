@@ -5,7 +5,7 @@
 angular.module('basic').config(['$translateProvider', function($translateProvider) {
   $translateProvider.translations('zh', {
     'web_common_000': 'OCAI',
-    'web_common_001': '数据应用',
+    'web_common_001': '实验室',
     'web_common_002': '数据探索',
     'web_common_003': '任务计划',
     'web_common_004': '知识图谱',
@@ -42,7 +42,7 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_explore_011': '变量正则化',
     'web_common_data_explore_012': '应用',
 
-    'web_common_data_explore_013': '数据应用搜索',
+    'web_common_data_explore_013': '实验搜索',
     'web_common_data_explore_014': '文本预处理',
     'web_common_data_explore_015': '分类预测',
     'web_common_data_explore_016': '数据智能分组',
@@ -86,11 +86,11 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'modelType_05_02':'特征数:',
     'modelType_05_03':'权值:',
 
-    'web_common_data_app_01': '数据应用搜索',
-    'web_common_data_app_02': '我的数据应用',
-    'web_common_data_app_03': '数据应用',
-    'web_common_data_app_04': '通用数据应用',
-    'web_common_data_app_05': '应用文件',
+    'web_common_data_app_01': '实验搜索',
+    'web_common_data_app_02': '我的实验',
+    'web_common_data_app_03': '所有实验',
+    'web_common_data_app_04': '通用实验',
+    'web_common_data_app_05': '我的文件',
     'web_common_data_app_06': '任务计划',
     'web_common_data_app_07': '运行编排',
     'web_common_data_app_08': '运行结果',
@@ -98,8 +98,8 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_data_app_result_00': '任务: 流失用户预警',
     'web_common_data_app_result_01': '任务: 客户分群',
 
-    'web_common_data_app_layer_01': '创建我的数据应用',
-    'web_common_data_app_layer_02': '新的数据应用',
+    'web_common_data_app_layer_01': '新建实验',
+    'web_common_data_app_layer_02': '新的实验',
     'web_common_data_app_layer_03': '创建',
     'web_common_data_app_layer_04': '创建分析框架',
     'web_common_data_app_layer_05': '名字',

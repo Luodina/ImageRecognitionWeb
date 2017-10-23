@@ -1,0 +1,47 @@
+<div class="title">应用数据</div>
+<div>
+  <div class="dataExplore-container">
+    <uib-tabset class="tab-default tab-jia-default" active="grid.active" style="border:0px;">
+      <uib-tab ng-repeat="(key, value) in DATA_TYPES">
+        <uib-tab-heading>
+         <p class="oper_tit">{{value}}</p>
+        </uib-tab-heading>
+        <div>
+          <table class="table table_jia_set">
+            <tr class="title">
+              <td>文件名</td>
+              <td>文件大小</td>
+              <td>修改时间</td>
+              <td class="table_set_last">操作</td>
+            </tr>
+            <tr class="content" class="table table_jia_set"
+                ng-repeat="item in appData[key]">
+              <td>{{item.name}}</td>
+              <td>{{item.size}}</td>
+              <td>{{item.last_modified}}</td>
+              <td class="con_set_last" ng-click="preview(key,  item.name)">查看</td>
+            </tr>
+          </table>
+        </div>
+      </uib-tab>
+    </uib-tabset>
+  </div>
+
+
+  <div>
+     <table st-table="previewData" width="100%" class="table table-striped">
+     <thead>
+      <tr>
+       <th ng-repeat="(header, value) in previewData[0]">{{header}}</th>
+      </tr>
+     </thead>
+     <tbody>
+      <tr ng-repeat="row in previewData| filter:searchText">
+       <td ng-repeat="cell in row">{{cell}}</td>
+      </tr>
+     </tbody>
+    </table>
+  </div>
+
+</div>
+

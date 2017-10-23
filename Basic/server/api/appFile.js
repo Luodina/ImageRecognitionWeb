@@ -42,7 +42,7 @@ router.post('/:itemName', function (req, res) {
     if (itemType === "expert") {
       return templExpertModelDir + "/" + modelTemplate
     }
-  }
+  };
   console.log(`localPath`, localPath(itemType),
     `itemID`, itemID,
     `itemType`, itemType,
@@ -93,7 +93,7 @@ router.post('/:itemName', function (req, res) {
           }
         })
         .catch(err => {
-          console.log('err', err)
+          console.log('err', err);
         });
     })
     .catch(function (err) {

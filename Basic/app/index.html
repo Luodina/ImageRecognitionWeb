@@ -52,10 +52,11 @@
                 <div class="collapse navbar-collapse navbar-head" id="js-navbar-collapse">
                     <div class="nav navbar-nav navbar-left nav-top" id="navbar-nav" ng-if="isshow">
                         <a ng-class="{true: 'active'}[active == 'home']" ui-sref="home">{{'web_common_001' | translate}}</a>
-                        <a ng-class="{true: 'active'}[active == 'dataExplore']" ui-sref="dataExplore">{{'web_common_002' |
-            translate}}</a>
-                        <a ng-class="{true: 'active'}[active == 'knowledgeMap']" ui-sref="knowledgeMap">{{'web_common_004' |
-            translate}}</a>
+                        <!--<a ng-class="{true: 'active'}[active == 'dataExplore']" ui-sref="dataExplore">{{'web_common_002' |-->
+            <!--translate}}</a>-->
+                        <!--<a ng-class="{true: 'active'}[active == 'knowledgeMap']" ui-sref="knowledgeMap">{{'web_common_004' |-->
+            <!--translate}}</a>-->
+                        <a ng-class="{true: 'active'}[active == 'dashboard']" ui-sref="dashboard">{{'展示台' }}</a>
                         <a ng-class="{true: 'active'}[active == 'settings']" ui-sref="settings">{{'web_common_005' | translate}}</a>
                     </div>
                     <div ng-if="!isshow && appInfoShow" style="display: inline-block;line-height: 52px;font-size: 16px;margin-left: 10px">
@@ -127,6 +128,7 @@
     <script src="bower_components/codemirror/lib/codemirror.js"></script>
     <script src="bower_components/codemirror/mode/python/python.js"></script>
     <script src="bower_components/codemirror/mode/r/r.js"></script>
+    <script src="bower_components/angular-smart-table/dist/smart-table.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -160,7 +162,7 @@
     <script src="build-scripts/directive/dataProcessing.js"></script>
     <script src="build-scripts/controllers/settings.js"></script>
     <script src="build-scripts/controllers/dataApp/appModel/appFile.js"></script>
-    <script src="build-scripts/controllers/dataApp/appModel/appPreview.js"></script>
+    <script src="build-scripts/controllers/dataApp/appModel/overview.js"></script>
     <script src="build-scripts/controllers/dataApp/appModel/operationResult.js"></script>
     <script src="build-scripts/controllers/dataApp/appModel/runTheChoreography.js"></script>
     <script src="build-scripts/controllers/dataApp/appModel/taskPlan.js"></script>

@@ -1,6 +1,16 @@
 "use strict";
 
 module.exports = {
+  qa: {
+    dist: 'app',
+    port: 9000,
+    appPath:'notebookApp',
+    serverType: 'notebook',
+    notebookUrl: 'http://notebook:8888/',
+    token: "9e4f96c5239743a8dd5910216c6f02dad89a58932d63db7f",
+    modelPath:'notebookModel',
+    mariadb: "mariadb://root:1qaz@wsx@mysql:3306/ocai"
+  },
   prod: {
     dist: 'app',
     port: 9000,
@@ -10,6 +20,7 @@ module.exports = {
     token: "9e4f96c5239743a8dd5910216c6f02dad89a58932d63db7f",
     mariadb: "mariadb://root:1qaz@wsx@mysql:3306/ocai"
   },
+
   env: "prod",
   trans: "zh"
 };

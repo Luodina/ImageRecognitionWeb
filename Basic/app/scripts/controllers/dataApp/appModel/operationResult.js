@@ -1,56 +1,35 @@
+'use strict';
 
-"use strict";
 angular.module('basic')
-  .controller('ResultCtrl',['appOperResult','$location','$rootScope','$filter','$scope','$http',
-  (appOperResult,$location,$rootScope,$filter, $scope,$http) => {
+  .controller('ResultCtrl',['appService', 'appOperResult','$location','$scope','$http',
+  (appService, appOperResult,$location, $scope,$http) => {
     $scope.appName = $location.path().split(/[\s/]+/).pop();
-    $scope.projectType=[];
-    $scope.projectTypeList=[];
+    $scope.DATA_TYPES={'RAW': '原始数据', 'PROCESSED': '处理后数据', 'MODEL_DATA':'建模数据' };
 
-    $http.get('/api/appResults/getScheduleNames/'+ $scope.appName )
-      .success((data)=> {
-        let result = data.results;
-        if (result !== null && result !== undefined){
-          $scope.projectType = result;
-          result.forEach((projectType,  i)=> {
-            console.log('!!!!!projectType',projectType)
-            $http.get('/api/appResults/getResultsList/' + projectType.SCHEDULE_NAME )
-            .success((resList) => {
-              if (resList !== null && resList !== undefined){
-                $scope.projectType[i].resList = resList.resultArr;
-                console.log('111111111111',$scope.projectType[i].resList)
-              }
-            })
-            .catch(err =>{console.log('err', err);})
-          })
-        }
+    $scope.appData = null;
+    $scope.init = function () {
+      appService.fetchApp($scope.appName).then( app => {
+        $scope.appData =   app.FILES.DATA;
 
       });
+    };
+    $scope.init();
 
 
-    $scope.getViewList = function (item) {
 
-
-      };
-
-
-    $scope.view =(item) => {
-      console.log(".... list====>", item);
-      $http.post('/api/appResults/getViews', {
-        'appName': item.APP_NAME,
-        'scheduleName':item.SCHEDULE_NAME,
-        'executeTime':item.EXECUTE_TIME
+    $scope.preview =(type, item) => {
+      //TODO 实现数据预览的功能
+      $http.get('/api/app/' + $scope.appName + '/files', {
+        params:{'path': 'data/'+ type.toLowerCase() + '/'  + item }
       }).success(function (data) {
-        console.log("item0000000 item0000000====>", data);
-        $scope.vlist= data.results;
-        console.log(".-----... $scope.vlist====>", $scope.vlist);
-        appOperResult.open($scope.vlist);
-
+        // console.log(data);
+        $scope.previewData = data;
+        // appOperResult.open($scope.vlist);
       });
-    }
+    };
   }])
   .directive('result', () => {
     return {
-      templateUrl: 'views/dataApp/appModel/operationResult.html'
+      templateUrl: 'views/dataApp/appModel/appData.html'
     };
-  })
+  });
