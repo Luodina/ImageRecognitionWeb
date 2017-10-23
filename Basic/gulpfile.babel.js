@@ -3,7 +3,7 @@
 
 let gulp = require('gulp');
 let $ = require('gulp-load-plugins')();
-let openURL = require("open");
+let openURL = require('open');
 let lazypipe = require('lazypipe');
 let rimraf = require('rimraf');
 let wiredep = require('wiredep').stream;
@@ -86,14 +86,14 @@ gulp.task('lint:serverScripts', function () {
 });
 
 gulp.task('start:client', ['start:server'], function () {
-  openURL("http://localhost:9000","chrome");
+  openURL('http://localhost:9000','chrome');
 });
 
 gulp.task('start:server', ['styles', 'es6:frontend', 'es6:server', 'bower'], function(cb) {
   let started = false;
   return $.nodemon({
     script: 'build-server/app.js',
-    ignore: ["app","dist","upload","node","node-v6.9.1","build-server"]
+    ignore: ['app','dist','upload','node','node-v6.9.1','build-server']
   }).on('start', function () {
     if (!started) {
       cb();
@@ -183,8 +183,8 @@ gulp.task('client:build', ['html', 'styles', 'es6:frontend', 'es6:server'], func
   return gulp.src(paths.views.main)
     .pipe($.useref({
       transformPath: function(filePath) {
-        if(filePath.indexOf("/app/bower_components") === -1) {
-          return filePath.replace('/bower_components', '/app/bower_components')
+        if(filePath.indexOf('/app/bower_components') === -1) {
+          return filePath.replace('/bower_components', '/app/bower_components');
         }else{
           return filePath;
         }
@@ -203,10 +203,10 @@ gulp.task('client:build', ['html', 'styles', 'es6:frontend', 'es6:server'], func
 });
 
 gulp.task('client:rename', ['client:build'], function(){
-  return gulp.src(yeoman.dist + "/index*.html")
+  return gulp.src(yeoman.dist + '/index*.html')
     .pipe($.rimraf({force: true}))
-    .pipe($.rename("index.html"))
-    .pipe(gulp.dest(yeoman.dist))
+    .pipe($.rename('index.html'))
+    .pipe(gulp.dest(yeoman.dist));
 });
 
 gulp.task('html', function () {
@@ -235,12 +235,12 @@ gulp.task('pageNotFound', function(){
 });
 
 gulp.task('config', () => {
-  return gulp.src("server/config.js.template")
-    .pipe(gulp.dest("build-server"));
+  return gulp.src('server/config.js.template')
+    .pipe(gulp.dest('build-server'));
 });
 
 gulp.task('lib', ()=> {
-  return gulp.src("server/lib/*").pipe(gulp.dest("build-server/lib"));
+  return gulp.src('server/lib/*').pipe(gulp.dest('build-server/lib'));
 });
 
 gulp.task('copy:extras', function () {

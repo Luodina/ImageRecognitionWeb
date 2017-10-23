@@ -1,14 +1,21 @@
 'use strict';
+
 const exec = require('child_process').exec;
 const fs = require('fs-extra');
 
 // nfs for remote jupyterhub server mode
-const privateNFS='/Users/zezhenjia/workSpace/auraDev/nfsShare';
+const privateNFS="/Users/zezhenjia/workSpace/auraDev/nfsShare";
+const path = require('path');
 
 // for local jupyter mode
-const jupyterRootPath='/Users/zezhenjia/workSpace/auraDev/localJupyter';
+const jupyterRootPath="/Users/zezhenjia/workSpace/auraDev/localJupyter";
+const logger = require('../utils/log')('utils/fileSystemUtil.js');
+const UUID = require('uuid');
 
 class FileSystem{
+  constructor(dataDir) {
+    this.dataDir = dataDir;
+  }
 
   /**
    *
@@ -73,7 +80,7 @@ class FileSystem{
    * @param templateType
    */
   getNewFolderName(templateType){
-    return templateType+'_'+this.getUuid(16,16);
+    return templateType+'_'+ UUID.v4();
   }
 
   /**
@@ -82,8 +89,7 @@ class FileSystem{
    * @returns {string}
    */
   getHubUserDataPath(username){
-
-    return privateNFS+'/'+'jupyterhub-user-'+username+'/_data';
+    return this.dataDir +'/'+'jupyterhub-user-'+username+'/_data';
   }
 
   /**
@@ -92,9 +98,18 @@ class FileSystem{
    */
   getUserDataPath(username){
 
-    let path=jupyterRootPath + '/' + 'user_' + username;
+    let path= this.dataDir + '/' + 'user_' + username;
     fs.ensureDirSync(path);
     return path;
+  }
+
+  getAppFolderName(appId) {
+    return `APP_${appId}`;
+  }
+
+  getUserAppFolderPath(username, appId) {
+    return path.join(this.getUserDataPath(username),
+      this.getAppFolderName(appId));
   }
 
   /**

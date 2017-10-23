@@ -1,5 +1,12 @@
-html,
-body {
+@import "color";
+
+$color0: #3d63d9;
+$color1: #4847ff;
+$color2: #4874ff;
+$color3: #3c63d9;
+$color4: #6d90ff;
+
+html, body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   color: #696969;
   font: 12px "微软雅黑", Helvetica;
@@ -108,7 +115,7 @@ body {
     height: 54px;
     clear: both;
     .navbar-au {
-      background: #4874ff;
+      background: $color2;
       font-size: 14px;
       margin-bottom: 0;
       border-radius: 0px;
@@ -129,7 +136,7 @@ body {
             cursor: pointer;
           }
           .help_tit:hover {
-            background: #3d63d9;
+            background: $color0;
           }
           .head_index {
             float: left;
@@ -191,13 +198,13 @@ body {
                 a {
                   padding: 16px 20px;
                   text-align: center;
-                  color: #6d90ff;
+                  color: $color4;
                   background: #eef1fd;
                 }
                 //a:hover{}
               }
               li.zx_active a {
-                background: #6d90ff;
+                background: $color4;
                 color: #fff;
               }
             }
@@ -208,7 +215,7 @@ body {
             top: 23px !important
           }
           .head_index:hover {
-            background: #3d63d9;
+            background: $color0;
           }
         }
         .nav-top > a {
@@ -221,10 +228,10 @@ body {
           float: left;
         }
         .nav-top > .active {
-          background: #3d63d9;
+          background: $color0;
         }
         .nav-top > a:hover {
-          background: #3d63d9;
+          background: $color0;
         }
       }
     }
@@ -235,7 +242,7 @@ body {
     max-height: none;
     height: 100%;
     width: 100%;
-    background: url(../images/homeBag.png) no-repeat;
+    //background: url(../images/homeBag.png) no-repeat;
     background-size: cover;
     .lf {
       float: left;
@@ -312,10 +319,10 @@ body {
         font-size: 16px;
         color: #666;
         .titleLogin {
-          color: #4874ff;
+          color: $color2;
         }
         .titleLogin:hover {
-          color: #3c63d9;
+          color: $color3;
         }
       }
     }
@@ -401,14 +408,14 @@ body {
             width: 418px;
             height: 38px;
             border-radius: 2px;
-            border: 1px solid #4874ff;
-            background: #4874ff;
+            border: 1px solid $color2;
+            background: $color2;
             font-size: 16px;
             font-weight: bold;
             color: #ffffff;
           }
           .btn:hover {
-            background: #3c63d9;
+            background: $color3;
           }
           .footer {
             margin-top: 40px;
@@ -419,10 +426,10 @@ body {
               font-size: 16px;
               color: #666;
               .titleLogin {
-                color: #4874ff;
+                color: $color2;
               }
               .titleLogin:hover {
-                color: #3c63d9;
+                color: $color3;
               }
             }
           }
@@ -599,13 +606,13 @@ body {
                 text-indent: 11px;
               }
               span.colored {
-                color: #4874ff;
+                color: $color2;
                 background: #ecf1ff;
               }
             }
             a:hover {
               background: #ecf1ff;
-              color: #4874ff;
+              color: $color2;
             }
           }
         }
@@ -685,11 +692,11 @@ body {
     border: 0px;
     line-height: 30px;
     border-radius: 2px;
-    background: #4847ff;
+    background: $color1;
     cursor: pointer;
   }
   .modal-footer-btn:hover {
-    background: #3d63d9;
+    background: $color0;
     color: #ffffff;
   }
 }
@@ -753,11 +760,11 @@ body {
         background: #f4f4f4;
       }
       .dataSource-preview:hover {
-        background: #4847ff;
+        background: $color1;
         color: #ffffff;
       }
       .dataSource-preview:active {
-        background: #4847ff;
+        background: $color1;
         color: #ffffff;
       }
     }
@@ -778,11 +785,11 @@ body {
         background: #f4f4f4;
       }
       .btnStep:hover {
-        background: #4847ff;
+        background: $color1;
         color: #ffffff;
       }
       .btnStep:active {
-        background: #4847ff;
+        background: $color1;
         color: #ffffff;
       }
     }
@@ -822,9 +829,9 @@ body {
         }
       }
       .active {
-        color: #4847ff;
+        color: $color1;
         div.circle {
-          background: #4874ff !important;
+          background: $color2 !important;
         }
       }
     }
@@ -842,17 +849,17 @@ body {
         display: inline-block;
         padding: 5px 20px;
         color: #ffffff;
-        background: #4874ff;
-        border: solid 1px #4874ff;
+        background: $color2;
+        border: solid 1px $color2;
       }
       .bBtnNext {
         margin-right: 20px;
         display: inline-block;
         padding: 5px 20px;
-        color: #4874ff;
+        color: $color2;
         background: #fff;
         border-radius: 2px;
-        border: solid 1px #4874ff;
+        border: solid 1px $color2;
       }
     }
     .dataSource {
@@ -926,9 +933,9 @@ body {
               display: inline-block;
               padding: 5px 20px;
               margin-left: 15px;
-              background: #4874ff;
+              background: $color2;
               border-radius: 2px;
-              border: 1px solid #4874ff;
+              border: 1px solid $color2;
             }
           }
           .dataSourcePreview {
@@ -1134,13 +1141,13 @@ body {
           text-indent: 11px;
         }
         span.colored {
-          color: #4874ff;
+          color: $color2;
           background: #ecf1ff;
         }
       }
       a:hover {
         background: #ecf1ff;
-        color: #4874ff;
+        color: $color2;
       }
     }
   }
@@ -1181,13 +1188,13 @@ body {
 }
 
 .add_open {
-  border: solid 1px #4874ff;
+  border: solid 1px $color2;
   padding: 5px 15px;
   cursor: pointer;
 }
 
 .save_make {
-  background: #4874ff;
+  background: $color2;
   padding: 5px 15px;
   cursor: pointer;
 }
@@ -1201,17 +1208,17 @@ body {
 }
 
 .conTwo .ipt:focus {
-  border-color: #4874ff !important;
+  border-color: $color2 !important;
 }
 
 .conOne .ipt:focus {
-  border-color: #4874ff !important;
+  border-color: $color2 !important;
 }
 
 input.ng-invalid.ng-touched,
 div.ng-invalid.ng-touched div.tokenfield,
 div.ng-invalid.ng-touched.ui-select-container span.ui-select-toggle {
-  border-color: #4874ff !important;
+  border-color: $color2 !important;
 }
 
 ////login

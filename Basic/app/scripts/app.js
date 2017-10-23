@@ -31,7 +31,8 @@ angular
         'angularFileUpload',
         'hc.marked',
         'ipCookie',
-        'ui.codemirror'
+        'ui.codemirror',
+        'smart-table'
     ])
     .constant('GLOBAL', {
         host_getAllData: ''

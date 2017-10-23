@@ -68,7 +68,7 @@ app.use(function (req, res, next) {
 // rest api
 app.use('/api/jupyter', require('./api/jupyterService'));
 app.use('/api/user', require('./api/user'));
-app.use('/api/model', require('./api/model'));
+// app.use('/api/model', require('./api/model'));
 app.use('/api/app', require('./api/app'));
 app.use('/api/appFile', require('./api/appFile'));
 //app.use('/queryDS/all', proxy('http://10.20.51.3:5000/queryDS/all'));

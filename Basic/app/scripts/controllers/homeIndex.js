@@ -8,6 +8,7 @@ angular.module('basic')
       $scope.login = () => {
         loginModel.open();
       };
+      $scope.login();
     }]);
 
 
