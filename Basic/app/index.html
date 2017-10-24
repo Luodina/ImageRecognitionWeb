@@ -41,50 +41,50 @@
 <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="header" id="pageTitle">
-        <div class="navbar navbar-default navbar-au">
-            <div class="container-fluid">
-                <div class="navbar-header" style="width:54px;height: 52px;cursor: pointer;">
-                    <a href=" " ui-sref="home">
-                        <img src="./images/logo.jpg" style="width:54px;height: 52px;cursor:pointer" alt="Aura" title="Aura">
-                    </a>
-                </div>
-                <div class="collapse navbar-collapse navbar-head" id="js-navbar-collapse">
-                    <div class="nav navbar-nav navbar-left nav-top" id="navbar-nav" ng-if="isshow">
-                        <a ng-class="{true: 'active'}[active == 'home']" ui-sref="home">{{'web_common_001' | translate}}</a>
-                        <a ng-class="{true: 'active'}[active == 'dataExplore']" ui-sref="dataExplore">{{'web_common_002' |
-            translate}}</a>
-                        <a ng-class="{true: 'active'}[active == 'knowledgeMap']" ui-sref="knowledgeMap">{{'web_common_004' |
-            translate}}</a>
-                        <a ng-class="{true: 'active'}[active == 'settings']" ui-sref="settings">{{'web_common_005' | translate}}</a>
-                    </div>
-                    <div ng-if="!isshow && appInfoShow" style="display: inline-block;line-height: 52px;font-size: 16px;margin-left: 10px">
-                        <span ui-sref="home">{{username}}</span> / {{modelAppName}}
-                    </div>
-                    <div ng-if="!isshow && expertShow" style="display: inline-block;line-height: 52px;font-size: 16px;margin-left: 10px">
-                        <span ng-click="findWay">{{username}}</span>
-                        <span ng-click="findWay(index)">/ {{exploreName | translate}} </span>
-                        <span>/ {{modelExpertName}}</span>
-                    </div>
-                    <div class="navbar-right">
-                        <span class="help_tit">帮助</span>
-                        <div class="data_bg header_area_select head_index">
-                            <div uib-dropdown="" on-toggle="toggled(open)" class="dropdown open">
-                                <a href="javascript:void(0);" class="per_block dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="true">
-                                    <span class="header_per_tit" title="angyan0103">{{username}}</span>
-                                    <span class="xl_bg"></span>
-                                </a>
-                                <ul class="dropdown-menu index_area_drop" uib-dropdown-menu="" aria-labelledby="user-menu">
-                                    <li><a href="javascript:void(0);"><span>修改密码</span></a></li>
-                                    <li class="zx_active"><a href="javascript:void(0);" ng-click="logout()"><span>退出账户</span></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!--<div class="header" id="pageTitle">-->
+        <!--<div class="navbar navbar-default navbar-au">-->
+            <!--<div class="container-fluid">-->
+                <!--<div class="navbar-header" style="width:54px;height: 52px;cursor: pointer;">-->
+                    <!--<a href=" " ui-sref="home">-->
+                        <!--<img src="./images/logo.jpg" style="width:54px;height: 52px;cursor:pointer" alt="Aura" title="Aura">-->
+                    <!--</a>-->
+                <!--</div>-->
+                <!--<div class="collapse navbar-collapse navbar-head" id="js-navbar-collapse">-->
+                    <!--<div class="nav navbar-nav navbar-left nav-top" id="navbar-nav" ng-if="isshow">-->
+                        <!--<a ng-class="{true: 'active'}[active == 'home']" ui-sref="home">{{'web_common_001' | translate}}</a>-->
+                        <!--<a ng-class="{true: 'active'}[active == 'dataExplore']" ui-sref="dataExplore">{{'web_common_002' |-->
+            <!--translate}}</a>-->
+                        <!--<a ng-class="{true: 'active'}[active == 'knowledgeMap']" ui-sref="knowledgeMap">{{'web_common_004' |-->
+            <!--translate}}</a>-->
+                        <!--<a ng-class="{true: 'active'}[active == 'settings']" ui-sref="settings">{{'web_common_005' | translate}}</a>-->
+                    <!--</div>-->
+                    <!--<div ng-if="!isshow && appInfoShow" style="display: inline-block;line-height: 52px;font-size: 16px;margin-left: 10px">-->
+                        <!--<span ui-sref="home">{{username}}</span> / {{modelAppName}}-->
+                    <!--</div>-->
+                    <!--<div ng-if="!isshow && expertShow" style="display: inline-block;line-height: 52px;font-size: 16px;margin-left: 10px">-->
+                        <!--<span ng-click="findWay">{{username}}</span>-->
+                        <!--<span ng-click="findWay(index)">/ {{exploreName | translate}} </span>-->
+                        <!--<span>/ {{modelExpertName}}</span>-->
+                    <!--</div>-->
+                    <!--<div class="navbar-right">-->
+                        <!--<span class="help_tit">帮助</span>-->
+                        <!--<div class="data_bg header_area_select head_index">-->
+                            <!--<div uib-dropdown="" on-toggle="toggled(open)" class="dropdown open">-->
+                                <!--<a href="javascript:void(0);" class="per_block dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="true">-->
+                                    <!--<span class="header_per_tit" title="angyan0103">{{username}}</span>-->
+                                    <!--<span class="xl_bg"></span>-->
+                                <!--</a>-->
+                                <!--<ul class="dropdown-menu index_area_drop" uib-dropdown-menu="" aria-labelledby="user-menu">-->
+                                    <!--<li><a href="javascript:void(0);"><span>修改密码</span></a></li>-->
+                                    <!--<li class="zx_active"><a href="javascript:void(0);" ng-click="logout()"><span>退出账户</span></a></li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
     <ui-view></ui-view>
 
     <!-- build:js(.) scripts/vendor.js -->
@@ -132,6 +132,7 @@
 
     <!--build:js(app) scripts/scripts.js -->
     <!-- 3rd party packages should lay before scripts in projects-->
+    <script src="bower_components/es6-promise-polyfill/promise.js"></script>
     <script src="bower_components/angular-drag-and-drop-lists/angular-drag-and-drop-lists.js"></script>
     <script src="bower_components/angular-file-upload/dist/angular-file-upload.min.js"></script>
     <script src="bower_components/angular-ui-router/release/stateEvents.min.js"></script>

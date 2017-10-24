@@ -178,14 +178,16 @@ router.post('/initNotebook', function(req, res) {
                             res.status(200).send({ cells: cells });
                         })
                         .catch(err => {
-                            console.log(err);
+                            console.log('startSession', err);
+                            res.status(200).send({ msg: err });
                         });
                 }).catch(err => {
-                    console.log(err);
+                    res.status(200).send({ msg: err });
+                    console.log(' contents.get', err);
                 });
         }
     }).catch(function(err) {
-        console.log('err', err);
+        console.log('initNotebook err', err);
         res.send({ result: null, msg: err.name });
     });
 });
@@ -253,6 +255,8 @@ router.post('/saveNotebook', function(req, res) {
         oldContent.cells[i].execution_count = newContent[i].execution_count;
         oldContent.cells[i].metadata = newContent[i].metadata;
         oldContent.cells[i].source = newContent[i].code ? newContent[i].code : [];
+        console.log(' newContent[i]', newContent[i])
+        console.log('newContent[i].outputs', newContent[i].outputs)
         if (newContent[i].outputs !== undefined && newContent[i].outputs !== null) {
             oldContent.cells[i].outputs = newContent[i].outputs;
         }

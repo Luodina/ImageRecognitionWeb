@@ -2,15 +2,10 @@
 angular.module('basic')
     .controller('ExpertCtrlTwo', ['copyName', '$cookies', '$sce', '$location', '$rootScope', '$scope', '$http',
         function(copyName, $cookies, $sce, $location, $rootScope, $scope, $http) {
-            $rootScope.$on('$stateChangeStart', function(event, toState) {
-                if (toState && toState.name === 'expert') {
-                    $('#pageTitle').css('display', 'none');
-                }
-            });
             $scope.model = $location.search();
             $scope.model.mode = $location.path().split('/')[2];
-            console.log('$scope.model', $scope.model)
-                //validation
+            console.log('$scope.model', $scope.model);
+            //validation
             function isParamValid() {
                 return new Promise((resolve, reject) => {
                     //check kernel
@@ -103,8 +98,7 @@ angular.module('basic')
                         UPDATED_TIME: date.getTime(),
                         KERNEL: $scope.model.kernel,
                         token: $scope.model.token
-                    })
-                    .success(data => {
+                    }).success(data => {
                         if (data.result === 'success') {
                             console.log(data);
                             $scope.model.MODEL_ID = data.model.MODEL_ID;
@@ -114,8 +108,7 @@ angular.module('basic')
                                     itemType: "expert",
                                     itemID: data.model.MODEL_ID,
                                     token: $scope.model.token
-                                })
-                                .success(data => {
+                                }).success(data => {
                                     if (data.result === 'success') {
                                         console.log('success');
                                         init();
@@ -139,8 +132,7 @@ angular.module('basic')
                 $http.post('/api/jupyter/initNotebook', {
                         modelName: $scope.model.name,
                         token: $scope.model.token
-                    })
-                    .then(data => {
+                    }).then(data => {
                         if (data.data.cells) {
                             let tmpArr = data.data.cells;
                             let runIndex = 0;
@@ -257,6 +249,9 @@ angular.module('basic')
                                             arrTmp.forEach(item => {
                                                 let tmp = item.result;
                                                 tmp.output_type = item.output_type;
+                                                if (item.output_type = "display_data") {
+                                                    tmp.metadata = {};
+                                                }
                                                 $scope.model.sourceCells[index].outputs.push(tmp);
                                             })
                                         }
@@ -264,6 +259,7 @@ angular.module('basic')
                                     .catch(err => {
                                         console.log('/api/jupyter/run err', err);
                                     });
+                                console.log('!!!!!!', $scope.model.sourceCells[index].outputs);
                             };
                             $scope.runAll = () => {
                                 $scope.model.sourceCells.isShowCode = true;
@@ -302,17 +298,14 @@ angular.module('basic')
                             $scope.codeMirrorDelete = (index, item) => {
                                 $scope.model.sourceCells.splice(index, 1);
                             };
-
-                            $scope.difUser = false;
-                            $scope.openProject = function() {
-                                copyName.open(modelName, modelType);
-                            }
+                        } else {
+                            console.log('ERROR', data, data.data.msg.xhr.responseText);
                         }
                     })
                     .catch(err => {
                         console.log('err', err);
                     })
-            };
+            }
 
             $scope.saveAll = function() {
                 console.log('$scope.model.MODEL_ID', $scope.model.MODEL_ID);
