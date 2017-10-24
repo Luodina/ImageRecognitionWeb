@@ -5,6 +5,7 @@ const fs = require('fs-extra');
 
 // nfs for remote jupyterhub server mode
 const privateNFS="/Users/zezhenjia/workSpace/auraDev/nfsShare";
+const path = require('path');
 
 // for local jupyter mode
 const jupyterRootPath="/Users/zezhenjia/workSpace/auraDev/localJupyter";
@@ -108,6 +109,11 @@ class FileSystem{
 
   getAppFolderName(appId) {
     return `APP_${appId}`;
+  }
+
+  getUserAppFolderPath(username, appId) {
+    return path.join(this.getUserDataPath(username),
+      this.getAppFolderName(appId));
   }
 
   /**

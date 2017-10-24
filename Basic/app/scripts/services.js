@@ -99,20 +99,6 @@ angular.module('basic.services', ['ui.bootstrap'])
                         if (data.result === 'success') {
                           $uibModalInstance.dismiss();
                           $location.path('/app/new/' + $scope.model.name);
-                          // $http.post('/api/appFile/' + data.app.APP_NAME, {
-                          //         userName: $rootScope.getUsername(),
-                          //         itemType: "app",
-                          //         itemID: data.app.APP_ID
-                          //     })
-                          //     .success(data => {
-                          //         if (data.result === 'success') {
-                          //             $location.path('/app/new/' + $scope.model.name);
-                          //             $uibModalInstance.dismiss();
-                          //         }
-                          //     })
-                          //     .catch(err => {
-                          //         console.log(err);
-                          //     });
                         }
                       })
                       .catch(err => {
@@ -595,6 +581,40 @@ angular.module('basic.services', ['ui.bootstrap'])
             };
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
+            };
+          }
+        ]
+      }).result;
+    };
+  }])
+  .service('deleteFile', [ '$uibModal', '$http', function ($uibModal, $http) {
+    this.open = function (item) {
+      return $uibModal.open({
+        backdrop: 'static',
+        templateUrl: 'views/layer/deletePage.html',
+        size: 'size',
+        controller: ['$scope', '$uibModalInstance',
+          function ($scope, $uibModalInstance) {
+            $scope.cancel = () => {
+              $uibModalInstance.dismiss();
+            };
+            if (item !== null && item !== undefined) {
+              //TODO be smart here
+              $scope.isOwner = true;
+            } else {
+              console.log('Del item === null && item === undefined');
+            }
+            $scope.ok = () => {
+              $http.delete(`/api/app/${item.app}/files?file=${item.file}`)
+                .success(data => {
+                  if (data.msg === 'success') {
+                    $uibModalInstance.dismiss();
+                    window.location.reload();
+                  }
+                })
+                .catch(err => {
+                  console.log('error', data.msg);
+                });
             };
           }
         ]

@@ -8,7 +8,7 @@ angular.module('basic')
       $http.get('/api/app/' + $scope.appName + '/files', {params:  {path: 'README.md'}})
         .success((data) => {
           console.log('OVERVIEW');
-          console.log(data);
+          // console.log(data);
           $scope.isShow = true;
           $scope.isError = true;
           $scope.isWaring = false;

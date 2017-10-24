@@ -1,14 +1,14 @@
 'use strict';
 angular.module('basic')
-  .controller('AppFileCtrl', ['appService','deletePage', 'openNotebook', 'createAppModel', '$location', '$scope', '$window', '$http',
-    (appService, deletePage, openNotebook, createAppModel, $location, $scope, $window, $http) => {
+  .controller('AppFileCtrl', ['appService','deleteFile', 'openNotebook', 'createAppModel', '$location', '$scope', '$window', '$http',
+    (appService, deleteFile, openNotebook, createAppModel, $location, $scope, $window, $http) => {
       $scope.appName = $location.path().split(/[\s/]+/).pop();
       $scope.files = {};
 
       $scope.allFiles = [];
       $scope.init = function () {
         appService.fetchApp($scope.appName).then( app => {
-        $scope.allFiles =   app.FILES.NOTEBOOKS;
+        $scope.allFiles = app.FILES.NOTEBOOKS;
         $scope.appId = app.APP_ID;
         });
       };
@@ -21,15 +21,34 @@ angular.module('basic')
             $window.open(data);
           });
       };
+
+      $scope.createModel = appName => {
+        createAppModel.open(appName).then((model) => {
+          console.log('model in AppFile: ', model.appName, model.type, model.modelName);
+          $http.post('/api/app/' + $scope.appId + '/files', {
+            template: model.type,
+            name: model.modelName
+           })
+            .success(function(data) {
+              if (data.msg === 'success') {
+                $scope.openInNotebook({name: data.result});
+              }
+            })
+            .catch(err => {
+              console.log('error', err);
+            });
+        });
+      };
+
       $scope.delModel = item => {
-        deletePage.open(item);
+        deleteFile.open({app:$scope.appId, file:item.name});
       };
       $scope.openProject = item => {
         $location.path('app/expert/view/' + item.MODEL_NAME).search({type: 'app', appName: item.APP_ID});
       };
-      $scope.delete = () => {
-        deletePage.open();
-      };
+      // $scope.delete = () => {
+      //   deletePage.open();
+      // };
       $scope.openInNotebook = (item) => {
         $http.get('/api/user/server',
           {params:{app: $scope.appId, file: item.name}})

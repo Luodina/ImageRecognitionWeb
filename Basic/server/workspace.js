@@ -7,14 +7,14 @@ let sshutil = require('./utils/sshUtils');
 let fs_utils = require('./utils/fileSystemUtil');
 let ssh2 = new sshutil.SSH2UTILS();
 const csv = require('csvtojson');
-const fs = require('fs'),
+const fs = require('fs-extra'),
   isUUID = require('is-uuid'),
   http = require('http'),
   url  = require('url'),
   path = require('path');
 
-
-let templatePath= __dirname + '/../template';
+const isEmpty = require('is-empty');
+const templateUtil  = require('./template');
 let logger = require('./utils/log')('workspace.js');
 
 
@@ -58,25 +58,24 @@ class ServerStrategy {
 
   /**
    * 创建数据应用或专家模式
-   * @param template
    * @param templateType
    * @param newName
    * @param username
    * @returns {string}
    */
-  createApp(template,templateType,newName,username){
+  createApp(templateType, newName, username){
     return '';
   }
 
   /**
    * 创建数据探索模型
-   * @param template
    * @param templateType
-   * @param newName
+   * @param appId
    * @param username
+   * @param notebookName
    * @returns {string}
    */
-  createModel(template,templateType,newName,username){
+  createModel(templateType, appId, username, notebookName){
     return '';
   }
 
@@ -90,11 +89,13 @@ class ServerStrategy {
     return '';
   }
 
-
   scanProjectFolder(username, app) {
     return {};
   }
 
+  readFile(username, app, filepath) {}
+
+  deleteFile(username, app, filepath) {}
 }
 
 
@@ -163,6 +164,7 @@ class SimpleServerStrategy extends ServerStrategy{
   listProjects(username) {
     let path = this.fileSystem.getUserDataPath(username) ;
     let folders = fs.readdirSync(path);
+
     let result = [];
     for (let i=0; i<folders.length; i++) {
       let parts =  folders[i].split('_');
@@ -214,7 +216,27 @@ class SimpleServerStrategy extends ServerStrategy{
   }
 
 
-  readFile(username, app, filepath) {
+  deleteFile(username, app, filepath) {
+    let user_folder = path.join(this.fileSystem.getUserDataPath(username),
+      this.fileSystem.getAppFolderName(app));
+    let real_path = null;
+    real_path = path.join(user_folder, filepath);
+    logger.debug(`delete file ${real_path}`);
+    return new Promise((resolve, reject) => {
+      if (!fs.existsSync(real_path)) {
+        logger.debug(`${username}'s file ${filepath} in app[${app}] doesn't exsit`);
+        reject('failed');
+      }
+      fs.remove(real_path).then(() => {
+        resolve('success');
+      }).catch(err => {
+        logger.error(`remove file error ${err}`);
+        reject('failed');
+      });
+    });
+  }
+
+  readFile(username, app, filepath, numofline = 100) {
     let user_folder = path.join(this.fileSystem.getUserDataPath(username),
       this.fileSystem.getAppFolderName(app));
     let real_path = null;
@@ -222,16 +244,27 @@ class SimpleServerStrategy extends ServerStrategy{
       logger.debug(`reading file ${real_path}`);
     return new Promise((resolve, reject) => {
       if (filepath.endsWith('.csv')) {
-        csv({
+        let line = numofline;
+        let lines = [];
+        let stream = csv({
           toArrayString: true
         }).fromStream(fs.createReadStream(real_path, 'utf-8'))
+          stream.on('json', (json) => {
+            // logger.debug(`${line}: ${json.head}`);
+            if (line > 0) {
+              lines.push(json);
+              line -= 1;
+            } else {
+              stream.emit('end');
+            }
+          })
           .on('end_parsed', (jsonArrObj) =>{
             // logger.debug(jsonArrObj);
             resolve(jsonArrObj);
           })
-          .on('done', (error) => {
-            logger.debug(`end parsing csv: ${filepath}, ${error} `);
-            resolve([]);
+          .on('done', () => {
+            logger.debug(`end parsing csv: ${filepath}`);
+            resolve(lines);
           });
       }else {
         fs.readFile(real_path, 'utf-8',
@@ -248,43 +281,45 @@ class SimpleServerStrategy extends ServerStrategy{
 
   /**
    * 创建数据应用或专家模式
-   * @param template 模板
    * @param templateType 模板类型 如:app/model/expert01/expert02
-   * @param newName 新建应用或模型名称
+   * @param appId 新建应用或模型名称
    * @param username
    * @returns {Promise}
    */
-  createApp(template,templateType,newName,username){
-    // template=templatePath+'/'+template;
-    let source = path.join(templatePath, template);
-    if(newName===''||newName===null){
-      newName= this.fileSystem.getNewFolderName(templateType);
+  createApp(templateType, appId, username){
+    let source = templateUtil.getAppFolderTemplate();
+
+    if(appId===''||appId===null){
+      appId= this.fileSystem.getNewFolderName(templateType);
     } else {
-      newName = `${templateType}_${newName}`;
+      appId = `${templateType}_${appId}`;
     }
-    let dest = path.join(this.fileSystem.getUserDataPath(username), newName);
-    logger.debug(source);
-    logger.debug(dest);
+    let dest = path.join(this.fileSystem.getUserDataPath(username), appId);
+    // logger.debug(source);
+    // logger.debug(dest);
     return this.fileSystem.copyFolder(source ,dest);
   }
 
   /**
    * 创建数据探索模型
-   * @param template
    * @param templateType
-   * @param newName
+   * @param appId
    * @param username
-   * @returns {Promise}
+   * @param notebookName
+   * @returns {String}
    */
-  createModel(template,templateType,newName,username){
-
-    template = templatePath + '/' + template;
-    if(newName===''||newName===null){
-      newName=fileSystem.getNewFolderName(templateType);
+  createModel(templateType, appId, username, notebookName){
+    let template = templateUtil.getTemplateNotebook(templateType);
+    let dest = this.fileSystem.getUserAppFolderPath(username, appId);
+    if (isEmpty(notebookName)) {
+      notebookName = 'notebook.ipynb';
     }
-    let newFolerName = fileSystem.getUserDataPath(username)+'/' +newName;
-
-    return fileSystem.copyFile(template,newFolerName)
+    if (!notebookName.endsWith('.ipynb')) {
+      notebookName += '.ipynb';
+    }
+    logger.debug(`notebook template path is ${template}`);
+    fs.copySync(template, path.join(dest, notebookName));
+    return notebookName;
   }
 
   /**
@@ -294,9 +329,10 @@ class SimpleServerStrategy extends ServerStrategy{
    * @returns {*}
    */
   deleteit(fileName,username){
-    let filePath=fileSystem.getUserDataPath(username)+'/'+fileName;
-    return fileSystem.removeFiles(filePath);
+    let filePath= this.fileSystem.getUserDataPath(username)+'/'+fileName;
+    return this.fileSystem.removeFiles(filePath);
   }
+
 
 }
 
@@ -331,38 +367,35 @@ class HubServerStrategy extends ServerStrategy {
 
   /**
    * 创建数据应用或专家模式
-   * @param template
    * @param templateType
    * @param newName
    * @param username
    * @returns {Promise}
    */
-  createApp(template,templateType,newName,username){
-
-    template=templatePath+'/'+template;
+  createApp(templateType, newName, username){
+    let source = templateUtil.getAppFolderTemplate();
     if(newName===''||newName===null){
       newName=fileSystem.getNewFolderName(templateType);
     }
     let newFolerName = fileSystem.getHubUserDataPath(username)+'/' +newName;
-    return fileSystem.copyFolder(template,newFolerName);
+    return fileSystem.copyFolder(source,newFolerName);
   }
 
   /**
    * 创建数据探索模型
-   * @param template
    * @param templateType
-   * @param newName
+   * @param appId
    * @param username
+   * @param notebookName
    * @returns {Promise}
    */
-  createModel(template,templateType,newName,username){
-
-    template = templatePath + '/' + template;
-    if(newName===''||newName===null){
-      newName=fileSystem.getNewFolderName(templateType);
-    }
-    let newFolerName = fileSystem.getHubUserDataPath(username)+'/' +newName;
-    return fileSystem.copyFile(template,newFolerName)
+  createModel(templateType, appId, username, notebookName){
+    // let source = templateUtil.getTemplateNotebook(templateType);
+    // if(newName===''||newName===null){
+    //   newName=this.fileSystem.getNewFolderName(templateType);
+    // }
+    // let newFolerName = this.fileSystem.getHubUserDataPath(username)+'/' +newName;
+    // return this.fileSystem.copyFile(source,newFolerName);
   }
 
   /**
@@ -527,7 +560,6 @@ class Workspace {
 
 function getUserWorkspace(username, active_config) {
   logger.debug(active_config.serverType);
-
 
   if (active_config.serverType === 'notebook') {
     return new Workspace(new SimpleServerStrategy(

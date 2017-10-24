@@ -113,12 +113,7 @@ describe('workspace.js', function () {
       });
 
       it('list folder with valid name should not return empty', function () {
-        let stub = sinon.stub(fs, 'readdirSync')
-          .returns([
-            'APP_73f7eebd-daa4-479d-97b1-77c96bee9d82'
-          ]);
-        expect(server.listProjects('abc')).to.be.lengthOf(1);
-        stub.restore();
+        expect(server.listProjects('test')).to.be.lengthOf(1);
       });
     });
 
@@ -163,15 +158,34 @@ describe('workspace.js', function () {
 
       });
 
+      it('read csv file online 1 line', function() {
+        return server.readFile('marta', '3ea4f3cb-c640-4d7a-9b14-baa32a62b7fd',
+          'data/raw/raw.csv', 1)
+          .then(content => {
+            expect(content).to.be.lengthOf(1);
+          });
+
+      });
     });
 
     describe('createApp', function () {
       it('create empty app', function () {
+        server.createApp('APP', null, 'marta');
+      });
+    });
 
-        server.createApp('APP_INIT', 'APP', null, 'marta');
+    describe('createModel', function () {
+      it('create with empty name should have notebook.ipynb', function () {
+        server.createModel(3, '3ea4f3cb-c640-4d7a-9b14-baa32a62b7fd' , 'marta', null);
       });
 
+      it('create with empty name should have name.ipynb', function () {
+        server.createModel(3, '3ea4f3cb-c640-4d7a-9b14-baa32a62b7fd' , 'marta', 'name');
+      });
+
+
     });
+
   });
 
   describe('Workspace', function () {
@@ -253,7 +267,7 @@ describe('workspace.js', function () {
           );
         var workspace = getUserWorkspace('any', config);
         return workspace.listKernelSpec().then(res => {
-          expect(res).to.have.keys('python3');
+          expect(res).to.have.keys(['default','kernelspecs']);
         });
       });
     });

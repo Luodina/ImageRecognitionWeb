@@ -6,6 +6,7 @@ const Model = require('../model/MODEL_INFO')(sequelize, Sequelize);
 const MakeFile = require('../model/APP_MAKEFILE')(sequelize, Sequelize);
 const AppSchedule = require('../model/APP_MAKESCHEDULE')(sequelize, Sequelize);
 const AppResults = require('../model/APP_RESULTS')(sequelize, Sequelize);
+const isEmpty = require('is-empty');
 
 const express = require('express');
 const router = express.Router();
@@ -66,7 +67,7 @@ router.post('/:appName', function (req, res) {
     })
       .then(app => {
         // logger.debug(app);
-        workspace.strategy.createApp('APP_INIT', 'APP', app.APP_ID, req.user.username);
+        workspace.strategy.createApp('APP', app.APP_ID, req.user.username);
         res.send({ result: 'success', app: app });
       })
       .catch(err => {
@@ -75,24 +76,37 @@ router.post('/:appName', function (req, res) {
   });
 });
 
-router.put('/delete', function (req, res) {
-  // Model.belongsTo(App);
-  // MakeFile.belongsTo(App);
-  // AppSchedule.belongsTo(App);
-  // AppResults.belongsTo(App);
-  let item = req.body.item;
-  let user = req.body.user;
-  if (item !== null) {
-    let q = `DELETE FROM APP_INFO WHERE APP_INFO.APP_NAME = '${item}' AND APP_INFO.USER_NAME = '${user}'`;
-    sequelize.query(q, {type: sequelize.QueryTypes.DELETE})
-      .then((result) => {
-        logger.debug(`delete app: ${result} `);
-        res.send({result: result, msg: 'success'});
-      })
-      .catch(err => {
-        logger.error(`delete app [${item}]: ${err}`);
-        res.send({msg: 'failed'});
-      });
+router.delete('/:appId/files', function (req, res) {
+  let appId = req.params.appId;
+  let file = req.query.file;
+  let user = req.user.username;
+  if ( file !== null) {
+    let workspace = getUserWorkspace(user, config[env]);
+    workspace.strategy.deleteFile(user, appId, file).then(result => {
+      logger.debug(`delete app file: ${result} `);
+      res.send({result: result, msg: 'success'});
+
+    }).catch(err => {
+      logger.error(`delete app file [${file}]: ${err}`);
+      res.send({msg: 'failed'});
+    });
+  } else {
+    res.status(400).send({msg: 'failed'});
+  }
+});
+
+router.post('/:appId/files', function(req, res) {
+  let appId = req.params.appId;
+  const name = req.body.name;
+  const template = req.body.template || 0;
+
+  if (isEmpty(appId) || isEmpty(name)) {
+    res.send({msg: 'failed'});
+  } else {
+    let workspace = getUserWorkspace(req.user.username, config[env]);
+    let newfileName = workspace.strategy.createModel(template,
+      appId, req.user.username, name);
+    res.send({result: newfileName, msg:'success'});
   }
 });
 
