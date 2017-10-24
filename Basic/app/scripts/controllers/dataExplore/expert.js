@@ -147,7 +147,6 @@ angular.module('basic')
                         token: $scope.model.token
                     })
                     .then(data => {
-                        console.log('data', data)
                         if (data.data.cells) {
                             let tmpArr = data.data.cells;
                             let runIndex = 0;
@@ -166,12 +165,21 @@ angular.module('basic')
                             tmpArr.forEach(function(cell) {
                                 if (cell.outputs) {
                                     if (cell.outputs.data) {
-                                        if (cell.outputs.data['text/html'] !== null) {
-                                            cell.outputs.data['text/html'] = $sce.trustAsHtml(cell.outputs.data['text/html']);
-                                        }
-                                        if (cell.outputs.data['image/png'] !== null) {
-                                            cell.outputs.data['image/png'] = 'data:image/png;base64,' + cell.outputs.data['image/png'];
-                                        }
+                                        cell.outputs.data.forEach(item => {
+                                            if (item['text/html'] !== null) {
+                                                item['text/html'] = $sce.trustAsHtml(item['text/html']);
+                                            }
+                                            if (item['image/png'] !== null) {
+                                                item['image/png'] = 'data:image/png;base64,' + item['image/png'];
+                                            }
+                                            // if (cell.outputs.data['text/html'] !== null) {
+                                            //     cell.outputs.data['text/html'] = $sce.trustAsHtml(cell.outputs.data['text/html']);
+                                            // }
+                                            // if (cell.outputs.data['image/png'] !== null) {
+                                            //     cell.outputs.data['image/png'] = 'data:image/png;base64,' + cell.outputs.data['image/png'];
+                                            // }
+                                        })
+
                                     }
                                 }
                             }, this);
@@ -181,7 +189,7 @@ angular.module('basic')
                                     document.getElementsByClassName('content')[idx].style.background = '#fff';
                                 });
                             };
-                            $scope.initSelectCell = (index) => {
+                            $scope.initSelectCell = index => {
                                 runIndex = index;
                                 $scope.model.sourceCells.forEach((item, idx) => {
                                     document.getElementsByClassName('content')[idx] && (document.getElementsByClassName('content')[idx].style.background = '#fff');
@@ -194,7 +202,7 @@ angular.module('basic')
                                 }
                             };
                             $scope.initSelectCell(0);
-                            $scope.openToolTip = (index) => {
+                            $scope.openToolTip = index => {
                                 runIndex = index;
                                 $scope.model.sourceCells.forEach((item, idx) => {
                                     document.getElementsByClassName('content')[idx] && (document.getElementsByClassName('content')[idx].style.background = '#fff');
@@ -204,7 +212,7 @@ angular.module('basic')
                                 document.getElementsByClassName('content')[index] && (document.getElementsByClassName('content')[index].style.background = '#f3f3f3');
                                 $scope.selectStyle = $scope.model.sourceCells[index].cell_type;
                             };
-                            $scope.changeSelectType = (selectType) => {
+                            $scope.changeSelectType = selectType => {
                                 // console.log(111000,selectType);
                                 $scope.model.sourceCells[runIndex].cell_type = selectType;
                                 if (selectType === 'markdown') {
@@ -241,7 +249,7 @@ angular.module('basic')
                                     })
                             }
 
-                            $scope.run = function(index) {
+                            $scope.run = index => {
                                 if (!isValidCodeModel($scope.model.sourceCells[index])) {
                                     return;
                                 }
@@ -249,29 +257,46 @@ angular.module('basic')
                                 $scope.model.sourceCells[index].execution_count = $scope.model.sourceCells[index].execution_count + 1;
                                 $http.post('/api/jupyter/run', { sourceCodes: $scope.model.sourceCells[index].code, token: $scope.model.token })
                                     .then(data => {
-                                        // console.log('-------->', data);
                                         if (data !== null && data !== '') {
-                                            let tmp = data.data.result;
-                                            tmp.output_type = data.data.type;
-                                            $scope.model.sourceCells[index].outputs = [tmp];
+                                            let arrTmp = data.data;
+                                            $scope.model.sourceCells[index].outputs = [];
+                                            arrTmp.forEach(item => {
+                                                let tmp = item.result;
+                                                tmp.output_type = item.output_type;
+                                                $scope.model.sourceCells[index].outputs.push(tmp);
+                                            })
                                         }
                                     })
+                                    .catch(err => {
+                                        console.log('/api/jupyter/run err', err);
+                                    });
                             };
-                            $scope.runAll = function() {
-                                // console.log("runAll");
+                            $scope.runAll = () => {
                                 $scope.model.sourceCells.isShowCode = true;
-                                $scope.model.sourceCells.forEach(function(cell) {
+                                $scope.model.sourceCells.forEach(cell => {
                                     if (!isValidCodeModel(cell)) return;
                                     cell.isShowCode = true;
                                     cell.execution_count = cell.execution_count + 1;
                                     $http.post('/api/jupyter/run', { sourceCodes: cell.code, token: $scope.model.token })
                                         .then(data => {
-                                            if (data) {
-                                                let tmp = data.data.result;
-                                                tmp.output_type = data.data.type;
-                                                cell.outputs = [tmp];
+                                            // if (data) {
+                                            //     let tmp = data.data.result;
+                                            //     tmp.output_type = data.data.type;
+                                            //     cell.outputs = [tmp];
+                                            // }
+                                            if (data !== null && data !== '') {
+                                                let arrTmp = data.data;
+                                                $scope.model.sourceCells[index].outputs = [];
+                                                arrTmp.forEach(item => {
+                                                    let tmp = item.result;
+                                                    tmp.output_type = item.output_type;
+                                                    $scope.model.sourceCells[index].outputs.push(tmp);
+                                                })
                                             }
                                         })
+                                        .catch(err => {
+                                            console.log('/api/jupyter/run runAll  err', err);
+                                        });
                                 });
                             };
                             $scope.upAdd = (index, item) => {

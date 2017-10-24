@@ -767,9 +767,8 @@ angular.module('basic.services', ['ui.bootstrap'])
                                         $cookies.put('aura_token', user.token);
                                         $uibModalInstance.dismiss();
                                         $location.path('/expert/new').search({
-                                            user: username,
-                                            kernel: 'python3',
-                                            name: 'vf11'
+                                            kernel: 'python2',
+                                            name: 'XXX'
                                         });;
                                         $rootScope.iflogin = true;
                                         $rootScope.username = $cookies.get("username");
