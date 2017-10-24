@@ -16,18 +16,16 @@ services:
       - 9000:9000
     volumes:
       - ./config.js:/app/build-server/config.js
-      - ./notebookModel:/app/notebookModel
-      - ./notebookApp:/app/notebookApp
+      - ./notebookPath:/app/notebookPath
 
   notebook:
-    image: jupyter/all-spark-notebook:07292b8ebdd5
+    image: jupyter/all-spark-notebook:latest
     ports:
-      - 8888
+      - 8889:8889
     volumes:
-      - ./notebookModel:/home/jovyan/work/notebookModel
-      - ./notebookApp:/home/jovyan/work/notebookApp
+      - ./notebookPath:/home/jovyan/work/notebookPath
       - ./jupyter_notebook_config.py:/jupyter_notebook_config.py
-    command: jupyter-notebook --NotebookApp.token='9e4f96c5239743a8dd5910216c6f02dad89a58932d63db7f' --config=/jupyter_notebook_config.py --no-browser
+    command: jupyter-notebook --port=8889 --NotebookApp.token='9e4f96c5239743a8dd5910216c6f02dad89a58932d63db7f' --config=/jupyter_notebook_config.py --no-browser
   mysql:
     build:
       context: .
@@ -38,7 +36,7 @@ services:
     volumes:
       - data-volume:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: '1qaz@wsx'
+      MYSQL_ROOT_PASSWORD: 'Ocai@1234'
 
 volumes:
   data-volume:
