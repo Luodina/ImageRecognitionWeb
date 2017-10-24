@@ -36,7 +36,6 @@ angular.module('basic')
                                             if (project.msg === 'success') {
                                                 if (project.result.length !== 0) {
                                                     if ($location.path().split('/')[2] === 'edit') {
-
                                                         $scope.model.MODEL_ID = project.result[0].MODEL_ID;
                                                         console.log('$scope.model.MODEL_ID:', $scope.model.MODEL_ID);
                                                         val = true;
@@ -81,18 +80,13 @@ angular.module('basic')
 
             isParamValid().then(isKerneValid => {
                 console.log('isKerneValid', isKerneValid);
-                let done;
                 if (isKerneValid) {
                     if ($scope.model.mode === "new") {
-
                         createNotebook();
                     } else {
                         init();
-
                     }
-
                 }
-
             }).catch(err => {
                 console.log('err in isParamValid', err);
             });

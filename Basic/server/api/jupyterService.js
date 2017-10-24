@@ -2,6 +2,8 @@
 import { Session, ContentsManager, Kernel } from '@jupyterlab/services';
 import { XMLHttpRequest } from 'xmlhttprequest';
 import { default as WebSocket } from 'ws';
+import { writeFile } from 'fs';
+
 let sequelize = require('../sequelize');
 let Sequelize = require('sequelize');
 let Model = require('../model/MODEL_INFO')(sequelize, Sequelize);
@@ -20,24 +22,19 @@ const sshJupyterHubOpts = {
     username: config[env].jupyterHubUserName,
     password: config[env].jupyterHubPassword
 };
-let type;
 let modelName;
 let sourceCodes = [];
-let source = [];
 const templDir = path.join(__dirname, '../../template/');
-const templDataProfile = templDir + 'dataProfile-V4.0.ipynb';
-const templExpertModelDir = templDir + 'notebookTemplates';
-const templAppDir = templDir + 'data_apply_demo';
+// const templDataProfile = templDir + 'dataProfile-V4.0.ipynb';
+// const templExpertModelDir = templDir + 'notebookTemplates';
+// const templAppDir = templDir + 'data_apply_demo';
 const templTemp = templDir + 'temp.ipynb';
 let mysession;
 let kernel;
-let dataFileName;
 let command;
 let modelContent;
-let token;
 let jupyterOpts;
-let baseNotebookUrl = config[env].notebookUrl;
-let modelType = 'explore';
+
 
 function startSession(jupyterOpts) {
     return new Promise((resolve, reject) => {
@@ -93,8 +90,8 @@ function getKernelList() {
     return new Promise((resolve, reject) => {
         Kernel.getSpecs({ baseUrl: config[env].notebookUrl, token: config[env].token }).then(kernelSpecs => {
             kernelSpecs = kernelSpecs;
-            //console.log('Default spec:', kernelSpecs.default);
-            //console.log('Available specs', Object.keys(kernelSpecs.kernelspecs));
+            console.log('Default spec:', kernelSpecs.default);
+            console.log('Available specs', kernelSpecs.kernelspecs);
             let kernelspecs = kernelSpecs.kernelspecs;
             let tmp = Object.keys(kernelspecs).map(key => {
                 return kernelspecs[key];
@@ -117,28 +114,6 @@ function getKernelList() {
     });
 }
 
-
-function getJupyterToken(userName) {
-    return new Promise((resolve, reject) => {
-        ssh.connect(sshJupyterHubOpts).then(() => {
-            command = 'docker exec -i auradeploy_hub_1 sh -c "jupyterhub token ' + userName + '"\nexit\n';
-            //get token
-            ssh.execCommand(command).then(result => {
-                let token = result.stdout;
-                if (token !== '') {
-                    resolve({ token: token, msg: 'success' });
-                } else {
-                    reject({ msg: 'success' });
-                }
-            }).catch(err => {
-                reject({ msg: err.xhr.responseText });
-            })
-        }).catch(err => {
-            reject({ msg: err.xhr.responseText });
-        })
-    });
-
-}
 router.get('/kernels', function(req, res) {
     if (!req.user) {
         res.send({ msg: 'authentification error' });
@@ -271,7 +246,7 @@ router.post('/saveNotebook', function(req, res) {
     let newContent = req.body.newContent;
     let oldContent = modelContent;
     for (let i = 0, len = newContent.length; i < len; i++) {
-        if (oldContent.cells[i]) {
+        if (!oldContent.cells[i]) {
             oldContent.cells[i] = {};
         }
         oldContent.cells[i].cell_type = newContent[i].cell_type;
@@ -318,7 +293,7 @@ router.get('/projects', function(req, res) {
 router.get('/projects/:modelName', function(req, res) {
     let modelName = req.params.modelName;
     if (!req.user) {
-        res.send({ msg: "authentification error" });
+        res.send({ msg: 'authentification error' });
     }
     Model.findAll({
             where: {
@@ -330,7 +305,7 @@ router.get('/projects/:modelName', function(req, res) {
         .then(result => {
             res.send({
                 result: result,
-                msg: "success"
+                msg: 'success'
             });
         })
         .catch(err => {
