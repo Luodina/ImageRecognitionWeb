@@ -5,9 +5,10 @@ module.exports = {
     dist: 'app',
     port: 9000,
     //notebookUrl: 'http://10.20.51.5:8000/',for hub
-    notebookUrl:'http://localhost:8888/',
-    token:'666ed0389ea791c5d590a9b576945679f05bda9448b2756e',
+    notebookUrl:'http://localhost:8888/lab/',
+    token:'9e4f96c5239743a8dd5910216c6f02dad89a58932d63db7f',
     notebookPath:'/Users/zezhenjia/workSpace/jupyter-notebooks/',
+    jupyterContainerWorkPath:'work/notebookPath/',//if not jupyter conatainer in use this value is empty
     mariadb: 'mariadb://ocai:Ocai@1234@10.1.236.82:3306/ocai',
     logTo: 'stdout', // 'stdout' or 'file'. if 'file', logs will be saved in 'logs/server.log'
     logLevel: 'debug', // 'debug' or 'info'
