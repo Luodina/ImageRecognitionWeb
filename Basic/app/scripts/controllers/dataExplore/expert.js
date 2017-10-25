@@ -12,62 +12,64 @@ angular.module('basic')
                     $http.get('/api/jupyter/kernels', {
                             params: { token: $scope.model.token }
                         }).success(data => {
-                            console.log('$scope.model', $scope.model)
                             let val = false;
-                            if (data.msg = 'success') {
-                                let tmpArr = [];
-                                data.kernellist.kernelspecs.forEach(kernel => {
-                                    tmpArr.push(kernel.name);
-                                });
-                                console.log('tmpArr', tmpArr, '$scope.model.kernel', $scope.model.kernel, tmpArr.includes($scope.model.kernel))
-                                if (tmpArr.includes($scope.model.kernel)) {
-                                    //check user
-                                    console.log("11111");
-                                    $http.get('/api/jupyter/projects/' + $scope.model.name, {
-                                            params: { token: $scope.model.token }
-                                        })
-                                        .success(project => {
-                                            console.log('project:', project)
-                                            if (project.msg === 'success') {
-                                                if (project.result.length !== 0) {
-                                                    if ($location.path().split('/')[2] === 'edit') {
-                                                        $scope.model.MODEL_ID = project.result[0].MODEL_ID;
-                                                        console.log('$scope.model.MODEL_ID:', $scope.model.MODEL_ID);
-                                                        val = true;
-                                                        resolve(val, project.result[0].MODEL_ID);
+                            if (data) {
+                                if (data.msg === 'success') {
+                                    let tmpArr = [];
+                                    data.kernellist.kernelspecs.forEach(kernel => {
+                                        tmpArr.push(kernel.name);
+                                    });
+                                    console.log('tmpArr', tmpArr, '$scope.model.kernel', $scope.model.kernel, tmpArr.includes($scope.model.kernel))
+                                    if (tmpArr.includes($scope.model.kernel)) {
+                                        //check user
+                                        $http.get('/api/jupyter/projects/' + $scope.model.name, {
+                                                params: { token: $scope.model.token }
+                                            })
+                                            .success(project => {
+                                                if (project.msg === 'success') {
+                                                    if (project.result.length !== 0) {
+                                                        if ($location.path().split('/')[2] === 'edit') {
+                                                            $scope.model.MODEL_ID = project.result[0].MODEL_ID;
+                                                            console.log('$scope.model.MODEL_ID:', $scope.model.MODEL_ID);
+                                                            val = true;
+                                                            resolve(val, project.result[0].MODEL_ID);
+                                                        } else {
+                                                            console.log('project with name:', project.result[0].MODEL_NAME, 'exists');
+                                                            resolve(val);
+                                                        };
                                                     } else {
-                                                        console.log('project with name:', project.result[0].MODEL_NAME, 'exists');
-                                                        resolve(val);
-                                                    };
+                                                        if ($scope.model.mode === 'new') {
+                                                            val = true;
+                                                            resolve(val);
+                                                        } else {
+                                                            console.log('project with name:', $scope.model.name, 'do not exists');
+                                                            resolve(val);
+                                                        };
+                                                    }
                                                 } else {
-                                                    if ($scope.model.mode === 'new') {
-                                                        val = true;
-                                                        resolve(val);
-                                                    } else {
-                                                        console.log('project with name:', $scope.model.name, 'do not exists');
-                                                        resolve(val);
-                                                    };
+                                                    console.log(project.msg);
+                                                    resolve(val);
                                                 }
-                                            } else {
-                                                console.log(project.msg);
-                                                resolve(val);
-                                            }
-                                        })
-                                        .catch(err => {
-                                            console.log('err in /api/jupyter/projects/', err);
-                                            reject(err);
-                                        });
+                                            })
+                                            .catch(err => {
+                                                console.log('err in /api/jupyter/projects/', err);
+                                                reject(err);
+                                            });
+                                    } else {
+                                        console.log('Chosen kernel', $scope.model.kernel, ' is not in i the availabe kernel list ', tmpArr);
+                                        resolve(val);
+                                    }
                                 } else {
-                                    console.log('Chosen kernel', $scope.model.kernel, ' is not in i the availabe kernel list ', tmpArr);
+                                    console.log('ERROR:', data.msg.msg.xhr.responseText);
                                     resolve(val);
                                 }
                             } else {
-                                console.log('data', data.msg);
+                                console.log('ERROR:', data.msg.msg.xhr.responseText);
                                 resolve(val);
                             }
                         })
                         .catch(err => {
-                            console.log('err', err);
+                            console.log('ERROR:', err);
                             reject(err);
                         });
                 });
@@ -216,24 +218,24 @@ angular.module('basic')
                                     $scope.openToolTip(++runIndex);
                                     return;
                                 }
-                              $http.post('/api/jupyter/run', { sourceCodes: $scope.model.sourceCells[runIndex].code, token: $scope.model.token })
+                                $http.post('/api/jupyter/run', { sourceCodes: $scope.model.sourceCells[runIndex].code, token: $scope.model.token })
                                     .then(data => {
-                                      if (data !== null && data !== '') {
-                                        let arrTmp = data.data;
-                                        $scope.model.sourceCells[runIndex].outputs = [];
-                                        arrTmp.forEach(item => {
-                                          let tmp = item.result;
-                                          tmp.output_type = item.output_type;
-                                          if (item.output_type = "display_data") {
-                                            tmp.metadata = {};
-                                          }
-                                          $scope.model.sourceCells[runIndex].outputs.push(tmp);
-                                        });
-                                        if (runIndex === $scope.model.sourceCells.length - 1) {
-                                          return;
+                                        if (data !== null && data !== '') {
+                                            let arrTmp = data.data;
+                                            $scope.model.sourceCells[runIndex].outputs = [];
+                                            arrTmp.forEach(item => {
+                                                let tmp = item.result;
+                                                tmp.output_type = item.output_type;
+                                                if (item.output_type = "display_data") {
+                                                    tmp.metadata = {};
+                                                }
+                                                $scope.model.sourceCells[runIndex].outputs.push(tmp);
+                                            });
+                                            if (runIndex === $scope.model.sourceCells.length - 1) {
+                                                return;
+                                            }
+                                            $scope.openToolTip(++runIndex);
                                         }
-                                        $scope.openToolTip(++runIndex);
-                                      }
                                     }).catch(err => {
                                         console.log('dataErr', err);
                                     })
@@ -243,10 +245,10 @@ angular.module('basic')
                                 if (!isValidCodeModel($scope.model.sourceCells[index])) {
                                     return;
                                 }
-                              $scope.model.sourceCells[index].isShowCode = true;
-                              $scope.model.sourceCells[index].execution_count = $scope.model.sourceCells[index].execution_count + 1;
-                              $scope.downAdd(index);
-                              $http.post('/api/jupyter/run', { sourceCodes: $scope.model.sourceCells[index].code, token: $scope.model.token })
+                                $scope.model.sourceCells[index].isShowCode = true;
+                                $scope.model.sourceCells[index].execution_count = $scope.model.sourceCells[index].execution_count + 1;
+                                $scope.downAdd(index);
+                                $http.post('/api/jupyter/run', { sourceCodes: $scope.model.sourceCells[index].code, token: $scope.model.token })
                                     .then(data => {
                                         if (data !== null && data !== '') {
                                             let arrTmp = data.data;
@@ -295,18 +297,18 @@ angular.module('basic')
                                 });
                             };
                             $scope.upAdd = (index, item) => {
-                              $scope.model.sourceCells.splice(index, 0, { cell_type: 'code' });
-                              $scope.openToolTip(index + 1);
+                                $scope.model.sourceCells.splice(index, 0, { cell_type: 'code' });
+                                $scope.openToolTip(index + 1);
                             };
                             $scope.downAdd = (index, item) => {
-                              $scope.model.sourceCells.splice(index + 1, 0, { cell_type: 'code' });
-                              $scope.openToolTip(index + 1);
+                                $scope.model.sourceCells.splice(index + 1, 0, { cell_type: 'code' });
+                                $scope.openToolTip(index + 1);
                             };
                             $scope.codeMirrorDelete = (index, item) => {
-                              if (index < 1) {
-                                return;
-                              }
-                              $scope.model.sourceCells.splice(index, 1);
+                                if (index < 1) {
+                                    return;
+                                }
+                                $scope.model.sourceCells.splice(index, 1);
                             };
                         } else {
                             console.log('ERROR', data, data.data.msg.xhr.responseText);

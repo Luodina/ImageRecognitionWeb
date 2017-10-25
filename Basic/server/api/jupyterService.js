@@ -138,7 +138,7 @@ router.post('/initNotebook', function(req, res) {
             res.send({ result: null, msg: 'KERNEL can not null' });
             return;
         }
-        let modelId =config[env].jupyterContainerWorkPath + "model_" + model.MODEL_ID;
+        let modelId = config[env].jupyterContainerWorkPath + "model_" + model.MODEL_ID;
         let file = '/notebook.ipynb';
         let kernelName = model.KERNEL;
         let token = config[env].token;
@@ -178,16 +178,16 @@ router.post('/initNotebook', function(req, res) {
                             res.status(200).send({ cells: cells });
                         })
                         .catch(err => {
-                            console.log('startSession', err);
+                            console.log('startSession err');
                             res.status(200).send({ msg: err });
                         });
                 }).catch(err => {
                     res.status(200).send({ msg: err });
-                    console.log(' contents.get', err);
+                    console.log(' contents.get err');
                 });
         }
-    }).catch(function(err) {
-        console.log('initNotebook err', err);
+    }).catch(err => {
+        console.log('initNotebook err');
         res.send({ result: null, msg: err.name });
     });
 });
