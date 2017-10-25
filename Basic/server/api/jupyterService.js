@@ -138,7 +138,7 @@ router.post('/initNotebook', function(req, res) {
             res.send({ result: null, msg: 'KERNEL can not null' });
             return;
         }
-        let modelId = 'model_' + model.MODEL_ID;
+        let modelId =config[env].jupyterContainerWorkPath + "model_" + model.MODEL_ID;
         let file = '/notebook.ipynb';
         let kernelName = model.KERNEL;
         let token = config[env].token;
