@@ -756,12 +756,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                                 //$uibModalInstance.dismiss();
                             }
                         };
-                        //get kernels
-                      $http.get('/api/jupyter/kernels').then(data => {
-                        $scope.default = data.data.kernellist.default;
-                      });
                       //登录接口
-
                       $rootScope.login = (username, password) => {
                                 $http.post('/api/user/login/', { username, password }).success(function(user) {
                                     $rootScope.error_name = false;
@@ -772,7 +767,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                                         $cookies.put('aura_token', user.token);
                                         $uibModalInstance.dismiss();
                                         $location.path('/expert/new').search({
-                                            kernel: $scope.default,
+                                            kernel: 'python2',
                                             name: 'XXX'
                                         });
                                         $rootScope.iflogin = true;
@@ -782,7 +777,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                                         //console.log('LOGIN FAILED!please, use login name:ocai and pass:123456');
                                     }
                                 })
-                            }
+                            };
                             //enter 进入页面
                         $scope.enterLogin = (e) => {
                             if (e.keyCode == 13) {
