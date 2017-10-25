@@ -756,8 +756,13 @@ angular.module('basic.services', ['ui.bootstrap'])
                                 //$uibModalInstance.dismiss();
                             }
                         };
-                        //登录接口
-                        $rootScope.login = (username, password) => {
+                        //get kernels
+                      $http.get('/api/jupyter/kernels').then(data => {
+                        $scope.default = data.data.kernellist.default;
+                      });
+                      //登录接口
+
+                      $rootScope.login = (username, password) => {
                                 $http.post('/api/user/login/', { username, password }).success(function(user) {
                                     $rootScope.error_name = false;
                                     if (user.status) {
@@ -767,9 +772,9 @@ angular.module('basic.services', ['ui.bootstrap'])
                                         $cookies.put('aura_token', user.token);
                                         $uibModalInstance.dismiss();
                                         $location.path('/expert/new').search({
-                                            kernel: 'python2',
+                                            kernel: $scope.default,
                                             name: 'XXX'
-                                        });;
+                                        });
                                         $rootScope.iflogin = true;
                                         $rootScope.username = $cookies.get("username");
                                     } else {
