@@ -21,7 +21,7 @@ angular.module('basic')
                                 });
                                 console.log('tmpArr', tmpArr, '$scope.model.kernel', $scope.model.kernel, tmpArr.includes($scope.model.kernel))
                                 if (tmpArr.includes($scope.model.kernel)) {
-                                    //check user 
+                                    //check user
                                     console.log("11111");
                                     $http.get('/api/jupyter/projects/' + $scope.model.name, {
                                             params: { token: $scope.model.token }
@@ -146,7 +146,8 @@ angular.module('basic')
                                 theme: 'default',
                                 mode: 'python',
                                 styleActiveLine: true,
-                                matchBrackets: true
+                                matchBrackets: true,
+                                autofocus: true
                             };
                             tmpArr.forEach(function(cell) {
                                 if (cell.outputs) {
@@ -215,33 +216,37 @@ angular.module('basic')
                                     $scope.openToolTip(++runIndex);
                                     return;
                                 }
-                                $http.post('/api/jupyter/run', { sourceCodes: $scope.model.sourceCells[runIndex].code, token: $scope.model.token })
+                              $http.post('/api/jupyter/run', { sourceCodes: $scope.model.sourceCells[runIndex].code, token: $scope.model.token })
                                     .then(data => {
-                                        // console.log('runIndexdatadatadata--->', data);
-                                        if (data) {
-                                            $scope.model.sourceCells[runIndex].isShowCode = true;
-                                            let tmp = data.data.result;
-                                            tmp.output_type = data.data.type;
-                                            // tmp.traceback = tmp.traceback.map(item => {
-                                            //   return item.replace(/\u001b\[\d{1,2}m?(;\d{1,2}m?)?/gi, '');
-                                            // })
-                                            // console.warn(tmp.traceback)
-                                            $scope.model.sourceCells[runIndex].outputs = [tmp];
-                                            $scope.openToolTip(++runIndex);
-                                            // console.log('runIndex--->', runIndex);
+                                      if (data !== null && data !== '') {
+                                        let arrTmp = data.data;
+                                        $scope.model.sourceCells[runIndex].outputs = [];
+                                        arrTmp.forEach(item => {
+                                          let tmp = item.result;
+                                          tmp.output_type = item.output_type;
+                                          if (item.output_type = "display_data") {
+                                            tmp.metadata = {};
+                                          }
+                                          $scope.model.sourceCells[runIndex].outputs.push(tmp);
+                                        });
+                                        if (runIndex === $scope.model.sourceCells.length - 1) {
+                                          return;
                                         }
+                                        $scope.openToolTip(++runIndex);
+                                      }
                                     }).catch(err => {
                                         console.log('dataErr', err);
                                     })
-                            }
+                            };
 
                             $scope.run = index => {
                                 if (!isValidCodeModel($scope.model.sourceCells[index])) {
                                     return;
                                 }
-                                $scope.model.sourceCells[index].isShowCode = true;
-                                $scope.model.sourceCells[index].execution_count = $scope.model.sourceCells[index].execution_count + 1;
-                                $http.post('/api/jupyter/run', { sourceCodes: $scope.model.sourceCells[index].code, token: $scope.model.token })
+                              $scope.model.sourceCells[index].isShowCode = true;
+                              $scope.model.sourceCells[index].execution_count = $scope.model.sourceCells[index].execution_count + 1;
+                              $scope.downAdd(index);
+                              $http.post('/api/jupyter/run', { sourceCodes: $scope.model.sourceCells[index].code, token: $scope.model.token })
                                     .then(data => {
                                         if (data !== null && data !== '') {
                                             let arrTmp = data.data;
@@ -290,13 +295,18 @@ angular.module('basic')
                                 });
                             };
                             $scope.upAdd = (index, item) => {
-                                $scope.model.sourceCells.splice(index, 0, { cell_type: 'code' });
+                              $scope.model.sourceCells.splice(index, 0, { cell_type: 'code' });
+                              $scope.openToolTip(index + 1);
                             };
                             $scope.downAdd = (index, item) => {
-                                $scope.model.sourceCells.splice(index + 1, 0, { cell_type: 'code' });
+                              $scope.model.sourceCells.splice(index + 1, 0, { cell_type: 'code' });
+                              $scope.openToolTip(index + 1);
                             };
                             $scope.codeMirrorDelete = (index, item) => {
-                                $scope.model.sourceCells.splice(index, 1);
+                              if (index < 1) {
+                                return;
+                              }
+                              $scope.model.sourceCells.splice(index, 1);
                             };
                         } else {
                             console.log('ERROR', data, data.data.msg.xhr.responseText);
@@ -309,7 +319,6 @@ angular.module('basic')
 
             $scope.saveAll = function() {
                 console.log('$scope.model.MODEL_ID', $scope.model.MODEL_ID);
-
                 $http.post('/api/jupyter/saveNotebook', {
                         modelID: $scope.model.MODEL_ID,
                         newContent: $scope.model.sourceCells,
