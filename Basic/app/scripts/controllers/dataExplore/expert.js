@@ -1,7 +1,7 @@
 'use strict';
 angular.module('basic')
-    .controller('ExpertCtrlTwo', ['copyName', '$cookies', '$sce', '$location', '$rootScope', '$scope', '$http',
-        function(copyName, $cookies, $sce, $location, $rootScope, $scope, $http) {
+    .controller('ExpertCtrlTwo', ['copyName', '$cookies', '$sce', '$location', '$rootScope', '$scope', '$http', '$timeout', 'Notification',
+        function(copyName, $cookies, $sce, $location, $rootScope, $scope, $http, $timeout, Notification) {
             $scope.model = $location.search();
             $scope.model.mode = $location.path().split('/')[2];
             console.log('$scope.model', $scope.model);
@@ -19,7 +19,6 @@ angular.module('basic')
                                     data.kernellist.kernelspecs.forEach(kernel => {
                                         tmpArr.push(kernel.name);
                                     });
-                                    console.log('tmpArr', tmpArr, '$scope.model.kernel', $scope.model.kernel, tmpArr.includes($scope.model.kernel))
                                     if (tmpArr.includes($scope.model.kernel)) {
                                         //check user
                                         $http.get('/api/jupyter/projects/' + $scope.model.name, {
@@ -60,16 +59,16 @@ angular.module('basic')
                                         resolve(val);
                                     }
                                 } else {
-                                    console.log('ERROR:', data.msg.msg.xhr.responseText);
+                                    console.log('ERROR data.msg !== success:');
                                     resolve(val);
                                 }
                             } else {
-                                console.log('ERROR:', data.msg.msg.xhr.responseText);
+                                console.log('ERROR data:');
                                 resolve(val);
                             }
                         })
                         .catch(err => {
-                            console.log('ERROR:', err);
+                            console.log('ERROR /api/jupyter/kernels:');
                             reject(err);
                         });
                 });
@@ -148,8 +147,8 @@ angular.module('basic')
                                 theme: 'default',
                                 mode: 'python',
                                 styleActiveLine: true,
-                                matchBrackets: true,
-                                autofocus: true
+                                matchBrackets: true
+                                    // autofocus: true
                             };
                             tmpArr.forEach(function(cell) {
                                 if (cell.outputs) {
@@ -200,6 +199,8 @@ angular.module('basic')
                                 $scope.model.sourceCells[index].isShow = true;
                                 document.getElementsByClassName('content')[index] && (document.getElementsByClassName('content')[index].style.background = '#f3f3f3');
                                 $scope.selectStyle = $scope.model.sourceCells[index].cell_type;
+                                $scope.model.sourceCells[index].metadata = {};
+
                             };
                             $scope.changeSelectType = selectType => {
                                 // console.log(111000,selectType);
@@ -210,6 +211,7 @@ angular.module('basic')
                                 }
                             };
                             $scope.runCell = () => {
+                                console.log('runIndex', runIndex);
                                 if ($scope.model.sourceCells.length === 0) return;
                                 if (runIndex >= $scope.model.sourceCells.length) {
                                     runIndex = 0;
@@ -218,27 +220,8 @@ angular.module('basic')
                                     $scope.openToolTip(++runIndex);
                                     return;
                                 }
-                                $http.post('/api/jupyter/run', { sourceCodes: $scope.model.sourceCells[runIndex].code, token: $scope.model.token })
-                                    .then(data => {
-                                        if (data !== null && data !== '') {
-                                            let arrTmp = data.data;
-                                            $scope.model.sourceCells[runIndex].outputs = [];
-                                            arrTmp.forEach(item => {
-                                                let tmp = item.result;
-                                                tmp.output_type = item.output_type;
-                                                if (item.output_type = "display_data") {
-                                                    tmp.metadata = {};
-                                                }
-                                                $scope.model.sourceCells[runIndex].outputs.push(tmp);
-                                            });
-                                            if (runIndex === $scope.model.sourceCells.length - 1) {
-                                                return;
-                                            }
-                                            $scope.openToolTip(++runIndex);
-                                        }
-                                    }).catch(err => {
-                                        console.log('dataErr', err);
-                                    })
+                                $scope.run(runIndex);
+
                             };
 
                             $scope.run = index => {
@@ -247,7 +230,11 @@ angular.module('basic')
                                 }
                                 $scope.model.sourceCells[index].isShowCode = true;
                                 $scope.model.sourceCells[index].execution_count = $scope.model.sourceCells[index].execution_count + 1;
-                                $scope.downAdd(index);
+
+
+                                if (index === $scope.model.sourceCells.length - 1) {
+                                    $scope.downAdd(index);
+                                }
                                 $http.post('/api/jupyter/run', { sourceCodes: $scope.model.sourceCells[index].code, token: $scope.model.token })
                                     .then(data => {
                                         if (data !== null && data !== '') {
@@ -256,9 +243,6 @@ angular.module('basic')
                                             arrTmp.forEach(item => {
                                                 let tmp = item.result;
                                                 tmp.output_type = item.output_type;
-                                                if (item.output_type = "display_data") {
-                                                    tmp.metadata = {};
-                                                }
                                                 $scope.model.sourceCells[index].outputs.push(tmp);
                                             })
                                         }
@@ -266,35 +250,15 @@ angular.module('basic')
                                     .catch(err => {
                                         console.log('/api/jupyter/run err', err);
                                     });
-                                console.log('!!!!!!', $scope.model.sourceCells[index].outputs);
+                                console.log('!!!!!!', $scope.model.sourceCells);
                             };
                             $scope.runAll = () => {
                                 $scope.model.sourceCells.isShowCode = true;
-                                $scope.model.sourceCells.forEach(cell => {
-                                    if (!isValidCodeModel(cell)) return;
-                                    cell.isShowCode = true;
-                                    cell.execution_count = cell.execution_count + 1;
-                                    $http.post('/api/jupyter/run', { sourceCodes: cell.code, token: $scope.model.token })
-                                        .then(data => {
-                                            // if (data) {
-                                            //     let tmp = data.data.result;
-                                            //     tmp.output_type = data.data.type;
-                                            //     cell.outputs = [tmp];
-                                            // }
-                                            if (data !== null && data !== '') {
-                                                let arrTmp = data.data;
-                                                $scope.model.sourceCells[index].outputs = [];
-                                                arrTmp.forEach(item => {
-                                                    let tmp = item.result;
-                                                    tmp.output_type = item.output_type;
-                                                    $scope.model.sourceCells[index].outputs.push(tmp);
-                                                })
-                                            }
-                                        })
-                                        .catch(err => {
-                                            console.log('/api/jupyter/run runAll  err', err);
-                                        });
-                                });
+                                const a = $scope.model.sourceCells.length;
+                                for (let i = 0; i < a; i++) {
+                                    console.log('/api/jupyter/run err i', a, i);
+                                    $scope.run(i);
+                                }
                             };
                             $scope.upAdd = (index, item) => {
                                 $scope.model.sourceCells.splice(index, 0, { cell_type: 'code' });
@@ -327,9 +291,14 @@ angular.module('basic')
                         token: $scope.model.token
                     })
                     .then(data => {
-                        if (data) {
-                            console.log('data', data)
+                        console.log('data', data);
+                        if (data.data.result === 'success') {
+                            Notification.success("Saved successfully!");
+                        } else {
+                            Notification.error('An unexpected error occurred in save file!');
                         }
+                    }).catch(() => {
+                        Notification.error('Error in /api/jupyter/saveNotebook !');
                     })
             }
 

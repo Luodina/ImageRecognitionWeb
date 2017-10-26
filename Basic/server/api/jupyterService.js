@@ -88,6 +88,7 @@ function startSession(jupyterOpts) {
 
 function getKernelList() {
     return new Promise((resolve, reject) => {
+        console.log(config[env].notebookUrl, config[env].token)
         Kernel.getSpecs({ baseUrl: config[env].notebookUrl, token: config[env].token }).then(kernelSpecs => {
             kernelSpecs = kernelSpecs;
             console.log('Default spec:', kernelSpecs.default);
@@ -115,10 +116,11 @@ function getKernelList() {
 }
 
 router.get('/kernels', function(req, res) {
-    if (!req.user) {
-        res.send({ msg: 'authentification error' });
-    }
-    getKernelList(req.user.username).then(kernellist => {
+    // if (!req.user) {
+    //     res.send({ msg: 'authentification error' });
+    // }
+    //getKernelList(req.user.username).then(kernellist => {
+    getKernelList('marta').then(kernellist => {
         res.send(kernellist);
     }).catch(err => {
         res.send({
@@ -151,11 +153,19 @@ router.post('/initNotebook', function(req, res) {
             };
             console.log('jupyterOpts:', jupyterOpts);
             let contents = new ContentsManager(jupyterOpts);
+            // contents.post(modelId + file).then(info => {
+            //     console.log(' info', info);
+            // }).catch(err => {
+
+            //     console.log(' contents.post err');
+            // });
             contents.get(modelId + file)
                 .then(model => {
                     modelContent = model.content;
+                    console.log('modelContent:', modelContent.cells);
                     for (let i = 0; i < model.content.cells.length; i++) {
                         sourceCodes[i] = model.content.cells[i].source;
+                        console.log('sourceCodes[i]:', sourceCodes[i], sourceCodes[i].metadata);
                     }
                     let obj = model.content;
                     let cells = Array(obj.cells.length);
@@ -187,8 +197,8 @@ router.post('/initNotebook', function(req, res) {
                 });
         }
     }).catch(err => {
-        console.log('initNotebook err');
-        res.send({ result: null, msg: err.name });
+        console.log('initNotebook DB err');
+        res.send({ result: null, msg: err });
     });
 });
 
@@ -203,20 +213,21 @@ router.post('/run', function(req, res) {
     let future = kernel.requestExecute({ code: sourceCodes });
     console.log(`CODE:'${sourceCodes}`);
     future.onIOPub = msg => {
+        console.log('------------>', msg.header.msg_type)
         if (msg.header.msg_type === 'execute_result') {
-            console.log(`execute_result ${msg.content}`);
+            console.log(`execute_result ${JSON.stringify(msg.content)}`);
             result.push({ output_type: 'execute_result', result: msg.content, msg: 'success' });
         }
         if (msg.header.msg_type === 'stream') {
-            console.log(`execute_result ${msg.content}`);
+            console.log(`stream ${JSON.stringify(msg.content)}`);
             result.push({ output_type: 'stream', result: msg.content, msg: 'success' });
         }
         if (msg.header.msg_type === 'display_data') {
-            console.log(`execute_result ${msg.content}`);
+            console.log(`display_data ${JSON.stringify(msg.content)}`);
             result.push({ output_type: 'display_data', result: msg.content, msg: 'success' });
         }
         if (msg.header.msg_type === 'error') {
-            console.log(`execute_result ${msg.content}`);
+            console.log(`error ${JSON.stringify(msg.content)}`);
             result.push({ output_type: 'error', result: msg.content, msg: 'success' });
         }
     };
@@ -247,18 +258,26 @@ router.post('/saveNotebook', function(req, res) {
     let path = config[env].notebookPath;
     let newContent = req.body.newContent;
     let oldContent = modelContent;
+    oldContent['cells'] = [{}];
     for (let i = 0, len = newContent.length; i < len; i++) {
         if (!oldContent.cells[i]) {
             oldContent.cells[i] = {};
         }
+        oldContent.cells[i].execution_count = newContent[i].execution_count ? newContent[i].execution_count : null;
         oldContent.cells[i].cell_type = newContent[i].cell_type;
-        oldContent.cells[i].execution_count = newContent[i].execution_count;
         oldContent.cells[i].metadata = newContent[i].metadata;
-        oldContent.cells[i].source = newContent[i].code ? newContent[i].code : [];
-        console.log(' newContent[i]', newContent[i])
-        console.log('newContent[i].outputs', newContent[i].outputs)
+        oldContent.cells[i].source = [];
+        if (newContent[i].code) {
+            oldContent.cells[i].source[0] = newContent[i].code;
+        }
+        oldContent.cells[i].outputs = [];
+
         if (newContent[i].outputs !== undefined && newContent[i].outputs !== null) {
-            oldContent.cells[i].outputs = newContent[i].outputs;
+
+            for (let k = 0, len = newContent[i].outputs.length; k < len; k++) {
+                oldContent.cells[i].outputs[k] = newContent[i].outputs[k];
+            }
+
         }
 
     }
@@ -272,6 +291,7 @@ router.post('/saveNotebook', function(req, res) {
                     res.status(200).send({ result: 'failed' });
                     return;
                 }
+                console.error(`exec success:`);
                 res.status(200).send({ result: 'success' });
             });
 
@@ -286,7 +306,7 @@ router.get('/projects', function(req, res) {
     Model.findAll({
         where: {
             VIEW_MENU_ID: '06',
-            USER_NAME: req.user.username
+            USER_NAME: 'marta' //req.user.username
         },
         raw: true
     }).then(model => {
@@ -296,13 +316,13 @@ router.get('/projects', function(req, res) {
 
 router.get('/projects/:modelName', function(req, res) {
     let modelName = req.params.modelName;
-    if (!req.user) {
-        res.send({ msg: 'authentification error' });
-    }
+    // if (!req.user) {
+    //     res.send({ msg: 'authentification error' });
+    // }
     Model.findAll({
             where: {
                 MODEL_NAME: modelName,
-                USER_NAME: req.user.username
+                USER_NAME: 'marta' //req.user.username
             },
             raw: true
         })
