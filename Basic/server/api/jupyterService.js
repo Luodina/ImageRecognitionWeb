@@ -88,7 +88,6 @@ function startSession(jupyterOpts) {
 
 function getKernelList() {
     return new Promise((resolve, reject) => {
-        console.log(config[env].notebookUrl, config[env].token)
         Kernel.getSpecs({ baseUrl: config[env].notebookUrl, token: config[env].token }).then(kernelSpecs => {
             kernelSpecs = kernelSpecs;
             console.log('Default spec:', kernelSpecs.default);
@@ -116,11 +115,10 @@ function getKernelList() {
 }
 
 router.get('/kernels', function(req, res) {
-    // if (!req.user) {
-    //     res.send({ msg: 'authentification error' });
-    // }
-    //getKernelList(req.user.username).then(kernellist => {
-    getKernelList('marta').then(kernellist => {
+    if (!req.user) {
+        res.send({ msg: 'authentification error' });
+    }
+    getKernelList(req.user.username).then(kernellist => {
         res.send(kernellist);
     }).catch(err => {
         res.send({
@@ -153,19 +151,12 @@ router.post('/initNotebook', function(req, res) {
             };
             console.log('jupyterOpts:', jupyterOpts);
             let contents = new ContentsManager(jupyterOpts);
-            // contents.post(modelId + file).then(info => {
-            //     console.log(' info', info);
-            // }).catch(err => {
-
-            //     console.log(' contents.post err');
-            // });
             contents.get(modelId + file)
                 .then(model => {
                     modelContent = model.content;
                     console.log('modelContent:', modelContent.cells);
                     for (let i = 0; i < model.content.cells.length; i++) {
                         sourceCodes[i] = model.content.cells[i].source;
-                        console.log('sourceCodes[i]:', sourceCodes[i], sourceCodes[i].metadata);
                     }
                     let obj = model.content;
                     let cells = Array(obj.cells.length);
@@ -213,7 +204,6 @@ router.post('/run', function(req, res) {
     let future = kernel.requestExecute({ code: sourceCodes });
     console.log(`CODE:'${sourceCodes}`);
     future.onIOPub = msg => {
-        console.log('------------>', msg.header.msg_type)
         if (msg.header.msg_type === 'execute_result') {
             console.log(`execute_result ${JSON.stringify(msg.content)}`);
             result.push({ output_type: 'execute_result', result: msg.content, msg: 'success' });
@@ -277,9 +267,7 @@ router.post('/saveNotebook', function(req, res) {
             for (let k = 0, len = newContent[i].outputs.length; k < len; k++) {
                 oldContent.cells[i].outputs[k] = newContent[i].outputs[k];
             }
-
         }
-
     }
     let json = JSON.stringify(oldContent);
     writeFilePromisified(templTemp, json)
@@ -306,7 +294,7 @@ router.get('/projects', function(req, res) {
     Model.findAll({
         where: {
             VIEW_MENU_ID: '06',
-            USER_NAME: 'marta' //req.user.username
+            USER_NAME: req.user.username
         },
         raw: true
     }).then(model => {
@@ -316,13 +304,13 @@ router.get('/projects', function(req, res) {
 
 router.get('/projects/:modelName', function(req, res) {
     let modelName = req.params.modelName;
-    // if (!req.user) {
-    //     res.send({ msg: 'authentification error' });
-    // }
+    if (!req.user) {
+        res.send({ msg: 'authentification error' });
+    }
     Model.findAll({
             where: {
                 MODEL_NAME: modelName,
-                USER_NAME: 'marta' //req.user.username
+                USER_NAME: req.user.username
             },
             raw: true
         })
