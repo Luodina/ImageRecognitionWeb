@@ -19,8 +19,7 @@ angular.module('basic')
                                     data.kernellist.kernelspecs.forEach(kernel => {
                                         tmpArr.push(kernel.name);
                                     });
-                                    if (tmpArr.includes($scope.model.kernel)) {
-                                        //check user
+                                    if (tmpArr.indexOf($scope.model.kernel) > -1) {
                                         $http.get('/api/jupyter/projects/' + $scope.model.name, {
                                                 params: { token: $scope.model.token }
                                             })
@@ -101,7 +100,6 @@ angular.module('basic')
                         token: $scope.model.token
                     }).success(data => {
                         if (data.result === 'success') {
-                            console.log(data);
                             $scope.model.MODEL_ID = data.model.MODEL_ID;
                             $http.post('/api/appFile/' + data.model.MODEL_NAME, {
                                     userName: data.model.USER_NAME, //$rootScope.getUsername(),
@@ -211,7 +209,6 @@ angular.module('basic')
                                 }
                             };
                             $scope.runCell = () => {
-                                console.log('runIndex', runIndex);
                                 if ($scope.model.sourceCells.length === 0) return;
                                 if (runIndex >= $scope.model.sourceCells.length) {
                                     runIndex = 0;
@@ -250,13 +247,11 @@ angular.module('basic')
                                     .catch(err => {
                                         console.log('/api/jupyter/run err', err);
                                     });
-                                console.log('!!!!!!', $scope.model.sourceCells);
                             };
                             $scope.runAll = () => {
                                 $scope.model.sourceCells.isShowCode = true;
                                 const a = $scope.model.sourceCells.length;
                                 for (let i = 0; i < a; i++) {
-                                    console.log('/api/jupyter/run err i', a, i);
                                     $scope.run(i);
                                 }
                             };
@@ -283,7 +278,7 @@ angular.module('basic')
                     })
             }
 
-            $scope.saveAll = function() {
+            $scope.saveAll = () => {
                 console.log('$scope.model.MODEL_ID', $scope.model.MODEL_ID);
                 $http.post('/api/jupyter/saveNotebook', {
                         modelID: $scope.model.MODEL_ID,
