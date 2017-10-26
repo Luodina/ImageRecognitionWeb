@@ -5,8 +5,9 @@ const THREE_HOURS = 60 * 60 * 3; // Seconds in 3 hours
 
 function init() {
   // TODO: a more complex SECRET??
-  let opts = {msec: new Date('2017-09-15').getTime(), nsecs: 5390};
-  SECRET = UUID.v1(opts);
+  // let opts = {msec: new Date('2017-09-15').getTime(), nsecs: 5390};
+  // SECRET = UUID.v1(opts);
+  SECRET = '40b79d0e-b3e2-11e7-8d46-61e8d2eec41b';
 };
 init();
 
