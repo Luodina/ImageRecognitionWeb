@@ -31,10 +31,10 @@ router.post('/login', function(req, res) {
             }
         }).catch(err => {
             console.log('err', err);
-            res.status(403).send({ status: true, msg: err });
+            res.status(403).send({ status: false, msg: err });
         });
     } else {
-        res.status(403).send({ status: true, msg: 'Username and password cannot be blank' });
+        res.status(403).send({ status: false, msg: 'Username and password cannot be blank' });
     }
 });
 
