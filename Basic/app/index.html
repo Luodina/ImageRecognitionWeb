@@ -29,8 +29,6 @@
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="bower_components/mermaid/dist/mermaid.dark.css" />
     <link rel="stylesheet" href="bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css" />
-    <link rel="stylesheet" href="styles/dataExplore/dataExplore.css" />
-    <link rel="stylesheet" href="styles/dataApp/dataApp.css" />
     <!-- endbuild -->
 </head>
 
@@ -40,51 +38,6 @@
   your browser</a> to improve your experience.</p>
 <![endif]-->
 
-    <!-- Add your site or application content here -->
-    <!--<div class="header" id="pageTitle">-->
-        <!--<div class="navbar navbar-default navbar-au">-->
-            <!--<div class="container-fluid">-->
-                <!--<div class="navbar-header" style="width:54px;height: 52px;cursor: pointer;">-->
-                    <!--<a href=" " ui-sref="home">-->
-                        <!--<img src="./images/logo.jpg" style="width:54px;height: 52px;cursor:pointer" alt="Aura" title="Aura">-->
-                    <!--</a>-->
-                <!--</div>-->
-                <!--<div class="collapse navbar-collapse navbar-head" id="js-navbar-collapse">-->
-                    <!--<div class="nav navbar-nav navbar-left nav-top" id="navbar-nav" ng-if="isshow">-->
-                        <!--<a ng-class="{true: 'active'}[active == 'home']" ui-sref="home">{{'web_common_001' | translate}}</a>-->
-                        <!--<a ng-class="{true: 'active'}[active == 'dataExplore']" ui-sref="dataExplore">{{'web_common_002' |-->
-            <!--translate}}</a>-->
-                        <!--<a ng-class="{true: 'active'}[active == 'knowledgeMap']" ui-sref="knowledgeMap">{{'web_common_004' |-->
-            <!--translate}}</a>-->
-                        <!--<a ng-class="{true: 'active'}[active == 'settings']" ui-sref="settings">{{'web_common_005' | translate}}</a>-->
-                    <!--</div>-->
-                    <!--<div ng-if="!isshow && appInfoShow" style="display: inline-block;line-height: 52px;font-size: 16px;margin-left: 10px">-->
-                        <!--<span ui-sref="home">{{username}}</span> / {{modelAppName}}-->
-                    <!--</div>-->
-                    <!--<div ng-if="!isshow && expertShow" style="display: inline-block;line-height: 52px;font-size: 16px;margin-left: 10px">-->
-                        <!--<span ng-click="findWay">{{username}}</span>-->
-                        <!--<span ng-click="findWay(index)">/ {{exploreName | translate}} </span>-->
-                        <!--<span>/ {{modelExpertName}}</span>-->
-                    <!--</div>-->
-                    <!--<div class="navbar-right">-->
-                        <!--<span class="help_tit">帮助</span>-->
-                        <!--<div class="data_bg header_area_select head_index">-->
-                            <!--<div uib-dropdown="" on-toggle="toggled(open)" class="dropdown open">-->
-                                <!--<a href="javascript:void(0);" class="per_block dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="true">-->
-                                    <!--<span class="header_per_tit" title="angyan0103">{{username}}</span>-->
-                                    <!--<span class="xl_bg"></span>-->
-                                <!--</a>-->
-                                <!--<ul class="dropdown-menu index_area_drop" uib-dropdown-menu="" aria-labelledby="user-menu">-->
-                                    <!--<li><a href="javascript:void(0);"><span>修改密码</span></a></li>-->
-                                    <!--<li class="zx_active"><a href="javascript:void(0);" ng-click="logout()"><span>退出账户</span></a></li>-->
-                                <!--</ul>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
     <ui-view></ui-view>
 
     <!-- build:js(.) scripts/vendor.js -->
@@ -146,25 +99,8 @@
     <script src="build-scripts/message_en.js"></script>
     <script src="build-scripts/message_zh.js"></script>
     <!--<script src="build-scripts/directive/tokenfield.js"></script>-->
-    <script src="build-scripts/controllers/dataExplore/dataExplore.js"></script>
-    <script src="build-scripts/controllers/knowledgeMap/knowledgeMap.js"></script>
-    <script src="build-scripts/controllers/dataExplore/data.js"></script>
     <script src="build-scripts/controllers/dataExplore/expert.js"></script>
-    <script src="build-scripts/controllers/dataApp/dataApp.js"></script>
-    <script src="build-scripts/controllers/dataApp/appInfo.js"></script>
-
-    <script src="build-scripts/controllers/login.js"></script>
     <script src="build-scripts/controllers/homeIndex.js"></script>
-    <script src="build-scripts/controllers/dashboard.js"></script>
-    <script src="build-scripts/directive/dataSource.js"></script>
-    <script src="build-scripts/directive/dataReport.js"></script>
-    <script src="build-scripts/directive/dataProcessing.js"></script>
-    <script src="build-scripts/controllers/settings.js"></script>
-    <script src="build-scripts/controllers/dataApp/appModel/appFile.js"></script>
-    <script src="build-scripts/controllers/dataApp/appModel/appPreview.js"></script>
-    <script src="build-scripts/controllers/dataApp/appModel/operationResult.js"></script>
-    <script src="build-scripts/controllers/dataApp/appModel/runTheChoreography.js"></script>
-    <script src="build-scripts/controllers/dataApp/appModel/taskPlan.js"></script>
     <!-- endbuild -->
 </body>
 

@@ -78,29 +78,6 @@ angular
             $rootScope.username = $cookies.get('username');
         });
 
-        $rootScope.$on('$stateChangeStart', function(event, toState) {
-            if (toState && toState.name === 'login' || toState && toState.name === 'index') {
-                $('#pageTitle').css('display', 'none');
-            } else {
-                $('#pageTitle').css('display', 'block');
-            }
-            if (toState && toState.name === 'dataExplore' || toState && toState.name === 'home' || toState && toState.name === 'knowledgeMap' || toState && toState.name ==='settings') {
-                $rootScope.isshow = true;
-            } else {
-                if (toState && toState.name === 'appInfo' || toState && toState.name === 'dataApp' || toState && toState.name === 'expertApp') {
-                    $rootScope.appInfoShow = true;
-                } else {
-                    $rootScope.appInfoShow = false;
-                }
-                if (toState && toState.name === 'expert' || toState && toState.name === 'data' || toState && toState.name === 'expert') {
-                    $rootScope.expertShow = true;
-                } else {
-                    $rootScope.expertShow = false;
-                }
-                $rootScope.isshow = false;
-            }
-        });
-
         //退出
         $rootScope.logout = () => {
             $location.path('/');
