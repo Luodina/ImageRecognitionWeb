@@ -25,7 +25,6 @@ angular
         'chart.js',
         'ui.router',
         'basic.routers',
-        'basic.resource',
         'basic.services',
         'ui.router.state.events',
         'angularFileUpload',
@@ -33,15 +32,7 @@ angular
         'ipCookie',
         'ui.codemirror'
     ])
-    .constant('GLOBAL', {
-        host_cdm: '',
-        host_jupyter: './api/dataSource',
-        host_user: './api/user',
-        host_model: './api/model',
-        host_app: './api/app',
-        host_expert: './api/expert',
-        host_makefile: './api/appMakeFile',
-    })
+
     .config(['$translateProvider', '$windowProvider', function($translateProvider, $windowProvider) {
         let window = $windowProvider.$get();
         let lang = window.navigator.userLanguage || window.navigator.language;
