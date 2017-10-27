@@ -67,14 +67,9 @@ app.use(function(req, res, next) {
 
 //rest api
 app.use('/api/jupyter', require('./api/jupyterService'));
-// app.use('/api/jupyter', require('./api/dataSource'));
 app.use('/api/user', require('./api/user'));
 app.use('/api/model', require('./api/model'));
 app.use('/api/app', require('./api/app'));
-app.use('/api/expert', require('./api/expert'));
-app.use('/api/appMakeFile', require('./api/appMakeFile'));
-app.use('/api/testSchedule', require('./api/testSchedule'));
-app.use('/api/appResults', require('./api/appResults'));
 app.use('/api/appFile', require('./api/appFile'));
 //app.use('/queryDS/all', proxy('http://10.20.51.3:5000/queryDS/all'));
 app.use('/datasets', proxy({ target: 'http://10.20.51.3:5000', pathRewrite: { '^/datasets': '' } }));

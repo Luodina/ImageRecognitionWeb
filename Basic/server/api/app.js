@@ -3,9 +3,6 @@ const sequelize = require('../sequelize');
 const Sequelize = require('sequelize');
 const App = require('../model/APP_INFO')(sequelize, Sequelize);
 const Model = require('../model/MODEL_INFO')(sequelize, Sequelize);
-const MakeFile = require('../model/APP_MAKEFILE')(sequelize, Sequelize);
-const AppSchedule = require('../model/APP_MAKESCHEDULE')(sequelize, Sequelize);
-const AppResults = require('../model/APP_RESULTS')(sequelize, Sequelize);
 
 const express = require('express');
 const router = express.Router();
