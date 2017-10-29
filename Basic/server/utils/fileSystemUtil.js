@@ -10,7 +10,7 @@ const path = require('path');
 // for local jupyter mode
 const jupyterRootPath="/Users/zezhenjia/workSpace/auraDev/localJupyter";
 const logger = require('../utils/log')('utils/fileSystemUtil.js');
-const UUID = require('UUID');
+const UUID = require('uuid');
 
 class FileSystem{
   constructor(dataDir) {

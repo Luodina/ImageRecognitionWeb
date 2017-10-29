@@ -9,6 +9,7 @@ angular.module('basic')
         // $state.go('login');
         loginModel.open();
       };
+      $scope.login();
     }]);
 
 
