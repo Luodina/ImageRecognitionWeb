@@ -198,6 +198,7 @@ angular.module('basic')
                                 document.getElementsByClassName('content')[index] && (document.getElementsByClassName('content')[index].style.background = '#f3f3f3');
                                 $scope.selectStyle = $scope.model.sourceCells[index].cell_type;
                                 $scope.model.sourceCells[index].metadata = {};
+                                $scope.model.sourceCells[index].execution_count = '';
 
                             };
                             $scope.changeSelectType = selectType => {
@@ -218,7 +219,6 @@ angular.module('basic')
                                     return;
                                 }
                                 $scope.run(runIndex);
-
                             };
 
                             $scope.run = index => {
@@ -226,7 +226,7 @@ angular.module('basic')
                                     return;
                                 }
                                 $scope.model.sourceCells[index].isShowCode = true;
-                                $scope.model.sourceCells[index].execution_count = $scope.model.sourceCells[index].execution_count + 1;
+                                $scope.model.sourceCells[index].execution_count ++;
 
 
                                 if (index === $scope.model.sourceCells.length - 1) {
