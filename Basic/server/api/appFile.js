@@ -54,7 +54,7 @@ router.post('/:itemName', function(req, res) {
     console.log('command ', command)
     exec(command, (error, stdout, stderr) => {
         if (error) {
-            console.error(`exec error: $ { error }`);
+            console.error('exec error',  error );
             res.status(200).send({ result: 'failed' });
             return;
         }

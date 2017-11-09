@@ -1357,107 +1357,110 @@ div.ng-invalid.ng-touched.ui-select-container span.ui-select-toggle {
       margin-left: 15px;
       margin-right: 15px;
       margin-bottom: 15px;
-      .ipynb-left {
-        //background: #CFF3D4;
-        margin-right: -15px;
-        margin-left: 15px;
-        padding-right: 0;
-        .runBtn {
-          float: right;
-          border: none;
-          width: 44px;
-          height: 30px;
-          z-index: 10;
-          background: url(../images/runSinCell.png) no-repeat;
-        }
-      }
-      .ipynb-right {
-        .CodeMirror {
-          font-family: monospace;
-          height: auto;
-          border: 1px solid #ccc;
-          font-size: 16px;
-          background: #f9f9f9;
-          .CodeMirror-scroll {
-            overflow: auto;
-            min-height: 40px;
+      .row{
+        .ipynb-left {
+          //background: #CFF3D4;
+          margin-right: -15px;
+          margin-left: 15px;
+          padding-right: 0;
+          .runBtn {
+            float: right;
+            border: none;
+            width: 44px;
+            height: 30px;
+            z-index: 10;
+            background: url(../images/runSinCell.png) no-repeat;
           }
         }
-        .select {
-          background: #3f3f3f;
-        }
-        .outPutCell {
-          margin-top: 10px;
-          .output {
-            word-wrap: break-word;
+        .ipynb-right {
+          .CodeMirror {
+            font-family: monospace;
+            height: auto;
+            border: 1px solid #ccc;
             font-size: 16px;
-            pre {
+            background: #f9f9f9;
+            border-radius: 4px;
+            .CodeMirror-scroll {
+              overflow: auto;
+              min-height: 40px;
+            }
+          }
+          .select {
+            background: #3f3f3f;
+          }
+          .outPutCell {
+            margin-top: 10px;
+            .output {
+              word-wrap: break-word;
               font-size: 16px;
+              pre {
+                font-size: 16px;
+              }
+              .dataframe {
+                thead th {
+                  font-size: 14px;
+                  height: 40px;
+                  color: #999;
+                  padding: 0 5px;
+                  text-align: center;
+                  border: solid 1px #999;
+                }
+                thead tr th:nth-child(1) {
+                  padding: 0 15px;
+                  text-align: center;
+                  border: solid 1px #999;
+                }
+                tbody tr:nth-child(odd) {
+                  background: #f9f9f9;
+                }
+                tbody tr:nth-child(even) {
+                  background: #ffffff;
+                }
+                tbody th {
+                  padding: 0 5px;
+                  height: 40px;
+                  text-align: center;
+                  border: solid 1px #999;
+                }
+                tbody tr th:nth-child(1) {
+                  padding: 0 15px;
+                  text-align: center;
+                  border: solid 1px #999;
+                }
+                tbody td {
+                  padding: 0 5px;
+                  text-align: center;
+                  border: solid 1px #999;
+                }
+              }
             }
-            .dataframe {
-              thead th {
-                font-size: 14px;
-                height: 40px;
-                color: #999;
-                padding: 0 5px;
-                text-align: center;
-                border: solid 1px #999;
-              }
-              thead tr th:nth-child(1) {
-                padding: 0 15px;
-                text-align: center;
-                border: solid 1px #999;
-              }
-              tbody tr:nth-child(odd) {
-                background: #f9f9f9;
-              }
-              tbody tr:nth-child(even) {
-                background: #ffffff;
-              }
-              tbody th {
-                padding: 0 5px;
-                height: 40px;
-                text-align: center;
-                border: solid 1px #999;
-              }
-              tbody tr th:nth-child(1) {
-                padding: 0 15px;
-                text-align: center;
-                border: solid 1px #999;
-              }
-              tbody td {
-                padding: 0 5px;
-                text-align: center;
-                border: solid 1px #999;
-              }
+            .error {
+              border: solid 1px #f3f3f3;
+              padding: 10px 5px;
             }
           }
-          .error {
-            border: solid 1px #f3f3f3;
-            padding: 10px 5px;
-          }
-        }
-        .tool-tip {
-          position: absolute;
-          top: -22px;
-          right: 15px;
-          .upAddBtn {
-            border: none;
-            width: 67px;
-            height: 22px;
-            background: url(../images/addUp.png) no-repeat;
-          }
-          .downAddBtn {
-            border: none;
-            width: 67px;
-            height: 22px;
-            background: url(../images/addDown.png) no-repeat;
-          }
-          .deleteRedBtn {
-            border: none;
-            width: 38px;
-            height: 22px;
-            background: url(../images/deleteCell.png) no-repeat;
+          .tool-tip {
+            position: absolute;
+            top: -22px;
+            right: 15px;
+            .upAddBtn {
+              border: none;
+              width: 67px;
+              height: 22px;
+              background: url(../images/addUp.png) no-repeat;
+            }
+            .downAddBtn {
+              border: none;
+              width: 67px;
+              height: 22px;
+              background: url(../images/addDown.png) no-repeat;
+            }
+            .deleteRedBtn {
+              border: none;
+              width: 38px;
+              height: 22px;
+              background: url(../images/deleteCell.png) no-repeat;
+            }
           }
         }
       }

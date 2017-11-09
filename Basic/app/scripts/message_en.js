@@ -116,8 +116,8 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_expertPart_layer_01': 'Creata new ipynb',
     'web_common_expertPart_layer_02': 'Enter a notebook name',
     'web_common_expertPart_layer_03': 'Operating environment selection',
-    'web_common_expertPart_layer_04': 'The name needs to be unique'
 
+    'web_common_expertPart': 'Get all data source'
 
 
   });

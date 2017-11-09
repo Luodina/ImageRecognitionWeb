@@ -1,6 +1,3 @@
-/**
- * Created by JiYi on 17/7/5.
- */
 'use strict';
 angular.module('basic.routers', ['ui.router'])
     .config(function($stateProvider, $urlRouterProvider) {

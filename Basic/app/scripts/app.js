@@ -25,6 +25,7 @@ angular
         'chart.js',
         'ui.router',
         'basic.routers',
+        'basic.resource',
         'basic.services',
         'ui.router.state.events',
         'angularFileUpload',
@@ -32,6 +33,9 @@ angular
         'ipCookie',
         'ui.codemirror'
     ])
+    .constant('GLOBAL', {
+        host_getAllData: ''
+    })
 
     .config(['$translateProvider', '$windowProvider', function($translateProvider, $windowProvider) {
         let window = $windowProvider.$get();
