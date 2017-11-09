@@ -13,6 +13,6 @@ sequelize.authenticate()
   })
   .catch(err => {
     //console.error('Unable to connect to the database:', config[env].mariadb, err);
-    logger.error('Unable to connect to the database:',config[env].mariadb,err)
+    logger.error('Unable to connect to the database:',config[env].mariadb,err);
   });
 module.exports = sequelize;

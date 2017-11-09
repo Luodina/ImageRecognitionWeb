@@ -1,3 +1,4 @@
+'use strict';
 let jwt = require('jsonwebtoken');
 let UUID = require('uuid');
 let SECRET;
@@ -8,7 +9,7 @@ function init() {
   // let opts = {msec: new Date('2017-09-15').getTime(), nsecs: 5390};
   // SECRET = UUID.v1(opts);
   SECRET = '40b79d0e-b3e2-11e7-8d46-61e8d2eec41b';
-};
+}
 init();
 
 module.exports =  {
@@ -16,12 +17,12 @@ module.exports =  {
     if(!username) {
       return null;
     }
-    var plaintext = {
-      username: username, 
-      iat: Date.now()/1000, 
+    let plaintext = {
+      username: username,
+      iat: Date.now()/1000,
       exp: Date.now()/1000 + THREE_HOURS
     };
-    var ciphertext = jwt.sign(plaintext, SECRET);
+    let ciphertext = jwt.sign(plaintext, SECRET);
     return ciphertext;
   },
   decode: function(ciphertext) {
@@ -29,7 +30,7 @@ module.exports =  {
       return null;
     }
     try {
-      var plaintext = jwt.verify(ciphertext, SECRET);
+      let plaintext = jwt.verify(ciphertext, SECRET);
       if(plaintext.username) {
         return plaintext;
       }else {

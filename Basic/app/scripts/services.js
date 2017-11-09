@@ -6,8 +6,8 @@ angular.module('basic.services', ['ui.bootstrap'])
         backdrop: 'static',
         templateUrl: 'views/layer/createModel.html',
         size: 'size',
-        controller: ['$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', '$http', '$cookies',
-          ($rootScope, $location, $scope, $filter, $uibModalInstance, $http, $cookies) => {
+        controller: ['$location', '$scope', '$filter', '$uibModalInstance', '$http', '$cookies',
+          ( $location, $scope, $filter, $uibModalInstance, $http, $cookies) => {
             $scope.title = $filter('translate')('web_common_copy_layer_01');
             $scope.content = $filter('translate')('web_common_copy_layer_01');
 
@@ -41,8 +41,8 @@ angular.module('basic.services', ['ui.bootstrap'])
         backdrop: 'static',
         templateUrl: 'views/layer/loginModel.html',
         size: 'size',
-        controller: ['$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', 'hotkeys', 'ipCookie', '$http', '$cookies',
-          ($rootScope, $location, $scope, $filter, $uibModalInstance, hotkeys, ipCookie, $http, $cookies) => {
+        controller: ['$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', 'ipCookie', '$http', '$cookies',
+          ($rootScope, $location, $scope, $filter, $uibModalInstance, ipCookie, $http, $cookies) => {
             $scope.expires = 7;
             $scope.expirationUnit = 'days';
 
@@ -66,7 +66,7 @@ angular.module('basic.services', ['ui.bootstrap'])
               console.log('new cookie value...');
               console.log(ipCookie('username'));
               console.log(ipCookie('userpass'));
-              setMessage("Cookie created. Use your browser cookie display to verify content or expiry.");
+              setMessage('Cookie created. Use your browser cookie display to verify content or expiry.');
             };
             $scope.deleteCookie = function () {
               setMessage();
@@ -104,16 +104,16 @@ angular.module('basic.services', ['ui.bootstrap'])
                     name: 'XXX'
                   });
                   $rootScope.iflogin = true;
-                  $rootScope.username = $cookies.get("username");
+                  $rootScope.username = $cookies.get('username');
                 } else {
                   $rootScope.error_name = true;
                   //console.log('LOGIN FAILED!please, use login name:ocai and pass:123456');
                 }
-              })
+              });
             };
             //enter 进入页面
             $scope.enterLogin = (e) => {
-              if (e.keyCode == 13) {
+              if (e.keyCode === 13) {
                 //$state.go('dataExplore');
                 if ($scope.usermessage.password !== undefined) {
                   $rootScope.login($scope.usermessage.username, $scope.usermessage.password);
@@ -122,17 +122,16 @@ angular.module('basic.services', ['ui.bootstrap'])
               }
             };
             //图片预加载
-            let images = new Array()
-
+            let images = [];
             function preload() {
               for (let i = 0; i < arguments.length; i++) {
-                images[i] = new Image()
-                images[i].src = arguments[i]
+                images[i] = new Image();
+                images[i].src = arguments[i];
               }
-            };
+            }
             preload(
-              "images/homeBag.png",
-              "images/logo.png"
+              'images/homeBag.png',
+              'images/logo.png'
             );
             $scope.cancel = function () {
               $uibModalInstance.dismiss();

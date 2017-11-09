@@ -1,135 +1,16 @@
 'use strict';
 angular.module('basic')
-  .controller('ExpertCtrlTwo', ['$cookies', '$sce', '$location', '$rootScope', '$scope', '$http', '$timeout', 'Notification',
-    function ($cookies, $sce, $location, $rootScope, $scope, $http, $timeout, Notification) {
+  .controller('ExpertCtrlTwo', ['$cookies', '$sce', '$location', '$scope', '$http', 'Notification',
+    function ($cookies, $sce, $location, $scope, $http, Notification) {
       $scope.model = $location.search();
       $scope.model.mode = $location.path().split('/')[2];
       $http.post('/datasets/mdp-server/datasource/getAllData?username=jdl3&token=root').then(result => {
         $scope.arr = result.data.value;
       });
-      //validation
-      function isParamValid() {
-        return new Promise((resolve, reject) => {
-          //check kernel
-          $http.get('/api/jupyter/kernels', {
-            params: {token: $scope.model.token}
-          }).success(data => {
-            let val = false;
-            if (data) {
-              if (data.msg === 'success') {
-                let tmpArr = [];
-                data.kernellist.kernelspecs.forEach(kernel => {
-                  tmpArr.push(kernel.name);
-                });
-                if (tmpArr.indexOf($scope.model.kernel) > -1) {
-                  $http.get('/api/jupyter/projects/' + $scope.model.name, {
-                    params: {token: $scope.model.token}
-                  })
-                    .success(project => {
-                      if (project.msg === 'success') {
-                        if (project.result.length !== 0) {
-                          if ($location.path().split('/')[2] === 'edit') {
-                            $scope.model.MODEL_ID = project.result[0].MODEL_ID;
-                            console.log('$scope.model.MODEL_ID:', $scope.model.MODEL_ID);
-                            val = true;
-                            resolve(val, project.result[0].MODEL_ID);
-                          } else {
-                            console.log('project with name:', project.result[0].MODEL_NAME, 'exists');
-                            resolve(val);
-                          }
-                          ;
-                        } else {
-                          if ($scope.model.mode === 'new') {
-                            val = true;
-                            resolve(val);
-                          } else {
-                            console.log('project with name:', $scope.model.name, 'do not exists');
-                            resolve(val);
-                          }
-                          ;
-                        }
-                      } else {
-                        console.log(project.msg);
-                        resolve(val);
-                      }
-                    })
-                    .catch(err => {
-                      console.log('err in /api/jupyter/projects/', err);
-                      reject(err);
-                    });
-                } else {
-                  console.log('Chosen kernel', $scope.model.kernel, ' is not in i the availabe kernel list ', tmpArr);
-                  resolve(val);
-                }
-              } else {
-                console.log('ERROR data.msg !== success:');
-                resolve(val);
-              }
-            } else {
-              console.log('ERROR data:');
-              resolve(val);
-            }
-          })
-            .catch(err => {
-              console.log('ERROR /api/jupyter/kernels:');
-              reject(err);
-            });
-        });
-      }
-
-      isParamValid().then(isKerneValid => {
-        console.log('isKerneValid', isKerneValid);
-        if (isKerneValid) {
-          if ($scope.model.mode === "new") {
-            createNotebook();
-          } else {
-            init();
-          }
-        }
-      }).catch(err => {
-        console.log('err in isParamValid', err);
-      });
-      function createNotebook() {
-        let date = new Date();
-        $http.post('/api/model/' + $scope.model.name, {
-          APP_ID: $scope.model.name,
-          //USER_ID: $scope.model.user,
-          TYPE_MENU_ID: "01",
-          VIEW_MENU_ID: "06",
-          COMMENT: "heyyyy",
-          FILE_PATH: "FILE_PATH",
-          UPDATED_TIME: date.getTime(),
-          KERNEL: $scope.model.kernel,
-          token: $scope.model.token
-        }).success(data => {
-          if (data.result === 'success') {
-            $scope.model.MODEL_ID = data.model.MODEL_ID;
-            $http.post('/api/appFile/' + data.model.MODEL_NAME, {
-              userName: data.model.USER_NAME, //$rootScope.getUsername(),
-              modelTemplate: "自由模式", //$scope.urlcontent.content,
-              itemType: "expert",
-              itemID: data.model.MODEL_ID,
-              token: $scope.model.token
-            }).success(data => {
-              if (data.result === 'success') {
-                console.log('success');
-                init();
-              }
-            })
-              .catch(err => {
-                console.log(err);
-              });
-          }
-        })
-          .catch(err => {
-            console.log(err);
-          });
-      }
 
       function isValidCodeModel(cell) {
         return cell.cell_type === 'code' && !!cell.code;
       }
-
       function init() {
         $http.post('/api/jupyter/initNotebook', {
           modelName: $scope.model.name,
@@ -165,8 +46,7 @@ angular.module('basic')
                     // if (cell.outputs.data['image/png'] !== null) {
                     //     cell.outputs.data['image/png'] = 'data:image/png;base64,' + cell.outputs.data['image/png'];
                     // }
-                  })
-
+                  });
                 }
               }
             }, this);
@@ -174,7 +54,7 @@ angular.module('basic')
               if (!selectData) return;
               let str = 'from aura_cdm import BDM\n%load_ext autoreload\n%autoreload 2\nBDM.login_first(' + $cookies.get('aura_token') + ',' + $cookies.get('username') + ')\ndsId ="' + selectData.dsId + '"\ndf = BDM.describeDSFields(dsId)';
               let newCell = {
-                cell_type: "code",
+                cell_type: 'code',
                 code: str,
                 execution_count: null,
                 metadata: {},
@@ -189,10 +69,15 @@ angular.module('basic')
             };
             $scope.initSelectCell = index => {
               runIndex = index;
-              $scope.model.sourceCells.forEach((item, idx) => {
-                document.getElementsByClassName('content')[idx] && (document.getElementsByClassName('content')[idx].style.background = '#fff');
+              $scope.model.sourceCells.forEach(idx => {
+                if(document.getElementsByClassName('content')[idx]){
+                  document.getElementsByClassName('content')[idx].style.background = '#fff';
+                }
               });
-              document.getElementsByClassName('content')[index] && (document.getElementsByClassName('content')[index].style.background = '#f3f3f3');
+              if(document.getElementsByClassName('content')[index]){
+                document.getElementsByClassName('content')[index].style.background = '#f3f3f3';
+              }
+              // document.getElementsByClassName('content')[index] && (document.getElementsByClassName('content')[index].style.background = '#f3f3f3');
               if ($scope.model.sourceCells[index].cell_type === 'markdown') {
                 $scope.selectStyle = $scope.codeStyle[1];
               } else if ($scope.model.sourceCells[index].cell_type === 'code') {
@@ -274,17 +159,17 @@ angular.module('basic')
 
               }
             };
-            $scope.upAdd = (index, item) => {
+            $scope.upAdd = (index) => {
               $scope.model.sourceCells.splice(index, 0, {cell_type: 'code', isShow: false, execution_count: 0});
               $scope.openToolTip(index + 1);
               document.getElementsByClassName('CodeMirror')[index] && (document.getElementsByClassName('CodeMirror')[index].style.background = '#f3f3f3');
             };
-            $scope.downAdd = (index, item) => {
+            $scope.downAdd = (index) => {
               $scope.model.sourceCells.splice(index + 1, 0, {cell_type: 'code', isShow: false, execution_count: 0});
               $scope.openToolTip(index + 1);
               document.getElementsByClassName('CodeMirror')[index + 1] && (document.getElementsByClassName('CodeMirror')[index + 1].style.background = '#f3f3f3');
             };
-            $scope.codeMirrorDelete = (index, item) => {
+            $scope.codeMirrorDelete = (index) => {
               if (index < 1) {
                 return;
               }
@@ -296,8 +181,126 @@ angular.module('basic')
         })
           .catch(err => {
             console.log('err', err);
-          })
+          });
       }
+
+      function createNotebook() {
+        let date = new Date();
+        $http.post('/api/model/' + $scope.model.name, {
+          APP_ID: $scope.model.name,
+          //USER_ID: $scope.model.user,
+          TYPE_MENU_ID: '01',
+          VIEW_MENU_ID: '06',
+          COMMENT: 'heyyyy',
+          FILE_PATH: 'FILE_PATH',
+          UPDATED_TIME: date.getTime(),
+          KERNEL: $scope.model.kernel,
+          token: $scope.model.token
+        }).success(data => {
+          if (data.result === 'success') {
+            $scope.model.MODEL_ID = data.model.MODEL_ID;
+            $http.post('/api/appFile/' + data.model.MODEL_NAME, {
+              userName: data.model.USER_NAME, //$rootScope.getUsername(),
+              modelTemplate: '自由模式', //$scope.urlcontent.content,
+              itemType: 'expert',
+              itemID: data.model.MODEL_ID,
+              token: $scope.model.token
+            }).success(data => {
+              if (data.result === 'success') {
+                console.log('success');
+                init();
+              }
+            })
+              .catch(err => {
+                console.log(err);
+              });
+          }
+        })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+
+      //validation
+      function isParamValid() {
+        return new Promise((resolve, reject) => {
+          //check kernel
+          $http.get('/api/jupyter/kernels', {
+            params: {token: $scope.model.token}
+          }).success(data => {
+            let val = false;
+            if (data) {
+              if (data.msg === 'success') {
+                let tmpArr = [];
+                data.kernellist.kernelspecs.forEach(kernel => {
+                  tmpArr.push(kernel.name);
+                });
+                if (tmpArr.indexOf($scope.model.kernel) > -1) {
+                  $http.get('/api/jupyter/projects/' + $scope.model.name, {
+                    params: {token: $scope.model.token}
+                  })
+                    .success(project => {
+                      if (project.msg === 'success') {
+                        if (project.result.length !== 0) {
+                          if ($location.path().split('/')[2] === 'edit') {
+                            $scope.model.MODEL_ID = project.result[0].MODEL_ID;
+                            console.log('$scope.model.MODEL_ID:', $scope.model.MODEL_ID);
+                            val = true;
+                            resolve(val, project.result[0].MODEL_ID);
+                          } else {
+                            console.log('project with name:', project.result[0].MODEL_NAME, 'exists');
+                            resolve(val);
+                          }
+                        } else {
+                          if ($scope.model.mode === 'new') {
+                            val = true;
+                            resolve(val);
+                          } else {
+                            console.log('project with name:', $scope.model.name, 'do not exists');
+                            resolve(val);
+                          }
+                        }
+                      } else {
+                        console.log(project.msg);
+                        resolve(val);
+                      }
+                    })
+                    .catch(err => {
+                      console.log('err in /api/jupyter/projects/', err);
+                      reject(err);
+                    });
+                } else {
+                  console.log('Chosen kernel', $scope.model.kernel, ' is not in i the availabe kernel list ', tmpArr);
+                  resolve(val);
+                }
+              } else {
+                console.log('ERROR data.msg !== success:');
+                resolve(val);
+              }
+            } else {
+              console.log('ERROR data:');
+              resolve(val);
+            }
+          })
+            .catch(err => {
+              console.log('ERROR /api/jupyter/kernels:');
+              reject(err);
+            });
+        });
+      }
+
+      isParamValid().then(isKerneValid => {
+        console.log('isKerneValid', isKerneValid);
+        if (isKerneValid) {
+          if ($scope.model.mode === 'new') {
+            createNotebook();
+          } else {
+            init();
+          }
+        }
+      }).catch(err => {
+        console.log('err in isParamValid', err);
+      });
 
       $scope.saveAll = () => {
         $http.post('/api/jupyter/saveNotebook', {
@@ -307,13 +310,13 @@ angular.module('basic')
         })
           .then(data => {
             if (data.data.result === 'success') {
-              Notification.success("Saved successfully!");
+              Notification.success('Saved successfully!');
             } else {
               Notification.error('An unexpected error occurred in save file!');
             }
           }).catch(() => {
           Notification.error('Error in /api/jupyter/saveNotebook !');
-        })
-      }
+        });
+      };
     }
   ]);

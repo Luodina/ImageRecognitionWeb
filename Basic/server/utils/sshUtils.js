@@ -1,9 +1,9 @@
-﻿"use strict";
-let ssh2 = require("ssh2");
-let util=require("util");
-let events=require("events");
-let Client = require("ssh2").Client;
-let fs = require("fs");
+﻿'use strict';
+let ssh2 = require('ssh2');
+let util=require('util');
+let events=require('events');
+let Client = require('ssh2').Client;
+let fs = require('fs');
 let path = require('path');
 let async = require('async');
 let through = require('through');
@@ -122,7 +122,7 @@ SSH2UTILS.prototype.downloadFile = function(remotePath, localPath, then) {
 * 回调：then(err, dirs) ： dir, 获取的列表信息
 */
 SSH2UTILS.prototype.getFileOrDirList = function(remotePath, isFile, then) {
-	let cmd = "find " + remotePath + " -type "+ (isFile === true ? "f":"d") + "\nexit\n";
+	let cmd = 'find' + remotePath + ' -type '+ (isFile === true ? 'f':'d') + '\nexit\n';
 	this.exec(cmd, function(err, data) {
 		let arr = [];
 		let dirs = [];
@@ -148,7 +148,7 @@ util.inherits(Control, events.EventEmitter); // 使这个类继承EventEmitter
 
 let control = new Control();
 
-control.on("donext", function(todos, then){
+control.on('donext', function(todos, then){
 	if(todos.length > 0){
 		let func = todos.shift();
 		func(function(err, result){
@@ -156,7 +156,7 @@ control.on("donext", function(todos, then){
 				then(err);
 				return;
 			}
-			control.emit("donext", todos, then);
+			control.emit('donext', todos, then);
 		});
 	}else{
 		then(null);
@@ -197,10 +197,10 @@ SSH2UTILS.prototype.downloadDir = function(remoteDir, localDir, then) {
 							that.downloadFile(file, tmpPath, function(err, result){
 								done(err, result);
 							});
-							console.log("downloading the "+file);
+							console.log('downloading the '+file);
 						});// end of todoFiles.push
 					});
-					control.emit("donext", todoFiles, then);
+					control.emit('donext', todoFiles, then);
 				}
 			});
 		}
@@ -255,7 +255,7 @@ SSH2UTILS.prototype.uploadDir = function(localDir, remoteDir, then) {
 
 	dirs.forEach(function(dir){
 		let to = path.join(remoteDir, dir.substring(localDir.length+1)).replace(/[\\]/g, '/');
-		let cmd = "mkdir -p " + to +"\n";
+		let cmd = 'mkdir -p ' + to +'\n';
 		todoCmd.push(cmd);
 		fs.appendFileSync(fileName, cmd, 'utf8');
 	});

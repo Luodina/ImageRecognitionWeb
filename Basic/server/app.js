@@ -42,12 +42,12 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 
 // 上游验证token
 app.use(function (req, res, next) {
-  var token = req.body.token || req.query.token || req.cookies.aura_token || req.headers['Authorization'];
+  let token = req.body.token || req.query.token || req.cookies.aura_token || req.headers['Authorization'];
   if (req.path.startsWith('/api/user/login') || req.path.startsWith('/datasets')) {
     next();
   } else if (token) {
     try {
-      var decoded = auth.decode(token);
+      let decoded = auth.decode(token);
       if (decoded) {
         req.user = decoded;
         next();

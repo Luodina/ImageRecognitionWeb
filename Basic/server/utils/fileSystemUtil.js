@@ -1,12 +1,12 @@
-"use strict";
+'use strict';
 const exec = require('child_process').exec;
 const fs = require('fs-extra');
 
 // nfs for remote jupyterhub server mode
-const privateNFS="/Users/zezhenjia/workSpace/auraDev/nfsShare";
+const privateNFS='/Users/zezhenjia/workSpace/auraDev/nfsShare';
 
 // for local jupyter mode
-const jupyterRootPath="/Users/zezhenjia/workSpace/auraDev/localJupyter";
+const jupyterRootPath='/Users/zezhenjia/workSpace/auraDev/localJupyter';
 
 class FileSystem{
 
@@ -22,17 +22,14 @@ class FileSystem{
     return new Promise((resolve,reject)=>{
         exec(comms,[''],(error,stdout) =>{
           if(error){
-            console.log("error--->",error);
-            reject(error)
+            console.log('error--->',error);
+            reject(error);
           }else {
-            resolve(stdout)
+            resolve(stdout);
           }
-
-        })
+        });
     });
-
   }
-
   /**
    *
    * @param templatePath
@@ -46,12 +43,12 @@ class FileSystem{
     return new Promise((resolve,reject)=>{
       exec(comms,[''],(error,stdout) =>{
         if(error){
-          console.log("error--->",error);
-          reject(error)
+          console.log('error--->',error);
+          reject(error);
         }else {
-          resolve(stdout)
+          resolve(stdout);
         }
-      })
+      });
     });
 
   }
@@ -61,12 +58,12 @@ class FileSystem{
     return new Promise((resolve,reject)=>{
       exec(comms,[''],(error,stdout) =>{
         if(error){
-          console.log("error--->",error);
-          reject(error)
+          console.log('error--->',error);
+          reject(error);
         }else {
-          resolve(stdout)
+          resolve(stdout);
         }
-      })
+      });
     });
 
   }
@@ -86,7 +83,7 @@ class FileSystem{
    */
   getHubUserDataPath(username){
 
-    return privateNFS+'/'+'jupyterhub-user-'+username+'/_data'
+    return privateNFS+'/'+'jupyterhub-user-'+username+'/_data';
   }
 
   /**
@@ -114,7 +111,7 @@ class FileSystem{
 
     if (len) {
       // Compact form
-      for (i = 0; i < len; i++) uuid[i] = chars[0 | Math.random()*radix];
+      for (i = 0; i < len; i++) uuid[i] = chars[0 || Math.random()*radix];
     } else {
       // rfc4122, version 4 form
       let r;
@@ -127,8 +124,8 @@ class FileSystem{
       // per rfc4122, sec. 4.1.5
       for (i = 0; i < 36; i++) {
         if (!uuid[i]) {
-          r = 0 | Math.random()*16;
-          uuid[i] = chars[(i === 19) ? (r & 0x3) | 0x8 : r];
+          r = 0 || Math.random()*16;
+          uuid[i] = chars[(i === 19) ? (r && 0x3) || 0x8 : r];
         }
       }
     }

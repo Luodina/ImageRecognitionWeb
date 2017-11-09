@@ -1,25 +1,25 @@
+'use strict';
+let config = require('../config');
+let env = config.env;
 
-let config = require('../config')
-let env = config.env
-
-let logTo = ''
-let logLevel = ''
-if(config[env].logTo == null || !['stdout','file'].includes(config[env].logTo.toLowerCase())) {
+let logTo = '';
+let logLevel = '';
+if(config[env].logTo === null || !['stdout','file'].includes(config[env].logTo.toLowerCase())) {
 	logTo = 'stdout';
 } else {
-	logTo = config[env].logTo.toLowerCase()
+	logTo = config[env].logTo.toLowerCase();
 }
-if(config[env].logLevel == null || !['trace','debug','info'].includes(config[env].logLevel.toLowerCase())) {
+if(config[env].logLevel === null || !['trace','debug','info'].includes(config[env].logLevel.toLowerCase())) {
 	logLevel = 'debug';
 } else {
-	logLevel = config[env].logLevel.toLowerCase()
+	logLevel = config[env].logLevel.toLowerCase();
 }
-if(env != 'dev') {
-	logLevel = 'info'
+if(env !== 'dev') {
+	logLevel = 'info';
 }
 
 module.exports = function (category) {
-	var log4js = require('log4js')
+	let log4js = require('log4js');
 	log4js.configure({
 		appenders: {
 			STDOUT: {
@@ -36,6 +36,6 @@ module.exports = function (category) {
 		categories: {
 			default: {appenders: [logTo.toUpperCase()], level: logLevel}
 		}
-	})
-	return log4js.getLogger(category)
-}
+	});
+	return log4js.getLogger(category);
+};

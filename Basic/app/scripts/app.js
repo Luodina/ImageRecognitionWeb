@@ -62,12 +62,12 @@ angular
             chartColors: ['#4da9ff', '#79d2a6', '#ff9900', '#ff704d', '#669999', '#4d0000']
         });
     }])
-    .run(['$rootScope', '$location', '$http', '$cookies', function($rootScope, $location, $http, $cookies) {
+    .run(['$rootScope', '$location', '$cookies', function($rootScope, $location, $cookies) {
         $rootScope.nowActive = 0;
         $rootScope.findWay = function() {
             $location.path('/explore');
-        }
-        $rootScope.$on('$stateChangeStart', function(event, toState) {
+        };
+        $rootScope.$on('$stateChangeStart', function(toState) {
             console.log('toState', toState.name);
             $rootScope.active = toState.name;
             $rootScope.username = $cookies.get('username');

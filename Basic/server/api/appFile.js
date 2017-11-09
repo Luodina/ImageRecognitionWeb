@@ -25,23 +25,23 @@ const sshJupyterHubOpts = {
 router.post('/:itemName', function(req, res) {
     console.log(`req.body`, req.body);
     let itemType = req.body.itemType; //app or model
-    let itemID = itemType === "app" ? itemType + "_" + req.body.itemID : "model_" + req.body.itemID;
+    let itemID = itemType === 'app' ? itemType + '_' + req.body.itemID : 'model_' + req.body.itemID;
     let itemName = req.params.itemName;
     let userName = req.body.userName;
     let modelTemplate = req.body.modelTemplate;
-    let userPath = "jupyterhub-user-" + userName;
+    let userPath = 'jupyterhub-user-' + userName;
 
     let localPath = itemType => {
-        if (itemType === "app") {
-            return templAppDir
+        if (itemType === 'app') {
+            return templAppDir;
         }
-        if (itemType === "model") {
-            return templDataProfile
+        if (itemType === 'model') {
+            return templDataProfile;
         }
-        if (itemType === "expert") {
-            return templExpertModelDir + "/" + modelTemplate
+        if (itemType === 'expert') {
+            return templExpertModelDir + '/' + modelTemplate;
         }
-    }
+    };
     console.log(`localPath`, localPath(itemType),
         `itemID`, itemID,
         `itemType`, itemType,
@@ -51,7 +51,7 @@ router.post('/:itemName', function(req, res) {
 
     remotePath = config[env].notebookPath;
     let command = 'cp -r ' + localPath(itemType) + ' ' + remotePath + itemID;
-    console.log('command ', command)
+    console.log('command ', command);
     exec(command, (error, stdout, stderr) => {
         if (error) {
             console.error('exec error',  error );
