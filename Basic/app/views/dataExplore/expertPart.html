@@ -41,7 +41,6 @@
                 <button class="runBtn" ng-click="run($index);$event.stopPropagation();"></button>
               </div>
               <span ng-show="!cell.isShow && cell.cell_type ==='code'" style="font-size: large " class="pull-right ">In [{{cell.execution_count || ''}}]:</span>
-              <span style="font-size: large " class="pull-right " ng-show="cell.outputs[0].output_type==='execute_result' ">In [{{cell.execution_count}}]:</span>
             </div>
             <div class="col-lg-11 col-md-11 col-xs-11 ipynb-right" ng-click="openToolTip($index);$event.stopPropagation();">
             <textarea id="code" name="code" class="changeStyle" ui-codemirror="cmOption" ng-model="cell.code" style="border: 1px solid #ccc;font-size: 16px;background: #f9f9f9;border-radius: 4px;width: 100%;">
