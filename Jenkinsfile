@@ -12,7 +12,7 @@ node {
         // sh 'ls'
     }
     stage('Build Docker Image ...') {
-        app = docker.build('${env.DOCKER_REGISTRY}/aura/notebook')
+        app = docker.build("${env.DOCKER_REGISTRY}/aura/notebook")
     }
     stage('Acceptance Tests...') {
         app.withRun{
@@ -26,8 +26,8 @@ node {
         //     echo "tag docker image ${env.BUILD_NUMBER} ..."    
         //     app.push("${env.BUILD_NUMBER}")
         // }
-        docker.withRegistry('https://${env.DOCKER_REGISTRY}'){
-            sh 'docker login -u aura -p ${params.REGISTRY_CREDENTIAL} ${env.DOCKER_REGISTRY}'
+        docker.withRegistry("https://${env.DOCKER_REGISTRY}"){
+            sh "docker login -u aura -p ${params.REGISTRY_CREDENTIAL} ${env.DOCKER_REGISTRY}"
             app.push("${env.BRANCH_NAME.toLowerCase()}")
         }
     }
