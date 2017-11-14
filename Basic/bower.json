@@ -37,7 +37,7 @@
     "silly-datetime": "^0.1.2",
     "angular-cookie": "^4.1.0",
     "codemirror": "^5.27.4",
-    "es6-promise-polyfill": "^1.2.0"
+    "es6-promise-polyfill": "^1.2.0",
     "angular-smart-table": "^2.1.8"
   },
   "devDependencies": {
