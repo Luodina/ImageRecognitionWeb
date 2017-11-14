@@ -31,10 +31,18 @@ angular
         'angularFileUpload',
         'hc.marked',
         'ipCookie',
-        'ui.codemirror'
+        'ui.codemirror',
+        'smart-table'
     ])
     .constant('GLOBAL', {
-        host_getAllData: ''
+      host_getAllData: '',
+      host_cdm: '',
+      host_jupyter: './api/dataSource',
+      host_user: './api/user',
+      host_model: './api/model',
+      host_app: './api/app',
+      host_expert: './api/expert',
+      host_makefile: './api/appMakeFile',
     })
 
     .config(['$translateProvider', '$windowProvider', function($translateProvider, $windowProvider) {

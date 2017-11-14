@@ -5,6 +5,7 @@ angular.module('basic')
       $scope.model = $location.search();
       $scope.model.mode = $location.path().split('/')[2];
       $http.post('/datasets/mdp-server/datasource/getAllData?username=jdl3&token=root').then(result => {
+        console.log('1212121',result);
         $scope.arr = result.data.value;
       });
 

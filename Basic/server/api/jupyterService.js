@@ -1,9 +1,8 @@
 'use strict';
-import { Session, ContentsManager, Kernel } from '@jupyterlab/services';
-import { XMLHttpRequest } from 'xmlhttprequest';
-import { default as WebSocket } from 'ws';
-import { writeFile } from 'fs';
-
+import {Session, ContentsManager, Kernel} from '@jupyterlab/services';
+import {readFile, writeFile, existsSync, readFileSync, mkdir, createReadStream, createWriteStream} from 'fs';
+import {XMLHttpRequest} from 'xmlhttprequest';
+import {default as WebSocket} from 'ws';
 let sequelize = require('../sequelize');
 let Sequelize = require('sequelize');
 let Model = require('../model/MODEL_INFO')(sequelize, Sequelize);
@@ -14,7 +13,8 @@ const router = express.Router();
 const path = require('path');
 const config = require('./../config');
 const env = config.env || 'dev';
-const { exec } = require('child_process');
+const {exec} = require('child_process');
+const fs = require('fs');
 const node_ssh = require('node-ssh');
 const ssh = new node_ssh();
 const sshJupyterHubOpts = {
@@ -24,16 +24,24 @@ const sshJupyterHubOpts = {
 };
 let modelName;
 let sourceCodes = [];
+let outputs = [];
+let source = [];
 const templDir = path.join(__dirname, '../../template/');
-// const templDataProfile = templDir + 'dataProfile-V4.0.ipynb';
-// const templExpertModelDir = templDir + 'notebookTemplates';
-// const templAppDir = templDir + 'data_apply_demo';
+const templDataProfile = templDir + 'dataProfile-V4.0.ipynb';
+const templExpertModelDir = templDir + 'notebookTemplates';
+const templAppDir = templDir + 'data_apply_demo';
 const templTemp = templDir + 'temp.ipynb';
 let mysession;
 let kernel;
+let dataFileName;
 let command;
 let modelContent;
+let token;
 let jupyterOpts;
+let baseNotebookUrl = config[env].notebookUrl;
+let modelType = 'explore';
+let logger = require('../utils/log')('api/jupyterServcie.js');
+import {getUserWorkspace} from '../workspace';
 
 
 function startSession(jupyterOpts) {

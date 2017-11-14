@@ -7,7 +7,7 @@ let logLevel = '';
 if(config[env].logTo === null || !['stdout','file'].includes(config[env].logTo.toLowerCase())) {
 	logTo = 'stdout';
 } else {
-	logTo = config[env].logTo.toLowerCase();
+  logTo = config[env].logTo.toLowerCase();
 }
 if(config[env].logLevel === null || !['trace','debug','info'].includes(config[env].logLevel.toLowerCase())) {
 	logLevel = 'debug';

@@ -11,16 +11,16 @@ const templDir = path.join(__dirname, '../../template/');
 const templDataProfile = templDir + 'dataProfile-V4.0.ipynb';
 const templExpertModelDir = templDir + 'notebookTemplates';
 const templAppDir = templDir + 'data_apply_demo';
-const { exec } = require('child_process');
+const {exec} = require('child_process');
 const node_ssh = require('node-ssh');
 const ssh = new node_ssh();
 let remotePath;
 const sshJupyterHubOpts = {
-    host: config[env].jupyterHubHost, //'10.20.51.5', //'10.1.236.84'
-    // port: 22,
-    username: config[env].jupyterHubUserName, //'root',
-    //privateKey: '/Users/luodina/.ssh/id_rsa'
-    password: config[env].jupyterHubPassword, //'Asiainfo123456' // 'Ocai@131415'
+  host: config[env].jupyterHubHost, //'10.20.51.5', //'10.1.236.84'
+  // port: 22,
+  username: config[env].jupyterHubUserName, //'root',
+  //privateKey: '/Users/luodina/.ssh/id_rsa'
+  password: config[env].jupyterHubPassword, //'Asiainfo123456' // 'Ocai@131415'
 };
 router.post('/:itemName', function(req, res) {
     console.log(`req.body`, req.body);
