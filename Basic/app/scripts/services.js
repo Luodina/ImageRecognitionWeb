@@ -59,7 +59,7 @@ angular.module('basic.services', ['ui.bootstrap'])
                       .success(data => {
                         if (data.result === 'success') {
                           $uibModalInstance.dismiss();
-                          $location.path('/app/new/' + $scope.model.name);
+                          $location.path('/app/' + $scope.model.name);
                         }
                       })
                       .catch(err => {
