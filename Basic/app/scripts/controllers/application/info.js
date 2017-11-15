@@ -1,7 +1,8 @@
 'use strict';
 angular.module('basic')
-  .controller('ApplicationInfoCtrl',['$location', '$scope','appService',
-    ($location, $scope, appService ) => {
+  .controller('ApplicationInfoCtrl',['$rootScope','$location', '$scope','appService',
+    ($rootScope,$location, $scope, appService ) => {
+      $rootScope.showTitle = true;
       $scope.appName = $location.path().split(/[\s/]+/).pop();
       $scope.detail = {};
       $scope.init = ()  => {

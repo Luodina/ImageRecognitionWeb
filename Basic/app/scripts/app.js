@@ -71,7 +71,8 @@ angular
         });
     }])
     .run(['$rootScope', '$location', '$cookies', function($rootScope, $location, $cookies) {
-        $rootScope.nowActive = 0;
+      $rootScope.showTitle = true;
+      $rootScope.nowActive = 0;
         $rootScope.findWay = function() {
             $location.path('/explore');
         };
@@ -80,7 +81,6 @@ angular
             $rootScope.active = toState.name;
             $rootScope.username = $cookies.get('username');
         });
-
         //退出
         $rootScope.logout = () => {
             $location.path('/');

@@ -1,14 +1,14 @@
 'use strict';
 angular.module('basic')
-  .controller('ExpertCtrlTwo', ['$cookies', '$sce', '$location', '$scope', '$http', 'Notification',
-    function ($cookies, $sce, $location, $scope, $http, Notification) {
+  .controller('ExpertCtrlTwo', ['$rootScope','$cookies', '$sce', '$location', '$scope', '$http', 'Notification',
+    function ($rootScope,$cookies, $sce, $location, $scope, $http, Notification) {
+      $rootScope.showTitle = false;
       $scope.model = $location.search();
       $scope.model.mode = $location.path().split('/')[2];
       $http.post('/datasets/mdp-server/datasource/getAllData?username=jdl3&token=root').then(result => {
         console.log('1212121',result);
         $scope.arr = result.data.value;
       });
-
       function isValidCodeModel(cell) {
         return cell.cell_type === 'code' && !!cell.code;
       }

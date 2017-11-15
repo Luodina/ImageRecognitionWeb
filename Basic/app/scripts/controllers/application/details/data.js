@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('basic')
-  .controller('AppDataCtrl',['appService', '$location','$scope','$http',
-  (appService, $location, $scope,$http) => {
+  .controller('AppDataCtrl',['$rootScope','appService', '$location','$scope','$http',
+  ($rootScope,appService, $location, $scope,$http) => {
+    $rootScope.showTitle = true;
     $scope.appName = $location.path().split(/[\s/]+/).pop();
     $scope.DATA_TYPES={'RAW': '原始数据', 'PROCESSED': '处理后数据', 'MODEL_DATA':'建模数据' };
 

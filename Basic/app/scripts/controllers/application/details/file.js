@@ -1,10 +1,10 @@
 'use strict';
 angular.module('basic')
-  .controller('AppFileCtrl', ['appService','deleteFile', 'openNotebook', 'createAppModel', '$location', '$scope', '$window', '$http',
-    (appService, deleteFile, openNotebook, createAppModel, $location, $scope, $window, $http) => {
+  .controller('AppFileCtrl', ['$rootScope','appService','deleteFile', 'openNotebook', 'createAppModel', '$location', '$scope', '$window', '$http',
+    ($rootScope,appService, deleteFile, openNotebook, createAppModel, $location, $scope, $window, $http) => {
+      $rootScope.showTitle = true;
       $scope.appName = $location.path().split(/[\s/]+/).pop();
       $scope.files = {};
-
       $scope.allFiles = [];
       $scope.init = function () {
         appService.fetchApp($scope.appName).then( app => {

@@ -2,6 +2,7 @@
 angular.module('basic')
   .controller('ApplicationListCtrl', ['createApp', '$rootScope', '$scope', '$filter', 'appList', 'deletePage',
     (createApp, $rootScope, $scope, $filter, appList, deletePage) => {
+      $rootScope.showTitle = true;
       $scope.projectType = ['web_common_data_app_02', 'web_common_data_app_03'
         // ww, 'web_common_data_app_04'
       ];

@@ -1,11 +1,11 @@
 'use strict';
 angular.module('basic')
-  .controller('AppOverviewCtrl', ['$location', '$scope', '$http', ($location, $scope, $http) => {
+  .controller('AppOverviewCtrl', ['$rootScope', '$location', '$scope', '$http', ($rootScope, $location, $scope, $http) => {
+    $rootScope.showTitle = true;
     $scope.appName = $location.path().split(/[\s/]+/).pop();
     $scope.markdown = '';
-
     $scope.init = () => {
-      $http.get('/api/app/' + $scope.appName + '/files', {params:  {path: 'README.md'}})
+      $http.get('/api/app/' + $scope.appName + '/files', {params: {path: 'README.md'}})
         .success((data) => {
           console.log('OVERVIEW');
           // console.log(data);
@@ -20,8 +20,6 @@ angular.module('basic')
     };
 
     $scope.init();
-
-
     $scope.change = () => {
       $scope.isShow = !$scope.isShow;
       $scope.isError = !$scope.isError;
