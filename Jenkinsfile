@@ -2,9 +2,9 @@ node {
     def app 
     env.DOCKER_REGISTRY = 'docker-registry-default.ai-dev.asiainfo.com'    
     properties([
-        parameters {
+        parameters([
             string(name: 'REGISTRY_CREDENTIAL', defaultValue: 'pUVw-eJJwvowCAIexHb4eQyVVHxYSLWJORYbvR3IPUU')
-        }
+        ])
     ])
     stage('Clone Repository...') {
         checkout scm 
