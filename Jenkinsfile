@@ -3,7 +3,7 @@ node {
     env.DOCKER_REGISTRY = 'docker-registry-default.ai-dev.asiainfo.com'    
     properties([
         parameters {
-            string(name: 'REGISTRY_CREDENTIAL', defaultValue: 'pUVw-eJJwvowCAIexHb4eQyVVHxYSLWJORYbvR3IPUU', description: 'Docker Registry Credential')
+            string(name: 'REGISTRY_CREDENTIAL', defaultValue: 'pUVw-eJJwvowCAIexHb4eQyVVHxYSLWJORYbvR3IPUU')
         }
     ])
     stage('Clone Repository...') {
@@ -14,7 +14,7 @@ node {
         // sh 'ls'
     }
     stage('Build Docker Image ...') {
-        app = docker.build("${env.DOCKER_REGISTRY}/aura/notebook")
+        app = docker.build("luodina/${env.BRANCH_NAME.toLowerCase()}")
     }
     stage('Acceptance Tests...') {
         app.withRun{
@@ -23,14 +23,14 @@ node {
         }
     }
     stage('Docker Image Push...') {
-        // docker.withRegistry('https://registry.hub.docker.com') {
-        //     sh "docker login -u luodina -p luodina registry.hub.docker.com"  
-        //     echo "tag docker image ${env.BUILD_NUMBER} ..."    
-        //     app.push("${env.BUILD_NUMBER}")
-        // }
-        docker.withRegistry("https://${env.DOCKER_REGISTRY}"){
-            sh "docker login -u aura -p ${params.REGISTRY_CREDENTIAL} ${env.DOCKER_REGISTRY}"
-            app.push("${env.BRANCH_NAME.toLowerCase()}")
+        docker.withRegistry('https://registry.hub.docker.com') {
+            sh "docker login -u luodina -p luodina registry.hub.docker.com"  
+            echo "tag docker image ${env.BUILD_NUMBER} ..."    
+            app.push("${env.BUILD_NUMBER}")
         }
+        // docker.withRegistry("https://${env.DOCKER_REGISTRY}"){
+        //     sh "docker login -u aura -p ${params.REGISTRY_CREDENTIAL} ${env.DOCKER_REGISTRY}"
+        //     app.push("${env.BRANCH_NAME.toLowerCase()}")
+        // }
     }
 }
