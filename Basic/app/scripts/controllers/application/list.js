@@ -1,6 +1,6 @@
 'use strict';
 angular.module('basic')
-  .controller('DataAppCtrl', ['createApp', '$rootScope', '$scope', '$filter', 'appList', 'deletePage',
+  .controller('ApplicationListCtrl', ['createApp', '$rootScope', '$scope', '$filter', 'appList', 'deletePage',
     (createApp, $rootScope, $scope, $filter, appList, deletePage) => {
       $scope.projectType = ['web_common_data_app_02', 'web_common_data_app_03'
         // ww, 'web_common_data_app_04'
@@ -46,7 +46,6 @@ angular.module('basic')
       };
 
       appList.get({}, function (res) {
-        console.log('appList', res);
         handleSuccess(res);
       });
 

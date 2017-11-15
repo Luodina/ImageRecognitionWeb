@@ -9,16 +9,16 @@ angular.module('basic.routers', ['ui.router'])
         controller: 'HomeCtrl'
       },
       {
-        name: 'home',
-        url: '/home',
-        templateUrl: 'views/dataApp/dataApp.html',
-        controller: 'DataAppCtrl'
+        name: 'appList',
+        url: '/apps',
+        templateUrl: 'views/application/list.html',
+        controller: 'ApplicationListCtrl'
       },
       {
         name: 'appInfo',
-        url: '/app/{mode}/{name}',
-        templateUrl: 'views/dataApp/appInfo.html',
-        controller: 'AppInfoCtrl'
+        url: '/app/{name}',
+        templateUrl: 'views/application/info.html',
+        controller: 'ApplicationInfoCtrl'
       },
       {
         name: 'expert',

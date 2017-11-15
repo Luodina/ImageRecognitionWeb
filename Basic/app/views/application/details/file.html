@@ -1,0 +1,23 @@
+<div class="title">文件 <span class="addBgPic" style="color: #00A000" ng-click="createModel(appName)"></span></div>
+<div class="table_content">
+  <table class="contentTitle table">
+    <tr class="title">
+      <td style="vertical-align: middle;">名称</td>
+      <td style="vertical-align: middle;">大小</td>
+      <td style="vertical-align: middle;">修改时间</td>
+      <td style="vertical-align: middle;">操作</td>
+    </tr>
+    <tr class="content" ng-repeat="file in allFiles">
+      <td style="vertical-align: middle;">{{file.name}}</td>
+      <td style="vertical-align: middle;">{{file.size}}</td>
+      <td style="vertical-align: middle;">{{file.last_modified}}</td>
+      <td style="vertical-align: middle;">
+        <span class="btn"  ng-click="openInNotebook(file)">
+          Notebook中打开
+        </span>
+        <span class="btn" ng-click="delModel(file)">删除</span>
+      </td>
+    </tr>
+  </table>
+</div>
+

@@ -60,6 +60,6 @@ angular.module('basic')
     }])
   .directive('file', () => {
     return {
-      templateUrl: 'views/dataApp/appModel/appFile.html'
+      templateUrl: 'views/application/details/file.html'
     };
   });

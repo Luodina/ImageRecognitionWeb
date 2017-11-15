@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('basic')
-  .controller('ResultCtrl',['appService', 'appOperResult','$location','$scope','$http',
-  (appService, appOperResult,$location, $scope,$http) => {
+  .controller('AppDataCtrl',['appService', '$location','$scope','$http',
+  (appService, $location, $scope,$http) => {
     $scope.appName = $location.path().split(/[\s/]+/).pop();
     $scope.DATA_TYPES={'RAW': '原始数据', 'PROCESSED': '处理后数据', 'MODEL_DATA':'建模数据' };
 
@@ -15,8 +15,6 @@ angular.module('basic')
     };
     $scope.init();
 
-
-
     $scope.preview =(type, item) => {
       //TODO 实现数据预览的功能
       $http.get('/api/app/' + $scope.appName + '/files', {
@@ -24,12 +22,11 @@ angular.module('basic')
       }).success(function (data) {
         // console.log(data);
         $scope.previewData = data;
-        // appOperResult.open($scope.vlist);
       });
     };
   }])
   .directive('result', () => {
     return {
-      templateUrl: 'views/dataApp/appModel/appData.html'
+      templateUrl: 'views/application/details/data.html'
     };
   });

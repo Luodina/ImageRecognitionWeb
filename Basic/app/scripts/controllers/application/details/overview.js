@@ -1,6 +1,6 @@
 'use strict';
 angular.module('basic')
-  .controller('PreviewCtrl', ['$location', '$scope', '$http', ($location, $scope, $http) => {
+  .controller('AppOverviewCtrl', ['$location', '$scope', '$http', ($location, $scope, $http) => {
     $scope.appName = $location.path().split(/[\s/]+/).pop();
     $scope.markdown = '';
 
@@ -37,7 +37,7 @@ angular.module('basic')
   ])
   .directive('preview', () => {
     return {
-      templateUrl: 'views/dataApp/appModel/overview.html'
+      templateUrl: 'views/application/details/overview.html'
     };
   });
 

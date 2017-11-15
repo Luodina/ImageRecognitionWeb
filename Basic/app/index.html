@@ -44,18 +44,14 @@
   <div class="navbar navbar-default navbar-au">
     <div class="container-fluid">
       <div class="navbar-header" style="width:54px;height: 52px;cursor: pointer;">
-        <a href=" " ui-sref="home">
-          <!--<img src="./images/logo_citic.png" style="width:54px;height: 52px;cursor:pointer" alt="Aura" title="Aura">-->
+        <a href=" " ui-sref="apps">
+          <img src="./images/logo.png" style="width:54px;height: 52px;cursor:pointer" alt="Aura" title="Aura">
         </a>
       </div>
       <div class="collapse navbar-collapse navbar-head" id="js-navbar-collapse">
-        <div class="nav navbar-nav navbar-left nav-top" id="navbar-nav" ng-if="isshow">
-          <a ng-class="{true: 'active'}[active == 'home']" ui-sref="home">{{'web_common_001' | translate}}</a>
-          <!--<a ng-class="{true: 'active'}[active == 'dataExplore']" ui-sref="dataExplore">{{'web_common_002' |-->
-          <!--translate}}</a>-->
-          <!--<a ng-class="{true: 'active'}[active == 'knowledgeMap']" ui-sref="knowledgeMap">{{'web_common_004' |-->
-          <!--translate}}</a>-->
-          <a ng-class="{true: 'active'}[active == 'dashboard']" ui-sref="dashboard">{{'展示台' }}</a>
+        <div class="nav navbar-nav navbar-left nav-top" id="navbar-nav" >
+          <a ng-class="{true: 'active'}[active == 'apps']" ui-sref='apps'>{{'web_common_001' | translate}}</a>
+          <!--<a ng-class="{true: 'active'}[active == 'dashboard']" ui-sref="dashboard">{{'展示台' }}</a>-->
           <!--<a ng-class="{true: 'active'}[active == 'settings']" ui-sref="settings">{{'web_common_005' | translate}}</a>-->
         </div>
         <div ng-if="!isshow && appInfoShow" style="display: inline-block;line-height: 52px;font-size: 16px;margin-left: 10px">
@@ -146,26 +142,15 @@
 <script src="build-scripts/services.js"></script>
 <script src="build-scripts/message_en.js"></script>
 <script src="build-scripts/message_zh.js"></script>
-<!--<script src="build-scripts/directive/tokenfield.js"></script>-->
 <script src="build-scripts/controllers/dataExplore/dataExplore.js"></script>
-<!--<script src="build-scripts/controllers/knowledgeMap/knowledgeMap.js"></script>-->
-<!--<script src="build-scripts/controllers/dataExplore/data.js"></script>-->
 <script src="build-scripts/controllers/dataExplore/expert.js"></script>
-<script src="build-scripts/controllers/dataApp/dataApp.js"></script>
-<script src="build-scripts/controllers/dataApp/appInfo.js"></script>
-
-<!--<script src="build-scripts/controllers/login.js"></script>-->
 <script src="build-scripts/controllers/homeIndex.js"></script>
-<!--<script src="build-scripts/controllers/dashboard.js"></script>-->
-<!--<script src="build-scripts/directive/dataSource.js"></script>-->
-<!--<script src="build-scripts/directive/dataReport.js"></script>-->
-<!--<script src="build-scripts/directive/dataProcessing.js"></script>-->
-<!--<script src="build-scripts/controllers/settings.js"></script>-->
-<script src="build-scripts/controllers/dataApp/appModel/appFile.js"></script>
-<script src="build-scripts/controllers/dataApp/appModel/overview.js"></script>
-<script src="build-scripts/controllers/dataApp/appModel/operationResult.js"></script>
-<script src="build-scripts/controllers/dataApp/appModel/runTheChoreography.js"></script>
-<script src="build-scripts/controllers/dataApp/appModel/taskPlan.js"></script>
+
+<script src="build-scripts/controllers/application/list.js"></script>
+<script src="build-scripts/controllers/application/info.js"></script>
+<script src="build-scripts/controllers/application/details/overview.js"></script>
+<script src="build-scripts/controllers/application/details/file.js"></script>
+<script src="build-scripts/controllers/application/details/data.js"></script>
 <!-- endbuild -->
 </body>
 

@@ -1,7 +1,7 @@
 'use strict';
 angular.module('basic')
-  .controller('AppInfoCtrl',['$location', '$scope','$http','appService', '$filter','Upload', 'Notification', '$timeout','$window','openPreview',
-    ($location, $scope, $http, appService ) => {
+  .controller('ApplicationInfoCtrl',['$location', '$scope','appService',
+    ($location, $scope, appService ) => {
       $scope.appName = $location.path().split(/[\s/]+/).pop();
       $scope.detail = {};
       $scope.init = ()  => {
@@ -12,6 +12,7 @@ angular.module('basic')
           // console.log( $scope.detail);
         });
       };
+
       $scope.init();
       $scope.tab=0;
       //左边导航自动变化
