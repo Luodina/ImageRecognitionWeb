@@ -35,7 +35,14 @@ angular
         'smart-table'
     ])
     .constant('GLOBAL', {
-        host_getAllData: ''
+      host_getAllData: '',
+      host_cdm: '',
+      host_jupyter: './api/dataSource',
+      host_user: './api/user',
+      host_model: './api/model',
+      host_app: './api/app',
+      host_expert: './api/expert',
+      host_makefile: './api/appMakeFile',
     })
 
     .config(['$translateProvider', '$windowProvider', function($translateProvider, $windowProvider) {
@@ -64,7 +71,8 @@ angular
         });
     }])
     .run(['$rootScope', '$location', '$cookies', function($rootScope, $location, $cookies) {
-        $rootScope.nowActive = 0;
+      $rootScope.showTitle = true;
+      $rootScope.nowActive = 0;
         $rootScope.findWay = function() {
             $location.path('/explore');
         };
@@ -73,7 +81,6 @@ angular
             $rootScope.active = toState.name;
             $rootScope.username = $cookies.get('username');
         });
-
         //退出
         $rootScope.logout = () => {
             $location.path('/');

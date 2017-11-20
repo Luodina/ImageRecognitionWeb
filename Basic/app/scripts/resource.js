@@ -10,11 +10,10 @@ angular.module('basic.resource', ['ngResource'])
     });
     return appList;
   }])
-  .factory('appDetail', ['$resource', 'GLOBAL',function ($resource,GLOBAL) {
-    return $resource(GLOBAL.host_app+'/:appName', {appName:'@appName'}, {});
-  }])
-  .factory('templateList', ['$resource', 'GLOBAL',function ($resource,GLOBAL) {
-    let templateList = $resource(GLOBAL.host_expert +'/notebook/templateList', {}, {
+  .factory('makefileList', ['$resource', 'GLOBAL',function ($resource,GLOBAL) {
+    let makefileList = $resource(GLOBAL.host_makefile+'/getMakeFileList/:appName', {appName:'@appName'}, {
     });
-    return templateList;
-  }]);
+    return makefileList;
+  }])
+;
+

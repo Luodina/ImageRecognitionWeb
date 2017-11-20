@@ -8,14 +8,6 @@ angular.module('basic')
       $scope.login = () => {
         loginModel.open();
       };
+      // 默认弹出登录框
       $scope.login();
     }]);
-
-
-
-
-
-
-
-
-

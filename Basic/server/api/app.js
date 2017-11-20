@@ -2,7 +2,6 @@
 const sequelize = require('../sequelize');
 const Sequelize = require('sequelize');
 const App = require('../model/APP_INFO')(sequelize, Sequelize);
-const Model = require('../model/MODEL_INFO')(sequelize, Sequelize);
 const isEmpty = require('is-empty');
 
 const express = require('express');
@@ -13,20 +12,7 @@ let logger = require('../utils/log')('api/app.js');
 import {getUserWorkspace} from '../workspace';
 
 
-
-//TODO 检查是否需要合并以下
 router.get('/', (req, res) => {
-  App.findAll({raw: true})
-    .then(app => {
-      res.send({app});
-    })
-    .catch(err => {
-        logger.error(`error in listing app ${err}`);
-    });
-});
-
-
-router.get('/getAppList', (req, res) => {
   App.findAll({raw: true})
     .then(app => {
       res.send({app});
@@ -36,10 +22,10 @@ router.get('/getAppList', (req, res) => {
     });
 });
 
+
 router.get('/:appName', function (req, res) {
   let appName = req.params.appName;
   logger.debug(`get app detail: [${appName}]`);
-
   let workspace = getUserWorkspace(req.user.username, config[env]);
   if (appName !== null) {
     App.findOne({
@@ -47,14 +33,33 @@ router.get('/:appName', function (req, res) {
       raw: true
     })
       .then(app => {
+        // logger.debug(app);
         if (app !== null) {
-           app.FILES =  workspace.strategy.scanProjectFolder(req.user.username, app.APP_ID);
+          app.FILES =  workspace.strategy.scanProjectFolder(req.user.username, app.APP_ID);
         }
         res.send({result: app});
       })
       .catch(err => {
         logger.error(`get app [${appName}]: ${err}`);
         res.status(400).send();
+      });
+  }
+});
+
+router.put('/delete', function (req, res) {
+  let item = req.body.item;
+  let user = req.body.user;
+  if (item !== null) {
+    // let q = "DELETE FROM APP_INFO WHERE APP_INFO.APP_NAME = '" + item + "' AND APP_INFO.USER_NAME = '" + user + "'";
+    let q = 'DELETE FROM APP_INFO WHERE APP_INFO.APP_NAME = "' + item + '" AND APP_INFO.USER_NAME = "' + user + '"';
+    sequelize.query(q, {type: sequelize.QueryTypes.DELETE})
+      .then((result) => {
+        console.log('result', result);
+        res.send({result: result, msg: 'success'});
+      })
+      .catch(err => {
+        console.log('err', err);
+        res.send({msg: 'failed'});
       });
   }
 });
@@ -135,17 +140,17 @@ router.get('/:appName/files', function(req, res) {
           getUserWorkspace(req.user.username, config[env]);
         workspace.strategy.readFile(req.user.username, app.APP_ID,filePath)
           .then(content => {
-              //TODO be smart about the type
-              if (filePath.endsWith('.md')) {
-                contentType = 'text/html';
-              } else if (filePath.endsWith('.csv')) {
-                contentType = 'application/json';
-                content = JSON.stringify(content);
-                // logger.debug(content);
-              }
-              res.setHeader('Content-Type', contentType);
-              res.end(content, 'utf8');
-              })
+            //TODO be smart about the type
+            if (filePath.endsWith('.md')) {
+              contentType = 'text/html';
+            } else if (filePath.endsWith('.csv')) {
+              contentType = 'application/json';
+              content = JSON.stringify(content);
+              // logger.debug(content);
+            }
+            res.setHeader('Content-Type', contentType);
+            res.end(content, 'utf8');
+          })
           .catch(err => {
             logger.debug(`error in reading file ${err}`);
             res.end(404);

@@ -1,0 +1,45 @@
+<table style="width: 100%;" class="dataApp">
+  <tr>
+    <td class="dataLeft">
+      <a href="javascript:void(0);" class="zx_set_btn"></a>
+      <ul class="dataStepUl">
+        <li class="dataStepLi" ng-class="{'active' : tab == 4}" ng-click="clicked(4)">
+          <span class="icon25 icon25_yygl"></span>
+          <span class="side_tit">{{'web_common_data_app_09'| translate}}</span>
+          <p class="num_detail">{{'web_common_data_app_09'| translate}}</p>
+        </li>
+        <li class="dataStepLi" ng-class="{'active' : tab == 0}" ng-click="clicked(0)">
+          <span class="icon25 icon25_yywj"></span>
+          <span class="side_tit">{{'web_common_data_app_05'| translate}}</span>
+          <p class="num_detail">{{'web_common_data_app_05'| translate}}</p>
+        </li>
+        <li class="dataStepLi" ng-class="{'active' : tab == 3}" ng-click="clicked(3)">
+          <span class="icon25 icon25_yyjg"></span>
+          <span class="side_tit">应用数据</span>
+          <p class="num_detail">应用数据</p>
+        </li>
+
+      </ul>
+    </td>
+    <td class="dataRight">
+      <div ng-show='tab == 4' class="previewContent">
+        <div ng-controller="AppOverviewCtrl" class="previewPart">
+          <div preview class="preview"></div>
+        </div>
+      </div>
+      <div ng-show='tab == 0' class="fileContent">
+        <div ng-controller="AppFileCtrl" class="filePart">
+          <div file class="file"></div>
+        </div>
+      </div>
+      <div ng-show='tab == 3' class="resultContent">
+        <div ng-controller="AppDataCtrl" class="resultPart">
+          <div result class="result"></div>
+
+        </div>
+      </div>
+    </td>
+  </tr>
+</table>
+
+

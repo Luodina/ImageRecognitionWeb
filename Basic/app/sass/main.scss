@@ -4,7 +4,8 @@ $color2: #4874ff;
 $color3: #3c63d9;
 $color4: #6d90ff;
 
-html, body {
+html,
+body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   color: #696969;
   font: 12px "微软雅黑", Helvetica;
@@ -14,30 +15,18 @@ html, body {
   height: 100%;
 }
 
-form,
-table,
-td,
-h1,
-h2,
-h3,
-h4,
-ul,
-ol,
-li,
-p {
+form, table, td, h1, h2, h3, h4, ul, ol, li, p {
   margin: 0;
   padding: 0;
   border: 0;
   list-style: none
 }
 
-input,
-img {
+input, img {
   vertical-align: middle
 }
 
-html,
-body {
+html, body {
   min-width: 100%;
   height: 100%;
 }
@@ -52,8 +41,7 @@ img {
   max-width: 100%;
 }
 
-ol,
-ul {
+ol, ul {
   list-style: none;
 }
 
@@ -82,12 +70,27 @@ table {
 }
 
 //input{ border:none;}
-input:focus,
-textarea:focus {
+input:focus, textarea:focus {
   outline: 0
 }
 
+//数据应用大标题添加按钮
+.addBgPic {
+  display: inline-block;
+  height: 14px;
+  width: 14px;
+  cursor: pointer;
+  background: url("../images/add_bg_btn.png") no-repeat;
+}
 
+//数据探索小标题添加按钮
+.addSmPic {
+  display: inline-block;
+  height: 13px;
+  width: 13px;
+  cursor: pointer;
+  background: url("../images/add_sm_btn.png") no-repeat;
+}
 
 //弹出窗口关闭按钮
 .closeModelBtn {
@@ -618,8 +621,7 @@ body {
       .head_main_set .zx_area_drop {
         overflow: auto;
       }
-      .head_week,
-      .head_month {
+      .head_week, .head_month {
         margin-left: 20px;
       }
       .block_cion {
@@ -634,6 +636,22 @@ body {
       height: 22px;
       cursor: pointer;
       width: 154px;
+    }
+    .pause_set i {
+      background: url(../images/WechatIMG2.png) no-repeat;
+      width: 14px;
+      height: 14px;
+      display: block;
+      float: left;
+      margin-top: 4px;
+      margin-right: 10px;
+    }
+    .pause_set p {
+      float: left;
+      font-size: 14px;
+    }
+    .pause_set.active i {
+      background: url(../images/WechatIMG1.png) no-repeat;
     }
     .email_set {
       margin-left: 80px;
@@ -1362,7 +1380,7 @@ div.ng-invalid.ng-touched.ui-select-container span.ui-select-toggle {
       margin-left: 15px;
       margin-right: 15px;
       margin-bottom: 15px;
-      .row{
+      .row {
         .ipynb-left {
           //background: #CFF3D4;
           margin-right: -15px;

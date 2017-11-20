@@ -25,11 +25,11 @@ app.use(favicon(path.join(__dirname, '../', config[env].dist, '/favicon.ico')));
 
 //proxy notebook request, has to above bodyparser to enable proxy post request
 app.use('/lab', proxy({
-  headers: {'Authorization': 'token ' + config[env].token},
-  target: config[env].notebookUrl,
-  logLevel: 'debug',
-  changeOrigin: true,
-  ws: true
+    headers: { 'Authorization': 'token ' + config[env].token },
+    target: config[env].notebookUrl,
+    logLevel: 'debug',
+    changeOrigin: true,
+    ws: true
 }));
 
 app.use(cookieParser()); // to support cookie
@@ -39,6 +39,7 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   limit: '50mb',
   extended: true
 }));
+// app.use(bodyParser({limit: '50mb'}));
 
 // 上游验证token
 app.use(function (req, res, next) {
@@ -68,7 +69,7 @@ app.use(function (req, res, next) {
 // rest api
 app.use('/api/jupyter', require('./api/jupyterService'));
 app.use('/api/user', require('./api/user'));
-// app.use('/api/model', require('./api/model'));
+app.use('/api/model', require('./api/model'));
 app.use('/api/app', require('./api/app'));
 app.use('/api/appFile', require('./api/appFile'));
 //app.use('/queryDS/all', proxy('http://10.20.51.3:5000/queryDS/all'));

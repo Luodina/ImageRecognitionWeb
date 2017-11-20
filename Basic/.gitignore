@@ -20,7 +20,5 @@ users.dat
 /notebookModel
 /notebookApp
 __pycache__
-.ipynb_checkpoints
-/.DS_Store
-/app/.DS_Store
-
+**/.ipynb_checkpoints
+**/.DS_Store

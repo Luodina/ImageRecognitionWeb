@@ -1,17 +1,14 @@
 'use strict';
-
 const exec = require('child_process').exec;
 const fs = require('fs-extra');
 
 // nfs for remote jupyterhub server mode
-const privateNFS="/Users/zezhenjia/workSpace/auraDev/nfsShare";
+const privateNFS='/Users/zezhenjia/workSpace/auraDev/nfsShare';
 const path = require('path');
-
 // for local jupyter mode
-const jupyterRootPath="/Users/zezhenjia/workSpace/auraDev/localJupyter";
+const jupyterRootPath='/Users/zezhenjia/workSpace/auraDev/localJupyter';
 const logger = require('../utils/log')('utils/fileSystemUtil.js');
 const UUID = require('uuid');
-
 class FileSystem{
   constructor(dataDir) {
     this.dataDir = dataDir;
@@ -89,7 +86,8 @@ class FileSystem{
    * @returns {string}
    */
   getHubUserDataPath(username){
-    return this.dataDir +'/'+'jupyterhub-user-'+username+'/_data';
+
+    return this.dataDir +'/'+'jupyterhub-user-'+username+'/_data'
   }
 
   /**
