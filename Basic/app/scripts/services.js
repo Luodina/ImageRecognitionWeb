@@ -527,11 +527,15 @@ angular.module('basic.services', ['ui.bootstrap'])
             $scope.password = $filter('translate')('web_common_011');
             $scope.signin = $filter('translate')('web_common_012');
             $scope.isForget = false;
+            //enter 进入页面
+            $scope.enterLogin = (e) => {
+              e.keyCode === 13;
+            };
+            // 点击按钮进入页面
             $scope.login = () => {
               if ($scope.usermessage.password !== undefined) {
                 $scope.usermessage.password = md5.createHash($scope.usermessage.password);
                 $rootScope.login($scope.usermessage.username, $scope.usermessage.password);
-                //$uibModalInstance.dismiss();
               }
             };
             //登录接口
@@ -557,28 +561,19 @@ angular.module('basic.services', ['ui.bootstrap'])
                 }
               });
             };
-            //enter 进入页面
-            $scope.enterLogin = (e) => {
-              if (e.keyCode === 13) {
-                //$state.go('dataExplore');
-                if ($scope.usermessage.password !== undefined) {
-                  $rootScope.login($scope.usermessage.username, $scope.usermessage.password);
-                  //$uibModalInstance.dismiss();
-                }
-              }
-            };
+
             //图片预加载
-            let images = [];
-            function preload() {
-              for (let i = 0; i < arguments.length; i++) {
-                images[i] = new Image();
-                images[i].src = arguments[i];
-              }
-            }
-            preload(
-              'images/homeBag.png',
-              'images/logo.png'
-            );
+            // let images = [];
+            // function preload() {
+            //   for (let i = 0; i < arguments.length; i++) {
+            //     images[i] = new Image();
+            //     images[i].src = arguments[i];
+            //   }
+            // }
+            // preload(
+            //   'images/homeBag.png',
+            //   'images/logo.png'
+            // );
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
             };
