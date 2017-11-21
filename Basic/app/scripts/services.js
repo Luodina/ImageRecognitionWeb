@@ -562,18 +562,6 @@ angular.module('basic.services', ['ui.bootstrap'])
               });
             };
 
-            //图片预加载
-            // let images = [];
-            // function preload() {
-            //   for (let i = 0; i < arguments.length; i++) {
-            //     images[i] = new Image();
-            //     images[i].src = arguments[i];
-            //   }
-            // }
-            // preload(
-            //   'images/homeBag.png',
-            //   'images/logo.png'
-            // );
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
             };
