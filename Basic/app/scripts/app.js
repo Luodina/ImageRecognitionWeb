@@ -32,7 +32,8 @@ angular
         'hc.marked',
         'ipCookie',
         'ui.codemirror',
-        'smart-table'
+        'smart-table',
+        'angular-md5'
     ])
     .constant('GLOBAL', {
       host_getAllData: '',

@@ -72,6 +72,7 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
+    "angular-md5": "^0.1.10",
     "angular-ui-codemirror": "^0.3.0",
     "cookie-parser": "^1.4.3",
     "csvtojson": "^1.1.9",

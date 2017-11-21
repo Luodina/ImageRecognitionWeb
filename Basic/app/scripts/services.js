@@ -485,8 +485,8 @@ angular.module('basic.services', ['ui.bootstrap'])
         backdrop: 'static',
         templateUrl: 'views/layer/loginModel.html',
         size: 'size',
-        controller: ['$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', 'ipCookie', '$http', '$cookies',
-          ($rootScope, $location, $scope, $filter, $uibModalInstance, ipCookie, $http, $cookies) => {
+        controller: ['$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', 'ipCookie', '$http', '$cookies','md5',
+          ($rootScope, $location, $scope, $filter, $uibModalInstance, ipCookie, $http, $cookies, md5) => {
             $scope.expires = 7;
             $scope.expirationUnit = 'days';
 
@@ -529,6 +529,7 @@ angular.module('basic.services', ['ui.bootstrap'])
             $scope.isForget = false;
             $scope.login = () => {
               if ($scope.usermessage.password !== undefined) {
+                $scope.usermessage.password = md5.createHash($scope.usermessage.password);
                 $rootScope.login($scope.usermessage.username, $scope.usermessage.password);
                 //$uibModalInstance.dismiss();
               }

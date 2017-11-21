@@ -33,13 +33,13 @@ app.use('/lab', proxy({
 }));
 
 app.use(cookieParser()); // to support cookie
-app.use(bodyParser.json()); // to support JSON-encoded bodies
-app.use(bodyParser.json({limit: '50mb'})); // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
-  limit: '50mb',
-  extended: true
-}));
-// app.use(bodyParser({limit: '50mb'}));
+// app.use(bodyParser.json()); // to support JSON-encoded bodies
+// app.use(bodyParser.json({limit: '50mb'})); // to support JSON-encoded bodies
+// app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
+//   limit: '50mb',
+//   extended: true
+// }));
+app.use(bodyParser({limit: '50mb'}));
 
 // 上游验证token
 app.use(function (req, res, next) {
