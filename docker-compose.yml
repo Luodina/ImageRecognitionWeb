@@ -25,7 +25,7 @@ services:
     volumes:
       - ./notebookPath:/home/jovyan/work/notebookPath
       - ./jupyter_notebook_config.py:/jupyter_notebook_config.py
-    command: jupyter-notebook --port=8889 --NotebookApp.token='9e4f96c5239743a8dd5910216c6f02dad89a58932d63db7f' --config=/jupyter_notebook_config.py --no-browser
+    command: jupyter-notebook --port=8889 --NotebookApp.token='9e4f96c5239743a8dd5910216c6f02dad89a58932d63db7f' --config=/jupyter_config.py --no-browser
   mysql:
     build:
       context: .
