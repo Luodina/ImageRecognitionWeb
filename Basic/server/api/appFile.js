@@ -22,7 +22,7 @@ const sshJupyterHubOpts = {
   //privateKey: '/Users/luodina/.ssh/id_rsa'
   password: config[env].jupyterHubPassword, //'Asiainfo123456' // 'Ocai@131415'
 };
-router.post('/:itemName', function(req, res) {
+router.post('/:itemName', function (req, res) {
   console.log(`req.body`, req.body);
   let itemType = req.body.itemType; //app or model
   let itemID = itemType === 'app' ? itemType + '_' + req.body.itemID : 'model_' + req.body.itemID;
@@ -50,15 +50,16 @@ router.post('/:itemName', function(req, res) {
     `itemType`, itemType);
 
   remotePath = config[env].notebookPath;
-  let command = 'cp -r ' + localPath(itemType) + ' ' + remotePath + itemID;
+  // let command = 'cp -r ' + localPath(itemType) + ' ' + remotePath + itemID;
+  let command = 'cp -r ' + localPath(itemType) + ' ' + remotePath + itemID + ' && chmod -R 777 ' + remotePath + itemID;
   console.log('command ', command);
   exec(command, (error, stdout, stderr) => {
     if (error) {
-      console.error('exec error',  error );
-      res.status(200).send({ result: 'failed' });
+      console.error('exec error', error);
+      res.status(200).send({result: 'failed'});
       return;
     }
-    res.status(200).send({ result: 'success' });
+    res.status(200).send({result: 'success'});
   });
   // if (itemType === "model") {
   //   console.log(`localPath `, localPath(itemType), remotePath + "/" + itemID + "/" + itemName + ".ipynb");
@@ -77,15 +78,15 @@ router.post('/:itemName', function(req, res) {
 
 });
 
-router.get('/:appName/overview', function(req, res) {
+router.get('/:appName/overview', function (req, res) {
   let appName = req.params.appName;
   let filePath = path.join(basePath, appName, 'README.md');
   let contentType = 'text/html';
   // TODO combine logic from app results .
-  fs.readFile(filePath, 'utf-8', function(error, content) {
+  fs.readFile(filePath, 'utf-8', function (error, content) {
     if (error) {
       if (error.code === 'ENOENT') {
-        res.writeHead(404, { 'Content-Type': contentType });
+        res.writeHead(404, {'Content-Type': contentType});
       } else {
         res.writeHead(500);
         res.end('Sorry, check with the site admin for error: ' + error.code + ' ..\n');
