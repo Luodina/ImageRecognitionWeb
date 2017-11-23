@@ -8,10 +8,9 @@ node {
     ])
     stage('Clone Repository...') {
         checkout scm 
-        sh 'cd ./Basic && ls && npm -v && npm install && bower install && echo "gulp build..." && gulp build'
     }
     stage('Build Docker Image ...') {
-        app = docker.build("aura/${env.BRANCH_NAME.toLowerCase()}")
+        app = docker.build("aura/web")
     }
     stage('Acceptance Tests...') {
         app.withRun{
@@ -21,7 +20,7 @@ node {
     stage('Docker Image Push...') {
         docker.withRegistry("https://${env.DOCKER_REGISTRY}"){
             sh "docker login -u aura -p ${params.REGISTRY_CREDENTIAL} ${env.DOCKER_REGISTRY}"
-            app.push("${env.BUILD_NUMBER}")
+            app.push("${env.BRANCH_NAME.toLowerCase()}")
         }
     }
 }
