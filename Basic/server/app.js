@@ -74,7 +74,7 @@ app.use('/api/app', require('./api/app'));
 app.use('/api/appFile', require('./api/appFile'));
 //app.use('/queryDS/all', proxy('http://10.20.51.3:5000/queryDS/all'));
 //app.use('/datasets', proxy({target: 'http://10.20.51.3:5000', pathRewrite: {'^/datasets': ''}}));
-app.use('/datasets', proxy({target: 'http://10.13.6.103:9099', secure: false,
+app.use('/datasets', proxy({target: config[env].mdpUrl, secure: false,
   changeOrigin: false, pathRewrite: {'^/datasets': ''}
 }));
 // app.use('/datasets', proxy({target: 'http://10.13.6.103:9099', secure: false,

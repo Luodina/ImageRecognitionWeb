@@ -514,6 +514,13 @@ body {
       border: solid 1px #eaeaea;
       height: 30px;
     }
+    .modal-body-nameIpt{
+      display: inline-block;
+      width: 190px;
+      border: solid 1px #eaeaea;
+      height: 30px;
+      color: #666666;
+    }
     .modal-body-warning {
       margin-top: 10px;
       text-align: center;
@@ -691,6 +698,9 @@ body {
         border: solid 1px #f4f4f4;
       }
     }
+  }
+  .modal-body-body{
+    padding: 50px;
   }
 }
 

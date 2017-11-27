@@ -6,13 +6,14 @@ module.exports = {
     serverType: 'notebook',
     //notebookUrl: 'http://10.20.51.5:8000/',for hub
     notebookUrl:'http://127.0.0.1:8888/',
-    token:'09b2dc4b7260f502950a27ee106b917cae813ec1f1c22922',
+    token:'0efe6bc71837e5403993532a427646243e817277e598ff3a',
     notebookPath:'/Users/niuniu/Documents/Project/jupyter-notebooks/',
     jupyterContainerWorkPath:'',//if not jupyter conatainer in use this value is empty
     dataDir: '../data_dir/',
     mariadb: 'mariadb://ocai:Ocai@1234@10.1.236.82:3306/ocai',
     logTo: 'stdout', // 'stdout' or 'file'. if 'file', logs will be saved in 'logs/server.log'
     logLevel: 'debug', // 'debug' or 'info'
+    mdpUrl:'http://10.13.6.103:9099',
     jupyterHubHost: '10.20.51.5',
     jupyterHubUserName: 'root',
     jupyterHubPassword: 'Asiainfo123456'

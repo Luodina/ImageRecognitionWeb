@@ -362,7 +362,7 @@ angular.module('basic.services', ['ui.bootstrap'])
       }).result;
     };
   }])
-  .service('deleteFile', [ '$uibModal', '$http', function ($uibModal, $http) {
+  .service('deleteFile', ['$uibModal', '$http', function ($uibModal, $http) {
     this.open = function (item) {
       return $uibModal.open({
         backdrop: 'static',
@@ -402,8 +402,8 @@ angular.module('basic.services', ['ui.bootstrap'])
         backdrop: 'static',
         templateUrl: 'views/layer/deleteModal.html',
         size: 'size',
-        controller: ['$scope', '$uibModalInstance','$location',
-          function ($scope, $uibModalInstance,$location) {
+        controller: ['$scope', '$uibModalInstance', '$location',
+          function ($scope, $uibModalInstance, $location) {
             $scope.cancel = () => {
               $uibModalInstance.dismiss();
             };
@@ -451,7 +451,7 @@ angular.module('basic.services', ['ui.bootstrap'])
         templateUrl: 'views/layer/createModel.html',
         size: 'size',
         controller: ['$location', '$scope', '$filter', '$uibModalInstance', '$http', '$cookies',
-          ( $location, $scope, $filter, $uibModalInstance, $http, $cookies) => {
+          ($location, $scope, $filter, $uibModalInstance, $http, $cookies) => {
             $scope.title = $filter('translate')('web_common_copy_layer_01');
             $scope.content = $filter('translate')('web_common_copy_layer_01');
 
@@ -485,7 +485,7 @@ angular.module('basic.services', ['ui.bootstrap'])
         backdrop: 'static',
         templateUrl: 'views/layer/loginModel.html',
         size: 'size',
-        controller: ['$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', 'ipCookie', '$http', '$cookies','md5',
+        controller: ['$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', 'ipCookie', '$http', '$cookies', 'md5',
           ($rootScope, $location, $scope, $filter, $uibModalInstance, ipCookie, $http, $cookies, md5) => {
             $scope.expires = 7;
             $scope.expirationUnit = 'days';
@@ -565,6 +565,35 @@ angular.module('basic.services', ['ui.bootstrap'])
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
             };
+          }
+        ]
+      }).result;
+    };
+  }])
+  .service('publishModel', ['$uibModal','Notification', function ($uibModal, Notification) {
+    this.open = () => {
+      return $uibModal.open({
+        backdrop: 'static',
+        templateUrl: 'views/layer/notebookPublish.html',
+        size: 'size',
+        controller: ['$rootScope', '$location', '$scope', '$filter', '$uibModalInstance', '$http',
+          ($rootScope, $location, $scope, $filter, $uibModalInstance, $http) => {
+            $scope.cancel = function () {
+              $uibModalInstance.dismiss();
+            };
+            $rootScope.model = $location.search();
+            let modelName = $rootScope.model.name;
+            $scope.create = (publishModelName) => {
+              $http.post('/api/model/publish/' + modelName, {
+                publishModelName: publishModelName
+              }).then(res => {
+                console.log('PUBLISH SUCCESS', res);
+                Notification.success('PUBLISH SUCCESSFULLY!');
+                $uibModalInstance.dismiss();
+              }).catch(() => {
+                Notification.error('Error in /api/publish/:modelName !');
+              });
+            }
           }
         ]
       }).result;

@@ -49,6 +49,14 @@ module.exports = function(sequelize, DataTypes) {
     KERNEL:{
       type: DataTypes.CHAR(45),
       allowNull: true
+    },
+    STATUS:{
+      type: DataTypes.CHAR(32),
+      allowNull: true
+    },
+    PUBLISH_MODEL_NAME:{
+      type: DataTypes.CHAR(45),
+      allowNull: true
     }
   }, {
     createdAt: false,
