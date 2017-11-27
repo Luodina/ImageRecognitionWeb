@@ -112,6 +112,9 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_expertPart_layer_01': '创建新的ipynb',
     'web_common_expertPart_layer_02': '输入notebook名称:',
     'web_common_expertPart_layer_03': '运行环境选择:',
+    'web_common_expertPart_layer_04': '发布',
+    'web_common_expertPart_layer_05': '请输入待发布模型名称',
+    'web_common_expertPart_layer_06': '模型名称',
 
     'web_common_expertPart': '获取数据源'
 

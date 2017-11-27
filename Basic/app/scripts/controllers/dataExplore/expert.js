@@ -1,10 +1,13 @@
 'use strict';
 angular.module('basic')
-  .controller('ExpertCtrlTwo', ['$rootScope','$cookies', '$sce', '$location', '$scope', '$http', 'Notification',
-    function ($rootScope,$cookies, $sce, $location, $scope, $http, Notification) {
+  .controller('ExpertCtrlTwo', ['$rootScope','$cookies', '$sce', '$location', '$scope', '$http', 'Notification', 'publishModel',
+    function ($rootScope,$cookies, $sce, $location, $scope, $http, Notification, publishModel) {
       $rootScope.showTitle = false;
       $scope.model = $location.search();
+      // console.log('$scope.model$scope.model',$scope.model)
       $scope.model.mode = $location.path().split('/')[2];
+      console.log('$scope.model.mode------->expert',$scope.model.mode)
+
       $http.post('/datasets/mdp-server/datasource/getAllData?username=jdl3&token=root').then(result => {
         console.log('1212121',result);
         $scope.arr = result.data.value;
@@ -51,6 +54,9 @@ angular.module('basic')
                 }
               }
             }, this);
+            $scope.publishBtn = () => {
+              publishModel.open();
+            };
             $scope.changeSelectDataList = (selectData) => {
               if (!selectData) return;
               let str = 'from aura_cdm import BDM\n%load_ext autoreload\n%autoreload 2\nBDM.login_first(' + $cookies.get('aura_token') + ',' + $cookies.get('username') + ')\ndsId ="' + selectData.dsId + '"\ndf = BDM.describeDSFields(dsId)';
@@ -195,6 +201,8 @@ angular.module('basic')
           COMMENT: 'heyyyy',
           FILE_PATH: 'FILE_PATH',
           UPDATED_TIME: date.getTime(),
+          STATUS:'编辑中',
+          PUBLISH_MODEL_NAME:'',
           KERNEL: $scope.model.kernel,
           token: $scope.model.token
         }).success(data => {
