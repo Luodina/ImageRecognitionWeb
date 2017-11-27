@@ -8,6 +8,7 @@ module.exports = {
         notebookPath: '/Users/niuniu/Documents/Project/jupyter-notebooks/',
         mariadb: 'mariadb://ocai:Ocai@1234@10.1.236.82:3306/ocai',
         jupyterContainerWorkPath: '', //if not jupyter conatainer in use this value is empty
+        mdpUrl:'http://10.13.6.103:9099',
         logTo: 'stdout', // 'stdout' or 'file'. if 'file', logs will be saved in 'logs/server.log'
         logLevel: 'debug', // 'debug' or 'info'
     },
@@ -19,6 +20,7 @@ module.exports = {
         notebookPath: '@JUPYTER_WORKDIR@',
         mariadb: 'mariadb://@MYSQL_UNAME@:@MYSQL_PWD@@@MYSQL_ADDR@/@MYSQL_DATABASE@',
         jupyterContainerWorkPath: '@JUPYTER_CONTAINER_WORKDIR@', //if not jupyter conatainer in use this value is empty
+        mdpUrl:'http://@MDP_IP@:@MDP_PORT@',
         logTo: 'stdout', // 'stdout' or 'file'
         logLevel: 'debug' // 'debug' or 'info'
     },

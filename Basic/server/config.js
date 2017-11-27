@@ -6,7 +6,7 @@ module.exports = {
     serverType: 'notebook',
     //notebookUrl: 'http://10.20.51.5:8000/',for hub
     notebookUrl:'http://127.0.0.1:8888/',
-    token:'0efe6bc71837e5403993532a427646243e817277e598ff3a',
+    token:'7d3576eb44a05f026387a66ebce999e55a93a24a62b109de',
     notebookPath:'/Users/niuniu/Documents/Project/jupyter-notebooks/',
     jupyterContainerWorkPath:'',//if not jupyter conatainer in use this value is empty
     dataDir: '../data_dir/',
@@ -28,6 +28,7 @@ module.exports = {
     mariadb: 'mariadb://ocai:Ocai@1234@10.1.236.82:3306/ocai',
     appPath: 'notebookApp',
     dataDir: '../data_dir/',
+    mdpUrl:'http://10.13.6.103:9099',
     // logTo: 'file', // 'stdout' or 'file's
     // logLevel: 'info', // 'debug' or 'info'
     modelPath: 'notebookModel',
