@@ -8,6 +8,7 @@ module.exports = {
         notebookPath: '@JUPYTER_WORKDIR@',
         mariadb: 'mariadb://@MYSQL_UNAME@:@MYSQL_PWD@@@MYSQL_ADDR@/@MYSQL_DATABASE@',
         jupyterContainerWorkPath: '@JUPYTER_CONTAINER_WORKDIR@', //if not jupyter conatainer in use this value is empty
+        mdpUrl: 'http://@MDP_IP@:@MDP_PORT@',
         logTo: 'stdout', // 'stdout' or 'file'
         logLevel: 'debug' // 'debug' or 'info'
     },

@@ -116,6 +116,9 @@ angular.module('basic').config(['$translateProvider', function($translateProvide
     'web_common_expertPart_layer_01': 'Creata new ipynb',
     'web_common_expertPart_layer_02': 'Enter a notebook name',
     'web_common_expertPart_layer_03': 'Operating environment selection',
+    'web_common_expertPart_layer_04': 'Publish',
+    'web_common_expertPart_layer_05': 'Please enter the model name to be released',
+    'web_common_expertPart_layer_06': 'Model name',
 
     'web_common_expertPart': 'Get all data source'
 

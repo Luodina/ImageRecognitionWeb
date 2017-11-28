@@ -1,0 +1,16 @@
+<div class="modal-header">
+  <span class="modal-header-title">{{'web_common_expertPart_layer_05' | translate}}</span>
+  <span class="modal-header-close closeModelBtn" ng-click="cancel()"></span>
+</div>
+<div class="modal-body modal-body-body">
+  <div class="modal-body-title">{{'web_common_expertPart_layer_06'| translate}}
+    <input class="modal-body-nameIpt" ng-model='publishModelName'>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="modal-footer-btn"
+          ng-click="create(publishModelName)"
+          ng-disabled="!(publishModelName !== undefined && publishModelName !== null)">
+    {{'web_common_data_delete_layer_02'| translate}}
+  </button>
+</div>
