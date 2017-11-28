@@ -2,6 +2,7 @@ FROM docker-registry-default.ai-dev.asiainfo.com/aura/web-base:latest
 
 COPY Basic/app /prod/app
 COPY Basic/server /prod/server
+COPY setting.sh /prod/setting.sh
 COPY Basic/template /prod/template
 COPY Basic/gulpfile.babel.js /prod/gulpfile.babel.js
 COPY Basic/.jshintrc /prod/.jshintrc
@@ -18,4 +19,5 @@ RUN npm install --global gulp-cli
 RUN gulp build
 EXPOSE 9000
 
-CMD ["gulp", "serve"]
+CMD ["sh","-c","setting.sh"]
+#CMD ["gulp", "serve"]
